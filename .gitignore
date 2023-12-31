@@ -1,0 +1,10 @@
+.project
+.settings/
+.sign
+.package
+.vscode
+.mockoon
+
+dist
+node_modules/
+package-lock.json
