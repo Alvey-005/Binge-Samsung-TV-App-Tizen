@@ -3,28 +3,24 @@ window.mapper = {
   loadedSubcategories: 0,
 
   home: function (response, callback) {
-    console.log("response.data", response.data);
-    var lists = response.data.filter((element) =>
-      [
-        "recommendations",
-        "history",
-        "browse",
-        "series",
-        "because_you_watched",
-      ].includes(element.name)
-    );
+    console.log("response.categories", response.categories);
+    var lists = response.categories.map((list) => ({
+      name: list.name,
+      items: [],
+    }));
 
-    var banner = response.data.find((p) => p.resource_type === "panel");
+    console.log("lists", lists);
+    // var banner = response.data.find((p) => p.resource_type === "panel");
 
     home.data.main = {
-      banner: {
-        id: banner.panel.id,
-        title: banner.panel.title,
-        description: banner.panel.description,
-        background: mapper.preventImageErrorTest(function () {
-          return banner.panel.images.poster_wide[0][4].source;
-        }, banner.panel.id),
-      },
+      // banner: {
+      //   id: banner.panel.id,
+      //   title: banner.panel.title,
+      //   description: banner.panel.description,
+      //   background: mapper.preventImageErrorTest(function () {
+      //     return banner.panel.images.poster_wide[0][4].source;
+      //   }, banner.panel.id),
+      // },
       lists: lists.map((list) => ({
         name: list.name,
         items: [],
@@ -32,20 +28,20 @@ window.mapper = {
     };
 
     mapper.loaded = 0;
-    for (var index = 0; index < lists.length; index++) {
-      mapper.load(lists[index], index, {
-        success: function (test, on) {
-          home.data.main.lists[on].items = mapper.mapItems(test.data);
-          mapper.loaded++;
-          if (mapper.loaded === lists.length) {
-            home.data.main.lists = home.data.main.lists.filter(
-              (e) => e.items.length > 0
-            );
-            callback.success();
-          }
-        },
-      });
-    }
+    // for (var index = 0; index < lists.length; index++) {
+    //   mapper.load(lists[index], index, {
+    //     success: function (test, on) {
+    //       home.data.main.lists[on].items = mapper.mapItems(test.data);
+    //       mapper.loaded++;
+    //       if (mapper.loaded === lists.length) {
+    //         home.data.main.lists = home.data.main.lists.filter(
+    //           (e) => e.items.length > 0
+    //         );
+    //         callback.success();
+    //       }
+    //     },
+    //   });
+    // }
   },
 
   load: (item, index, callback) => {
