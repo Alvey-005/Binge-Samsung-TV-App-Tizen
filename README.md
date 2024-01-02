@@ -1,42 +1,12 @@
-# Crunchyroll for TIZEN [![PayPal donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate/?hosted_button_id=SLLWEKD6QD5UJ)
+# Binge for TIZEN 
 
-## Description:
-
-**INFO: Application is incomplete, some features are missing that will be added later.**
-
-## TODO Features:
-
-#### Complete
-- [x] Auth workflow
-- [x] Home screen
-- [x] Details screen
-- [x] Episodes screen
-- [x] Video player
-- [x] Menu options screen
-- [x] Search element
-- [x] Auto next episode
-- [x] History screen and workflow
-- [x] Change audio and subtitles language inside player
-- [x] Settings screen
-- [x] Browse elements by categories
-
-#### In progress
-- [ ] My list screen and workflow
-- [ ] WebOS compatibility
-
-#### Pending
-- [ ] Migrate to react
-
-## Captures:
-![layouts.gif](https://raw.githubusercontent.com/jhassan8/crunchyroll-tizen/master/layouts.gif)
-
-## [Installation with Installer (Recommended)](https://github.com/jhassan8/crunchyroll-tizen/blob/master/.github/GUIDES/INSTALL.md)
+## Installation with Installer (Recommended)
 
 ## Installation with IDE
 
 1. Install [Tizen Studio](https://developer.tizen.org/development/tizen-studio/download)
 2. In Package Manager install "Extension SDK" -> "TV extension <version>"
-3. Clone repository ```git clone https://github.com/jhassan8/crunchyroll-tizen```
+3. Clone repository ```git clone https://github.com/anmspro/Binge-Samsung-TV-App-Tizen```
 4. Open project ("File" -> "Open Project From File System" -> "Directory") and select project folder
 5. in tv open [developer mode](https://developer.samsung.com/smarttv/develop/getting-started/using-sdk/tv-device.html)
     - Open Samsung Apps
