@@ -238,6 +238,7 @@ window.languages = {
       generateOtp: "Generate OTP",
       otp: "Enter otp",
       login: "LOGIN",
+      verify: "Verify"
     },
     menu: {
       search: "Search",

@@ -66,10 +66,11 @@ window.session = {
     session.update();
   },
 
-  start: function (number, callback) {
+  start: function (username, password, callback) {
     service.token({
       data: {
-        number: "+880" + number,
+        password: password,
+        username: username,
       },
       success: function (response) {
         session.storage.expires_in = new Date().setSeconds(
@@ -83,6 +84,7 @@ window.session = {
         session.storage.access_token = response.access_token;
         session.storage.refresh_token = response.refresh_token;
 
+        console.log("session storage done");
         //session.loadAccountInfo();
         return callback.success(session.update());
       },

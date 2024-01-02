@@ -34,8 +34,10 @@ window.main = {
     login: function () {
       session.valid({
         success: function () {
+          console.log("session valid success");
           session.load_account({
             success: function () {
+              console.log("login success");
               main.events.home();
             },
             error: function (error) {
@@ -44,7 +46,7 @@ window.main = {
           });
         },
         error: function (error) {
-          console.log(error);
+          console.log("session valid error", error);
           loading.destroy();
           login.init();
         },
@@ -52,10 +54,12 @@ window.main = {
     },
 
     home: function () {
-      service.home({
+      service.allCategories({
         success: function (response) {
+          console.log("allCategories success");
           mapper.home(response, {
             success: function () {
+              console.log("home success");
               loading.destroy();
               home.init();
               menu.init();
@@ -105,6 +109,9 @@ window.main = {
             break;
           case login.id:
             login.keyDown(event);
+            break;
+          case otp.id:
+            otp.keyDown(event);
             break;
           case keyboard.id:
             keyboard.keyDown(event);

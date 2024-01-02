@@ -10,6 +10,17 @@ window.home = {
   },
 
   init: function () {
+    // fetch binge categories data
+    service.allCategories({
+      data: {},
+      success: function (response) {
+        console.log("binge allCategories success");
+      },
+      error: function (error) {
+        console.log("binge allCategories error");
+      },
+    });
+
     var home_element = document.createElement("div");
     home_element.id = home.id;
 

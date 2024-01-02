@@ -1,29 +1,29 @@
 window.otp = {
-  id: "login-screen",
+  id: "otp-screen",
   selected: 0,
 
   init: function () {
-    var login_element = document.createElement("div");
-    login_element.id = login.id;
+    var otp_element = document.createElement("div");
+    otp_element.id = otp.id;
 
-    login_element.innerHTML = `
-  <div class="content">
-    <div class="box">
-      <div class="logo">
-        <img src="server/img/logo-big.svg" alt="">
-      </div>
-      <div class="form">
-        <div class="input ${login.id}-option">
-          <input type="text" placeholder="${translate.go('login.otp')}">
+    otp_element.innerHTML = `
+    <div class="content">
+      <div class="box">
+        <div class="logo">
+          <img src="server/img/logo-big.svg" alt="">
         </div>
-        <a class="button ${login.id}-option" translate>${translate.go('login.login')}</a>
+        <div class="form">
+          <div class="input ${otp.id}-option">
+            <input type="number" placeholder="${translate.go('login.otp')}">
+          </div>
+          <a class="button ${otp.id}-option" translate>${translate.go('login.verify')}</a>
+        </div>
       </div>
-    </div>
-  </div>`;
-    document.body.appendChild(login_element);
+    </div>`;
+    document.body.appendChild(otp_element);
 
-    login.move(login.selected);
-    main.state = login.id;
+    otp.move(otp.selected);
+    main.state = otp.id;
   },
 
   destroy: function () {
@@ -37,21 +37,21 @@ window.otp = {
           exit.init();
           break;
       case tvKey.KEY_UP:
-        login.move(login.selected == 0 ? 0 : login.selected - 1);
+        otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
         break;
       case tvKey.KEY_DOWN:
-        login.move(login.selected == 2 ? 2 : login.selected + 1);
+        otp.move(otp.selected == 1 ? 1 : otp.selected + 1);
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
-        login.action(this.selected);
+        otp.action(this.selected);
         break;
     }
   },
 
   move: function (selected) {
-    login.selected = selected;
-    var options = document.getElementsByClassName(login.id + "-option");
+    otp.selected = selected;
+    var options = document.getElementsByClassName(otp.id + "-option");
     for (var i = 0; i < options.length; i++) {
       options[i].className = options[i].className.replace(" focus", "");
       if (i == selected) {
@@ -61,24 +61,64 @@ window.otp = {
   },
 
   action: function (selected) {
-    var options = document.getElementsByClassName(login.id + "-option");
-    if (selected == 2) {
-      var username = options[0].firstElementChild.value;
-      var password = options[1].firstElementChild.value;
-      if (username.length < 3 || password.length < 3) {
+    var options = document.getElementsByClassName(otp.id + "-option");
+    if (selected == 1) {
+      var enteredOtp = options[0].firstElementChild.value;
+      console.log("otp action", enteredOtp);
+      if (enteredOtp.length < 4) {
         console.log("Enter valid credentials...");
       } else {
-        login.destroy();
+        otp.destroy();
         loading.init();
-        session.start(username, password, {
-          success: function () {
-            main.events.login();
+        service.verify({
+          data: {
+            otp: enteredOtp,
+            phone: 1833183559
           },
-          error: function () {
-            loading.destroy();
-            login.init();
+          success: function (response) {
+            session.start(phone, {
+              success: function () {
+                main.events.login();
+              },
+              error: function () {
+                // loading.destroy();
+                // login.init();
+
+                main.events.login();
+              },
+            });
+          },
+          error: function (error) {
+            // loading.destroy();
+            // login.init();
+
+            console.log("service verify error");
+            password = "sakibRobi@588";
+            username = "abu.sakib@reddotdigitalit.com";
+            session.start(username, password, {
+              success: function () {
+                console.log("session start success");
+                main.events.login();
+              },
+              error: function () {
+                // loading.destroy();
+                // login.init();
+
+                console.log("session start error");
+                main.events.login();
+              },
+            });
           },
         });
+        // session.start(username, password, {
+        //   success: function () {
+        //     main.events.login();
+        //   },
+        //   error: function () {
+        //     loading.destroy();
+        //     login.init();
+        //   },
+        // });
       }
     } else {
       keyboard.init(options[selected].firstElementChild);

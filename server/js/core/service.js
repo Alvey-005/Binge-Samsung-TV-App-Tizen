@@ -1,31 +1,10 @@
 window.service = {
   api: {
     url: "https://www.crunchyroll.com",
-    bingeUrl: "https://web-api-staging.binge.buzz",
+    bingeStageUrl: "https://web-api-staging.binge.buzz",
+    bingeProdUrl: "https://web-api.binge.buzz",
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
-  },
-
-  login: function (request) {
-    var headers = new Headers();
-    // headers.append("Authorization", service.api.auth);
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    var params = service.format({
-      number: request.data.number,
-    });
-
-    // fetch(`${service.api.url}/auth/v1/token`, {
-    fetch(`${service.api.bingeUrl}/api/v3/otp/send/${request.data.number}`, {
-      method: "POST",
-      headers: headers,
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((json) => request.success && request.success(json))
-      .catch((error) => {
-        console.log(error);
-        request.error && request.error(error);
-      });
+    anonToken: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJGcmVlIiwiY3JlYXRlZEF0IjoiY3JlYXRlIGRhdGUiLCJ1cGRhdGVkQXQiOiJ1cGRhdGUgZGF0ZSIsInR5cGUiOiJ0b2tlbiIsImRldlR5cGUiOiJ3ZWIiLCJleHRyYSI6IjMxNDE1OTI2IiwiaWF0IjoxNzA0MDI0NTQyLCJleHAiOjE3MDQxOTczNDJ9.2pSvlZ0n8dBPlAgL0swzuHKXE0RmuLBNpslO3Y-9KuY"
   },
 
   token: function (request) {
@@ -34,42 +13,13 @@ window.service = {
     headers.append("Content-Type", "application/x-www-form-urlencoded");
 
     var params = service.format({
-      // username: request.data.username,
-      // password: request.data.password,
-      // grant_type: "password",
-      // scope: "offline_access",
-      number: request.data.number,
+      username: request.data.username,
+      password: request.data.password,
+      grant_type: "password",
+      scope: "offline_access",
     });
 
-    // fetch(`${service.api.url}/auth/v1/token`, {
-    fetch(`${service.api.url}/api/v3/otp/send/${request.data.number}`, {
-      method: "POST",
-      headers: headers,
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((json) => request.success && request.success(json))
-      .catch((error) => {
-        console.log(error);
-        request.error && request.error(error);
-      });
-  },
-
-  token: function (request) {
-    var headers = new Headers();
-    headers.append("Authorization", service.api.auth);
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    var params = service.format({
-      // username: request.data.username,
-      // password: request.data.password,
-      // grant_type: "password",
-      // scope: "offline_access",
-      number: request.data.number,
-    });
-
-    // fetch(`${service.api.url}/auth/v1/token`, {
-    fetch(`${service.api.url}/api/v3/otp/send/${request.data.number}`, {
+    fetch(`${service.api.url}/auth/v1/token`, {
       method: "POST",
       headers: headers,
       body: params,
@@ -388,6 +338,86 @@ window.service = {
     return Object.keys(params)
       .map(function (k) {
         return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+      })
+      .join("&");
+  },
+
+  // Binge
+
+  login: function (request) {
+    var headers = new Headers();
+    headers.append("Authorization", service.api.anonToken);
+    headers.append("Content-Type", "application/json;charset=UTF-8");
+    headers.append("Device-Type", "web");
+
+    fetch(`${service.api.bingeStageUrl}/api/v3/otp/send/${request.data.phone}`, {
+      method: "GET",
+      headers: headers,
+      // body: params,
+    })
+      .then((response) => response.json())
+      .then((json) => request.success && request.success(json))
+      .catch((error) => {
+        console.log(error);
+        request.error && request.error(error);
+      });
+  },
+
+  verify: function (request) {
+    var headers = new Headers();
+    headers.append("Authorization", service.api.anonToken);
+    headers.append("Content-Type", "application/json");
+    headers.append("Device-Type", "web");
+
+    var params = service.format({
+      phone: 1833183559,
+      otp: request.data.otp,
+    });
+
+    var params = `{"phone":"+8801833183559","otp":"8765"}`;
+    
+    fetch(`${service.api.bingeStageUrl}/api/v3/otp/verify`, {
+      method: "POST",
+      headers: headers,
+      body: params,
+    })
+      .then((response) => response.json())
+      .then((json) => request.success && request.success(json))
+      .catch((error) => {
+        console.log(error);
+        request.error && request.error(error);
+      });
+  },
+
+  allCategories: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", service.api.anonToken);
+        headers.append("Content-Type", "application/json;charset=UTF-8");
+        headers.append("Device-Type", "web");
+        
+        var params = `{"page":"web-home-vod"}`;
+
+        fetch(`${service.api.bingeStageUrl}/api/v3/page/allCategories`, {
+          method: "POST",
+          headers: headers,
+          body: params,
+        })
+          .then((response) => response.json())
+          .then((json) => request.success && request.success(json))
+          .catch((error) => {
+            console.log(error);
+            request.error && request.error(error);
+          });
+      },
+    });
+  },
+
+  formatBinge: function (params) {
+    return Object.keys(params)
+      .map(function (k) {
+        return encodeURIComponent(k) + ":" + encodeURIComponent(params[k]);
       })
       .join("&");
   },

@@ -7,19 +7,19 @@ window.login = {
     login_element.id = login.id;
 
     login_element.innerHTML = `
-  <div class="content">
-    <div class="box">
-      <div class="logo">
-        <img src="server/img/logo-big.svg" alt="">
-      </div>
-      <div class="form">
-        <div class="input ${login.id}-option">
-          <input type="number" placeholder="${translate.go('login.number')}">
+    <div class="content">
+      <div class="box">
+        <div class="logo">
+          <img src="server/img/logo-big.svg" alt="">
         </div>
-        <a class="button ${login.id}-option" translate>${translate.go('login.generateOtp')}</a>
+        <div class="form">
+          <div class="input ${login.id}-option">
+            <input type="number" placeholder="${translate.go('login.number')}">
+          </div>
+          <a class="button ${login.id}-option" translate>${translate.go('login.generateOtp')}</a>
+        </div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
     document.body.appendChild(login_element);
 
     login.move(login.selected);
@@ -63,23 +63,37 @@ window.login = {
   action: function (selected) {
     var options = document.getElementsByClassName(login.id + "-option");
     if (selected == 1) {
-      var number = options[0].firstElementChild.value;
+      var phone = options[0].firstElementChild.value;
       // var password = options[1].firstElementChild.value;
-      if (number.length < 9) {
+      console.log("login", phone);
+      if (phone.length < 10) {
         console.log("Enter valid credentials...");
       } else {
         login.destroy();
         loading.init();
-        otp.init(); 
-        session.start(number, {
-          success: function () {
-            main.events.login();
+        service.login({
+          data: {
+            phone: "+88" + phone,
           },
-          error: function () {
+          success: function (response) {
+            loading.destroy();
+            otp.init();
+          },
+          error: function (error) {
             loading.destroy();
             login.init();
           },
         });
+        // otp.init(); 
+        // session.start(number, {
+        //   success: function () {
+        //     main.events.login();
+        //   },
+        //   error: function () {
+        //     loading.destroy();
+        //     login.init();
+        //   },
+        // });
       }
     } else {
       keyboard.init(options[selected].firstElementChild);
