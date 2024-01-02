@@ -176,9 +176,9 @@
 #home-screen .content .details .info .buttons a.selected {
   border: 2px solid rgba(244, 130, 33, 0.9);
   box-sizing: border-box;
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
+  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
   color: rgb(250, 150, 60);
-  /* text-shadow: 0 0 25px #f47521, 0 0 15px #f47521, 0 0 15px #f47521; */
+  /* text-shadow: 0 0 25px #e50914, 0 0 15px #e50914, 0 0 15px #e50914; */
   opacity: 1;
 }
 
@@ -312,7 +312,7 @@
   top: 0;
   margin-left: 8.3vw;
   box-sizing: border-box;
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
+  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
 }
 
 #home-screen .content .row .row-content.episode.selected::after {
@@ -385,14 +385,14 @@
 .home_details-screen.home_details-screen_buttons a.selected {
   border: 2px solid rgba(244, 130, 33, 0.9);
   box-sizing: border-box;
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
+  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
   opacity: 1;
 }
 
 .home_details-screen.home_details-screen_buttons a.selected p,
 .home_details-screen.home_details-screen_buttons a.selected i {
   color: rgb(250, 150, 60);
-  /* text-shadow: 0 0 25px #f47521, 0 0 15px #f47521, 0 0 15px #f47521; */
+  /* text-shadow: 0 0 25px #e50914, 0 0 15px #e50914, 0 0 15px #e50914; */
   opacity: 1;
 }
 
@@ -499,7 +499,7 @@
   .seasons-list
   .season.selected {
   border: 2px solid rgba(244, 130, 33, 0.9);
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
+  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
   opacity: 1;
 }
 
@@ -536,7 +536,7 @@
   top: 0;
   margin-left: -5px;
   box-sizing: border-box;
-  /* box-shadow: 0 0 25px 6px #f47521, 0 0 15px 6px #f47521 inset; */
+  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
   margin-top: 25px;
   opacity: 0;
 }
@@ -585,7 +585,7 @@
   .episode-image
   .premium {
   position: absolute;
-  color: #f47521;
+  color: #e50914;
   right: 0;
   top: 0;
   font-size: 35px;
