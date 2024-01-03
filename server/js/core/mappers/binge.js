@@ -3,29 +3,39 @@ window.mapper = {
   loadedSubcategories: 0,
 
   home: function (response, callback) {
-    var lists = response.data.filter((element) =>
-      [
-        "recommendations",
-        "history",
-        "browse",
-        "series",
-        "because_you_watched",
-      ].includes(element.response_type)
-    );
+    // var lists = response.data.filter((element) =>
+    //   [
+    //     "recommendations",
+    //     "history",
+    //     "browse",
+    //     "series",
+    //     "because_you_watched",
+    //   ].includes(element.response_type)
+    // );
 
-    var banner = response.data.find((p) => p.resource_type === "panel");
+    var lists = response.categories;
+    // console.log("lists", lists);
+    // var banner = response.data.find((p) => p.resource_type === "panel");
 
     home.data.main = {
-      banner: {
-        id: banner.panel.id,
-        title: banner.panel.title,
-        description: banner.panel.description,
-        background: mapper.preventImageErrorTest(function () {
-          return banner.panel.images.poster_wide[0][4].source;
-        }, banner.panel.id),
-      },
+      // banner: {
+      //   id: banner.panel.id,
+      //   title: banner.panel.title,
+      //   description: banner.panel.description,
+      //   background: mapper.preventImageErrorTest(function () {
+      //     return banner.panel.images.poster_wide[0][4].source;
+      //   }, banner.panel.id),
+      // },
+      // lists: lists.map((list) => ({
+      //   title: list.title,
+      //   items: [],
+      // })),
       lists: lists.map((list) => ({
-        title: list.title,
+        category_id: list.category_id,
+        category_type: list.category_type,
+        name: list.name,
+        page_id: list.page_id,
+        page_size: list.page_size,
         items: [],
       })),
     };
@@ -34,12 +44,14 @@ window.mapper = {
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          home.data.main.lists[on].items = mapper.mapItems(test.data);
+          home.data.main.lists[on].items = mapper.mapItems(test.data.products);
+          home.data.main.lists[on].items = test.data.products;
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
             home.data.main.lists = home.data.main.lists.filter(
               (e) => e.items.length > 0
             );
+            console.log("home data", home.data.main);
             callback.success();
           }
         },
@@ -50,20 +62,32 @@ window.mapper = {
   load: (item, index, callback) => {
     session.refresh({
       success: function (storage) {
-        var url;
-        if (item.resource_type === "dynamic_collection") {
-          url = item.link;
-        } else {
-          url = `/content/v2/cms/objects/${item.ids.join()}?locale=${
-            storage.account.language
-          }`;
-        }
+        // var url;
+        // if (item.resource_type === "dynamic_collection") {
+        //   url = item.link;
+        // } else {
+        //   url = `/content/v2/cms/objects/${item.ids.join()}?locale=${
+        //     storage.account.language
+        //   }`;
+        // }
 
+        var url = `/api/v3/page/category/products`;
         var headers = new Headers();
-        headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        // headers.append("Authorization", `Bearer ${storage.access_token}`);
+        // headers.append("Content-Type", "application/x-www-form-urlencoded");
+        
+        headers.append("Authorization", service.api.anonToken);
+        headers.append("Content-Type", "application/json;charset=UTF-8");
+        headers.append("Device-Type", "web");
+        
+        var params = `{"category_id":${item.category_id},"category_type":"${item.category_type}","page":${item.page_id},"page_size":${item.page_size}}`;
 
-        return fetch(`${service.api.url}${url}`, { headers: headers })
+        // return fetch(`${service.api.url}${url}`, { headers: headers })
+        return fetch(`${service.api.bingeStageUrl}${url}`, { 
+          method: "POST",
+          headers: headers,
+          body: params,
+        })
           .then((response) => response.json())
           .then((json) => callback.success(json, index))
           .catch((error) => {
@@ -268,13 +292,12 @@ window.mapper = {
   mapItems: function (items) {
     try {
       return items.map((item) => {
-        var playhead = item.playhead
-          ? Math.round(item.playhead / 60)
-          : undefined;
+        var playhead = item.playhead ? Math.round(item.playhead / 60) : undefined;
         item = item.panel ? item.panel : item;
         var id = item.id;
         var display = "serie";
-        var title = item.title;
+        var title = item.name;
+        var description = "From battling blazes to daring rescues, firefighters risk their lives to protect others. Daigo, Yuki, and Shun dream of becoming members of the elite firefighter rescue corps “Orange.” To do so, they each must overcome personal challenges, train harder than ever, and rely on one another to make it out of the flames alive. But as disaster strikes Japan, can they work together and save the country?";
 
         if (item.type === "episode") {
           id = item.episode_metadata.series_id;
@@ -289,8 +312,10 @@ window.mapper = {
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
         } else {
-          var background = item.images.poster_wide[0][4].source;
-          var poster = item.images.poster_tall[0][2].source;
+          // var background = item.images.poster_wide[0][4].source;
+          // var poster = item.images.poster_tall[0][2].source;
+          var background = `${service.api.bingeStageUrl}/${item.image_landscape}`;
+          var poster = `${service.api.bingeStageUrl}/${item.image_portrait}`;
         }
 
         return {
@@ -301,12 +326,14 @@ window.mapper = {
           background,
           poster,
           title,
-          description: item.description,
-          type: item.type,
+          description,
+          // type: item.type,
+          type: "series",
         };
       });
+      // console.log("mapItems", items);
     } catch (error) {
-      console.log("CRITICAL: error on map element.");
+      console.log("CRITICAL: error on map element.", error);
       return [];
     }
   },

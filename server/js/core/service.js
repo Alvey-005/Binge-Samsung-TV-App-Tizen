@@ -414,6 +414,28 @@ window.service = {
     });
   },
 
+  banners: function (request) {
+    return session.refresh({
+      success: function (storage) {
+        var headers = new Headers();
+        headers.append("Authorization", service.api.anonToken);
+        headers.append("Content-Type", "application/json;charset=UTF-8");
+        headers.append("Device-Type", "web");
+        
+        fetch(`${service.api.bingeStageUrl}/api/v3/banner/vod-home`, {
+          method: "POST",
+          headers: headers
+        })
+          .then((response) => response.json())
+          .then((json) => request.success && request.success(json))
+          .catch((error) => {
+            console.log(error);
+            request.error && request.error(error);
+          });
+      },
+    });
+  },
+
   formatBinge: function (params) {
     return Object.keys(params)
       .map(function (k) {

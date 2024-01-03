@@ -54,7 +54,7 @@ window.main = {
     },
 
     home: function () {
-      service.home({
+      service.allCategories({
         success: function (response) {
           mapper.home(response, {
             success: function () {

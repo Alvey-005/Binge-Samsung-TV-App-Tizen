@@ -29,7 +29,7 @@ window.home = {
       if (element.items.length > 0) {
         poster_items += `
       <div class="row">
-        <div class="row-title">${element.title}</div>
+        <div class="row-title">${element.name}</div>
         <div class="row-content ${element.items[0].display}">`;
         element.items.forEach((item) => {
           poster_items += home.createItem(item);
@@ -43,26 +43,7 @@ window.home = {
 
     home_element.innerHTML = `
     <div class="content">
-      ${
-        home.fromCategory.state
-          ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>`
-          : ""
-      }
-      <div class="details full">
-        <div class="background">
-          <img src="${home.data.main.banner.background}">
-        </div>
-        <div class="info">
-          <div class="title resize">${home.data.main.banner.title}</div>
-          <div class="description resize">${
-            home.data.main.banner.description
-          }</div>
-          <div class="buttons">
-            <a class="selected">${translate.go("home.banner.play")}</a>
-            <a>${translate.go("home.banner.info")}</a>
-          </div>
-        </div>
-      </div>
+      
       <div class="rows">
         ${poster_items}
       </div>
