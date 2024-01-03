@@ -76,15 +76,14 @@ window.otp = {
             phone: 1833183559
           },
           success: function (response) {
-            session.start(phone, {
+            console.log("service verify success");
+            session.start(username, password, {
               success: function () {
                 main.events.login();
               },
               error: function () {
-                // loading.destroy();
-                // login.init();
-
-                main.events.login();
+                loading.destroy();
+                login.init();
               },
             });
           },
@@ -101,11 +100,8 @@ window.otp = {
                 main.events.login();
               },
               error: function () {
-                // loading.destroy();
-                // login.init();
-
-                console.log("session start error");
-                main.events.login();
+                loading.destroy();
+                login.init();
               },
             });
           },

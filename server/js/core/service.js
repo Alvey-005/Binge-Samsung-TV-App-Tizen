@@ -4,7 +4,7 @@ window.service = {
     bingeStageUrl: "https://web-api-staging.binge.buzz",
     bingeProdUrl: "https://web-api.binge.buzz",
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
-    anonToken: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJGcmVlIiwiY3JlYXRlZEF0IjoiY3JlYXRlIGRhdGUiLCJ1cGRhdGVkQXQiOiJ1cGRhdGUgZGF0ZSIsInR5cGUiOiJ0b2tlbiIsImRldlR5cGUiOiJ3ZWIiLCJleHRyYSI6IjMxNDE1OTI2IiwiaWF0IjoxNzA0MDI0NTQyLCJleHAiOjE3MDQxOTczNDJ9.2pSvlZ0n8dBPlAgL0swzuHKXE0RmuLBNpslO3Y-9KuY"
+    anonToken: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJGcmVlIiwiY3JlYXRlZEF0IjoiY3JlYXRlIGRhdGUiLCJ1cGRhdGVkQXQiOiJ1cGRhdGUgZGF0ZSIsInR5cGUiOiJ0b2tlbiIsImRldlR5cGUiOiJ3ZWIiLCJleHRyYSI6IjMxNDE1OTI2IiwiaWF0IjoxNzA0MjU2NjE4LCJleHAiOjE3MDQ0Mjk0MTh9.8AkjTAtKAWDpbhZOh3vJdfFgX4Fg19awjoCl3Uqzxf8"
   },
 
   token: function (request) {

@@ -54,9 +54,8 @@ window.main = {
     },
 
     home: function () {
-      service.allCategories({
+      service.home({
         success: function (response) {
-          console.log("allCategories success");
           mapper.home(response, {
             success: function () {
               console.log("home success");
