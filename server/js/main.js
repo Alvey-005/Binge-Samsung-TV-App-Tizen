@@ -35,15 +35,16 @@ window.main = {
       session.valid({
         success: function () {
           console.log("session valid success");
-          session.load_account({
-            success: function () {
-              console.log("login success");
-              main.events.home();
-            },
-            error: function (error) {
-              console.log("load_account", error);
-            },
-          });
+          main.events.home();
+          // session.load_account({
+          //   success: function () {
+          //     console.log("login success");
+          //     main.events.home();
+          //   },
+          //   error: function (error) {
+          //     console.log("load_account", error);
+          //   },
+          // });
         },
         error: function (error) {
           console.log("session valid error", error);

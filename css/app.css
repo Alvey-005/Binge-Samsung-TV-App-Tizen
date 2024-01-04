@@ -30,7 +30,17 @@ body {
   box-sizing: border-box;
   outline: none;
 }
+input[type=number]::-webkit-inner-spin-button, 
+input[type=tel]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
 
+input[type=number], 
+  input[type=tel] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
 #error-screen {
   display: none;
   width: 100%;

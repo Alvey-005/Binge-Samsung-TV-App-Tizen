@@ -14,7 +14,7 @@ window.otp = {
         </div>
         <div class="form">
           <div class="input ${otp.id}-option">
-            <input type="number" placeholder="${translate.go('login.otp')}">
+            <input type="text" placeholder="${translate.go('login.otp')}">
           </div>
           <a class="button ${otp.id}-option" translate>${translate.go('login.verify')}</a>
         </div>
@@ -73,17 +73,20 @@ window.otp = {
         service.verify({
           data: {
             otp: enteredOtp,
-            phone: 1833183559
+            phone: session.storage.account.phone,
           },
           success: function (response) {
-            console.log("service verify success");
-            session.start(username, password, {
+            console.log('ses',response);
+            session.start({
               success: function () {
+                console.log('sucees is calling');
                 main.events.login();
               },
               error: function () {
-                loading.destroy();
-                login.init();
+                // loading.destroy();
+                // login.init();
+
+                main.events.login();
               },
             });
           },
@@ -100,8 +103,11 @@ window.otp = {
                 main.events.login();
               },
               error: function () {
-                loading.destroy();
-                login.init();
+                // loading.destroy();
+                // login.init();
+
+                console.log("session start error");
+                main.events.login();
               },
             });
           },

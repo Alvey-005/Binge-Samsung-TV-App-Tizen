@@ -14,6 +14,7 @@ window.session = {
       premium: false,
       language: NaN,
       audio: NaN,
+      phone:NaN,
     },
     cookies: {
       bucket: NaN,
@@ -26,8 +27,12 @@ window.session = {
     country: NaN,
     token_type: NaN,
     access_token: NaN,
+    jwtToken:NaN,
     expires_in: NaN,
     refresh_token: NaN,
+    refresh_token: NaN,
+    phone: NaN,
+    customer: NaN,
   },
 
   init: function () {
@@ -66,33 +71,15 @@ window.session = {
     session.update();
   },
 
-  start: function (username, password, callback) {
-    service.token({
-      data: {
-        password: password,
-        username: username,
-      },
-      success: function (response) {
-        session.storage.expires_in = new Date().setSeconds(
-          new Date().getSeconds() + response.expires_in
-        );
-        session.storage.id = response.account_id;
-        session.storage.account.username = username;
-        session.storage.account.password = password;
-        session.storage.country = response.country;
-        session.storage.token_type = response.token_type;
-        session.storage.access_token = response.access_token;
-        session.storage.refresh_token = response.refresh_token;
-
-        console.log("session storage done");
-        //session.loadAccountInfo();
-        return callback.success(session.update());
-      },
-      error: function (error) {
-        session.clear();
-        return callback.error(error);
-      },
-    });
+  start: function (callback) {
+    try {
+      console.log('callback',callback);
+      console.log('trying');
+      callback.success();
+    } catch (error) {
+      console.log('errer from start', error);
+      return callback.error(error);
+    }
   },
 
   refresh: function (callback) {
@@ -171,7 +158,7 @@ window.session = {
 
   // return session token, if expires refresh, if doesn't exist returns undefined
   valid: function (callback) {
-    if (session.storage && session.storage.access_token) {
+    if (session.storage && session.storage.jwtToken) {
       return session.refresh(callback);
     }
     return callback.error();

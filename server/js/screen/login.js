@@ -14,7 +14,7 @@ window.login = {
         </div>
         <div class="form">
           <div class="input ${login.id}-option">
-            <input type="number" placeholder="${translate.go('login.number')}">
+            <input type="tel" placeholder="${translate.go('login.number')}">
           </div>
           <a class="button ${login.id}-option" translate>${translate.go('login.generateOtp')}</a>
         </div>
@@ -65,12 +65,12 @@ window.login = {
     if (selected == 1) {
       var phone = options[0].firstElementChild.value;
       // var password = options[1].firstElementChild.value;
-      console.log("login", phone);
       if (phone.length < 10) {
         console.log("Enter valid credentials...");
       } else {
         login.destroy();
         loading.init();
+        session.storage.account.phone = "+88" + phone;
         service.login({
           data: {
             phone: "+88" + phone,
@@ -84,6 +84,16 @@ window.login = {
             login.init();
           },
         });
+        // otp.init(); 
+        // session.start(number, {
+        //   success: function () {
+        //     main.events.login();
+        //   },
+        //   error: function () {
+        //     loading.destroy();
+        //     login.init();
+        //   },
+        // });
       }
     } else {
       keyboard.init(options[selected].firstElementChild);
