@@ -1,7 +1,7 @@
 window.service = {
   api: {
     url: "https://www.crunchyroll.com",
-    bingeStageUrl: "https://web-api-staging.binge.buzz",
+    bingeStageUrl: "https://ss-staging.binge.buzz",
     bingeProdUrl: "https://web-api.binge.buzz",
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k="
   },
@@ -390,21 +390,16 @@ window.service = {
 
   banners: function (request) {
     return session.refresh({
-      success: function (storage) {
-        var headers = new Headers();
-        headers.append("Authorization", service.api.anonToken);
-        headers.append("Device-Type", "web");
-
-        fetch(`${service.api.bingeStageUrl}/api/v3/banner/vod-home`, {
-          method: "GET",
-          headers: headers
-        })
-          .then((response) => response.json())
-          .then((json) => request.success && request.success(json))
-          .catch((error) => {
-            console.log(error);
-            request.error && request.error(error);
-          });
+      success: async function (storage) {
+        const banners = await requestMethod.get(urls.fetchVodBanner);
+        console.log('banners', banners);
+        try {
+          if (request.success) {
+            request.success(banners.data);
+          }
+        } catch (e) {
+          request.error && request.error(error);
+        }
       },
     });
   },

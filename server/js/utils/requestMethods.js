@@ -8,7 +8,6 @@ window.requestMethod = {
     
             method: 'get', // default
             headers: {
-                // Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJGcmVlIiwiY3JlYXRlZEF0IjoiY3JlYXRlIGRhdGUiLCJ1cGRhdGVkQXQiOiJ1cGRhdGUgZGF0ZSIsInR5cGUiOiJ0b2tlbiIsImRldlR5cGUiOiJ3ZWIiLCJleHRyYSI6IjMxNDE1OTI2IiwiaWF0IjoxNzA0MTk1Nzg0LCJleHAiOjE3MDQzNjg1ODR9.xm5_X8X0lTTCItMPa6MrXgWjxFpuWSFhSV9frbsb9Xk',
                 Authorization: `Bearer ${session.storage.jwtToken}`,
                 'Device-Type': 'web',
                 'Content-Type': 'application/json;charset=utf-8',
@@ -51,10 +50,7 @@ window.requestMethod = {
             headers: {
             Authorization: `Bearer ${session.storage.jwtToken}`,
                 'Device-Type': deviceType,
-                'Content-Type': formData
-                    ? // eslint-disable-next-line no-underscore-dangle
-                      `multipart/form-data; boundary=${body._boundary}`
-                    : 'application/json',
+                'Content-Type': formData ? `multipart/form-data; boundary=${body._boundary}` : 'application/json',
                 Accept: 'application/json',
                 // 'language': 'en',
                 // "Content-Type": "application/x-www-form-urlencoded",

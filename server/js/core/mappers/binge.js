@@ -21,7 +21,7 @@ window.mapper = {
     service.banners({
       success: function (response) {
         console.log("banner fetch success", response);
-        banners = response.banners;
+        banners = response.data.banners;
       },
       error: function (error) {
         console.log("banner fetch error", error);
@@ -90,38 +90,23 @@ window.mapper = {
 
   load: (item, index, callback) => {
     session.refresh({
-      success: function (storage) {
-        // var url;
-        // if (item.resource_type === "dynamic_collection") {
-        //   url = item.link;
-        // } else {
-        //   url = `/content/v2/cms/objects/${item.ids.join()}?locale=${
-        //     storage.account.language
-        //   }`;
-        // }
-
-        var url = `/api/v3/page/category/products`;
-        var headers = new Headers();
-        // headers.append("Authorization", `Bearer ${storage.access_token}`);
-        // headers.append("Content-Type", "application/x-www-form-urlencoded");
+      success: async function (storage) {
+        var params = { 
+          category_id: item.category_id,
+          category_type: item.category_type,
+          page: item.page_id,
+          page_size: item.page_size,
+        };
         
-        headers.append("Authorization", service.api.anonToken);
-        headers.append("Content-Type", "application/json;charset=UTF-8");
-        headers.append("Device-Type", "web");
+        const products = await requestMethod.post(urls.fetchCategoryProduct, params);
         
-        var params = `{"category_id":${item.category_id},"category_type":"${item.category_type}","page":${item.page_id},"page_size":${item.page_size}}`;
-
-        // return fetch(`${service.api.url}${url}`, { headers: headers })
-        return fetch(`${service.api.bingeStageUrl}${url}`, { 
-          method: "POST",
-          headers: headers,
-          body: params,
-        })
-          .then((response) => response.json())
-          .then((json) => callback.success(json, index))
-          .catch((error) => {
-            console.log(error);
-          });
+        try {
+          if (request.success) {
+            request.success(allCatResponse.data);
+          }
+        } catch (e) {
+          request.error && request.error(error);
+        }
       },
     });
   },
