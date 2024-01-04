@@ -4,7 +4,7 @@ window.service = {
     bingeStageUrl: "https://web-api-staging.binge.buzz",
     bingeProdUrl: "https://web-api.binge.buzz",
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
-    anonToken: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJGcmVlIiwiY3JlYXRlZEF0IjoiY3JlYXRlIGRhdGUiLCJ1cGRhdGVkQXQiOiJ1cGRhdGUgZGF0ZSIsInR5cGUiOiJ0b2tlbiIsImRldlR5cGUiOiJ3ZWIiLCJleHRyYSI6IjMxNDE1OTI2IiwiaWF0IjoxNzA0MjU2NjE4LCJleHAiOjE3MDQ0Mjk0MTh9.8AkjTAtKAWDpbhZOh3vJdfFgX4Fg19awjoCl3Uqzxf8"
+    anonToken: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJGcmVlIiwiY3JlYXRlZEF0IjoiY3JlYXRlIGRhdGUiLCJ1cGRhdGVkQXQiOiJ1cGRhdGUgZGF0ZSIsInR5cGUiOiJ0b2tlbiIsImRldlR5cGUiOiJ3ZWIiLCJleHRyYSI6IjMxNDE1OTI2IiwiaWF0IjoxNzA0Mjc2Nzk1LCJleHAiOjE3MDQ0NDk1OTV9.XtTikzjDmbI0QpDewP51jgXQycaBLmvaV1UHC6UFv1A"
   },
 
   token: function (request) {
@@ -419,11 +419,10 @@ window.service = {
       success: function (storage) {
         var headers = new Headers();
         headers.append("Authorization", service.api.anonToken);
-        headers.append("Content-Type", "application/json;charset=UTF-8");
         headers.append("Device-Type", "web");
         
         fetch(`${service.api.bingeStageUrl}/api/v3/banner/vod-home`, {
-          method: "POST",
+          method: "GET",
           headers: headers
         })
           .then((response) => response.json())
