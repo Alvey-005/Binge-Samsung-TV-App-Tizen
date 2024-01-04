@@ -4,7 +4,7 @@
 .package
 .vscode
 .mockoon
-.xml
+config.xml
 
 dist
 node_modules/
