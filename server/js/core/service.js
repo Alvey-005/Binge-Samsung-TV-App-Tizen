@@ -376,13 +376,13 @@ window.service = {
       success: async function (storage) {
         var params = { page: "web-home-vod" };
         const allCatResponse = await requestMethod.post(urls.fetchCategory, params);
-        console.log('all cate', allCatResponse);
+        console.log('All Categories', allCatResponse);
         try {
           if (request.success) {
             request.success(allCatResponse.data);
           }
         } catch (e) {
-          request.error && request.error(error);
+          request.error && request.error(e);
         }
       },
     });
@@ -392,13 +392,13 @@ window.service = {
     return session.refresh({
       success: async function (storage) {
         const banners = await requestMethod.get(urls.fetchVodBanner);
-        console.log('banners', banners);
+        console.log('service banners', banners);
         try {
           if (request.success) {
-            request.success(banners.data);
+            request.success(banners);
           }
         } catch (e) {
-          request.error && request.error(error);
+          request.error && request.error(e);
         }
       },
     });

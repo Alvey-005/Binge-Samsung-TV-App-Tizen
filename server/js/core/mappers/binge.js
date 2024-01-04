@@ -14,21 +14,22 @@ window.mapper = {
     // );
 
     var lists = response.categories;
-    
+    console.log("binge lists", lists);
+
     // var banner = response.data.find((p) => p.resource_type === "panel");
 
-    var banners;
-    service.banners({
-      success: function (response) {
-        console.log("banner fetch success", response);
-        banners = response.data.banners;
-      },
-      error: function (error) {
-        console.log("banner fetch error", error);
-      },
-    });
+    // var banners;
+    // service.banners({
+    //   success: function (response) {
+    //     console.log("banner fetch success", response);
+    //     banners = response.data.banners;
+    //   },
+    //   error: function (error) {
+    //     console.log("banner fetch error", error);
+    //   },
+    // });
 
-    console.log("banners", banners);
+    // console.log("binge banners", banners);
 
     home.data.main = {
       // banner: {
@@ -69,18 +70,22 @@ window.mapper = {
       })),
     };
 
+    console.log("home data before", home.data.main);
+
     mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          home.data.main.lists[on].items = mapper.mapItems(test.data.products);
+          console.log("home.data.main.lists[on].items before", home.data.main.lists[on].items);
+          home.data.main.lists[on].items = mapper.mapItems(test);
+          console.log("home.data.main.lists[on].items after", home.data.main.lists[on].items);
           // home.data.main.lists[on].items = test.data.products;
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
             home.data.main.lists = home.data.main.lists.filter(
               (e) => e.items.length > 0
             );
-            console.log("home data", home.data.main);
+            console.log("home data after", home.data.main);
             callback.success();
           }
         },
@@ -99,13 +104,13 @@ window.mapper = {
         };
         
         const products = await requestMethod.post(urls.fetchCategoryProduct, params);
-        
+        console.log("products.data.data.products", products.data.data.products);
         try {
-          if (request.success) {
-            request.success(allCatResponse.data);
+          if (callback.success) {
+            callback.success(products.data.data.products, index);
           }
         } catch (e) {
-          request.error && request.error(error);
+          callback.error && callback.error(e);
         }
       },
     });
