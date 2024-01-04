@@ -18,7 +18,7 @@ window.home = {
       if (element.items.length > 0) {
         poster_items += `
       <div class="row">
-        <div class="row-title">${element.name}</div>
+        <div class="row-title">${element.title}</div>
         <div class="row-content ${element.items[0].display}">`;
         element.items.forEach((item) => {
           poster_items += home.createItem(item);
@@ -32,7 +32,26 @@ window.home = {
 
     home_element.innerHTML = `
     <div class="content">
-      
+      ${
+        home.fromCategory.state
+          ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>`
+          : ""
+      }
+      <div class="details full">
+        <div class="background">
+          <img src="${home.data.main.banner.background}">
+        </div>
+        <div class="info">
+          <div class="title resize">${home.data.main.banner.title}</div>
+          <div class="description resize">${
+            home.data.main.banner.description
+          }</div>
+          <div class="buttons">
+            <a class="selected">${translate.go("home.banner.play")}</a>
+            <a>${translate.go("home.banner.info")}</a>
+          </div>
+        </div>
+      </div>
       <div class="rows">
         ${poster_items}
       </div>
@@ -100,13 +119,18 @@ window.home = {
           ]
         : home.data.main.banner;
     $(".details .background img").attr("src", item.background);
-    var title = $(".details .info .title")[0];
-    title.innerText = item.title;
-    title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
 
-    var description = $(".details .info .description")[0];
-    description.innerText = item.description;
-    description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+    var titleElements = $(".details .info .title");
+    if (titleElements.length > 0) {
+        var title = titleElements[0];
+        title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
+    }
+
+    var descriptionElements = $(".details .info .description");
+    if (descriptionElements.length > 0) {
+        var description = descriptionElements[0];
+        description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+    }
   },
 
   keyDown: function (event) {

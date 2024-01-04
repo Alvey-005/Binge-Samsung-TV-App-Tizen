@@ -14,8 +14,21 @@ window.mapper = {
     // );
 
     var lists = response.categories;
-    // console.log("lists", lists);
+    
     // var banner = response.data.find((p) => p.resource_type === "panel");
+
+    var banners;
+    service.banners({
+      success: function (response) {
+        console.log("banner fetch success", response);
+        banners = response.banners;
+      },
+      error: function (error) {
+        console.log("banner fetch error", error);
+      },
+    });
+
+    console.log("banners", banners);
 
     home.data.main = {
       // banner: {
@@ -30,10 +43,26 @@ window.mapper = {
       //   title: list.title,
       //   items: [],
       // })),
+      banner: {
+        // id: banners.id ? banners.id : 6132,
+        // name: banners.name ? banners.name : "Baba Someone's Following Me",
+        // description: banners.description ? banners.description : "Baba Someone's Following Me",
+        // director: banners.director ? banners.director : "Shihab Shaheen",
+        // background: mapper.preventImageErrorTest(function () {
+        //   return banners.banner_landscape_image_path ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}` : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        // }, banners.id ? banners.id : 6132),
+        id: 6132,
+        title: "Baba Someone's Following Me",
+        description: "Baba Someone's Following Me",
+        director: "Shihab Shaheen",
+        background: mapper.preventImageErrorTest(function () {
+          return `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        }, 6132),
+      },
       lists: lists.map((list) => ({
         category_id: list.category_id,
         category_type: list.category_type,
-        name: list.name,
+        title: list.name,
         page_id: list.page_id,
         page_size: list.page_size,
         items: [],
@@ -45,7 +74,7 @@ window.mapper = {
       mapper.load(lists[index], index, {
         success: function (test, on) {
           home.data.main.lists[on].items = mapper.mapItems(test.data.products);
-          home.data.main.lists[on].items = test.data.products;
+          // home.data.main.lists[on].items = test.data.products;
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
             home.data.main.lists = home.data.main.lists.filter(
