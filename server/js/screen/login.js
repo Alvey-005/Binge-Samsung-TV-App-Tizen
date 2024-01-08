@@ -14,13 +14,23 @@ window.login = {
         </div>
         <div class="form">
           <div class="input ${login.id}-option">
-            <input type="tel" placeholder="${translate.go('login.number')}">
+            <input type="tel" placeholder="${translate.go("login.number")}">
           </div>
-          <a class="button ${login.id}-option" translate>${translate.go('login.generateOtp')}</a>
+          <a class="button ${
+            login.id
+          }-option" translate id="generateOtpBtn">${translate.go(
+      "login.generateOtp"
+    )}</a>
         </div>
       </div>
     </div>`;
     document.body.appendChild(login_element);
+    document
+      .getElementById("generateOtpBtn")
+      .addEventListener("click", function (e) {
+        console.log("generate otp clicked", e);
+        login.keyDown(e);
+      });
 
     login.move(login.selected);
     main.state = login.id;
@@ -31,21 +41,27 @@ window.login = {
   },
 
   keyDown: function (event) {
-    switch (event.keyCode) {
-      case tvKey.KEY_BACK:
+    if (event.type === "click") {
+      login.move(login.selected == 1 ? 1 : login.selected + 1);
+      login.action(this.selected);
+    } else {
+      console.log("login keydown event", event);
+      switch (event.keyCode) {
+        case tvKey.KEY_BACK:
         case tvKey.KEY_ESCAPE:
           exit.init();
           break;
-      case tvKey.KEY_UP:
-        login.move(login.selected == 0 ? 0 : login.selected - 1);
-        break;
-      case tvKey.KEY_DOWN:
-        login.move(login.selected == 1 ? 1 : login.selected + 1);
-        break;
-      case tvKey.KEY_ENTER:
-      case tvKey.KEY_PANEL_ENTER:
-        login.action(this.selected);
-        break;
+        case tvKey.KEY_UP:
+          login.move(login.selected == 0 ? 0 : login.selected - 1);
+          break;
+        case tvKey.KEY_DOWN:
+          login.move(login.selected == 1 ? 1 : login.selected + 1);
+          break;
+        case tvKey.KEY_ENTER:
+        case tvKey.KEY_PANEL_ENTER:
+          login.action(this.selected);
+          break;
+      }
     }
   },
 
@@ -84,7 +100,7 @@ window.login = {
             login.init();
           },
         });
-        // otp.init(); 
+        // otp.init();
         // session.start(number, {
         //   success: function () {
         //     main.events.login();
