@@ -392,7 +392,6 @@ window.service = {
     return session.refresh({
       success: async function (storage) {
         const banners = await requestMethod.get(urls.fetchVodBanner);
-        console.log('service banners', banners);
         try {
           if (request.success) {
             request.success(banners);
