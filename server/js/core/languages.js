@@ -248,6 +248,11 @@ window.languages = {
       browse: "Browse",
       settings: "Settings",
       logout: "Logout",
+      sports: "Sports",
+      movies: "Movies",
+      series: "Series",
+      favourites: "Favourites",
+      subscribe: "Subscribe",
     },
     home: {
       banner: {
@@ -255,8 +260,8 @@ window.languages = {
         info: "More information",
       },
       details: {
-        play: "Play: S{season} E{episode}",
-        continue: "Continue: S{season} E{episode}",
+        play: "Play",
+        continue: "Continue watching",
         add: "Add to my list",
         episodes: "Episodes",
         related: "Related content",
