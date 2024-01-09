@@ -156,7 +156,8 @@
 }
 
 #languages-content .option.selected {
-  border: 2px solid rgba(244, 130, 33, 0.9);
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
   opacity: 1;
 }
 

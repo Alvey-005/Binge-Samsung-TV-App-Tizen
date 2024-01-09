@@ -113,9 +113,7 @@ window.menu = {
     <div class="content">
       <div class="profile ${session.storage.account.premium ? "premium" : ""}">
         <div class="avatar">
-          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
-            session.storage.account.avatar
-          }">
+          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${session.storage.account.avatar}">
         </div>
         <p>${session.storage.account.username}</p>
         <i class="fa-solid fa-crown"></i>

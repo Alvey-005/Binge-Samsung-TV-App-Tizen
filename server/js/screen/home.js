@@ -43,9 +43,7 @@ window.home = {
         </div>
         <div class="info">
           <div class="title resize">${home.data.main.banner.title}</div>
-          <div class="description resize">${
-            home.data.main.banner.description
-          }</div>
+          <div class="description resize">${home.data.main.banner.description}</div>
           <div class="buttons">
             <a class="selected">${translate.go("home.banner.play")}</a>
             <a>${translate.go("home.banner.info")}</a>
@@ -112,23 +110,22 @@ window.home = {
   },
 
   show_details: function () {
-    var item =
-      home.position > 0
-        ? home.data.main.lists[home.position - 1].items[
-            $(".row-content")[home.position - 1].slick.currentSlide
-          ]
+    var item = home.position > 0
+        ? home.data.main.lists[home.position - 1].items[$(".row-content")[home.position - 1].slick.currentSlide]
         : home.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
     var titleElements = $(".details .info .title");
     if (titleElements.length > 0) {
         var title = titleElements[0];
+        title.innerText = item.title;
         title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
-        var description = descriptionElements[0];
+      var description = descriptionElements[0];
+        description.innerText = item.description;
         description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
     }
   },

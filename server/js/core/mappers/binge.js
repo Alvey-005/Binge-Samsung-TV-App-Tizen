@@ -2,34 +2,12 @@ window.mapper = {
   loaded: 0,
   loadedSubcategories: 0,
 
-  home: function (response, callback) {
-    // var lists = response.data.filter((element) =>
-    //   [
-    //     "recommendations",
-    //     "history",
-    //     "browse",
-    //     "series",
-    //     "because_you_watched",
-    //   ].includes(element.response_type)
-    // );
-
+  home: function (response, banners, callback) {
     var lists = response.categories;
     console.log("binge lists", lists);
 
     // var banner = response.data.find((p) => p.resource_type === "panel");
-
-    // var banners;
-    // service.banners({
-    //   success: function (response) {
-    //     console.log("banner fetch success", response);
-    //     banners = response.data.banners;
-    //   },
-    //   error: function (error) {
-    //     console.log("banner fetch error", error);
-    //   },
-    // });
-
-    // console.log("binge banners", banners);
+    // console.log("mapper banners", banners);
 
     home.data.main = {
       // banner: {
@@ -45,20 +23,20 @@ window.mapper = {
       //   items: [],
       // })),
       banner: {
-        // id: banners.id ? banners.id : 6132,
-        // name: banners.name ? banners.name : "Baba Someone's Following Me",
-        // description: banners.description ? banners.description : "Baba Someone's Following Me",
-        // director: banners.director ? banners.director : "Shihab Shaheen",
-        // background: mapper.preventImageErrorTest(function () {
-        //   return banners.banner_landscape_image_path ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}` : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
-        // }, banners.id ? banners.id : 6132),
-        id: 6132,
-        title: "Baba Someone's Following Me",
-        description: "Baba Someone's Following Me",
-        director: "Shihab Shaheen",
+        id: banners.id ? banners.id : 6132,
+        title: banners.name ? banners.name : "Baba Someone's Following Me",
+        description: banners.description ? banners.description : "Baba Someone's Following Me",
+        director: banners.director ? banners.director : "Shihab Shaheen",
         background: mapper.preventImageErrorTest(function () {
-          return `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
-        }, 6132),
+          return banners.banner_landscape_image_path ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}` : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        }, banners.id ? banners.id : 6132),
+        // id: 6132,
+        // title: "Baba Someone's Following Me",
+        // description: "Baba Someone's Following Me",
+        // director: "Shihab Shaheen",
+        // background: mapper.preventImageErrorTest(function () {
+        //   return `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        // }, 6132),
       },
       lists: lists.map((list) => ({
         category_id: list.category_id,
@@ -70,15 +48,15 @@ window.mapper = {
       })),
     };
 
-    console.log("home data before", home.data.main);
+    // console.log("home data before", home.data.main);
 
     mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          console.log("home.data.main.lists[on].items before", home.data.main.lists[on].items);
+          // console.log("home.data.main.lists[on].items before", home.data.main.lists[on].items);
           home.data.main.lists[on].items = mapper.mapItems(test);
-          console.log("home.data.main.lists[on].items after", home.data.main.lists[on].items);
+          // console.log("home.data.main.lists[on].items after", home.data.main.lists[on].items);
           // home.data.main.lists[on].items = test.data.products;
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
@@ -104,7 +82,7 @@ window.mapper = {
         };
         
         const products = await requestMethod.post(urls.fetchCategoryProduct, params);
-        console.log("products.data.data.products", products.data.data.products);
+        // console.log("products.data.data.products", products.data.data.products);
         try {
           if (callback.success) {
             callback.success(products.data.data.products, index);
@@ -316,7 +294,7 @@ window.mapper = {
         var id = item.id;
         var display = "serie";
         var title = item.name;
-        var description = "From battling blazes to daring rescues, firefighters risk their lives to protect others. Daigo, Yuki, and Shun dream of becoming members of the elite firefighter rescue corps “Orange.” To do so, they each must overcome personal challenges, train harder than ever, and rely on one another to make it out of the flames alive. But as disaster strikes Japan, can they work together and save the country?";
+        var description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
         if (item.type === "episode") {
           id = item.episode_metadata.series_id;
@@ -330,9 +308,10 @@ window.mapper = {
           display = "episode";
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
+        } else if (item.content_type == "tv_channel") {
+          var background = `${service.api.bingeStageUrl}/${item.thumb_path}`;
+          var poster = `${service.api.bingeStageUrl}/${item.logo_path}`;
         } else {
-          // var background = item.images.poster_wide[0][4].source;
-          // var poster = item.images.poster_tall[0][2].source;
           var background = `${service.api.bingeStageUrl}/${item.image_landscape}`;
           var poster = `${service.api.bingeStageUrl}/${item.image_portrait}`;
         }
