@@ -141,5 +141,6 @@
 }
 
 #search-screen .content .list-container.focus .list-container-over .item.selected::after{
-  border: 3px solid rgba(244, 130, 33, 0.9);
+  /* border: 3px solid rgba(244, 130, 33, 0.9); */
+  border: 3px solid rgba(222, 13, 30, 0.9);
 }

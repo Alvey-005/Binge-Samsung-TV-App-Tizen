@@ -174,10 +174,12 @@
 }
 
 #home-screen .content .details .info .buttons a.selected {
-  border: 2px solid rgba(244, 130, 33, 0.9);
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
   box-sizing: border-box;
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
-  color: rgb(250, 150, 60);
+  /* color: rgb(250, 150, 60); */
+  color: rgb(228, 15, 50);
   /* text-shadow: 0 0 25px #e50914, 0 0 15px #e50914, 0 0 15px #e50914; */
   opacity: 1;
 }
@@ -204,7 +206,8 @@
 #home-screen .content .row .row-content .item .poster.episode .progress {
   height: 12px;
   position: absolute;
-  background: rgba(244, 130, 33, 0.7);
+  /* background: rgba(244, 130, 33, 0.7); */
+  background: rgb(222, 13, 30, 0.7);
   bottom: 0;
 }
 
@@ -305,7 +308,8 @@
 
 #home-screen .content .row .row-content.selected::after {
   content: "";
-  border: 6px solid rgba(244, 130, 33, 0.9);
+  /* border: 6px solid rgba(244, 130, 33, 0.9); */
+  border: 6px solid rgba(222, 13, 30, 0.9);
   width: 193px;
   height: 286px;
   position: absolute;
@@ -383,7 +387,8 @@
 }
 
 .home_details-screen.home_details-screen_buttons a.selected {
-  border: 2px solid rgba(244, 130, 33, 0.9);
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
   box-sizing: border-box;
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
   opacity: 1;
@@ -391,7 +396,8 @@
 
 .home_details-screen.home_details-screen_buttons a.selected p,
 .home_details-screen.home_details-screen_buttons a.selected i {
-  color: rgb(250, 150, 60);
+  /* color: rgb(250, 150, 60); */
+  color: rgb(228, 15, 50);
   /* text-shadow: 0 0 25px #e50914, 0 0 15px #e50914, 0 0 15px #e50914; */
   opacity: 1;
 }
@@ -498,7 +504,8 @@
   .seasons.active
   .seasons-list
   .season.selected {
-  border: 2px solid rgba(244, 130, 33, 0.9);
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
   opacity: 1;
 }
@@ -529,7 +536,8 @@
   .episodes
   .episodes-list::after {
   content: "";
-  border: 2px solid rgba(244, 130, 33, 0.9);
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
   width: 100%;
   height: 215px;
   position: absolute;
@@ -600,7 +608,8 @@
   .progress {
   height: 12px;
   position: absolute;
-  background: rgba(244, 130, 33, 0.7);
+  /* background: rgba(244, 130, 33, 0.7); */
+  background: rgb(222, 13, 30, 0.7);
   bottom: 0;
 }
 
