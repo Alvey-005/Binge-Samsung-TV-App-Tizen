@@ -101,7 +101,7 @@ window.home = {
     $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = home.id;
-    changelog.init();
+    // changelog.init();
   },
 
   destroy: function () {
@@ -278,20 +278,7 @@ window.home = {
     home.fromCategory.index = NaN;
     loading.start();
     home.data.main = null;
-    service.home({
-      success: function (response) {
-        mapper.home(response, {
-          success: function () {
-            home.init();
-            loading.end();
-          },
-        });
-      },
-      error: function (error) {
-        loading.end();
-        console.log(error);
-      },
-    });
+    main.events.home();
   },
 
   addToList: function (index, newItems) {

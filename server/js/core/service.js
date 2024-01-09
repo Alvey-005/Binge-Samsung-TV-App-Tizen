@@ -6,50 +6,7 @@ window.service = {
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k="
   },
 
-  token: function (request) {
-    var headers = new Headers();
-    headers.append("Authorization", service.api.auth);
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    var params = service.format({
-      username: request.data.username,
-      password: request.data.password,
-      grant_type: "password",
-      scope: "offline_access",
-    });
-
-    fetch(`${service.api.url}/auth/v1/token`, {
-      method: "POST",
-      headers: headers,
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((json) => request.success && request.success(json))
-      .catch((error) => {
-        console.log(error);
-        request.error && request.error(error);
-      });
-  },
-
   refresh: function (request) {
-    // var headers = new Headers();
-    // headers.append("Authorization", service.api.auth);
-    // headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    // var params = service.format({
-    //   refresh_token: session.storage.refresh_token,
-    //   grant_type: "refresh_token",
-    //   scope: "offline_access",
-    // });
-
-    // fetch(`${service.api.url}/auth/v1/token`, {
-    //   method: "POST",
-    //   headers: headers,
-    //   body: params,
-    // })
-    //   .then((response) => response.json())
-    //   .then((json) => request.success(json))
-    //   .catch((error) => request.error(error));
     try {
       if (request.success) {
         request.success()
@@ -110,26 +67,6 @@ window.service = {
         fetch(`${service.api.url}/index/v2`, {
           headers: headers,
         })
-          .then((response) => response.json())
-          .then((json) => request.success(json))
-          .catch((error) => request.error(error));
-      },
-    });
-  },
-
-  home: function (request) {
-    return session.refresh({
-      success: function (storage) {
-        var headers = new Headers();
-        headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-        fetch(
-          `${service.api.url}/content/v2/discover/${storage.id}/home_feed?start=0&n=100&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
-          {
-            headers: headers,
-          }
-        )
           .then((response) => response.json())
           .then((json) => request.success(json))
           .catch((error) => request.error(error));
@@ -207,7 +144,6 @@ window.service = {
 
         fetch(
           `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
-          // `https://web-api-staging.binge.buzz/api/v3/page/category/products`,
           {
             headers: headers,
           }
