@@ -140,10 +140,11 @@ window.home_details = {
         var current = buttons.index(
           $(`.${home_details.id}.${home_details.id}_buttons a.selected`)
         );
+        console.log('home details data', home_details);
 
         switch (current) {
           case 0:
-            video.init(home_details.data.continue);
+            video.init(home_details.data.this);
             break;
           case 1:
             console.log("add list");

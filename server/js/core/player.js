@@ -20,8 +20,9 @@ window.player = {
 
   getVideo: function () {
     if (!player.video) {
-      player.video = document.getElementById("videoplayer");
+      player.video = document.getElementById("bingeTizen");
     }
+    // console.log('playyer.video', player.video);
     return player.video;
   },
 
@@ -40,34 +41,121 @@ window.player = {
   getDuration: function () {
     return player.getVideo().duration;
   },
+  init: function(){
+
+    var playerInstance =new  videojs(player.getVideo(), {
+      muted: true,
+      // poster: 'https://web-api.binge.buzz/uploads/products/thumbs/YgoPKQ6hbligpQKP8vy7bY642NoRzP4XAS.jpg',
+      autoplay: true,
+      liveui: true,
+      loop: true,
+      responsive: true,
+      fluid: true,
+      techOrder: ['html5'],
+      html5: {
+        vhs: {
+          overrideNative: true,
+        },
+        nativeAudioTracks: false,
+        nativeVideoTracks: false,
+      }
+    });
+    player.plugin = playerInstance;
+  },
 
   play: function (url, playhead, noplay) {
-    if (Hls.isSupported()) {
-      player.plugin = new Hls();
-      player.plugin.loadSource(url);
-      player.plugin.attachMedia(player.getVideo());
+    console.log('url', url);
+    player.init(url);
+    player.plugin.src({
+      src: url,
+      type: 'application/x-mpegURL' // Use 'application/vnd.apple.mpegurl' for Safari
+    });
+    player.plugin.on("loadstart", function (_e) {
+      videojs.Vhs.xhr.beforeRequest = (options) => {
+          const modifiedOptions = { ...options };
+          if (modifiedOptions.uri.startsWith('https://ss.binge.buzz/binge-drm')) {
+              const search = new URL(options.uri);
+              const searchParam = search.searchParams.get('r');
+              modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}&drmtoken=${session.storage.jwtToken}`;
+              modifiedOptions.headers = modifiedOptions.headers || {};
+              modifiedOptions.headers.Authorization = `Bearer ${session.storage.jwtToken}`;
+              videojs.xhr(
+                  {
+                      uri: modifiedOptions.uri,
+                      headers: {
+                          'Content-Type': 'application/json',
+                          Authorization: `Bearer ${session.storage.jwtToken}`,
+                      },
+                  },
+                  (err, resp) => {
+                      if (resp.statusCode === 429) {
+                          // handleCloseContentError();
+                      } else if (resp.statusCode === 401) {
+                          // handleUnauthorizedError();
+                      } else if (resp.statusCode !== 200) {
+                          fireError();
+                      }
+                  }
+              );
+          }
+          return modifiedOptions;
+      };
+  });
+    player.getVideo().play();
+    console.log('videojs', player.plugin);
+    // console.log('player', videojs("videoplayer", {
+    //   muted: true,
+    //   // poster: 'https://web-api.binge.buzz/uploads/products/thumbs/YgoPKQ6hbligpQKP8vy7bY642NoRzP4XAS.jpg',
+    //   autoplay: true,
+    //   liveui: true,
+    //   loop: true,
+    //   responsive: true,
+    //   fluid: true,
+    //   techOrder: ['html5'],
+    //   html5: {
+    //     vhs: {
+    //       overrideNative: true,
+    //     },
+    //     nativeAudioTracks: false,
+    //     nativeVideoTracks: false,
+    //   }
+    // }));
 
-      player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-        player.levelId = player.getQuality(data);
-        player.plugin.startLevel = player.levelId;
-        player.plugin.startLoad();
+    // if (Hls.isSupported()) {
+    //   player.plugin = videojs('videoplayer');
+    //   player.plugin.loadSource(url);
+    //   player.plugin.attachMedia(player.getVideo());
 
-        player.plugin.currentLevel = player.levelId;
-        if (!noplay) {
-          player.getVideo().play();
-          player.state = player.states.PLAYING;
-        }
-      });
-    } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
-      player.getVideo().src = url;
-      if (!noplay) {
-        player.getVideo().play();
-        player.state = player.states.PLAYING;
-      }
-    }
-    if (playhead && playhead > 0) {
-      player.getVideo().currentTime = playhead * 60;
-    }
+    //   player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+    //     console.log('manifest fata', data);
+    //     // player.levelId = player.getQuality(data);
+    //     // player.plugin.startLevel = player.levelId;
+    //     player.plugin.startLoad();
+    //     console.log('player.plugin.keySystems');
+    //     // player.plugin.currentLevel = player.levelId;
+    //     if (!noplay) {
+    //       console.log('noplahy');
+    //       player.getVideo().play();
+    //       player.state = player.states.PLAYING;
+    //     }
+    //   });
+    //   player.plugin.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
+    //     console.log('event', event, data);
+    //   });
+    //   player.plugin.on(Hls.Events.LEVEL_LOADING, (event, data) => {
+    //     console.log('event', event, data);
+    //   });
+    // } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
+    //   player.getVideo().src = url;
+    //   if (!noplay) {
+    //     player.getVideo().play();
+    //     player.state = player.states.PLAYING;
+    //   }
+    // }
+    // if (playhead && playhead > 0) {
+    //   player.getVideo().currentTime = playhead * 60;
+    // }
+    // player.getVideo().play();
   },
 
   pause: function () {
@@ -116,7 +204,7 @@ window.player = {
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
         player.values.forward_rewind + player.getPlayed() >
-        player.getDuration() - player.getDuration() * 0.02
+          player.getDuration() - player.getDuration() * 0.02
           ? player.getPlayed()
           : player.values.forward_rewind + player.getPlayed();
       player.values.forward_rewind = 0;
@@ -137,9 +225,9 @@ window.player = {
 
   stop: function () {
     if (player.state != player.states.STOPPED) {
-      player.plugin.stopLoad();
+      // player.plugin.stopLoad();
       player.pause();
-      player.plugin.destroy();
+      // player.plugin.dispose();
       player.plugin = NaN;
       player.video = NaN;
       player.STOP_CALLBACK && player.STOP_CALLBACK();

@@ -32,24 +32,36 @@ window.service = {
   },
 
   refresh: function (request) {
-    var headers = new Headers();
-    headers.append("Authorization", service.api.auth);
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
+    // var headers = new Headers();
+    // headers.append("Authorization", service.api.auth);
+    // headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-    var params = service.format({
-      refresh_token: session.storage.refresh_token,
-      grant_type: "refresh_token",
-      scope: "offline_access",
-    });
+    // var params = service.format({
+    //   refresh_token: session.storage.refresh_token,
+    //   grant_type: "refresh_token",
+    //   scope: "offline_access",
+    // });
 
-    fetch(`${service.api.url}/auth/v1/token`, {
-      method: "POST",
-      headers: headers,
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((json) => request.success(json))
-      .catch((error) => request.error(error));
+    // fetch(`${service.api.url}/auth/v1/token`, {
+    //   method: "POST",
+    //   headers: headers,
+    //   body: params,
+    // })
+    //   .then((response) => response.json())
+    //   .then((json) => request.success(json))
+    //   .catch((error) => request.error(error));
+    try {
+      if (request.success) {
+        request.success()
+      }
+    } catch (e) {
+      if (request.error) {
+        request.error(e)
+      }
+      else {
+        console.error('error in refresh', e)
+      }
+    }
   },
 
   profile: function (request) {
@@ -213,18 +225,24 @@ window.service = {
   video: function (request) {
     return session.cookies({
       success: function (storage) {
-        var headers = new Headers();
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
+        // var headers = new Headers();
+        // headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-        fetch(
-          `${service.api.url}/cms/v2${storage.cookies.bucket}/videos/${request.data.id}/streams?Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
-          {
-            headers: headers,
-          }
-        )
-          .then((response) => response.json())
-          .then((json) => request.success(json))
-          .catch((error) => request.error(error));
+        // fetch(
+        //   `${service.api.url}/cms/v2${storage.cookies.bucket}/videos/${request.data.id}/streams?Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+        //   {
+        //     headers: headers,
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((json) => request.success(json))
+        //   .catch((error) => request.error(error));
+        try{
+          request.success()
+        }catch(e){
+          console.error('error in vide service', e);
+          // request.error ? request.error(e) : console.error('error in service.video', e);
+        }
       },
       error: function (error) {
         request.error(error);

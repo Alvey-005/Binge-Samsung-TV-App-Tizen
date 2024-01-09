@@ -51,11 +51,10 @@ window.video = {
   toggleAspectRatio: function () {
     video.aspect =
       video.aspect < video.aspects.length - 1 ? video.aspect + 1 : 0;
-    document.getElementById("videoplayer").className =
+    document.getElementById("bingeTizen").className =
       video.aspects[video.aspect];
-    $(".toggle-aspect")[0].className = `toggle-aspect fa-solid fa-${
-      video.aspects[video.aspect]
-    } selected`;
+    $(".toggle-aspect")[0].className = `toggle-aspect fa-solid fa-${video.aspects[video.aspect]
+      } selected`;
   },
 
   openLanguages: function () {
@@ -78,21 +77,22 @@ window.video = {
   init: function (item) {
     var video_element = document.createElement("div");
     video_element.id = video.id;
-
-    video.play(item);
+    console.log('player', item);
 
     video_element.innerHTML = `
     <div class="content">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-      <video id="videoplayer" style="width:100%; height:100%;"></video>
-      <div class="osd" id="osd">
+      <video id="bingeTizen" class="video-js vjs-default-skin" >
+      <!-- Video source will be added dynamically -->
+    </video>
+          <div class="osd" id="osd">
         <div class="player-settings">
           ${video.getSettings()}
         </div>
         <div class="details">
-          <div id="title">${item.serie}</div>
+          <div id="title">${item.title}</div>
           <div id="subtitle">
-            ${item.season_number}x${item.episode_number} - ${item.episode}
+            ${item.artists}
           </div>
         </div>
         <div class="progress">
@@ -133,7 +133,7 @@ window.video = {
       </div>
     </div>`;
     document.body.appendChild(video_element);
-
+    video.play(item);
     player.config(video.setPlayingTime, video.end);
     $(`#${home.id}`).hide();
     video.previous = main.state;
@@ -337,7 +337,8 @@ window.video = {
   },
 
   play: function (item, noplay) {
-    if (!item.stream) {
+    console.log('play function', item, noplay);
+    if (!item.hls_url) {
       video.destroy();
       return;
     }
@@ -347,46 +348,46 @@ window.video = {
         id: item.stream,
       },
       success: function (data) {
-        video.stopNext();
-        video.setSkipIntro(item.id);
-        video.next.shown = false;
+        // video.stopNext();
+        // video.setSkipIntro(item.id);
+        // video.next.shown = false;
         try {
-          video.streams = data.streams.adaptive_hls;
+          // video.streams = data.streams.adaptive_hls;
 
-          var subtitle_lang;
-          if (video.streams[session.storage.account.language]) {
-            subtitle_lang = session.storage.account.language;
-          } else {
-            subtitle_lang = "";
-          }
+          // var subtitle_lang;
+          // if (video.streams[session.storage.account.language]) {
+          //   subtitle_lang = session.storage.account.language;
+          // } else {
+          //   subtitle_lang = "";
+          // }
 
-          video.audio = data.audio_locale;
-          video.audios = [{ name: video.audio, id: 0 }];
+          // video.audio = data.audio_locale;
+          // video.audios = [{ name: video.audio, id: 0 }];
 
-          if (data.versions) {
-            video.audios = data.versions.map((element) => ({
-              name: element.audio_locale,
-              id: element.media_guid,
-            }));
-          }
+          // if (data.versions) {
+          //   video.audios = data.versions.map((element) => ({
+          //     name: element.audio_locale,
+          //     id: element.media_guid,
+          //   }));
+          // }
 
-          video.subtitle = video.streams[subtitle_lang].hardsub_locale;
-          video.subtitles = Object.keys(video.streams).map((element) => ({
-            name: element,
-          }));
+          // video.subtitle = video.streams[subtitle_lang].hardsub_locale;
+          // video.subtitles = Object.keys(video.streams).map((element) => ({
+          //   name: element,
+          // }));
 
-          player.play(
-            video.streams[subtitle_lang].url,
-            item.playhead === item.duration ? 0 : item.playhead,
+          player.play(item.hls_url,
+            0,
             noplay
           );
-          video.startHistory();
-          video.setAudios();
-          video.setSubtitles();
+          console.log('player', player);
+          // video.startHistory();
+          // video.setAudios();
+          // video.setSubtitles();
         } catch (error) {
           console.log(error);
         }
-        video.showOSD();
+        // video.showOSD();
       },
       error: function (error) {
         video.stopNext();
@@ -438,9 +439,8 @@ window.video = {
     $("#audios li").remove();
     var audios = "";
     video.audios.forEach((element, index) => {
-      audios += `<li class="option${
-        element.name === video.audio ? " active selected" : ""
-      }">${session.languages.audios[element.name]}</li>`;
+      audios += `<li class="option${element.name === video.audio ? " active selected" : ""
+        }">${session.languages.audios[element.name]}</li>`;
     });
 
     document.getElementById("audios").innerHTML = audios;
@@ -463,9 +463,8 @@ window.video = {
     $("#subtitles").html("");
     var subtitles = "";
     video.subtitles.forEach((element) => {
-      subtitles += `<li class="option${
-        element.name === video.subtitle ? " active" : ""
-      }">${session.languages.subtitles[element.name]}</li>`;
+      subtitles += `<li class="option${element.name === video.subtitle ? " active" : ""
+        }">${session.languages.subtitles[element.name]}</li>`;
     });
 
     document.getElementById("subtitles").innerHTML = subtitles;
@@ -576,7 +575,7 @@ window.video = {
         content_id: video.episode,
         playhead: time || Math.floor(player.getPlayed()),
       },
-      success: function () {},
+      success: function () { },
       error: function (error) {
         console.log(error);
       },
@@ -613,14 +612,11 @@ window.video = {
     timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
     timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;
 
-    document.getElementById("time").innerText = `${
-      timeHours ? timeHours : "00"
-    }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
-    document.getElementById("total").innerText = `${
-      totalHours ? totalHours : "00"
-    }:${totalMinutes ? totalMinutes : "00"}:${
-      totalSeconds ? totalSeconds : "00"
-    }`;
+    document.getElementById("time").innerText = `${timeHours ? timeHours : "00"
+      }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
+    document.getElementById("total").innerText = `${totalHours ? totalHours : "00"
+      }:${totalMinutes ? totalMinutes : "00"}:${totalSeconds ? totalSeconds : "00"
+      }`;
     document.getElementById("played").style.width = timePercent + "%";
   },
 };

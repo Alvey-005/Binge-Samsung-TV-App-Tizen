@@ -348,6 +348,7 @@ window.mapper = {
           description,
           // type: item.type,
           type: "series",
+          ...item
         };
       });
       // console.log("mapItems", items);
