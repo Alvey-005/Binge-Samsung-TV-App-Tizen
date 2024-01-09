@@ -14,13 +14,23 @@ window.otp = {
         </div>
         <div class="form">
           <div class="input ${otp.id}-option">
-            <input type="text" placeholder="${translate.go('login.otp')}">
+            <input type="text" placeholder="${translate.go("login.otp")}">
           </div>
-          <a class="button ${otp.id}-option" translate>${translate.go('login.verify')}</a>
+          <a class="button ${
+            otp.id
+          }-option" translate id='verifyOtpBtn'>${translate.go(
+      "login.verify"
+    )}</a>
         </div>
       </div>
     </div>`;
     document.body.appendChild(otp_element);
+    document
+      .getElementById("verifyOtpBtn")
+      .addEventListener("click", function (e) {
+        console.log("verify otp clicked");
+        otp.keyDown(e);
+      });
 
     otp.move(otp.selected);
     main.state = otp.id;
@@ -31,21 +41,27 @@ window.otp = {
   },
 
   keyDown: function (event) {
-    switch (event.keyCode) {
-      case tvKey.KEY_BACK:
+    if (event.type === "click") {
+      console.log('triggering');
+      otp.move(otp.selected == 1 ? 1 : otp.selected + 1);
+      otp.action(this.selected);
+    } else {
+      switch (event.keyCode) {
+        case tvKey.KEY_BACK:
         case tvKey.KEY_ESCAPE:
           exit.init();
           break;
-      case tvKey.KEY_UP:
-        otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
-        break;
-      case tvKey.KEY_DOWN:
-        otp.move(otp.selected == 1 ? 1 : otp.selected + 1);
-        break;
-      case tvKey.KEY_ENTER:
-      case tvKey.KEY_PANEL_ENTER:
-        otp.action(this.selected);
-        break;
+        case tvKey.KEY_UP:
+          otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
+          break;
+        case tvKey.KEY_DOWN:
+          otp.move(otp.selected == 1 ? 1 : otp.selected + 1);
+          break;
+        case tvKey.KEY_ENTER:
+        case tvKey.KEY_PANEL_ENTER:
+          otp.action(this.selected);
+          break;
+      }
     }
   },
 
@@ -76,10 +92,10 @@ window.otp = {
             phone: session.storage.account.phone,
           },
           success: function (response) {
-            console.log('ses',response);
+            // console.log('ses',response);
             session.start({
               success: function () {
-                console.log('sucees is calling');
+                console.log("sucees is calling");
                 main.events.login();
               },
               error: function () {

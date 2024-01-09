@@ -103,7 +103,7 @@ window.home = {
     $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = home.id;
-    changelog.init();
+    // changelog.init();
   },
 
   destroy: function () {
