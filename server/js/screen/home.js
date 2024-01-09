@@ -276,7 +276,7 @@ window.home = {
   restart: function () {
     home.fromCategory.state = false;
     home.fromCategory.index = NaN;
-    loading.start();
+    loading.init();
     home.data.main = null;
     main.events.home();
   },
