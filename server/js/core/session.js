@@ -73,11 +73,9 @@ window.session = {
 
   start: function (callback) {
     try {
-      console.log('callback',callback);
-      console.log('trying');
       callback.success();
     } catch (error) {
-      console.log('errer from start', error);
+      console.log('error from start', error);
       return callback.error(error);
     }
   },

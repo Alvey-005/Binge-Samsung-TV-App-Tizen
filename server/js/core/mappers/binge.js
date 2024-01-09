@@ -4,24 +4,8 @@ window.mapper = {
 
   home: function (response, banners, callback) {
     var lists = response.categories;
-    console.log("binge lists", lists);
-
-    // var banner = response.data.find((p) => p.resource_type === "panel");
-    // console.log("mapper banners", banners);
 
     home.data.main = {
-      // banner: {
-      //   id: banner.panel.id,
-      //   title: banner.panel.title,
-      //   description: banner.panel.description,
-      //   background: mapper.preventImageErrorTest(function () {
-      //     return banner.panel.images.poster_wide[0][4].source;
-      //   }, banner.panel.id),
-      // },
-      // lists: lists.map((list) => ({
-      //   title: list.title,
-      //   items: [],
-      // })),
       banner: {
         id: banners.id ? banners.id : 6132,
         title: banners.name ? banners.name : "Baba Someone's Following Me",
@@ -48,22 +32,16 @@ window.mapper = {
       })),
     };
 
-    // console.log("home data before", home.data.main);
-
     mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          // console.log("home.data.main.lists[on].items before", home.data.main.lists[on].items);
           home.data.main.lists[on].items = mapper.mapItems(test);
-          // console.log("home.data.main.lists[on].items after", home.data.main.lists[on].items);
-          // home.data.main.lists[on].items = test.data.products;
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
             home.data.main.lists = home.data.main.lists.filter(
               (e) => e.items.length > 0
             );
-            console.log("home data after", home.data.main);
             callback.success();
           }
         },
@@ -82,7 +60,6 @@ window.mapper = {
         };
         
         const products = await requestMethod.post(urls.fetchCategoryProduct, params);
-        // console.log("products.data.data.products", products.data.data.products);
         try {
           if (callback.success) {
             callback.success(products.data.data.products, index);
@@ -325,12 +302,10 @@ window.mapper = {
           poster,
           title,
           description,
-          // type: item.type,
           type: "series",
           ...item
         };
       });
-      // console.log("mapItems", items);
     } catch (error) {
       console.log("CRITICAL: error on map element.", error);
       return [];

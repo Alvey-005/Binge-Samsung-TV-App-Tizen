@@ -64,7 +64,6 @@ window.otp = {
     var options = document.getElementsByClassName(otp.id + "-option");
     if (selected == 1) {
       var enteredOtp = options[0].firstElementChild.value;
-      console.log("otp action", enteredOtp);
       if (enteredOtp.length < 4) {
         console.log("Enter valid credentials...");
       } else {
@@ -76,10 +75,8 @@ window.otp = {
             phone: session.storage.account.phone,
           },
           success: function (response) {
-            console.log('ses',response);
             session.start({
               success: function () {
-                console.log('sucees is calling');
                 main.events.login();
               },
               error: function () {
@@ -112,15 +109,6 @@ window.otp = {
             });
           },
         });
-        // session.start(username, password, {
-        //   success: function () {
-        //     main.events.login();
-        //   },
-        //   error: function () {
-        //     loading.destroy();
-        //     login.init();
-        //   },
-        // });
       }
     } else {
       keyboard.init(options[selected].firstElementChild);

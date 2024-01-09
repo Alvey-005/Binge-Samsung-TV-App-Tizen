@@ -225,23 +225,10 @@ window.service = {
   video: function (request) {
     return session.cookies({
       success: function (storage) {
-        // var headers = new Headers();
-        // headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-        // fetch(
-        //   `${service.api.url}/cms/v2${storage.cookies.bucket}/videos/${request.data.id}/streams?Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
-        //   {
-        //     headers: headers,
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((json) => request.success(json))
-        //   .catch((error) => request.error(error));
-        try{
+        try {
           request.success()
-        }catch(e){
-          console.error('error in vide service', e);
-          // request.error ? request.error(e) : console.error('error in service.video', e);
+        } catch(e) {
+          console.error('error in video service', e);
         }
       },
       error: function (error) {
@@ -361,11 +348,6 @@ window.service = {
   // Binge
 
   login: function (request) {
-    var params = `phone: ${request.data.phone}`;
-
-    console.log("params", params);
-    console.log("service phone", request.data.phone);
-
     requestMethod.get(`${urls.fetchOtpUrl}/${request.data.phone}`)
       .then((res) => res.data && res.data.is_success && request.success())
       .catch((error) => {
@@ -379,9 +361,7 @@ window.service = {
       phone: session.storage.account.phone,
       otp: request.data.otp,
     };
-    console.log('otp  body', session.storage.account.phone);
     const verifyResponse = await requestMethod.post(urls.verifyOtpUrl, params);
-    console.log('verify', verifyResponse);
     if (verifyResponse.data && verifyResponse.data.is_success) {
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
@@ -394,7 +374,6 @@ window.service = {
       success: async function (storage) {
         var params = { page: "web-home-vod" };
         const allCatResponse = await requestMethod.post(urls.fetchCategory, params);
-        console.log('All Categories', allCatResponse);
         try {
           if (request.success) {
             request.success(allCatResponse.data);

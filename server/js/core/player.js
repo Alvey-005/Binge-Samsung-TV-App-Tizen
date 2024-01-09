@@ -22,7 +22,6 @@ window.player = {
     if (!player.video) {
       player.video = document.getElementById("bingeTizen");
     }
-    // console.log('playyer.video', player.video);
     return player.video;
   },
 
@@ -102,60 +101,6 @@ window.player = {
       };
   });
     player.getVideo().play();
-    console.log('videojs', player.plugin);
-    // console.log('player', videojs("videoplayer", {
-    //   muted: true,
-    //   // poster: 'https://web-api.binge.buzz/uploads/products/thumbs/YgoPKQ6hbligpQKP8vy7bY642NoRzP4XAS.jpg',
-    //   autoplay: true,
-    //   liveui: true,
-    //   loop: true,
-    //   responsive: true,
-    //   fluid: true,
-    //   techOrder: ['html5'],
-    //   html5: {
-    //     vhs: {
-    //       overrideNative: true,
-    //     },
-    //     nativeAudioTracks: false,
-    //     nativeVideoTracks: false,
-    //   }
-    // }));
-
-    // if (Hls.isSupported()) {
-    //   player.plugin = videojs('videoplayer');
-    //   player.plugin.loadSource(url);
-    //   player.plugin.attachMedia(player.getVideo());
-
-    //   player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-    //     console.log('manifest fata', data);
-    //     // player.levelId = player.getQuality(data);
-    //     // player.plugin.startLevel = player.levelId;
-    //     player.plugin.startLoad();
-    //     console.log('player.plugin.keySystems');
-    //     // player.plugin.currentLevel = player.levelId;
-    //     if (!noplay) {
-    //       console.log('noplahy');
-    //       player.getVideo().play();
-    //       player.state = player.states.PLAYING;
-    //     }
-    //   });
-    //   player.plugin.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
-    //     console.log('event', event, data);
-    //   });
-    //   player.plugin.on(Hls.Events.LEVEL_LOADING, (event, data) => {
-    //     console.log('event', event, data);
-    //   });
-    // } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
-    //   player.getVideo().src = url;
-    //   if (!noplay) {
-    //     player.getVideo().play();
-    //     player.state = player.states.PLAYING;
-    //   }
-    // }
-    // if (playhead && playhead > 0) {
-    //   player.getVideo().currentTime = playhead * 60;
-    // }
-    // player.getVideo().play();
   },
 
   pause: function () {

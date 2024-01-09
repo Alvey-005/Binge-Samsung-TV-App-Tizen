@@ -34,11 +34,9 @@ window.main = {
     login: function () {
       session.valid({
         success: function () {
-          console.log("session valid success");
           main.events.home();
           // session.load_account({
           //   success: function () {
-          //     console.log("login success");
           //     main.events.home();
           //   },
           //   error: function (error) {
@@ -47,7 +45,6 @@ window.main = {
           // });
         },
         error: function (error) {
-          console.log("session valid error", error);
           loading.destroy();
           login.init();
         },
@@ -59,10 +56,8 @@ window.main = {
         success: function (response) {
           service.banners({
             success: function (res) {
-              // console.log("banner fetch success", res.data.banners);
               mapper.home(response, res.data.banners, {
                 success: function () {
-                  console.log("home success");
                   loading.destroy();
                   home.init();
                   menu.init();
