@@ -77,7 +77,6 @@ window.video = {
   init: function (item) {
     var video_element = document.createElement("div");
     video_element.id = video.id;
-    console.log('player', item);
 
     video_element.innerHTML = `
     <div class="content">
@@ -133,16 +132,17 @@ window.video = {
       </div>
     </div>`;
     document.body.appendChild(video_element);
-    video.play(item);
     player.config(video.setPlayingTime, video.end);
     $(`#${home.id}`).hide();
     video.previous = main.state;
     main.state = video.id;
+    video.play(item);
   },
 
   destroy: function () {
+    console.log('destroy');
     video.hideOSD();
-    player.stop();
+    // player.stop();
     clearTimeout(video.timers.osd.object);
     clearInterval(video.timers.next);
     clearInterval(video.timers.history.object);
@@ -380,7 +380,7 @@ window.video = {
       return;
     }
     if(!video.userCanWatchContent(item)){
-      // video.destroy();
+      video.destroy();
       return;
     }
     video.episode = item.id;

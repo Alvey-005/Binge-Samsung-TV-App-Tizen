@@ -309,14 +309,14 @@ window.service = {
   allCategories: async function (request) {
     return session.refresh({
       success: async function (storage) {
-        var params = { page: "web-home-vod" };
-        const allCatResponse = await requestMethod.post(urls.fetchCategory, params);
+        console.log('request in category', request);
+        const allCatResponse = await requestMethod.post(urls.fetchCategory, request.data);
         try {
           if (request.success) {
             request.success(allCatResponse.data);
           }
         } catch (e) {
-          request.error && request.error(e);
+          request.error ?request.error(e) : console.error('error in service allCategories \n',e);
         }
       },
     });

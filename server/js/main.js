@@ -53,10 +53,13 @@ window.main = {
 
     home: function () {
       service.allCategories({
+        data: {
+          page: "web-home-vod"
+        },
         success: function (response) {
           service.banners({
             success: function (res) {
-              mapper.home(response, res.data.banners, {
+              mapper.home(window.home,response, res.data.banners, {
                 success: function () {
                   loading.destroy();
                   home.init();

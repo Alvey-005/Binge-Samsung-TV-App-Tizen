@@ -2,10 +2,10 @@ window.mapper = {
   loaded: 0,
   loadedSubcategories: 0,
 
-  home: function (response, banners, callback) {
+  home: function (parentStorage,response, banners, callback) {
     var lists = response.categories;
 
-    home.data.main = {
+    parentStorage.data.main = {
       banner: {
         id: banners.id ? banners.id : 6132,
         title: banners.name ? banners.name : "Baba Someone's Following Me",
@@ -37,10 +37,10 @@ window.mapper = {
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          home.data.main.lists[on].items = mapper.mapItems(test);
+          parentStorage.data.main.lists[on].items = mapper.mapItems(test);
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
-            home.data.main.lists = home.data.main.lists.filter(
+            parentStorage.data.main.lists = parentStorage.data.main.lists.filter(
               (e) => e.items.length > 0
             );
             callback.success();
@@ -218,7 +218,7 @@ window.mapper = {
   },
 
   listByCategories: function (id, subcategories, callback) {
-    home.data.main = {
+    parentStorage.data.main = {
       category: subcategories[0].parent_category,
       banner: {
         id: "",
@@ -243,16 +243,16 @@ window.mapper = {
         index,
         {
           success: function (response, listPosition) {
-            home.data.main.lists[listPosition].items = mapper.mapItems(
+            parentStorage.data.main.lists[listPosition].items = mapper.mapItems(
               response.items
             );
             mapper.loadedSubcategories++;
             if (mapper.loadedSubcategories === subcategories.length) {
-              home.data.main.lists = home.data.main.lists.filter(
+              parentStorage.data.main.lists = parentStorage.data.main.lists.filter(
                 (e) => e.items.length > 0
               );
-              home.data.main.banner =
-                home.data.main.lists[listPosition].items[0];
+              parentStorage.data.main.banner =
+                parentStorage.data.main.lists[listPosition].items[0];
               callback.success();
             }
           },
