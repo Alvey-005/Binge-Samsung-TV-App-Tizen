@@ -27,7 +27,8 @@ window.mapper = {
         category_type: list.category_type,
         title: list.name,
         page_id: list.page_id,
-        page_size: list.page_size,
+        // page_size: list.page_size,
+        page_size: -1,
         items: [],
       })),
     };

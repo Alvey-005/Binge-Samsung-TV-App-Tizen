@@ -181,7 +181,7 @@ window.player = {
   },
 
   destroy: function () {
-    player.stop();
+    player.pause();
   },
 
   onbufferingstart: function () {

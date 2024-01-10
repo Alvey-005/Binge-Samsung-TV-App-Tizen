@@ -111,11 +111,11 @@ window.menu = {
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${session.storage.account.premium ? "premium" : ""}">
+      <div class="profile ${session.storage.customer?.status_id === '2' ? "premium" : "Free"}">
         <div class="avatar">
           <img src="https://static.crunchyroll.com/assets/avatar/170x170/${session.storage.account.avatar}">
         </div>
-        <p>${session.storage.account.username}</p>
+        <p>${session.storage.customer?.name || 'your names'}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options">

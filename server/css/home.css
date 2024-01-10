@@ -310,8 +310,10 @@
   content: "";
   /* border: 6px solid rgba(244, 130, 33, 0.9); */
   border: 6px solid rgba(222, 13, 30, 0.9);
-  width: 193px;
-  height: 286px;
+  /* width: 100%; */
+  width: calc((100% - 9 * 10px)/9);
+  
+  height: 100%;
   position: absolute;
   top: 0;
   margin-left: 8.3vw;
@@ -636,7 +638,7 @@
   .episode-image
   img {
   height: 175px;
-  width: 310px;
+  /* width: 310px; */
 }
 
 .episodes .slick-loading,

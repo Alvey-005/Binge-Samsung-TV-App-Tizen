@@ -4,6 +4,7 @@ window.home_details = {
   data: {
     this: NaN,
     continue: NaN,
+    contentDetails: NaN,
   },
   callbacks: {
     init: NaN,
@@ -13,6 +14,15 @@ window.home_details = {
   init: function (item, init, destroy) {
     home_details.callbacks.init = init;
     home_details.callbacks.destroy = destroy;
+    const contentDetailResponse = service.contentDetails({
+      body:{
+        id: item.id,
+        content_type: item.content_type
+      },
+      success: function(data) {
+        home_details.data.contentDetails = data;
+      }
+    })
     home_details.callbacks.init && home_details.callbacks.init(item);
     var buttons = document.createElement("div");
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
@@ -144,13 +154,13 @@ window.home_details = {
 
         switch (current) {
           case 0:
-            video.init(home_details.data.this);
+            video.init(home_details.data.contentDetails);
             break;
           case 1:
             console.log("add list");
             break;
           case 2:
-            home_episodes.init(home_details.data.this);
+            home_episodes.init(home_details.data.contentDetails);
             break;
           case 3:
             console.log("related");

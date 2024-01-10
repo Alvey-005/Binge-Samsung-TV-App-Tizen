@@ -77,6 +77,9 @@ window.home = {
       waitForAnimate: false,
     });
 
+    /***
+     * if slide to show is changed, change the css file too
+     */
     $(`#${home.id} .rows .row-content`).not(".episode").slick({
       dots: false,
       arrows: false,

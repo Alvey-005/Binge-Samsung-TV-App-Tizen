@@ -335,11 +335,52 @@ window.video = {
       video.destroy();
     }
   },
+  userCanWatchContent: function(contentDetails){
+    const customer = session.storage.customer;
+    const is_content_premimum =contentDetails.free_or_premium === 2 ||
+    contentDetails.tvod_ids?.length > 0 ||
+    contentDetails.tvod_details?.length > 0;
+  // const is_content_tvod : boolean = contentDetails.tvod_ids.length > 0 || contentDetails.tvod_details.length > 0;
+  const content_modality_type =
+    contentDetails.tvod_details?.length > 0
+      ? contentDetails.tvod_details[0].tvod_type
+      : "svod";
+  const userPremium = customer?.status_id === 2;
+  // const [userCanWatch, setUserCanWatch] = useState<boolean>(false);
+  let userCanWatch = false;
+  const tvodIds = customer?.tvod_ids;
+  const tvodProducts =
+    contentDetails?.content_type === "vod"
+      ? customer?.tvod_products
+      : customer?.tvod_tv_channels;
+  const match =
+    contentDetails.tvod_ids?.find((el) => tvodIds?.includes(el)) ||
+    tvodProducts?.find((str) => str === contentDetails.id);
+  if (content_modality_type === "tvod-2" && !!customer && match) {
+    userCanWatch = true;
+  } else if (
+    is_content_premimum &&
+    userPremium &&
+    content_modality_type !== "tvod-2"
+  ) {
+    userCanWatch = true;
+  } else if (content_modality_type === "tvod-1" && !!(userPremium || match)) {
+    userCanWatch = true;
+  } else if (!is_content_premimum && content_modality_type === "svod") {
+    userCanWatch = true;
+  } else {
+    userCanWatch = false;
+  }
+  return userCanWatch;
+  },
 
   play: function (item, noplay) {
-    console.log('play function', item, noplay);
     if (!item.hls_url) {
       video.destroy();
+      return;
+    }
+    if(!video.userCanWatchContent(item)){
+      // video.destroy();
       return;
     }
     video.episode = item.id;

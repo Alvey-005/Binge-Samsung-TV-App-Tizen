@@ -2,6 +2,7 @@ window.service = {
   api: {
     url: "https://www.crunchyroll.com",
     bingeStageUrl: "https://ss-staging.binge.buzz",
+    imageStageURl:'https://web-api-staging.binge.buzz',
     bingeProdUrl: "https://web-api.binge.buzz",
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k="
   },
@@ -316,6 +317,23 @@ window.service = {
           }
         } catch (e) {
           request.error && request.error(e);
+        }
+      },
+    });
+  },
+
+  contentDetails: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        var params = request.body;
+        const allCatResponse = await requestMethod.post(urls.fetchProductDetails, params);
+        console.log('All Categories', allCatResponse);
+        try {
+          if (request.success) {
+            request.success(allCatResponse?.data?.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error(e);
         }
       },
     });
