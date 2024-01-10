@@ -2,17 +2,23 @@ window.home_episodes = {
   id: "home_episodes-screen",
   previous: NaN,
   data: {
-    seasons: NaN,
-    episodes: NaN,
+    seasons: [
+      {
+        number: "1",
+        title: "Season",
+      },
+    ],
+    episodes: NaN
   },
 
   init: function (item) {
+    home_episodes.data.episodes = item.related_product 
     var episode_contents = document.createElement("div");
     episode_contents.className = `${home_episodes.id} ${home_episodes.id}_content`;
 
     episode_contents.innerHTML = `
     <div class="option seasons">
-      <div class="title resize">${item.title}</div>
+      <div class="title resize">${item.name}</div>
       <div class="seasons-list">
         <div id="seasons-list-offset"></div>
       </div>
@@ -22,32 +28,41 @@ window.home_episodes = {
       <div class="episodes-list"></div>
     </div>
     `;
-
     $(`#${home.id}`).append(episode_contents);
-
-    loading.start();
-    service.seasons({
-      data: {
-        id: item.id,
-      },
-      success: function (response) {
-        loading.end();
-        home_episodes.data.seasons = mapper.seasons(response);
-        var seasons_html = "";
-        home_episodes.data.seasons.forEach((season, index) => {
-          seasons_html += `
+    console.log("seasons", home_episodes.data.seasons);
+    var seasons_html = "";
+    home_episodes.data.seasons.forEach((season, index) => {
+      seasons_html += `
           <div class="season${index === 0 ? " selected active" : ""}">${
-            season.number
-          }. ${season.title}</div>`;
-        });
-        $(".seasons #seasons-list-offset").eq(0).html(seasons_html);
-        home_episodes.load(home_episodes.data.seasons[0]);
-      },
-      error: function (error) {
-        loading.end();
-        console.log(error);
-      },
+        season.number
+      }. ${season.title}</div>`;
     });
+    $(".seasons #seasons-list-offset").eq(0).html(seasons_html);
+    home_episodes.load(home_episodes.data.seasons[0]);
+
+    // loading.start();
+    // service.seasons({
+    //   data: {
+    //     id: item.id,
+    //   },
+    //   success: function (response) {
+    //     loading.end();
+    //     home_episodes.data.seasons = mapper.seasons(response);
+    //     var seasons_html = "";
+    //     home_episodes.data.seasons.forEach((season, index) => {
+    //       seasons_html += `
+    //       <div class="season${index === 0 ? " selected active" : ""}">${
+    //         season.number
+    //       }. ${season.title}</div>`;
+    //     });
+    //     $(".seasons #seasons-list-offset").eq(0).html(seasons_html);
+    //     home_episodes.load(home_episodes.data.seasons[0]);
+    //   },
+    //   error: function (error) {
+    //     loading.end();
+    //     console.log(error);
+    //   },
+    // });
 
     $(`body`).addClass(`${home_episodes.id}`);
 
@@ -60,60 +75,101 @@ window.home_episodes = {
     $(".episodes .episodes-list")[0].slick &&
       $(".episodes .episodes-list")[0].slick.destroy();
     $(".episodes .episodes-list")[0].innerHTML = "";
-    loading.start();
-    service.episodes({
-      data: {
-        id: season.id,
-      },
-      success: function (response) {
-        mapper.episodes(response, function (result) {
-          home_episodes.data.episodes = result;
 
-          var episodes_html = "";
-          home_episodes.data.episodes.forEach((episode) => {
-            episodes_html += `
-            <div class="episode">
-              <div class="episode-image">
-                <img src="${episode.background}">
-                ${home_episodes.view(episode)}
-                ${home_episodes.premium(episode)}
-              </div>
-              <div class="episode-details">
-                <div class="episode-title">${episode.episode_number}. ${episode.title}</div>
-                <div class="episode-description">${episode.description}</div>
-              </div>
-            </div>`;
-          });
-          for (var index = 0; index < 4; index++) {
-            episodes_html += `
-            <div class="episode">
-              <div class="episode-image">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-              </div>
-            </div>`;
-          }
-          $(".episodes .episodes-list").eq(0).html(episodes_html);
-
-          $(".episodes .episodes-list").slick({
-            vertical: true,
-            dots: false,
-            arrows: false,
-            infinite: false,
-            slidesToShow: 5,
-            slidesToScroll: 1,
-            speed: 0,
-            waitForAnimate: false,
-          });
-
-          $(".episodes .episodes-list")[0].slick.slickGoTo(0);
-          loading.end();
-        });
-      },
-      error: function (error) {
-        loading.end();
-        console.log(error);
-      },
+    var episodes_html = "";
+    home_episodes.data.episodes.forEach((episode,index) => {
+      console.log('episode', episode);
+      episodes_html += `
+      <div class="episode">
+        <div class="episode-image">
+          <img src="${service.api.imageStageURl}/${episode.thumb_path || episode.image}">
+          ${home_episodes.view(episode)}
+          ${home_episodes.premium(episode)}
+        </div>
+        <div class="episode-details">
+          <div class="episode-title">${index+1}. ${
+        episode.name
+      }</div>
+          <div class="episode-description">${episode.description}</div>
+        </div>
+      </div>`;
     });
+    for (var index = 0; index < 4; index++) {
+      episodes_html += `
+      <div class="episode">
+        <div class="episode-image">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+        </div>
+      </div>`;
+    }
+    $(".episodes .episodes-list").eq(0).html(episodes_html);
+
+    $(".episodes .episodes-list").slick({
+      vertical: true,
+      dots: false,
+      arrows: false,
+      infinite: false,
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      speed: 0,
+      waitForAnimate: false,
+    });
+
+    $(".episodes .episodes-list")[0].slick.slickGoTo(0);
+    // loading.start();
+    // service.episodes({
+    //   data: {
+    //     id: season.id,
+    //   },
+    //   success: function (response) {
+    //     mapper.episodes(response, function (result) {
+    //       home_episodes.data.episodes = result;
+
+    //       var episodes_html = "";
+    //       home_episodes.data.episodes.forEach((episode) => {
+    //         episodes_html += `
+    //         <div class="episode">
+    //           <div class="episode-image">
+    //             <img src="${episode.background}">
+    //             ${home_episodes.view(episode)}
+    //             ${home_episodes.premium(episode)}
+    //           </div>
+    //           <div class="episode-details">
+    //             <div class="episode-title">${episode.episode_number}. ${episode.title}</div>
+    //             <div class="episode-description">${episode.description}</div>
+    //           </div>
+    //         </div>`;
+    //       });
+    //       for (var index = 0; index < 4; index++) {
+    //         episodes_html += `
+    //         <div class="episode">
+    //           <div class="episode-image">
+    //             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+    //           </div>
+    //         </div>`;
+    //       }
+    //       $(".episodes .episodes-list").eq(0).html(episodes_html);
+
+    //       $(".episodes .episodes-list").slick({
+    //         vertical: true,
+    //         dots: false,
+    //         arrows: false,
+    //         infinite: false,
+    //         slidesToShow: 5,
+    //         slidesToScroll: 1,
+    //         speed: 0,
+    //         waitForAnimate: false,
+    //       });
+
+    //       $(".episodes .episodes-list")[0].slick.slickGoTo(0);
+    //       loading.end();
+    //     });
+    //   },
+    //   error: function (error) {
+    //     loading.end();
+    //     console.log(error);
+    //   },
+    // });
   },
 
   view: function (episode) {
