@@ -281,6 +281,7 @@ window.movies = {
                 $(".row-content")[movies.position - 1].slick.currentSlide
               ]
             : movies.data.main.banner;
+        //movies-screen
         home_details.init(item, movies);
         break;
     }
