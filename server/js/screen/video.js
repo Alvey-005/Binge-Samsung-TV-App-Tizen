@@ -156,8 +156,10 @@ window.video = {
     video.episode = null;
     video.data = null;
     video.streams = [];
-    player.plugin.dispose();
+    // player.plugin.dispose();
+    player.stop();
     player.plugin = NaN;
+    player.video = NaN;
     player.state = -1;
   },
 
@@ -603,8 +605,10 @@ window.video = {
 
   showBTN: function (state, data) {
     var button = document.getElementById("osd-icon");
-    button.style.opacity = 1;
+    if(button){
+     button.style.opacity = 1;
     button.className = `icon-status ${state}`;
+    }
   },
 
   hideBTN: function () {
