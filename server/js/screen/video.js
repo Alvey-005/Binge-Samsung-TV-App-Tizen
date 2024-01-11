@@ -393,6 +393,7 @@ window.video = {
     }
     if (!video.userCanWatchContent(item)) {
       video.destroy();
+      console.log("premium check: user cannot watch content");
       premiumNeedDialog.init();
       return;
     }

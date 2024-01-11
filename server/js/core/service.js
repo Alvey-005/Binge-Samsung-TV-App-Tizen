@@ -314,7 +314,6 @@ window.service = {
           urls.fetchProductDetails,
           params
         );
-        console.log("All Categories", allCatResponse);
         try {
           if (request.success) {
             request.success(allCatResponse?.data?.data);

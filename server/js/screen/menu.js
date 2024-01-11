@@ -195,9 +195,7 @@ window.menu = {
         break;
       case tvKey.KEY_UP:
         var options = $(`#${menu.id} .option`);
-        console.log("option", options);
         var current = options.index($(`#${menu.id} .option.focus`));
-        console.log("current", current);
         options.removeClass("focus");
         options.eq(current > 0 ? current - 1 : current).addClass("focus");
         break;
@@ -213,14 +211,7 @@ window.menu = {
       case tvKey.KEY_PANEL_ENTER:
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
-        console.log(
-          "checking before if condition",
-          menu,
-          current,
-          menu.options[current]
-        );
         if (menu.options[current].action) {
-          console.log("checking menu options", menu.options, current, window);
           var selected = options.index($(`#${menu.id} .option.selected`));
           ``;
           options.removeClass("selected");

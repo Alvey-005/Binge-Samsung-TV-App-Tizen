@@ -112,7 +112,6 @@ window.home_details = {
   },
 
   destroy: function () {
-    // console.log("calllllling............", home_details.appendScreen.id);
     $(`body`).removeClass(`${home_details.id}`);
     $(`#${home_details.appendScreen.id} .details.full`).removeClass("full");
     $(`.${home_details.id}`).remove();

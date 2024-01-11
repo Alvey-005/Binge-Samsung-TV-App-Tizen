@@ -14,7 +14,6 @@ window.movies = {
     movies_element.id = movies.id;
 
     var poster_items = ``;
-    console.log("checking poster items", movies.data.main.lists);
     movies.data.main.lists.forEach((element, index) => {
       if (element.items.length > 0) {
         poster_items += `
@@ -44,13 +43,13 @@ window.movies = {
           </div>
           <div class="info">
             <div class="title resize">${movies.data.main.banner.title}</div>
-            <div class="description resize">${
-              movies.data.main.banner.description
-            }</div>
+            <div class="description resize">${movies.data.main.banner.description}</div>
+            <!--
             <div class="buttons">
               <a class="selected">${translate.go("movies.banner.play")}</a>
               <a>${translate.go("movies.banner.info")}</a>
             </div>
+            -->
           </div>
         </div>
         <div class="rows">
@@ -64,12 +63,10 @@ window.movies = {
     document.body.appendChild(movies_element);
 
     var title = $(".details .info .title")[0];
-    title.style.fontSize =
-      title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
     var description = $(".details .info .description")[0];
-    description.style.fontSize =
-      description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
 
     $(`#${movies.id} .rows`).slick({
       vertical: true,
@@ -109,7 +106,10 @@ window.movies = {
     $(`#${movies.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = movies.id;
-    // changelog.init();
+    
+    var keyDownEvent = new Event('keydown');
+    keyDownEvent.keyCode = tvKey.KEY_DOWN;
+    movies.keyDown(keyDownEvent);
   },
 
   destroy: function () {
@@ -157,8 +157,8 @@ window.movies = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        $(".row-content").removeClass("selected");
         if (movies.position > 1) {
+          $(".row-content").removeClass("selected");
           movies.position--;
           $(".rows")[0].slick.slickGoTo(movies.position - 1);
           $(".row-content")[movies.position - 1].slick.slickGoTo(
@@ -167,8 +167,8 @@ window.movies = {
           $(".row-content")[movies.position - 1].className =
             $(".row-content")[movies.position - 1].className + " selected";
         } else {
-          $(".details").addClass("full");
-          movies.position = 0;
+          // $(".details").addClass("full");
+          // movies.position = 0;
         }
         movies.show_details();
         break;
