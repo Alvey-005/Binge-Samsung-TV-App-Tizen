@@ -63,7 +63,7 @@ window.main = {
                 success: function () {
                   loading.destroy();
                   home.init();
-                  menu.init();
+                  !menu.initialized && menu.init();
                 },
               });
             },
@@ -92,7 +92,7 @@ window.main = {
                 success: function () {
                   loading.destroy();
                   movies.init();
-                  menu.init();
+                  !menu.initialized && menu.init();
                 },
               });
             },

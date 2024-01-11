@@ -4,7 +4,7 @@ window.mapper = {
 
   home: function (parentStorage, response, banners, callback) {
     var lists = response.categories;
-    console.log("banners and response", response, banners);
+    // console.log("banners and response", response, banners);
 
     parentStorage.data.main = {
       banner: {
@@ -40,7 +40,7 @@ window.mapper = {
         items: [],
       })),
     };
-    console.log("parentStorage", parentStorage);
+    // console.log("parentStorage", parentStorage);
 
     mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {

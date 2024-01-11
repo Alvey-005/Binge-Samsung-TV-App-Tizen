@@ -1,5 +1,6 @@
 window.menu = {
   id: "menu-screen",
+  initialized: 0,
   options: [
     {
       id: "search",
@@ -85,6 +86,7 @@ window.menu = {
   isOpen: false,
 
   init: function (reset) {
+    menu.initialized = 1;
     var menu_element = document.createElement("div");
     menu_element.id = this.id;
 
@@ -117,12 +119,18 @@ window.menu = {
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${session.storage.customer?.status_id === '2' ? "premium" : ""}">
+      <div class="profile ${
+        session.storage.customer?.status_id === "2" ? "premium" : ""
+      }">
         <div class="avatar">
-          <img src="${session.storage.customer.image !== null ? "https://ss-staging.binge.buzz" + session.storage.customer.image : "https://pre.binge.buzz/favicon.ico"}"> 
+          <img src="${
+            session.storage.customer.image !== null
+              ? "https://ss-staging.binge.buzz" + session.storage.customer.image
+              : "https://pre.binge.buzz/favicon.ico"
+          }"> 
           <!-- <img src="https://pre.binge.buzz/assets/svg/avatar.svg"> -->
         </div>
-        <p>${session.storage.customer?.name || 'Your Name'}</p>
+        <p>${session.storage.customer?.name || "Your Name"}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options">
@@ -137,6 +145,7 @@ window.menu = {
   },
 
   destroy: function () {
+    menu.initialized = 0;
     if (menu.isOpen) {
       menu.close();
     }
@@ -186,7 +195,9 @@ window.menu = {
         break;
       case tvKey.KEY_UP:
         var options = $(`#${menu.id} .option`);
+        console.log("option", options);
         var current = options.index($(`#${menu.id} .option.focus`));
+        console.log("current", current);
         options.removeClass("focus");
         options.eq(current > 0 ? current - 1 : current).addClass("focus");
         break;
@@ -202,9 +213,16 @@ window.menu = {
       case tvKey.KEY_PANEL_ENTER:
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
+        console.log(
+          "checking before if condition",
+          menu,
+          current,
+          menu.options[current]
+        );
         if (menu.options[current].action) {
-          console.log("cecking menu options", menu.options, current, window);
+          console.log("checking menu options", menu.options, current, window);
           var selected = options.index($(`#${menu.id} .option.selected`));
+          ``;
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
