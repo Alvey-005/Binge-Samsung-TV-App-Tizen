@@ -117,15 +117,12 @@ window.menu = {
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${
-        session.storage.customer?.status_id === "2" ? "premium" : "Free"
-      }">
+      <div class="profile ${session.storage.customer?.status_id === '2' ? "premium" : ""}">
         <div class="avatar">
-          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
-            session.storage.account.avatar
-          }">
+          <img src="${session.storage.customer.image !== null ? "https://ss-staging.binge.buzz" + session.storage.customer.image : "https://pre.binge.buzz/favicon.ico"}"> 
+          <!-- <img src="https://pre.binge.buzz/assets/svg/avatar.svg"> -->
         </div>
-        <p>${session.storage.customer?.name || "your names"}</p>
+        <p>${session.storage.customer?.name || 'Your Name'}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options">
