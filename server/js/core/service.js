@@ -174,25 +174,6 @@ window.service = {
     });
   },
 
-  search: function (request) {
-    return session.refresh({
-      success: function (storage) {
-        var headers = new Headers();
-        headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
-        fetch(
-          `${service.api.url}/content/v2/discover/search?q=${request.data.query}&type=series,movie_listing&n=100&locale=${storage.language}`,
-          {
-            headers: headers,
-          }
-        )
-          .then((response) => response.json())
-          .then((json) => request.success(json))
-          .catch((error) => request.error(error));
-      },
-    });
-  },
-
   history: function (request) {
     return session.refresh({
       success: function (storage) {
@@ -310,7 +291,6 @@ window.service = {
   allCategories: async function (request) {
     return session.refresh({
       success: async function (storage) {
-        console.log('request in category', request);
         const allCatResponse = await requestMethod.post(urls.fetchCategory, request.data);
         try {
           if (request.success) {
@@ -350,6 +330,21 @@ window.service = {
           }
         } catch (e) {
           request.error && request.error(e);
+        }
+      },
+    });
+  },
+
+  search: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.fetchSearchUrl, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error('error in service search \n', e);
         }
       },
     });

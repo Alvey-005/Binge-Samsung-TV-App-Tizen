@@ -46,7 +46,9 @@ window.search = {
     loading.start();
     service.search({
       data: {
-        query: search.input.value,
+        search: search.input.value,
+        page: 1,
+        page_size: 1000,
       },
       success: function (response) {
         loading.end();

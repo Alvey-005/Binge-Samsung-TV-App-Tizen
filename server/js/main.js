@@ -59,7 +59,7 @@ window.main = {
         success: function (response) {
           service.banners({
             success: function (res) {
-              mapper.home(window.home,response, res.data.banners, {
+              mapper.home(window.home, response, res.data.banners, {
                 success: function () {
                   loading.destroy();
                   home.init();
