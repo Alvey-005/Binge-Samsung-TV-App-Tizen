@@ -44,10 +44,12 @@ window.home = {
         <div class="info">
           <div class="title resize">${home.data.main.banner.title}</div>
           <div class="description resize">${home.data.main.banner.description}</div>
+          <!--
           <div class="buttons">
             <a class="selected">${translate.go("home.banner.play")}</a>
             <a>${translate.go("home.banner.info")}</a>
           </div>
+          -->
         </div>
       </div>
       <div class="rows">
@@ -104,7 +106,10 @@ window.home = {
     $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = home.id;
-    // changelog.init();
+    
+    var keyDownEvent = new Event('keydown');
+    keyDownEvent.keyCode = tvKey.KEY_DOWN;
+    home.keyDown(keyDownEvent);
   },
 
   destroy: function () {
@@ -147,8 +152,8 @@ window.home = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        $(".row-content").removeClass("selected");
         if (home.position > 1) {
+          $(".row-content").removeClass("selected");
           home.position--;
           $(".rows")[0].slick.slickGoTo(home.position - 1);
           $(".row-content")[home.position - 1].slick.slickGoTo(
@@ -157,8 +162,8 @@ window.home = {
           $(".row-content")[home.position - 1].className =
             $(".row-content")[home.position - 1].className + " selected";
         } else {
-          $(".details").addClass("full");
-          home.position = 0;
+          // $(".details").addClass("full");
+          // home.position = 1;
         }
         home.show_details();
         break;
