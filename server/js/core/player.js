@@ -28,8 +28,8 @@ window.player = {
   config: function (timeFunction, endFunction) {
     player.getVideo().addEventListener("timeupdate", timeFunction);
     player.getVideo().addEventListener("ended", endFunction);
-    player.getVideo().addEventListener("waiting", player.onbufferingstart);
-    player.getVideo().addEventListener("playing", player.onbufferingcomplete);
+    // player.getVideo().addEventListener("waiting", player.onbufferingstart);
+    // player.getVideo().addEventListener("playing", player.onbufferingcomplete);
     //player.getVideo().addEventListener("play", player.onPlay);
   },
 
@@ -42,12 +42,10 @@ window.player = {
   },
   init: function(){
 
-    var playerInstance =new  videojs(player.getVideo(), {
-      muted: true,
+    var playerInstance =videojs(player.getVideo(), {
+      muted: false,
       // poster: 'https://web-api.binge.buzz/uploads/products/thumbs/YgoPKQ6hbligpQKP8vy7bY642NoRzP4XAS.jpg',
       autoplay: true,
-      liveui: true,
-      loop: true,
       responsive: true,
       fluid: true,
       techOrder: ['html5'],
@@ -55,16 +53,15 @@ window.player = {
         vhs: {
           overrideNative: true,
         },
-        nativeAudioTracks: false,
-        nativeVideoTracks: false,
+        nativeAudioTracks: true,
+        nativeVideoTracks: true,
       }
     });
     player.plugin = playerInstance;
   },
 
   play: function (url, playhead, noplay) {
-    console.log('url', url);
-    player.init(url);
+    player.init();
     player.plugin.src({
       src: url,
       type: 'application/x-mpegURL' // Use 'application/vnd.apple.mpegurl' for Safari
@@ -89,6 +86,7 @@ window.player = {
                   (err, resp) => {
                       if (resp.statusCode === 429) {
                           // handleCloseContentError();
+                          video.destroy();
                       } else if (resp.statusCode === 401) {
                           // handleUnauthorizedError();
                       } else if (resp.statusCode !== 200) {
@@ -197,7 +195,6 @@ window.player = {
   },
 
   onstreamcompleted: function () {
-    console.log("onstreamcompleted");
     app.stop();
   },
 

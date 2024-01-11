@@ -113,6 +113,9 @@ window.main = {
           case exit.id:
             exit.keyDown(event);
             break;
+          case premiumNeedDialog.id:
+            premiumNeedDialog.keyDown(event);
+            break;
           case login.id:
             login.keyDown(event);
             break;

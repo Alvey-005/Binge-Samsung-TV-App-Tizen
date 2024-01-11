@@ -302,6 +302,7 @@ window.service = {
     if (verifyResponse.data && verifyResponse.data.is_success) {
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
+      session.update();
       request.success();
     }
   },
