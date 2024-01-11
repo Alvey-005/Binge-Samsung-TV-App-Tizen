@@ -2,18 +2,26 @@ window.mapper = {
   loaded: 0,
   loadedSubcategories: 0,
 
-  home: function (parentStorage,response, banners, callback) {
+  home: function (parentStorage, response, banners, callback) {
     var lists = response.categories;
+    console.log("banners and response", response, banners);
 
     parentStorage.data.main = {
       banner: {
         id: banners.id ? banners.id : 6132,
         title: banners.name ? banners.name : "Baba Someone's Following Me",
-        description: banners.description ? banners.description : "Baba Someone's Following Me",
+        description: banners.description
+          ? banners.description
+          : "Baba Someone's Following Me",
         director: banners.director ? banners.director : "Shihab Shaheen",
-        background: mapper.preventImageErrorTest(function () {
-          return banners.banner_landscape_image_path ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}` : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
-        }, banners.id ? banners.id : 6132),
+        background: mapper.preventImageErrorTest(
+          function () {
+            return banners.banner_landscape_image_path
+              ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}`
+              : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+          },
+          banners.id ? banners.id : 6132
+        ),
         // id: 6132,
         // title: "Baba Someone's Following Me",
         // description: "Baba Someone's Following Me",
@@ -26,12 +34,13 @@ window.mapper = {
         category_id: list.category_id,
         category_type: list.category_type,
         title: list.name,
-        page_id: list.page_id,
+        page_id: parentStorage.id === "movies-screen" ? 1 : list.page_id,
         // page_size: list.page_size,
-        page_size: -1,
+        page_size: parentStorage.id === "movies-screen" ? 8 : -1,
         items: [],
       })),
     };
+    console.log("parentStorage", parentStorage);
 
     mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {
@@ -40,9 +49,8 @@ window.mapper = {
           parentStorage.data.main.lists[on].items = mapper.mapItems(test);
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
-            parentStorage.data.main.lists = parentStorage.data.main.lists.filter(
-              (e) => e.items.length > 0
-            );
+            parentStorage.data.main.lists =
+              parentStorage.data.main.lists.filter((e) => e.items.length > 0);
             callback.success();
           }
         },
@@ -53,14 +61,17 @@ window.mapper = {
   load: (item, index, callback) => {
     session.refresh({
       success: async function (storage) {
-        var params = { 
+        var params = {
           category_id: item.category_id,
           category_type: item.category_type,
-          page: item.page_id,
+          page: 1,
           page_size: item.page_size,
         };
-        
-        const products = await requestMethod.post(urls.fetchCategoryProduct, params);
+
+        const products = await requestMethod.post(
+          urls.fetchCategoryProduct,
+          params
+        );
         try {
           if (callback.success) {
             callback.success(products.data.data.products, index);
@@ -248,9 +259,8 @@ window.mapper = {
             );
             mapper.loadedSubcategories++;
             if (mapper.loadedSubcategories === subcategories.length) {
-              parentStorage.data.main.lists = parentStorage.data.main.lists.filter(
-                (e) => e.items.length > 0
-              );
+              parentStorage.data.main.lists =
+                parentStorage.data.main.lists.filter((e) => e.items.length > 0);
               parentStorage.data.main.banner =
                 parentStorage.data.main.lists[listPosition].items[0];
               callback.success();
@@ -267,12 +277,15 @@ window.mapper = {
   mapItems: function (items) {
     try {
       return items.map((item) => {
-        var playhead = item.playhead ? Math.round(item.playhead / 60) : undefined;
+        var playhead = item.playhead
+          ? Math.round(item.playhead / 60)
+          : undefined;
         item = item.panel ? item.panel : item;
         var id = item.id;
         var display = "serie";
         var title = item.name;
-        var description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        var description =
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
         if (item.type === "episode") {
           id = item.episode_metadata.series_id;
@@ -304,7 +317,7 @@ window.mapper = {
           title,
           description,
           type: "series",
-          ...item
+          ...item,
         };
       });
     } catch (error) {

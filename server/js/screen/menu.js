@@ -13,6 +13,12 @@ window.menu = {
       icon: "fa-solid fa-house",
       action: "home.restart",
     },
+    {
+      id: "movies",
+      label: "menu.movies",
+      icon: "fa-solid fa-film",
+      action: "movies.restart",
+    },
     // { id: "list", label: "menu.list", icon: "fa-solid fa-bookmark" },
     // {
     //   id: "historyScreen",
@@ -111,11 +117,15 @@ window.menu = {
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${session.storage.customer?.status_id === '2' ? "premium" : "Free"}">
+      <div class="profile ${
+        session.storage.customer?.status_id === "2" ? "premium" : "Free"
+      }">
         <div class="avatar">
-          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${session.storage.account.avatar}">
+          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
+            session.storage.account.avatar
+          }">
         </div>
-        <p>${session.storage.customer?.name || 'your names'}</p>
+        <p>${session.storage.customer?.name || "your names"}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options">
@@ -196,6 +206,7 @@ window.menu = {
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
+          console.log("cecking menu options", menu.options, current, window);
           var selected = options.index($(`#${menu.id} .option.selected`));
           options.removeClass("selected");
           options.eq(current).addClass("selected");
