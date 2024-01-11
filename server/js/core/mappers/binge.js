@@ -172,28 +172,29 @@ window.mapper = {
   },
 
   search: function (response) {
-    return response.data.reduce(
-      (acum, elem) =>
-        elem.type === "series" || elem.type === "movie_listing"
-          ? [
-              ...acum,
-              ...elem.items.map((item) => ({
-                display: "serie",
-                type: item.type,
-                id: item.id,
-                title: item.title,
-                description: item.description,
-                background: mapper.preventImageErrorTest(function () {
-                  return item.images.poster_wide[0][5].source;
-                }, item.id),
-                poster: mapper.preventImageErrorTest(function () {
-                  return item.images.poster_tall[0][2].source;
-                }),
-              })),
-            ]
-          : acum,
-      []
-    );
+    return mapper.mapItems(response.data);
+    // return response.data.reduce(
+    //   (acum, elem) =>
+    //     elem.type === "series" || elem.type === "movie_listing"
+    //       ? [
+    //           ...acum,
+    //           ...elem.items.map((item) => ({
+    //             display: "serie",
+    //             type: item.type,
+    //             id: item.id,
+    //             title: item.title,
+    //             description: item.description,
+    //             background: mapper.preventImageErrorTest(function () {
+    //               return item.images.poster_wide[0][5].source;
+    //             }, item.id),
+    //             poster: mapper.preventImageErrorTest(function () {
+    //               return item.images.poster_tall[0][2].source;
+    //             }),
+    //           })),
+    //         ]
+    //       : acum,
+    //   []
+    // );
   },
 
   history: function (response) {
@@ -284,8 +285,7 @@ window.mapper = {
         var id = item.id;
         var display = "serie";
         var title = item.name;
-        var description =
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        var description = item.description ? item.description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
         if (item.type === "episode") {
           id = item.episode_metadata.series_id;
@@ -304,7 +304,7 @@ window.mapper = {
           var poster = `${service.api.bingeStageUrl}/${item.logo_path}`;
         } else {
           var background = `${service.api.bingeStageUrl}/${item.image_landscape}`;
-          var poster = `${service.api.bingeStageUrl}/${item.image_portrait}`;
+          var poster = item.image_portrait ? `${service.api.bingeStageUrl}/${item.image_portrait}` : item.image_square ? `${service.api.bingeStageUrl}/${item.image_square}` : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
         }
 
         return {
