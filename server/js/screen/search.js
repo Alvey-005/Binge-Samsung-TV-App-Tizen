@@ -142,6 +142,7 @@ window.search = {
         } else {
           home_details.init(
             search.data.result[search.position],
+            home,
             function (item) {
               var home_element = document.createElement("div");
               home_element.id = home.id;

@@ -114,7 +114,9 @@ window.home = {
 
   destroy: function () {
     home.position = 0;
-    document.body.removeChild(document.getElementById(home.id));
+    if(document.getElementById(home.id)) {
+      document.body.removeChild(document.getElementById(home.id));
+    }
   },
 
   show_details: function () {
