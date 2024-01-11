@@ -112,8 +112,9 @@ window.home_details = {
   },
 
   destroy: function () {
+    // console.log("calllllling............", home_details.appendScreen.id);
     $(`body`).removeClass(`${home_details.id}`);
-    $(`#${screen.id} .details.full`).removeClass("full");
+    $(`#${home_details.appendScreen.id} .details.full`).removeClass("full");
     $(`.${home_details.id}`).remove();
     home_details.data.continue = NaN;
     home_details.data.this = NaN;

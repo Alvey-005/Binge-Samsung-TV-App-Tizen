@@ -276,6 +276,7 @@ window.home = {
                 $(".row-content")[home.position - 1].slick.currentSlide
               ]
             : home.data.main.banner;
+        //home-screen
         home_details.init(item, home);
         break;
     }
