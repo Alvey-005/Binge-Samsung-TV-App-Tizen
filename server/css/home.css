@@ -360,21 +360,18 @@
 
 .home_details-screen #home-screen .content .details.full .info .buttons,
 .home_details-screen #menu-screen,
-.home_details-screen .rows, 
-.movies_details-screen #movies-screen .content .details.full .info .buttons,
-.movies_details-screen #menu-screen,
-.movies_details-screen .rows {
+.home_details-screen .rows {
   display: none;
 }
 
-.home_details-screen.home_details-screen_buttons, .movies_details-screen.movies_details-screen_buttons {
+.home_details-screen.home_details-screen_buttons {
   display: flex;
   flex-direction: column;
   width: 60%;
   margin-top: 5vh;
 }
 
-.home_details-screen.home_details-screen_buttons a, .movies_details-screen.movies_details-screen_buttons a {
+.home_details-screen.home_details-screen_buttons a{
   color: #fff;
   font-size: 25px;
   padding: 20px;
@@ -387,16 +384,16 @@
   position: relative;
 }
 
-.home_details-screen.home_details-screen_buttons a i, .movies_details-screen.movies_details-screen_buttons a i {
+.home_details-screen.home_details-screen_buttons a i {
   margin-right: 20px;
 }
 
-.home_details-screen.home_details-screen_buttons a p, .movies_details-screen.movies_details-screen_buttons a p {
+.home_details-screen.home_details-screen_buttons a p {
   display: inline-block;
   margin: 0;
 }
 
-.home_details-screen.home_details-screen_buttons a.selected, .movies_details-screen.movies_details-screen_buttons a.selected {
+.home_details-screen.home_details-screen_buttons a.selected {
   /* border: 2px solid rgba(244, 130, 33, 0.9); */
   border: 2px solid rgba(222, 13, 30, 0.9);
   box-sizing: border-box;
@@ -405,17 +402,14 @@
 }
 
 .home_details-screen.home_details-screen_buttons a.selected p,
-.home_details-screen.home_details-screen_buttons a.selected i, 
-.movies_details-screen.movies_details-screen_buttons a.selected p,
-.movies_details-screen.movies_details-screen_buttons a.selected i {
+.home_details-screen.home_details-screen_buttons a.selected i {
   /* color: rgb(250, 150, 60); */
   color: rgb(228, 15, 50);
   /* text-shadow: 0 0 25px #e50914, 0 0 15px #e50914, 0 0 15px #e50914; */
   opacity: 1;
 }
 
-.home_details-screen.home_details-screen_buttons a.played span, 
-.movies_details-screen.movies_details-screen_buttons a.played span {
+.home_details-screen.home_details-screen_buttons a.played span {
   background: rgba(255, 255, 255, 0.3);
   height: 100%;
   width: attr(percent px);
@@ -424,18 +418,21 @@
   bottom: 0;
 }
 
-.home_details-screen.home_details-screen_buttons a.selected.played p, 
-.movies_details-screen.movies_details-screen_buttons a.selected.played p {
+.home_details-screen.home_details-screen_buttons a.selected.played p {
   color: #fff;
 }
 
 /* --------------------- */
 
-.home_episodes-screen #home-screen .content {
+.home_episodes-screen #home-screen .content,
+.home_episodes-screen #movies-screen .content
+{
   margin-top: -100vh;
 }
 
-.home_episodes-screen #home-screen .content .background::after {
+.home_episodes-screen #home-screen .content .background::after
+.home_episodes-screen #movies-screen .content .background::after
+{
   background: rgba(0, 0, 0, 0.8);
 }
 
@@ -703,8 +700,7 @@
   opacity: 0.5;
 }
 
-.home_details-screen .browse-back,
-.movies_details-screen .browse-back {
+.home_details-screen .browse-back {
   display: none;
 }
 

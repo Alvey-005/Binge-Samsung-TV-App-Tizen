@@ -281,7 +281,7 @@ window.movies = {
                 $(".row-content")[movies.position - 1].slick.currentSlide
               ]
             : movies.data.main.banner;
-        home_details.init(item);
+        home_details.init(item, movies);
         break;
     }
   },
