@@ -73,6 +73,8 @@ window.session = {
 
   start: function (callback) {
     try {
+      console.log('session storage', session);
+      session.update();
       callback.success();
     } catch (error) {
       console.log('error from start', error);
