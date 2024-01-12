@@ -76,9 +76,11 @@ window.video = {
   },
 
   init: function (item) {
+    console.log('getting item', item);
     var video_element = document.createElement("div");
     video_element.id = video.id;
 
+    console.log('video inner html', video_element.innerHTML);
     video_element.innerHTML = `
     <div class="content">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
@@ -89,7 +91,7 @@ window.video = {
           ${video.getSettings()}
         </div>
         <div class="details">
-          <div id="title">${item.title}</div>
+          <div id="title">${item.name}</div>
           <div id="subtitle">
             ${item.artists}
           </div>
@@ -135,11 +137,22 @@ window.video = {
     player.config(video.setPlayingTime, video.end);
     $(`#${home.id}`).hide();
     video.previous = main.state;
+    console.log('video previous', video. previous);
     main.state = video.id;
+    if(item?.related_product[0]){
+    service.contentDetails({
+      body:{
+        id: item?.related_product[0].id,
+        content_type: item?.related_product[0].content_type
+      },success:function(res){
+        video.next.episode = res;
+      }
+    })}
     video.play(item);
   },
 
   destroy: function () {
+    console.log('destroy is calling');
     video.hideOSD();
     player.pause();
     requestMethod.get(urls.closeContent);
@@ -539,8 +552,8 @@ window.video = {
   },
 
   playNext: function () {
-    video.saveHistory(Math.floor(player.getDuration()));
-    video.play(video.next.episode);
+    // video.saveHistory(Math.floor(player.getDuration()));
+    video.init(video.next.episode);
     $(".osd #title").text(video.next.episode.serie);
     $(".osd #subtitle").text(
       `${video.next.episode.season_number}x${video.next.episode.episode_number} - ${video.next.episode.episode}`
@@ -550,37 +563,40 @@ window.video = {
   nextEpisode: function (instant) {
     video.next.shown = true;
     try {
-      service.continue({
-        data: {
-          ids: video.episode,
-        },
-        success: function (data) {
-          video.next.episode = mapper.continue(data);
+        video.playNext();
+        // video.next.status = true;
 
-          if (instant) {
-            video.playNext();
-          } else {
-            document
-              .getElementById("next-episode-image")
-              .setAttribute("src", video.next.episode.background);
-            $(".next-episode").show();
-            video.next.status = true;
-            video.timers.next = setInterval(() => {
-              var value =
-                document.getElementById("next-episode-count").innerText;
-              if (+value === 1) {
-                clearInterval(video.timers.next);
-              } else {
-                document.getElementById("next-episode-count").innerText =
-                  value - 1;
-              }
-            }, 1000);
-          }
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
+      // service.continue({
+      //   data: {
+      //     ids: video.episode,
+      //   },
+      //   success: function (data) {
+      //     video.next.episode = mapper.continue(data);
+
+      //     if (instant) {
+      //       video.playNext();
+      //     } else {
+      //       document
+      //         .getElementById("next-episode-image")
+      //         .setAttribute("src", video.next.episode.background);
+      //       $(".next-episode").show();
+      //       video.next.status = true;
+      //       video.timers.next = setInterval(() => {
+      //         var value =
+      //           document.getElementById("next-episode-count").innerText;
+      //         if (+value === 1) {
+      //           clearInterval(video.timers.next);
+      //         } else {
+      //           document.getElementById("next-episode-count").innerText =
+      //             value - 1;
+      //         }
+      //       }, 1000);
+      //     }
+      //   },
+      //   error: function (error) {
+      //     console.log(error);
+      //   },
+      // });
     } catch (error) {
       console.log(error);
     }
