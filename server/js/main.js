@@ -54,16 +54,45 @@ window.main = {
     home: function () {
       service.allCategories({
         data: {
-          page: "web-home-vod"
+          page: "web-home-vod",
         },
         success: function (response) {
           service.banners({
             success: function (res) {
-              mapper.home(window.home,response, res.data.banners, {
+              mapper.populate(window.home, response, res.data.banners, {
                 success: function () {
                   loading.destroy();
                   home.init();
-                  menu.init();
+                  !menu.initialized && menu.init();
+                },
+              });
+            },
+            error: function (error) {
+              console.log("banner fetch error", error);
+            },
+          });
+        },
+        error: function (error) {
+          console.log(error);
+          loading.destroy();
+          login.init();
+        },
+      });
+    },
+
+    movies: function () {
+      service.allCategories({
+        data: {
+          page: "web-movies",
+        },
+        success: function (response) {
+          service.movieBanners({
+            success: function (res) {
+              mapper.populate(window.movies, response, res.data.banners, {
+                success: function () {
+                  loading.destroy();
+                  movies.init();
+                  !menu.initialized && menu.init();
                 },
               });
             },
@@ -139,6 +168,9 @@ window.main = {
             break;
           case home.id:
             home.keyDown(event);
+            break;
+          case movies.id:
+            movies.keyDown(event);
             break;
           case home_details.id:
             home_details.keyDown(event);

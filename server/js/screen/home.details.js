@@ -1,5 +1,6 @@
 window.home_details = {
   id: "home_details-screen",
+  appendScreen: NaN,
   previous: NaN,
   data: {
     this: NaN,
@@ -11,18 +12,19 @@ window.home_details = {
     destroy: NaN,
   },
 
-  init: function (item, init, destroy) {
+  init: function (item, screen, init, destroy) {
+    home_details.appendScreen = screen;
     home_details.callbacks.init = init;
     home_details.callbacks.destroy = destroy;
     const contentDetailResponse = service.contentDetails({
-      body:{
+      body: {
         id: item.id,
-        content_type: item.content_type
+        content_type: item.content_type,
       },
-      success: function(data) {
+      success: function (data) {
         home_details.data.contentDetails = data;
-      }
-    })
+      },
+    });
     home_details.callbacks.init && home_details.callbacks.init(item);
     var buttons = document.createElement("div");
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
@@ -46,7 +48,7 @@ window.home_details = {
     </a>`;
 
     home_details.data.this = item;
-    $(`#${home.id} .details .info`).append(buttons);
+    $(`#${screen.id} .details .info`).append(buttons);
 
     if (item.type === "movie") {
       $(`.${home_details.id}.${home_details.id}_buttons a`).eq(2).remove();
@@ -102,7 +104,7 @@ window.home_details = {
       });
     }
 
-    $(`#${home.id} .details`).addClass("full");
+    $(`#${screen.id} .details`).addClass("full");
     $(`body`).addClass(`${home_details.id}`);
 
     home_details.previous = main.state;
@@ -111,7 +113,7 @@ window.home_details = {
 
   destroy: function () {
     $(`body`).removeClass(`${home_details.id}`);
-    $(`#${home.id} .details.full`).removeClass("full");
+    $(`#${home_details.appendScreen.id} .details.full`).removeClass("full");
     $(`.${home_details.id}`).remove();
     home_details.data.continue = NaN;
     home_details.data.this = NaN;
@@ -150,7 +152,7 @@ window.home_details = {
         var current = buttons.index(
           $(`.${home_details.id}.${home_details.id}_buttons a.selected`)
         );
-        console.log('home details data', home_details);
+        console.log("home details data", home_details);
 
         switch (current) {
           case 0:
@@ -160,7 +162,11 @@ window.home_details = {
             console.log("add list");
             break;
           case 2:
-            home_episodes.init(home_details.data.contentDetails);
+            console.log("screen name", this.appendScreen);
+            home_episodes.init(
+              home_details.data.contentDetails,
+              this.appendScreen
+            );
             break;
           case 3:
             console.log("related");

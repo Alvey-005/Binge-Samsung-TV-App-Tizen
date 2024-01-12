@@ -1,4 +1,4 @@
-#home-screen {
+#home-screen ,#movies-screen{
   width: 100%;
   height: 100%;
   background: #000;
@@ -24,23 +24,26 @@
   opacity: 0.8;
 }
 
-#home-screen .content {
+#home-screen .content ,
+  #movies-screen .content {
   height: 100vh;
   /* transition: margin 0.5s; */
 }
 
-#home-screen .content .details {
+#home-screen .content .details ,
+#movies-screen .content .details 
+{
   height: 50vh;
   position: relative;
   /* transition: all 0.5s; */
   overflow: hidden;
 }
 
-#home-screen .content .details.full {
+#home-screen .content .details.full, #movies-screen .content .details.full {
   height: 80vh;
 }
 
-#home-screen .content .details .background {
+#home-screen .content .details .background, #movies-screen .content .details .background {
   position: absolute;
   right: 0;
   top: 0;
@@ -57,12 +60,12 @@
   );
 }
 
-#home-screen .content .details.full .background {
+#home-screen .content .details.full .background, #movies-screen .content .details.full .background {
   position: fixed;
   width: 100%;
 }
 
-#home-screen .content .details .background::after {
+#home-screen .content .details .background::after, #movies-screen .content .details .background::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -72,7 +75,7 @@
   /* transition: background 0.5s; */
 }
 
-#home-screen .content .details .background::before {
+#home-screen .content .details .background::before, #movies-screen .content .details .background::before {
   content: "";
   position: absolute;
   width: 100%;
@@ -83,7 +86,7 @@
   /* transition: background 0.5s; */
 }
 
-#home-screen .content .details.full .background::after {
+#home-screen .content .details.full .background::after, #movies-screen .content .details.full .background::after {
   background: linear-gradient(
     90deg,
     rgba(0, 0, 0, 0.75) 0%,
@@ -94,22 +97,22 @@
   /* box-shadow: 760px -250px 1000px 0 rgba(0, 0, 0, 0.7) inset; */
 }
 
-#home-screen .content .details.full .background::before {
+#home-screen .content .details.full .background::before, #movies-screen .content .details.full .background::before {
   background: none;
 }
 
-#home-screen .content .details .background img {
+#home-screen .content .details .background img, #movies-screen .content .details .background img {
   width: 100%;
   position: absolute;
 }
 
-#home-screen .content .details.full .background img {
+#home-screen .content .details.full .background img, #movies-screen .content .details.full .background img {
   position: fixed;
   width: 100%;
   min-height: 100%;
 }
 
-#home-screen .content .details .info {
+#home-screen .content .details .info, #movies-screen .content .details .info {
   width: 70%;
   display: block;
   position: absolute;
@@ -121,7 +124,7 @@
   z-index: 1;
 }
 
-#home-screen .content .details .info .title {
+#home-screen .content .details .info .title, #movies-screen .content .details .info .title {
   color: #fff;
   font-size: 5vh;
   font-weight: bolder;
@@ -132,7 +135,7 @@
   max-height: 200px;
 }
 
-#home-screen .content .details .info .description {
+#home-screen .content .details .info .description, #movies-screen .content .details .info .description {
   color: #fff;
   font-size: 2.5vh;
   margin: 30px 0;
@@ -141,21 +144,21 @@
   /* transition: max-height 1s; */
 }
 
-#home-screen .content .details .info .description.hide {
+#home-screen .content .details .info .description.hide, #movies-screen .content .details .info .description.hide {
   max-height: 0;
   overflow: hidden;
   margin: 15px;
 }
 
-#home-screen .content .details .info .buttons {
+#home-screen .content .details .info .buttons, #movies-screen .content .details .info .buttons {
   display: none;
 }
 
-#home-screen .content .details.full .info .buttons {
+#home-screen .content .details.full .info .buttons, #movies-screen .content .details.full .info .buttons {
   display: block;
 }
 
-#home-screen .content .details .info .buttons a {
+#home-screen .content .details .info .buttons a, #movies-screen .content .details .info .buttons a {
   color: #fff;
   border: 2px solid #fff;
   border-radius: 5px;
@@ -169,11 +172,11 @@
   opacity: 0.8;
 }
 
-#home-screen .content .details .info .buttons a:first-child {
+#home-screen .content .details .info .buttons a:first-child, #movies-screen .content .details .info .buttons a:first-child {
   margin-left: 0;
 }
 
-#home-screen .content .details .info .buttons a.selected {
+#home-screen .content .details .info .buttons a.selected, #movies-screen .content .details .info .buttons a.selected {
   /* border: 2px solid rgba(244, 130, 33, 0.9); */
   border: 2px solid rgba(222, 13, 30, 0.9);
   box-sizing: border-box;
@@ -184,7 +187,7 @@
   opacity: 1;
 }
 
-#home-screen .content .row .row-content .item {
+#home-screen .content .row .row-content .item, #movies-screen .content .row .row-content .item {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -193,17 +196,17 @@
   transform-origin: center left;
 }
 
-#home-screen .content .row .row-content .item .poster {
+#home-screen .content .row .row-content .item .poster, #movies-screen .content .row .row-content .item .poster {
   position: relative;
   width: 100%;
   padding-top: 150%;
 }
 
-#home-screen .content .row .row-content .item .poster.episode {
+#home-screen .content .row .row-content .item .poster.episode, #movies-screen .content .row .row-content .item .poster.episode {
   padding-top: 55%;
 }
 
-#home-screen .content .row .row-content .item .poster.episode .progress {
+#home-screen .content .row .row-content .item .poster.episode .progress, #movies-screen .content .row .row-content .item .poster.episode .progress {
   height: 12px;
   position: absolute;
   /* background: rgba(244, 130, 33, 0.7); */
@@ -211,7 +214,7 @@
   bottom: 0;
 }
 
-#home-screen .content .row .row-content .item .poster.episode .progress::after {
+#home-screen .content .row .row-content .item .poster.episode .progress::after, #movies-screen .content .row .row-content .item .poster.episode .progress::after {
   content: attr(value);
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
@@ -224,7 +227,7 @@
   border-radius: 15px;
 }
 
-#home-screen .content .row .row-content .item .poster img {
+#home-screen .content .row .row-content .item .poster img, #movies-screen .content .row .row-content .item .poster img {
   width: 100%;
   position: absolute;
   height: 100%;
@@ -232,7 +235,7 @@
   top: 0px;
 }
 
-#home-screen .content .row .row-content .item .details {
+#home-screen .content .row .row-content .item .details, #movies-screen .content .row .row-content .item .details {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -249,11 +252,13 @@
 }
 
 #home-screen .content .row .row-content .item:hover .details,
-#home-screen .content .row .row-content .item:hover .info {
+#home-screen .content .row .row-content .item:hover .info, 
+#movies-screen .content .row .row-content .item:hover .details,
+#movies-screen .content .row .row-content .item:hover .info {
   opacity: 1;
 }
 
-#home-screen .content .row .row-content .item .details .title {
+#home-screen .content .row .row-content .item .details .title, #movies-screen .content .row .row-content .item .details .title {
   position: absolute;
   bottom: 0;
   padding: 5%;
@@ -261,7 +266,7 @@
   font-size: 70%;
 }
 
-#home-screen .content .row .row-content .item .info {
+#home-screen .content .row .row-content .item .info, #movies-screen .content .row .row-content .item .info {
   font-size: 50%;
   position: absolute;
   top: 0;
@@ -277,36 +282,36 @@
   margin: 0;
 }
 
-#home-screen .content .row .row-content {
+#home-screen .content .row .row-content, #movies-screen .content .row .row-content {
   width: calc(100% - 4.5vw);
   margin: 15px 0 50px 0;
 }
 
-#home-screen .content .row .row-content.episode {
+#home-screen .content .row .row-content.episode, #movies-screen .content .row .row-content.episode {
   margin: 15px 0 113px 0;
 }
 
-#home-screen .content .row.slick-current .row-content {
+#home-screen .content .row.slick-current .row-content, #movies-screen .content .row.slick-current .row-content {
   margin: 15px 0 50px 0;
 }
 
-#home-screen .content .row .row-content .slick-list {
+#home-screen .content .row .row-content .slick-list, #movies-screen .content .row .row-content .slick-list {
   overflow: unset;
 }
 
-#home-screen .content .row .row-content .slick-track {
+#home-screen .content .row .row-content .slick-track, #movies-screen .content .row .row-content .slick-track {
   padding-left: 8vw;
 }
 
-#home-screen .content .row .row-content .slick-slide {
+#home-screen .content .row .row-content .slick-slide, #movies-screen .content .row .row-content .slick-slide {
   opacity: 0.3;
 }
 
-#home-screen .content .row .row-content .slick-active {
+#home-screen .content .row .row-content .slick-active, #movies-screen .content .row .row-content .slick-active {
   opacity: 1;
 }
 
-#home-screen .content .row .row-content.selected::after {
+#home-screen .content .row .row-content.selected::after, #movies-screen .content .row .row-content.selected::after {
   content: "";
   /* border: 6px solid rgba(244, 130, 33, 0.9); */
   border: 6px solid rgba(222, 13, 30, 0.9);
@@ -321,12 +326,12 @@
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
 }
 
-#home-screen .content .row .row-content.episode.selected::after {
+#home-screen .content .row .row-content.episode.selected::after, #movies-screen .content .row .row-content.episode.selected::after {
   width: 396px;
   height: 218px;
 }
 
-#home-screen .content .row .row-title {
+#home-screen .content .row .row-title, #movies-screen .content .row .row-title {
   color: #fff;
   font-size: 1.2vw;
   font-weight: bold;
@@ -366,7 +371,7 @@
   margin-top: 5vh;
 }
 
-.home_details-screen.home_details-screen_buttons a {
+.home_details-screen.home_details-screen_buttons a{
   color: #fff;
   font-size: 25px;
   padding: 20px;
@@ -419,11 +424,15 @@
 
 /* --------------------- */
 
-.home_episodes-screen #home-screen .content {
+.home_episodes-screen #home-screen .content,
+.home_episodes-screen #movies-screen .content
+{
   margin-top: -100vh;
 }
 
-.home_episodes-screen #home-screen .content .background::after {
+.home_episodes-screen #home-screen .content .background::after
+.home_episodes-screen #movies-screen .content .background::after
+{
   background: rgba(0, 0, 0, 0.8);
 }
 

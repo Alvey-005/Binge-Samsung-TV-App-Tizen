@@ -114,7 +114,9 @@ window.home = {
 
   destroy: function () {
     home.position = 0;
-    document.body.removeChild(document.getElementById(home.id));
+    if(document.getElementById(home.id)) {
+      document.body.removeChild(document.getElementById(home.id));
+    }
   },
 
   show_details: function () {
@@ -276,7 +278,8 @@ window.home = {
                 $(".row-content")[home.position - 1].slick.currentSlide
               ]
             : home.data.main.banner;
-        home_details.init(item);
+        //home-screen
+        home_details.init(item, home);
         break;
     }
   },

@@ -46,7 +46,9 @@ window.search = {
     loading.start();
     service.search({
       data: {
-        query: search.input.value,
+        search: search.input.value,
+        page: 1,
+        page_size: 1000,
       },
       success: function (response) {
         loading.end();
@@ -140,6 +142,7 @@ window.search = {
         } else {
           home_details.init(
             search.data.result[search.position],
+            home,
             function (item) {
               var home_element = document.createElement("div");
               home_element.id = home.id;
