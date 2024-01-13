@@ -11,17 +11,17 @@
   position: absolute;
 }
 
-#video-screen #videoplayer {
+#video-screen #bingeTizen {
   width: 100%;
   height: 100%;
   position: absolute;
 }
 
-#video-screen #videoplayer.crop-simple {
+#video-screen #bingeTizen.crop-simple {
   object-fit: cover;
 }
 
-#video-screen #videoplayer.expand {
+#video-screen #bingeTizen.expand {
   object-fit: fill;
 }
 
@@ -156,7 +156,8 @@
 }
 
 #languages-content .option.selected {
-  border: 2px solid rgba(244, 130, 33, 0.9);
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
   opacity: 1;
 }
 

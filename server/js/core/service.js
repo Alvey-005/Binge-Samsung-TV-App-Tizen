@@ -2,54 +2,23 @@ window.service = {
   api: {
     url: "https://www.crunchyroll.com",
     bingeStageUrl: "https://ss-staging.binge.buzz",
+    imageStageURl: "https://web-api-staging.binge.buzz",
     bingeProdUrl: "https://web-api.binge.buzz",
-    auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k="
-  },
-
-  token: function (request) {
-    var headers = new Headers();
-    headers.append("Authorization", service.api.auth);
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    var params = service.format({
-      username: request.data.username,
-      password: request.data.password,
-      grant_type: "password",
-      scope: "offline_access",
-    });
-
-    fetch(`${service.api.url}/auth/v1/token`, {
-      method: "POST",
-      headers: headers,
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((json) => request.success && request.success(json))
-      .catch((error) => {
-        console.log(error);
-        request.error && request.error(error);
-      });
+    auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
   },
 
   refresh: function (request) {
-    var headers = new Headers();
-    headers.append("Authorization", service.api.auth);
-    headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-    var params = service.format({
-      refresh_token: session.storage.refresh_token,
-      grant_type: "refresh_token",
-      scope: "offline_access",
-    });
-
-    fetch(`${service.api.url}/auth/v1/token`, {
-      method: "POST",
-      headers: headers,
-      body: params,
-    })
-      .then((response) => response.json())
-      .then((json) => request.success(json))
-      .catch((error) => request.error(error));
+    try {
+      if (request.success) {
+        request.success();
+      }
+    } catch (e) {
+      if (request.error) {
+        request.error(e);
+      } else {
+        console.error("error in refresh", e);
+      }
+    }
   },
 
   profile: function (request) {
@@ -98,26 +67,6 @@ window.service = {
         fetch(`${service.api.url}/index/v2`, {
           headers: headers,
         })
-          .then((response) => response.json())
-          .then((json) => request.success(json))
-          .catch((error) => request.error(error));
-      },
-    });
-  },
-
-  home: function (request) {
-    return session.refresh({
-      success: function (storage) {
-        var headers = new Headers();
-        headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-        fetch(
-          `${service.api.url}/content/v2/discover/${storage.id}/home_feed?start=0&n=100&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
-          {
-            headers: headers,
-          }
-        )
           .then((response) => response.json())
           .then((json) => request.success(json))
           .catch((error) => request.error(error));
@@ -195,7 +144,6 @@ window.service = {
 
         fetch(
           `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
-          // `https://web-api-staging.binge.buzz/api/v3/page/category/products`,
           {
             headers: headers,
           }
@@ -213,40 +161,14 @@ window.service = {
   video: function (request) {
     return session.cookies({
       success: function (storage) {
-        var headers = new Headers();
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-        fetch(
-          `${service.api.url}/cms/v2${storage.cookies.bucket}/videos/${request.data.id}/streams?Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
-          {
-            headers: headers,
-          }
-        )
-          .then((response) => response.json())
-          .then((json) => request.success(json))
-          .catch((error) => request.error(error));
+        try {
+          request.success();
+        } catch (e) {
+          console.error("error in video service", e);
+        }
       },
       error: function (error) {
         request.error(error);
-      },
-    });
-  },
-
-  search: function (request) {
-    return session.refresh({
-      success: function (storage) {
-        var headers = new Headers();
-        headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
-        fetch(
-          `${service.api.url}/content/v2/discover/search?q=${request.data.query}&type=series,movie_listing&n=100&locale=${storage.language}`,
-          {
-            headers: headers,
-          }
-        )
-          .then((response) => response.json())
-          .then((json) => request.success(json))
-          .catch((error) => request.error(error));
       },
     });
   },
@@ -293,9 +215,10 @@ window.service = {
 
   languages: function (request) {
     fetch(
-      `https://static.crunchyroll.com/config/i18n/v3/${request.data.type === "subtitle"
-        ? "timed_text_languages.json"
-        : "audio_languages.json"
+      `https://static.crunchyroll.com/config/i18n/v3/${
+        request.data.type === "subtitle"
+          ? "timed_text_languages.json"
+          : "audio_languages.json"
       }`
     )
       .then((response) => response.json())
@@ -343,12 +266,8 @@ window.service = {
   // Binge
 
   login: function (request) {
-    var params = `phone: ${request.data.phone}`;
-
-    console.log("params", params);
-    console.log("service phone", request.data.phone);
-
-    requestMethod.get(`${urls.fetchOtpUrl}/${request.data.phone}`)
+    requestMethod
+      .get(`${urls.fetchOtpUrl}/${request.data.phone}`)
       .then((res) => res.data && res.data.is_success && request.success())
       .catch((error) => {
         console.log(error);
@@ -361,12 +280,11 @@ window.service = {
       phone: session.storage.account.phone,
       otp: request.data.otp,
     };
-    console.log('otp  body', session.storage.account.phone);
     const verifyResponse = await requestMethod.post(urls.verifyOtpUrl, params);
-    console.log('verify', verifyResponse);
     if (verifyResponse.data && verifyResponse.data.is_success) {
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
+      session.update();
       request.success();
     }
   },
@@ -374,15 +292,34 @@ window.service = {
   allCategories: async function (request) {
     return session.refresh({
       success: async function (storage) {
-        var params = { page: "web-home-vod" };
-        const allCatResponse = await requestMethod.post(urls.fetchCategory, params);
-        console.log('All Categories', allCatResponse);
+        const allCatResponse = await requestMethod.post(urls.fetchCategory, request.data);
         try {
           if (request.success) {
             request.success(allCatResponse.data);
           }
         } catch (e) {
-          request.error && request.error(e);
+          request.error
+            ? request.error(e)
+            : console.error("error in service allCategories \n", e);
+        }
+      },
+    });
+  },
+
+  contentDetails: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        var params = request.body;
+        const allCatResponse = await requestMethod.post(
+          urls.fetchProductDetails,
+          params
+        );
+        try {
+          if (request.success) {
+            request.success(allCatResponse?.data?.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error(e);
         }
       },
     });
@@ -392,7 +329,36 @@ window.service = {
     return session.refresh({
       success: async function (storage) {
         const banners = await requestMethod.get(urls.fetchVodBanner);
-        console.log('service banners', banners);
+        try {
+          if (request.success) {
+            request.success(banners);
+          }
+        } catch (e) {
+          request.error && request.error(e);
+        }
+      },
+    });
+  },
+
+  search: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.fetchSearchUrl, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error('error in service search \n', e);
+        }
+      },
+    });
+  },
+
+  movieBanners: function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const banners = await requestMethod.get(urls.fetchMovieBanner);
         try {
           if (request.success) {
             request.success(banners);

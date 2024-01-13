@@ -43,13 +43,13 @@ window.home = {
         </div>
         <div class="info">
           <div class="title resize">${home.data.main.banner.title}</div>
-          <div class="description resize">${
-            home.data.main.banner.description
-          }</div>
+          <div class="description resize">${home.data.main.banner.description}</div>
+          <!--
           <div class="buttons">
             <a class="selected">${translate.go("home.banner.play")}</a>
             <a>${translate.go("home.banner.info")}</a>
           </div>
+          -->
         </div>
       </div>
       <div class="rows">
@@ -79,6 +79,9 @@ window.home = {
       waitForAnimate: false,
     });
 
+    /***
+     * if slide to show is changed, change the css file too
+     */
     $(`#${home.id} .rows .row-content`).not(".episode").slick({
       dots: false,
       arrows: false,
@@ -103,32 +106,36 @@ window.home = {
     $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = home.id;
-    // changelog.init();
+    
+    var keyDownEvent = new Event('keydown');
+    keyDownEvent.keyCode = tvKey.KEY_DOWN;
+    home.keyDown(keyDownEvent);
   },
 
   destroy: function () {
     home.position = 0;
-    document.body.removeChild(document.getElementById(home.id));
+    if(document.getElementById(home.id)) {
+      document.body.removeChild(document.getElementById(home.id));
+    }
   },
 
   show_details: function () {
-    var item =
-      home.position > 0
-        ? home.data.main.lists[home.position - 1].items[
-            $(".row-content")[home.position - 1].slick.currentSlide
-          ]
+    var item = home.position > 0
+        ? home.data.main.lists[home.position - 1].items[$(".row-content")[home.position - 1].slick.currentSlide]
         : home.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
     var titleElements = $(".details .info .title");
     if (titleElements.length > 0) {
         var title = titleElements[0];
+        title.innerText = item.title;
         title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
-        var description = descriptionElements[0];
+      var description = descriptionElements[0];
+        description.innerText = item.description;
         description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
     }
   },
@@ -147,8 +154,8 @@ window.home = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        $(".row-content").removeClass("selected");
         if (home.position > 1) {
+          $(".row-content").removeClass("selected");
           home.position--;
           $(".rows")[0].slick.slickGoTo(home.position - 1);
           $(".row-content")[home.position - 1].slick.slickGoTo(
@@ -157,8 +164,8 @@ window.home = {
           $(".row-content")[home.position - 1].className =
             $(".row-content")[home.position - 1].className + " selected";
         } else {
-          $(".details").addClass("full");
-          home.position = 0;
+          // $(".details").addClass("full");
+          // home.position = 1;
         }
         home.show_details();
         break;
@@ -271,7 +278,8 @@ window.home = {
                 $(".row-content")[home.position - 1].slick.currentSlide
               ]
             : home.data.main.banner;
-        home_details.init(item);
+        //home-screen
+        home_details.init(item, home);
         break;
     }
   },
@@ -279,22 +287,9 @@ window.home = {
   restart: function () {
     home.fromCategory.state = false;
     home.fromCategory.index = NaN;
-    loading.start();
+    loading.init();
     home.data.main = null;
-    service.home({
-      success: function (response) {
-        mapper.home(response, {
-          success: function () {
-            home.init();
-            loading.end();
-          },
-        });
-      },
-      error: function (error) {
-        loading.end();
-        console.log(error);
-      },
-    });
+    main.events.home();
   },
 
   addToList: function (index, newItems) {

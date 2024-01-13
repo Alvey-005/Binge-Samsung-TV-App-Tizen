@@ -54,10 +54,14 @@ window.exit = {
   },
 
   move: function (selected) {
+    console.log('selec',selected);
     exit.selected = selected;
     document.getElementById(
       exit.id + "-" + (selected ? "yes" : "no")
     ).className = "button selected";
+    console.log('selec',selected,document.getElementById(
+      exit.id + "-" + (selected ? "yes" : "no")
+    ));
     document.getElementById(
       exit.id + "-" + (!selected ? "yes" : "no")
     ).className = "button";

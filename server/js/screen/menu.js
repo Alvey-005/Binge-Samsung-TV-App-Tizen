@@ -1,5 +1,6 @@
 window.menu = {
   id: "menu-screen",
+  initialized: 0,
   options: [
     {
       id: "search",
@@ -12,6 +13,12 @@ window.menu = {
       label: "menu.home",
       icon: "fa-solid fa-house",
       action: "home.restart",
+    },
+    {
+      id: "movies",
+      label: "menu.movies",
+      icon: "fa-solid fa-film",
+      action: "movies.restart",
     },
     // { id: "list", label: "menu.list", icon: "fa-solid fa-bookmark" },
     // {
@@ -79,6 +86,7 @@ window.menu = {
   isOpen: false,
 
   init: function (reset) {
+    menu.initialized = 1;
     var menu_element = document.createElement("div");
     menu_element.id = this.id;
 
@@ -111,13 +119,18 @@ window.menu = {
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${session.storage.account.premium ? "premium" : ""}">
+      <div class="profile ${
+        session.storage.customer?.status_id === "2" ? "premium" : ""
+      }">
         <div class="avatar">
-          <img src="https://static.crunchyroll.com/assets/avatar/170x170/${
-            session.storage.account.avatar
-          }">
+          <img src="${
+            session.storage.customer.image !== null
+              ? "https://ss-staging.binge.buzz" + session.storage.customer.image
+              : "https://pre.binge.buzz/favicon.ico"
+          }"> 
+          <!-- <img src="https://pre.binge.buzz/assets/svg/avatar.svg"> -->
         </div>
-        <p>${session.storage.account.username}</p>
+        <p>${session.storage.customer?.name || "Your Name"}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options" onclick="menu.keyDown(event)">
@@ -132,6 +145,7 @@ window.menu = {
   },
 
   destroy: function () {
+    menu.initialized = 0;
     if (menu.isOpen) {
       menu.close();
     }
@@ -200,6 +214,7 @@ window.menu = {
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
+          ``;
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;

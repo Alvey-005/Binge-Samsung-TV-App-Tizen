@@ -51,11 +51,10 @@ window.video = {
   toggleAspectRatio: function () {
     video.aspect =
       video.aspect < video.aspects.length - 1 ? video.aspect + 1 : 0;
-    document.getElementById("videoplayer").className =
+    document.getElementById("bingeTizen").className =
       video.aspects[video.aspect];
-    $(".toggle-aspect")[0].className = `toggle-aspect fa-solid fa-${
-      video.aspects[video.aspect]
-    } selected`;
+    $(".toggle-aspect")[0].className = `toggle-aspect fa-solid fa-${video.aspects[video.aspect]
+      } selected`;
   },
 
   openLanguages: function () {
@@ -78,21 +77,20 @@ window.video = {
   init: function (item) {
     var video_element = document.createElement("div");
     video_element.id = video.id;
-
-    video.play(item);
-
+    
     video_element.innerHTML = `
     <div class="content">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
-      <video id="videoplayer" style="width:100%; height:100%;"></video>
-      <div class="osd" id="osd">
+      <video id="bingeTizen" class="video-js" >
+    </video>
+          <div class="osd" id="osd">
         <div class="player-settings">
           ${video.getSettings()}
         </div>
         <div class="details">
-          <div id="title">${item.serie}</div>
+          <div id="title">${item.name}</div>
           <div id="subtitle">
-            ${item.season_number}x${item.episode_number} - ${item.episode}
+            ${item.artists}
           </div>
         </div>
         <div class="progress">
@@ -133,16 +131,30 @@ window.video = {
       </div>
     </div>`;
     document.body.appendChild(video_element);
-
     player.config(video.setPlayingTime, video.end);
     $(`#${home.id}`).hide();
     video.previous = main.state;
     main.state = video.id;
+    if (item?.related_product[0]) {
+      video.next.episode = item.related_product[0];
+    }
+    video.play(item);
+    video.intro = {
+      start: 10,
+      end: 50
+    };
+    video.intro = {
+      start: item.intro_start_time,
+      end: item.intro_end_time
+    };
   },
 
   destroy: function () {
+    console.log('destroy is calling');
     video.hideOSD();
-    player.stop();
+    player.pause();
+    requestMethod.get(urls.closeContent);
+    // player.stop();
     clearTimeout(video.timers.osd.object);
     clearInterval(video.timers.next);
     clearInterval(video.timers.history.object);
@@ -155,6 +167,11 @@ window.video = {
     video.episode = null;
     video.data = null;
     video.streams = [];
+    // player.plugin.dispose();
+    player.stop();
+    player.plugin = NaN;
+    player.video = NaN;
+    player.state = -1;
   },
 
   keyDown: function (event) {
@@ -325,7 +342,12 @@ window.video = {
         }
         break;
     }
-    !video.settings.open && osd && video.showOSD();
+    (event.keyCode !== tvKey.KEY_STOP &&
+      event.keyCode !== tvKey.KEY_BACK &&
+      event.keyCode !== 27) &&
+      !video.settings.open &&
+      osd &&
+      video.showOSD();
   },
 
   end: function () {
@@ -335,10 +357,58 @@ window.video = {
       video.destroy();
     }
   },
+  userCanWatchContent: function (contentDetails) {
+    const customer = session.storage.customer;
+    const is_content_premimum =
+      contentDetails.free_or_premium === 2 ||
+      contentDetails.tvod_ids?.length > 0 ||
+      contentDetails.tvod_details?.length > 0;
+    // const is_content_tvod : boolean = contentDetails.tvod_ids.length > 0 || contentDetails.tvod_details.length > 0;
+    const content_modality_type =
+      contentDetails.tvod_details?.length > 0
+        ? contentDetails.tvod_details[0].tvod_type
+        : "svod";
+    const userPremium = customer?.status_id === 2;
+    // const [userCanWatch, setUserCanWatch] = useState<boolean>(false);
+    let userCanWatch = false;
+    const tvodIds = customer?.tvod_ids;
+    const tvodProducts =
+      contentDetails?.content_type === "vod"
+        ? customer?.tvod_products
+        : customer?.tvod_tv_channels;
+    const match =
+      contentDetails.tvod_ids?.find((el) => tvodIds?.includes(el)) ||
+      tvodProducts?.find((str) => str === contentDetails.id);
+    if (content_modality_type === "tvod-2" && !!customer && match) {
+      content_modality_type !== "tvod-2"
+      userCanWatch = true;
+    } else if (
+      is_content_premimum &&
+      userPremium &&
+      content_modality_type !== "tvod-2"
+    ) {
+      userCanWatch = true;
+      console.log('user can watch svod');
+    } else if (content_modality_type === "tvod-1" && !!(userPremium || match)) {
+      userCanWatch = true;
+      console.log('user can watch tvod-1');
+    } else if (!is_content_premimum && content_modality_type === "svod") {
+      userCanWatch = true;
+      console.log('user can watch free');
+    } else {
+      userCanWatch = false;
+    }
+    return userCanWatch;
+  },
 
   play: function (item, noplay) {
-    if (!item.stream) {
+    if (!item.hls_url) {
       video.destroy();
+      return;
+    }
+    if (!video.userCanWatchContent(item)) {
+      video.destroy();
+      premiumNeedDialog.init();
       return;
     }
     video.episode = item.id;
@@ -347,46 +417,42 @@ window.video = {
         id: item.stream,
       },
       success: function (data) {
-        video.stopNext();
-        video.setSkipIntro(item.id);
-        video.next.shown = false;
+        // video.stopNext();
+        // video.setSkipIntro(item.id);
+        // video.next.shown = false;
         try {
-          video.streams = data.streams.adaptive_hls;
+          // video.streams = data.streams.adaptive_hls;
 
-          var subtitle_lang;
-          if (video.streams[session.storage.account.language]) {
-            subtitle_lang = session.storage.account.language;
-          } else {
-            subtitle_lang = "";
-          }
+          // var subtitle_lang;
+          // if (video.streams[session.storage.account.language]) {
+          //   subtitle_lang = session.storage.account.language;
+          // } else {
+          //   subtitle_lang = "";
+          // }
 
-          video.audio = data.audio_locale;
-          video.audios = [{ name: video.audio, id: 0 }];
+          // video.audio = data.audio_locale;
+          // video.audios = [{ name: video.audio, id: 0 }];
 
-          if (data.versions) {
-            video.audios = data.versions.map((element) => ({
-              name: element.audio_locale,
-              id: element.media_guid,
-            }));
-          }
+          // if (data.versions) {
+          //   video.audios = data.versions.map((element) => ({
+          //     name: element.audio_locale,
+          //     id: element.media_guid,
+          //   }));
+          // }
 
-          video.subtitle = video.streams[subtitle_lang].hardsub_locale;
-          video.subtitles = Object.keys(video.streams).map((element) => ({
-            name: element,
-          }));
+          // video.subtitle = video.streams[subtitle_lang].hardsub_locale;
+          // video.subtitles = Object.keys(video.streams).map((element) => ({
+          //   name: element,
+          // }));
 
-          player.play(
-            video.streams[subtitle_lang].url,
-            item.playhead === item.duration ? 0 : item.playhead,
-            noplay
-          );
-          video.startHistory();
-          video.setAudios();
-          video.setSubtitles();
+          player.play(item.hls_url, 0, noplay);
+          // video.startHistory();
+          // video.setAudios();
+          // video.setSubtitles();
         } catch (error) {
           console.log(error);
         }
-        video.showOSD();
+        // video.showOSD();
       },
       error: function (error) {
         video.stopNext();
@@ -438,9 +504,8 @@ window.video = {
     $("#audios li").remove();
     var audios = "";
     video.audios.forEach((element, index) => {
-      audios += `<li class="option${
-        element.name === video.audio ? " active selected" : ""
-      }">${session.languages.audios[element.name]}</li>`;
+      audios += `<li class="option${element.name === video.audio ? " active selected" : ""
+        }">${session.languages.audios[element.name]}</li>`;
     });
 
     document.getElementById("audios").innerHTML = audios;
@@ -463,9 +528,8 @@ window.video = {
     $("#subtitles").html("");
     var subtitles = "";
     video.subtitles.forEach((element) => {
-      subtitles += `<li class="option${
-        element.name === video.subtitle ? " active" : ""
-      }">${session.languages.subtitles[element.name]}</li>`;
+      subtitles += `<li class="option${element.name === video.subtitle ? " active" : ""
+        }">${session.languages.subtitles[element.name]}</li>`;
     });
 
     document.getElementById("subtitles").innerHTML = subtitles;
@@ -487,49 +551,39 @@ window.video = {
     $(".next-episode").hide();
   },
 
-  playNext: function () {
-    video.saveHistory(Math.floor(player.getDuration()));
-    video.play(video.next.episode);
-    $(".osd #title").text(video.next.episode.serie);
-    $(".osd #subtitle").text(
-      `${video.next.episode.season_number}x${video.next.episode.episode_number} - ${video.next.episode.episode}`
-    );
+  playNext: async function () {
+    // video.saveHistory(Math.floor(player.getDuration()));
+    // video.init(video.next.episode);
+    let nextEpisode = NaN;
+    await service.contentDetails({
+      body: {
+        id: video.next.episode.id,
+        content_type: video.next.episode.content_type,
+      },
+      success: function (res) {
+        nextEpisode = res;
+        if (!video.userCanWatchContent(res)) {
+          video.destroy();
+          premiumNeedDialog.init();
+          return;
+        }
+        player.plugin.src({
+          src: video.next.episode.hls_url,
+          type: 'application/x-mpegURL' // Use 'application/vnd.apple.mpegurl' for Safari
+        });
+        $(".osd #title").text(res.name);
+        $(".osd #subtitle").text(
+          `${res.artists}`
+        );
+        video.next.episode = res.related_product[0];
+      }
+    });
   },
 
   nextEpisode: function (instant) {
     video.next.shown = true;
     try {
-      service.continue({
-        data: {
-          ids: video.episode,
-        },
-        success: function (data) {
-          video.next.episode = mapper.continue(data);
-
-          if (instant) {
-            video.playNext();
-          } else {
-            document
-              .getElementById("next-episode-image")
-              .setAttribute("src", video.next.episode.background);
-            $(".next-episode").show();
-            video.next.status = true;
-            video.timers.next = setInterval(() => {
-              var value =
-                document.getElementById("next-episode-count").innerText;
-              if (+value === 1) {
-                clearInterval(video.timers.next);
-              } else {
-                document.getElementById("next-episode-count").innerText =
-                  value - 1;
-              }
-            }, 1000);
-          }
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
+      video.playNext();
     } catch (error) {
       console.log(error);
     }
@@ -554,8 +608,10 @@ window.video = {
 
   showBTN: function (state, data) {
     var button = document.getElementById("osd-icon");
-    button.style.opacity = 1;
-    button.className = `icon-status ${state}`;
+    if (button) {
+      button.style.opacity = 1;
+      button.className = `icon-status ${state}`;
+    }
   },
 
   hideBTN: function () {
@@ -576,14 +632,14 @@ window.video = {
         content_id: video.episode,
         playhead: time || Math.floor(player.getPlayed()),
       },
-      success: function () {},
+      success: function () { },
       error: function (error) {
         console.log(error);
       },
     });
   },
 
-  setPlayingTime: function () {
+  setPlayingTime: async function () {
     var time = player.getPlayed() + player.values.forward_rewind;
     time = time < 0 ? 0 : time;
     var totalTime = player.getDuration();
@@ -613,14 +669,11 @@ window.video = {
     timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
     timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;
 
-    document.getElementById("time").innerText = `${
-      timeHours ? timeHours : "00"
-    }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
-    document.getElementById("total").innerText = `${
-      totalHours ? totalHours : "00"
-    }:${totalMinutes ? totalMinutes : "00"}:${
-      totalSeconds ? totalSeconds : "00"
-    }`;
+    document.getElementById("time").innerText = `${timeHours ? timeHours : "00"
+      }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
+    document.getElementById("total").innerText = `${totalHours ? totalHours : "00"
+      }:${totalMinutes ? totalMinutes : "00"}:${totalSeconds ? totalSeconds : "00"
+      }`;
     document.getElementById("played").style.width = timePercent + "%";
   },
 };

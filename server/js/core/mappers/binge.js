@@ -2,90 +2,53 @@ window.mapper = {
   loaded: 0,
   loadedSubcategories: 0,
 
-  home: function (response, callback) {
-    // var lists = response.data.filter((element) =>
-    //   [
-    //     "recommendations",
-    //     "history",
-    //     "browse",
-    //     "series",
-    //     "because_you_watched",
-    //   ].includes(element.response_type)
-    // );
-
+  populate: function (parentStorage, response, banners, callback) {
     var lists = response.categories;
-    console.log("binge lists", lists);
 
-    // var banner = response.data.find((p) => p.resource_type === "panel");
-
-    // var banners;
-    // service.banners({
-    //   success: function (response) {
-    //     console.log("banner fetch success", response);
-    //     banners = response.data.banners;
-    //   },
-    //   error: function (error) {
-    //     console.log("banner fetch error", error);
-    //   },
-    // });
-
-    // console.log("binge banners", banners);
-
-    home.data.main = {
-      // banner: {
-      //   id: banner.panel.id,
-      //   title: banner.panel.title,
-      //   description: banner.panel.description,
-      //   background: mapper.preventImageErrorTest(function () {
-      //     return banner.panel.images.poster_wide[0][4].source;
-      //   }, banner.panel.id),
-      // },
-      // lists: lists.map((list) => ({
-      //   title: list.title,
-      //   items: [],
-      // })),
+    parentStorage.data.main = {
       banner: {
-        // id: banners.id ? banners.id : 6132,
-        // name: banners.name ? banners.name : "Baba Someone's Following Me",
-        // description: banners.description ? banners.description : "Baba Someone's Following Me",
-        // director: banners.director ? banners.director : "Shihab Shaheen",
+        id: banners.id ? banners.id : 6132,
+        title: banners.name ? banners.name : "Baba Someone's Following Me",
+        description: banners.description
+          ? banners.description
+          : "Baba Someone's Following Me",
+        director: banners.director ? banners.director : "Shihab Shaheen",
+        background: mapper.preventImageErrorTest(
+          function () {
+            return banners.banner_landscape_image_path
+              ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}`
+              : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+          },
+          banners.id ? banners.id : 6132
+        ),
+        // id: 6132,
+        // title: "Baba Someone's Following Me",
+        // description: "Baba Someone's Following Me",
+        // director: "Shihab Shaheen",
         // background: mapper.preventImageErrorTest(function () {
-        //   return banners.banner_landscape_image_path ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}` : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
-        // }, banners.id ? banners.id : 6132),
-        id: 6132,
-        title: "Baba Someone's Following Me",
-        description: "Baba Someone's Following Me",
-        director: "Shihab Shaheen",
-        background: mapper.preventImageErrorTest(function () {
-          return `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
-        }, 6132),
+        //   return `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        // }, 6132),
       },
       lists: lists.map((list) => ({
         category_id: list.category_id,
         category_type: list.category_type,
         title: list.name,
-        page_id: list.page_id,
-        page_size: list.page_size,
+        page_id: parentStorage.id === "movies-screen" ? 1 : list.page_id,
+        // page_size: list.page_size,
+        page_size: parentStorage.id === "movies-screen" ? 8 : -1,
         items: [],
       })),
     };
-
-    console.log("home data before", home.data.main);
 
     mapper.loaded = 0;
     for (var index = 0; index < lists.length; index++) {
       mapper.load(lists[index], index, {
         success: function (test, on) {
-          console.log("home.data.main.lists[on].items before", home.data.main.lists[on].items);
-          home.data.main.lists[on].items = mapper.mapItems(test);
-          console.log("home.data.main.lists[on].items after", home.data.main.lists[on].items);
-          // home.data.main.lists[on].items = test.data.products;
+          parentStorage.data.main.lists[on].items = mapper.mapItems(test);
           mapper.loaded++;
           if (mapper.loaded === lists.length) {
-            home.data.main.lists = home.data.main.lists.filter(
-              (e) => e.items.length > 0
-            );
-            console.log("home data after", home.data.main);
+            parentStorage.data.main.lists =
+              parentStorage.data.main.lists.filter((e) => e.items.length > 0);
             callback.success();
           }
         },
@@ -96,15 +59,17 @@ window.mapper = {
   load: (item, index, callback) => {
     session.refresh({
       success: async function (storage) {
-        var params = { 
+        var params = {
           category_id: item.category_id,
           category_type: item.category_type,
-          page: item.page_id,
-          page_size: item.page_size,
+          page: 1,
+          page_size: 10000,
         };
-        
-        const products = await requestMethod.post(urls.fetchCategoryProduct, params);
-        console.log("products.data.data.products", products.data.data.products);
+
+        const products = await requestMethod.post(
+          urls.fetchCategoryProduct,
+          params
+        );
         try {
           if (callback.success) {
             callback.success(products.data.data.products, index);
@@ -205,28 +170,29 @@ window.mapper = {
   },
 
   search: function (response) {
-    return response.data.reduce(
-      (acum, elem) =>
-        elem.type === "series" || elem.type === "movie_listing"
-          ? [
-              ...acum,
-              ...elem.items.map((item) => ({
-                display: "serie",
-                type: item.type,
-                id: item.id,
-                title: item.title,
-                description: item.description,
-                background: mapper.preventImageErrorTest(function () {
-                  return item.images.poster_wide[0][5].source;
-                }, item.id),
-                poster: mapper.preventImageErrorTest(function () {
-                  return item.images.poster_tall[0][2].source;
-                }),
-              })),
-            ]
-          : acum,
-      []
-    );
+    return mapper.mapItems(response.data);
+    // return response.data.reduce(
+    //   (acum, elem) =>
+    //     elem.type === "series" || elem.type === "movie_listing"
+    //       ? [
+    //           ...acum,
+    //           ...elem.items.map((item) => ({
+    //             display: "serie",
+    //             type: item.type,
+    //             id: item.id,
+    //             title: item.title,
+    //             description: item.description,
+    //             background: mapper.preventImageErrorTest(function () {
+    //               return item.images.poster_wide[0][5].source;
+    //             }, item.id),
+    //             poster: mapper.preventImageErrorTest(function () {
+    //               return item.images.poster_tall[0][2].source;
+    //             }),
+    //           })),
+    //         ]
+    //       : acum,
+    //   []
+    // );
   },
 
   history: function (response) {
@@ -262,7 +228,7 @@ window.mapper = {
   },
 
   listByCategories: function (id, subcategories, callback) {
-    home.data.main = {
+    parentStorage.data.main = {
       category: subcategories[0].parent_category,
       banner: {
         id: "",
@@ -287,16 +253,15 @@ window.mapper = {
         index,
         {
           success: function (response, listPosition) {
-            home.data.main.lists[listPosition].items = mapper.mapItems(
+            parentStorage.data.main.lists[listPosition].items = mapper.mapItems(
               response.items
             );
             mapper.loadedSubcategories++;
             if (mapper.loadedSubcategories === subcategories.length) {
-              home.data.main.lists = home.data.main.lists.filter(
-                (e) => e.items.length > 0
-              );
-              home.data.main.banner =
-                home.data.main.lists[listPosition].items[0];
+              parentStorage.data.main.lists =
+                parentStorage.data.main.lists.filter((e) => e.items.length > 0);
+              parentStorage.data.main.banner =
+                parentStorage.data.main.lists[listPosition].items[0];
               callback.success();
             }
           },
@@ -311,12 +276,14 @@ window.mapper = {
   mapItems: function (items) {
     try {
       return items.map((item) => {
-        var playhead = item.playhead ? Math.round(item.playhead / 60) : undefined;
+        var playhead = item.playhead
+          ? Math.round(item.playhead / 60)
+          : undefined;
         item = item.panel ? item.panel : item;
         var id = item.id;
         var display = "serie";
         var title = item.name;
-        var description = "From battling blazes to daring rescues, firefighters risk their lives to protect others. Daigo, Yuki, and Shun dream of becoming members of the elite firefighter rescue corps “Orange.” To do so, they each must overcome personal challenges, train harder than ever, and rely on one another to make it out of the flames alive. But as disaster strikes Japan, can they work together and save the country?";
+        var description = item.description ? item.description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
         if (item.type === "episode") {
           id = item.episode_metadata.series_id;
@@ -330,11 +297,12 @@ window.mapper = {
           display = "episode";
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
+        } else if (item.content_type == "tv_channel") {
+          var background = `${service.api.bingeStageUrl}/${item.thumb_path}`;
+          var poster = `${service.api.bingeStageUrl}/${item.logo_path}`;
         } else {
-          // var background = item.images.poster_wide[0][4].source;
-          // var poster = item.images.poster_tall[0][2].source;
           var background = `${service.api.bingeStageUrl}/${item.image_landscape}`;
-          var poster = `${service.api.bingeStageUrl}/${item.image_portrait}`;
+          var poster = item.image_portrait ? `${service.api.bingeStageUrl}/${item.image_portrait}` : item.image_square ? `${service.api.bingeStageUrl}/${item.image_square}` : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
         }
 
         return {
@@ -346,11 +314,10 @@ window.mapper = {
           poster,
           title,
           description,
-          // type: item.type,
           type: "series",
+          ...item,
         };
       });
-      // console.log("mapItems", items);
     } catch (error) {
       console.log("CRITICAL: error on map element.", error);
       return [];

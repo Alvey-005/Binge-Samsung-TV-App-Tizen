@@ -276,6 +276,11 @@ window.languages = {
       no: "NO",
       yes: "YES",
     },
+    premimumNeedDialog: {
+      message: "You cannot watch this content until you subscribe",
+      no: "NO",
+      yes: "YES",
+    },
     search: {
       placeholder: "Search...",
     },

@@ -6,11 +6,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
     />
-    <meta name="description" content="Crunchyroll by difix" />
-    <meta name="author" content="Jocs" />
+    <meta name="description" content="Binge" />
+    <meta name="author" content="Abu Noman Md Sakib" />
     <title>Binge</title>
-
-    <!-- <script src="$WEBAPIS/webapis/webapis.js"></script> -->
 
     <script src="webOSTVjs-1.2.4/webOSTV.js" charset="utf-8"></script>
     <script src="webOSTVjs-1.2.4/webOSTV-dev.js" charset="utf-8"></script>
@@ -37,6 +35,7 @@
     <link rel="stylesheet" href="server/css/keyboard.css" />
     <link rel="stylesheet" href="server/css/menu.css" />
     <link rel="stylesheet" href="server/css/settings.css" />
+    <link href="https://unpkg.com/video.js/dist/video-js.min.css" rel="stylesheet">
     <!-- end css -->
   </head>
 
@@ -57,7 +56,6 @@
     <script src="server/js/core/hls.min.js"></script>
     <script src="server/js/core/jquery.min.js"></script>
     <script src="server/js/core/slick.min.js"></script>
-    <!-- <script src="server/js/core/mappers/crunchyroll.js"></script> -->
     <script src="server/js/core/mappers/binge.js"></script>
     <script src="server/js/core/translate.js"></script>
     <script src="server/js/core/languages.js"></script>
@@ -66,6 +64,7 @@
     <script src="server/js/core/service.js"></script>
     <script src="server/js/screen/loading.js"></script>
     <script src="server/js/screen/exit.js"></script>
+    <script src="server/js/screen/premiumNeedDialog.js"></script>
     <script src="server/js/screen/login.js"></script>
     <script src="server/js/screen/otp.js"></script>
     <script src="server/js/screen/search.js"></script>
@@ -73,6 +72,7 @@
     <script src="server/js/screen/browse.js"></script>
     <script src="server/js/screen/changelog.js"></script>
     <script src="server/js/screen/home.js"></script>
+    <script src="server/js/screen/movies.js"></script>
     <script src="server/js/screen/home.details.js"></script>
     <script src="server/js/screen/home.episodes.js"></script>
     <script src="server/js/screen/video.js"></script>
@@ -82,7 +82,9 @@
     <script src="server/js/config/urls.js"></script>
     <script src="server/js/utils/requestMethods.js"></script>
     <script src="server/js/main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>   
+    <!-- <script src="https://unpkg.com/video.js/dist/video.min.js"></script> -->
+    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
     <!-- end js -->
   </body>
 </html>

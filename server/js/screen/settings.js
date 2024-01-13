@@ -338,9 +338,9 @@ window.settings = {
       create: function (id) {
         return `
         <div style="color: #fff;font-size: 23px;line-height: 51px;text-align: right;padding: 38px 0;position: absolute;right: 0;bottom: 0;">
-          <div>Crunchyroll unofficial app.</div>
-          <div>Github: https://github.com/jhassan8/crunchyroll-tizen</div>
-          <div>Contact: Github or jhassan8@outlook.com</div>
+          <div>Binge Samsung TV app.</div>
+          <div>Github: https://github.com/anmspro/Binge-Samsung-TV-App-Tizen</div>
+          <div>Contact: Github</div>
           <div>Version: ${session.storage.version}</div>
         </div>`;
       },

@@ -34,11 +34,9 @@ window.main = {
     login: function () {
       session.valid({
         success: function () {
-          console.log("session valid success");
           main.events.home();
           // session.load_account({
           //   success: function () {
-          //     console.log("login success");
           //     main.events.home();
           //   },
           //   error: function (error) {
@@ -47,7 +45,6 @@ window.main = {
           // });
         },
         error: function (error) {
-          console.log("session valid error", error);
           loading.destroy();
           login.init();
         },
@@ -56,13 +53,51 @@ window.main = {
 
     home: function () {
       service.allCategories({
+        data: {
+          page: "web-home-vod",
+        },
         success: function (response) {
-          mapper.home(response, {
-            success: function () {
-              console.log("home success");
-              loading.destroy();
-              home.init();
-              menu.init();
+          service.banners({
+            success: function (res) {
+              mapper.populate(window.home, response, res.data.banners, {
+                success: function () {
+                  loading.destroy();
+                  home.init();
+                  !menu.initialized && menu.init();
+                },
+              });
+            },
+            error: function (error) {
+              console.log("banner fetch error", error);
+            },
+          });
+        },
+        error: function (error) {
+          console.log(error);
+          loading.destroy();
+          login.init();
+        },
+      });
+    },
+
+    movies: function () {
+      service.allCategories({
+        data: {
+          page: "web-movies",
+        },
+        success: function (response) {
+          service.movieBanners({
+            success: function (res) {
+              mapper.populate(window.movies, response, res.data.banners, {
+                success: function () {
+                  loading.destroy();
+                  movies.init();
+                  !menu.initialized && menu.init();
+                },
+              });
+            },
+            error: function (error) {
+              console.log("banner fetch error", error);
             },
           });
         },
@@ -107,6 +142,9 @@ window.main = {
           case exit.id:
             exit.keyDown(event);
             break;
+          case premiumNeedDialog.id:
+            premiumNeedDialog.keyDown(event);
+            break;
           case login.id:
             login.keyDown(event);
             break;
@@ -130,6 +168,9 @@ window.main = {
             break;
           case home.id:
             home.keyDown(event);
+            break;
+          case movies.id:
+            movies.keyDown(event);
             break;
           case home_details.id:
             home_details.keyDown(event);
