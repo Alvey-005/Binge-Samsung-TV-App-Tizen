@@ -120,7 +120,7 @@ window.menu = {
         <p>${session.storage.account.username}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
-      <div class="options">
+      <div class="options" onclick="menu.keyDown(event)">
         ${menu_options}
       </div>
       <div class="tools">
@@ -171,6 +171,7 @@ window.menu = {
   },
 
   keyDown: function (event) {
+    console.log('menu clciked', event);
     switch (event.keyCode) {
       case tvKey.KEY_RIGHT:
         menu.close();

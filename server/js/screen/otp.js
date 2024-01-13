@@ -18,19 +18,19 @@ window.otp = {
           </div>
           <a class="button ${
             otp.id
-          }-option" translate id='verifyOtpBtn'>${translate.go(
+          }-option" translate onclick="otp.keyDown(event)">${translate.go(
       "login.verify"
     )}</a>
         </div>
       </div>
     </div>`;
     document.body.appendChild(otp_element);
-    document
-      .getElementById("verifyOtpBtn")
-      .addEventListener("click", function (e) {
-        console.log("verify otp clicked");
-        otp.keyDown(e);
-      });
+    // document
+    //   .getElementById("verifyOtpBtn")
+    //   .addEventListener("click", function (e) {
+    //     console.log("verify otp clicked");
+    //     otp.keyDown(e);
+    //   });
 
     otp.move(otp.selected);
     main.state = otp.id;

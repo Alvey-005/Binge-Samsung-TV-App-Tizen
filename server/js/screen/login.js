@@ -18,19 +18,20 @@ window.login = {
           </div>
           <a class="button ${
             login.id
-          }-option" translate id="generateOtpBtn">${translate.go(
+          }-option" translate onclick="login.keyDown(event)">${translate.go(
       "login.generateOtp"
     )}</a>
         </div>
       </div>
     </div>`;
     document.body.appendChild(login_element);
-    document
-      .getElementById("generateOtpBtn")
-      .addEventListener("click", function (e) {
-        console.log("generate otp clicked", e);
-        login.keyDown(e);
-      });
+
+    // document
+    //   .getElementById("generateOtpBtn")
+    //   .addEventListener("click", function (e) {
+    //     console.log("generate otp clicked", e);
+    //     login.keyDown(e);
+    //   });
 
     login.move(login.selected);
     main.state = login.id;
@@ -42,6 +43,7 @@ window.login = {
 
   keyDown: function (event) {
     if (event.type === "click") {
+      console.log('clicked login', event);
       login.move(login.selected == 1 ? 1 : login.selected + 1);
       login.action(this.selected);
     } else {
