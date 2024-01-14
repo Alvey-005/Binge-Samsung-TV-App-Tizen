@@ -63,7 +63,7 @@ window.mapper = {
           category_id: item.category_id,
           category_type: item.category_type,
           page: 1,
-          page_size: item.page_size,
+          page_size: 10000,
         };
 
         const products = await requestMethod.post(

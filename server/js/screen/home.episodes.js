@@ -316,11 +316,17 @@ window.home_episodes = {
           $(`.${home_episodes.id}.${home_episodes.id}_content .option.active`)
         );
         if (current > 0) {
-          video.init(
-            home_episodes.data.episodes[
-              $(".episodes .episodes-list")[0].slick.currentSlide
-            ]
-          );
+          const target = home_episodes.data.episodes[
+            $(".episodes .episodes-list")[0].slick.currentSlide
+          ];
+          service.contentDetails({
+            body:{
+              id:target.id,
+              content_type : target.content_type
+            },success: function (response) {
+              video.init(response);
+            },
+          })
         } else {
           options = $(`.seasons-list .season`);
           current = options.index($(`.seasons-list .season.selected`));
