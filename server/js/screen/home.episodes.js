@@ -187,7 +187,7 @@ window.home_episodes = {
   },
 
   premium: function (episode) {
-    return episode.premium ? `<i class="fa-solid fa-crown premium"></i>` : "";
+    return episode.free_or_premium ===2 ? `<i class="fa-solid fa-crown premium"></i>` : "";
   },
 
   destroy: function () {

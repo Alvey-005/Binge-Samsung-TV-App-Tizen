@@ -1,7 +1,30 @@
-window.baseURL = 'https://ss-staging.binge.buzz'
+
+window.baseURL = 'https://ss-staging.binge.buzz';
+function handleInterceptors() {
+    return axios.interceptors.response.use(
+      function (response) {
+        if (response.status === 401 || (response.data && response.data.message === 'Invalid Signatureinv4')) {
+          console.log('401');
+          session.clear();
+          login.init();
+          loading.destroy();
+        }
+        return response;
+      },
+      function (error) {
+        if (error.response.status === 401 || error.message === 'Invalid Signatureinv4') {
+          console.log('Invalid Signatureinv4');
+          session.clear();
+          login.init();
+          loading.destroy();
+        }
+        return Promise.reject(error);
+      }
+    );
+  }
 window.requestMethod = {
     get: function(url, params={}){
-
+        handleInterceptors();
         return axios({
             url,
             baseURL: baseURL,
@@ -22,6 +45,7 @@ window.requestMethod = {
         });
     },
     post : function(url, body){
+        handleInterceptors();
         return axios({
             url,
             baseURL: baseURL,
@@ -42,6 +66,7 @@ window.requestMethod = {
         })
     },
     put: function(url, body, formData){
+        handleInterceptors()
         const config = {
             url,
             baseURL: baseURL,
