@@ -370,6 +370,36 @@ window.service = {
     });
   },
 
+  addToFavourites: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.wishlist, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error('Error in service add to favourites \n', e);
+        }
+      },
+    });
+  },
+
+  getFavourites: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(`${urls.wishlist}/${session.storage.customer.id}`, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error('Error in service favourites \n', e);
+        }
+      },
+    });
+  },
+
   formatBinge: function (params) {
     return Object.keys(params)
       .map(function (k) {

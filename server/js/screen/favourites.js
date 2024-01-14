@@ -1,5 +1,5 @@
-window.movies = {
-  id: "movies-screen",
+window.favourites = {
+  id: "favourites-screen",
   data: {
     main: NaN,
   },
@@ -10,44 +10,44 @@ window.movies = {
   },
 
   init: function () {
-    var movies_element = document.createElement("div");
-    movies_element.id = movies.id;
+    var favourites_element = document.createElement("div");
+    favourites_element.id = favourites.id;
 
     var poster_items = ``;
-    movies.data.main.lists.forEach((element, index) => {
+    favourites.data.main.lists.forEach((element, index) => {
       if (element.items.length > 0) {
         poster_items += `
-        <div class="row">
-          <div class="row-title">${element.title}</div>
-          <div class="row-content ${element.items[0].display}">`;
+      <div class="row">
+        <div class="row-title">${element.title}</div>
+        <div class="row-content ${element.items[0].display}">`;
         element.items.forEach((item) => {
-          poster_items += movies.createItem(item);
+          poster_items += favourites.createItem(item);
         });
         for (var index = 0; index < 9; index++) {
-          poster_items += movies.createEmptyItem(element.items[0].display);
+          poster_items += favourites.createEmptyItem(element.items[0].display);
         }
         poster_items += `</div></div>`;
       }
     });
 
-    movies_element.innerHTML = `
+    favourites_element.innerHTML = `
       <div class="content">
         ${
-          movies.fromCategory.state
-            ? `<div class="browse-back"><span></span><p>${movies.fromCategory.title}</p></div>`
+          favourites.fromCategory.state
+            ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
             : ""
         }
         <div class="details full">
           <div class="background">
-            <img src="${movies.data.main.banner.background}">
+            <img src="${favourites.data.main.lists[0].items[0].background}">
           </div>
           <div class="info">
-            <div class="title resize">${movies.data.main.banner.title}</div>
-            <div class="description resize">${movies.data.main.banner.description}</div>
+            <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
+            <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
             <!--
             <div class="buttons">
-              <a class="selected">${translate.go("movies.banner.play")}</a>
-              <a>${translate.go("movies.banner.info")}</a>
+              <a class="selected">${translate.go("favourites.banner.play")}</a>
+              <a>${translate.go("favourites.banner.info")}</a>
             </div>
             -->
           </div>
@@ -60,7 +60,7 @@ window.movies = {
         </div>
       </div>`;
 
-    document.body.appendChild(movies_element);
+    document.body.appendChild(favourites_element);
 
     var title = $(".details .info .title")[0];
     title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
@@ -68,7 +68,7 @@ window.movies = {
     var description = $(".details .info .description")[0];
     description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
 
-    $(`#${movies.id} .rows`).slick({
+    $(`#${favourites.id} .rows`).slick({
       vertical: true,
       dots: false,
       arrows: false,
@@ -82,7 +82,7 @@ window.movies = {
     /***
      * if slide to show is changed, change the css file too
      */
-    $(`#${movies.id} .rows .row-content`).not(".episode").slick({
+    $(`#${favourites.id} .rows .row-content`).not(".episode").slick({
       dots: false,
       arrows: false,
       infinite: false,
@@ -92,7 +92,7 @@ window.movies = {
       waitForAnimate: false,
     });
 
-    $(`#${movies.id} .rows .row-content.episode`).slick({
+    $(`#${favourites.id} .rows .row-content.episode`).slick({
       dots: false,
       arrows: false,
       infinite: false,
@@ -102,28 +102,57 @@ window.movies = {
       waitForAnimate: false,
     });
 
-    $(`#${movies.id} .rows`)[0].slick.slickGoTo(0);
-    $(`#${movies.id} .rows .row-content`)[0].slick.slickGoTo(0);
+    $(`#${favourites.id} .rows`)[0].slick.slickGoTo(0);
+    $(`#${favourites.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
-    main.state = movies.id;
+    main.state = favourites.id;
     
     var keyDownEvent = new Event('keydown');
     keyDownEvent.keyCode = tvKey.KEY_DOWN;
-    movies.keyDown(keyDownEvent);
+    favourites.keyDown(keyDownEvent);
+  },
+
+  start: function () {
+    loading.init();
+    service.getFavourites({
+      data: {
+        page: 1,
+        page_size: -1,
+      },
+      success: function (response) {
+        favourites.data.main = {
+          lists: [{
+            category_id: null,
+            category_type: null,
+            title: "My list",
+            page_id: 1,
+            page_size: -1,
+            items: [],
+          }],
+        };
+        favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
+        loading.destroy();
+        favourites.init();
+      },
+      error: function (error) {
+        loading.destroy();
+        console.log(error);
+      },
+    });
   },
 
   destroy: function () {
-    movies.position = 0;
-    document.body.removeChild(document.getElementById(movies.id));
+    favourites.position = 0;
+    document.body.removeChild(document.getElementById(favourites.id));
   },
 
   show_details: function () {
     var item =
-      movies.position > 0
-        ? movies.data.main.lists[movies.position - 1].items[
-            $(".row-content")[movies.position - 1].slick.currentSlide
+      favourites.position > 0
+        ? favourites.data.main.lists[favourites.position - 1].items[
+            $(".row-content")[favourites.position - 1].slick.currentSlide
           ]
-        : movies.data.main.banner;
+        : favourites.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
     var titleElements = $(".details .info .title");
@@ -147,78 +176,78 @@ window.movies = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case 27:
-        if (!movies.fromCategory.state) {
+        if (!favourites.fromCategory.state) {
           menu.open();
         } else {
-          movies.destroy();
-          browse.init(movies.fromCategory.index);
+          favourites.destroy();
+          browse.init(favourites.fromCategory.index);
         }
         break;
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        if (movies.position > 1) {
+        if (favourites.position > 1) {
           $(".row-content").removeClass("selected");
-          movies.position--;
-          $(".rows")[0].slick.slickGoTo(movies.position - 1);
-          $(".row-content")[movies.position - 1].slick.slickGoTo(
-            $(".row-content")[movies.position - 1].slick.getCurrent()
+          favourites.position--;
+          $(".rows")[0].slick.slickGoTo(favourites.position - 1);
+          $(".row-content")[favourites.position - 1].slick.slickGoTo(
+            $(".row-content")[favourites.position - 1].slick.getCurrent()
           );
-          $(".row-content")[movies.position - 1].className =
-            $(".row-content")[movies.position - 1].className + " selected";
+          $(".row-content")[favourites.position - 1].className =
+            $(".row-content")[favourites.position - 1].className + " selected";
         } else {
           // $(".details").addClass("full");
-          // movies.position = 0;
+          // favourites.position = 0;
         }
-        movies.show_details();
+        favourites.show_details();
         break;
       case tvKey.KEY_DOWN:
-        if (movies.position > 0) {
+        if (favourites.position > 0) {
           $(".row-content").removeClass("selected");
-          movies.position =
-            movies.position < movies.data.main.lists.length
-              ? movies.position + 1
-              : movies.position;
-          if (movies.position <= movies.data.main.lists.length) {
-            $(".rows")[0].slick.slickGoTo(movies.position - 1);
-            $(".row-content")[movies.position - 1].slick.slickGoTo(
-              $(".row-content")[movies.position - 1].slick.getCurrent()
+          favourites.position =
+            favourites.position < favourites.data.main.lists.length
+              ? favourites.position + 1
+              : favourites.position;
+          if (favourites.position <= favourites.data.main.lists.length) {
+            $(".rows")[0].slick.slickGoTo(favourites.position - 1);
+            $(".row-content")[favourites.position - 1].slick.slickGoTo(
+              $(".row-content")[favourites.position - 1].slick.getCurrent()
             );
           }
-          $(".row-content")[movies.position - 1].className =
-            $(".row-content")[movies.position - 1].className + " selected";
+          $(".row-content")[favourites.position - 1].className =
+            $(".row-content")[favourites.position - 1].className + " selected";
         } else {
           $(".details.full").removeClass("full");
           var first_row = $(".row-content")[0];
           $(".rows")[0].slick.slickGoTo(0);
           first_row.slick.slickGoTo(first_row.slick.getCurrent());
           first_row.className = first_row.className + " selected";
-          movies.position++;
+          favourites.position++;
         }
-        movies.show_details();
+        favourites.show_details();
         break;
       case tvKey.KEY_LEFT:
-        if (movies.position > 0) {
-          if ($(".row-content")[movies.position - 1].slick.currentSlide === 0) {
-            if (!movies.fromCategory.state) {
+        if (favourites.position > 0) {
+          if ($(".row-content")[favourites.position - 1].slick.currentSlide === 0) {
+            if (!favourites.fromCategory.state) {
               menu.open();
             } else {
-              movies.destroy();
-              browse.init(movies.fromCategory.index);
+              favourites.destroy();
+              browse.init(favourites.fromCategory.index);
             }
           } else {
-            $(".row-content")[movies.position - 1].slick.prev();
-            movies.show_details();
+            $(".row-content")[favourites.position - 1].slick.prev();
+            favourites.show_details();
           }
         } else {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           if (current === 0) {
-            if (!movies.fromCategory.state) {
+            if (!favourites.fromCategory.state) {
               menu.open();
             } else {
-              movies.destroy();
-              browse.init(movies.fromCategory.index);
+              favourites.destroy();
+              browse.init(favourites.fromCategory.index);
             }
           } else {
             buttons.removeClass("selected");
@@ -229,12 +258,12 @@ window.movies = {
         }
         break;
       case tvKey.KEY_RIGHT:
-        if (movies.position > 0) {
-          var currentList = movies.data.main.lists[movies.position - 1];
-          var currentSlide = $(".row-content")[movies.position - 1];
+        if (favourites.position > 0) {
+          var currentList = favourites.data.main.lists[favourites.position - 1];
+          var currentSlide = $(".row-content")[favourites.position - 1];
 
           if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
-            if (movies.fromCategory.state && currentList.lazy) {
+            if (favourites.fromCategory.state && currentList.lazy) {
               if (
                 currentList.items.length > 15 &&
                 currentSlide.slick.currentSlide > currentList.items.length - 10
@@ -242,15 +271,15 @@ window.movies = {
                 currentList.lazy = false;
                 loading.start();
                 mapper.loadCategoryListAsync(
-                  `${movies.data.main.category},${currentList.id}`,
+                  `${favourites.data.main.category},${currentList.id}`,
                   currentList.items.length,
                   20,
-                  movies.position - 1,
+                  favourites.position - 1,
                   {
                     success: function (response, index) {
-                      movies.data.main.lists[index].lazy =
+                      favourites.data.main.lists[index].lazy =
                         response.items.length === 20;
-                      movies.addToList(index, mapper.mapItems(response.items));
+                      favourites.addToList(index, mapper.mapItems(response.items));
                       loading.end();
                     },
                     error: function (error) {
@@ -262,7 +291,7 @@ window.movies = {
               }
             }
             currentSlide.slick.next();
-            movies.show_details();
+            favourites.show_details();
           }
         } else {
           var buttons = $(".details .buttons a");
@@ -276,19 +305,19 @@ window.movies = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         var item =
-          movies.position > 0
-            ? movies.data.main.lists[movies.position - 1].items[
-                $(".row-content")[movies.position - 1].slick.currentSlide
+          favourites.position > 0
+            ? favourites.data.main.lists[favourites.position - 1].items[
+                $(".row-content")[favourites.position - 1].slick.currentSlide
               ]
-            : movies.data.main.banner;
-        // movies-screen
+            : favourites.data.main.banner;
+        // favourites-screen
         service.contentDetails({
           body: {
             id: item.id,
             content_type: item.content_type,
           },
           success: function (data) {
-            home_details.init(item, data, movies);
+            home_details.init(item, data, favourites);
           },
         });
         break;
@@ -296,18 +325,17 @@ window.movies = {
   },
 
   restart: function () {
-    movies.fromCategory.state = false;
-    movies.fromCategory.index = NaN;
-    loading.init();
-    movies.data.main = null;
-    main.events.movies();
+    favourites.fromCategory.state = false;
+    favourites.fromCategory.index = NaN;
+    favourites.data.main = null;
+    favourites.start();
   },
 
   addToList: function (index, newItems) {
-    var itemsCount = movies.data.main.lists[index].items.length;
-    var currentSlide = $(".row-content")[movies.position - 1];
-    movies.data.main.lists[index].items =
-      movies.data.main.lists[index].items.concat(newItems);
+    var itemsCount = favourites.data.main.lists[index].items.length;
+    var currentSlide = $(".row-content")[favourites.position - 1];
+    favourites.data.main.lists[index].items =
+      favourites.data.main.lists[index].items.concat(newItems);
 
     // remove empty items for prevent move error
     for (var index = 0; index < 9; index++) {
@@ -316,12 +344,12 @@ window.movies = {
 
     // added new items
     newItems.forEach((element) =>
-      currentSlide.slick.slickAdd(movies.createItem(element))
+      currentSlide.slick.slickAdd(favourites.createItem(element))
     );
 
     // added empty items for prevent move error
     for (var index = 0; index < 9; index++) {
-      currentSlide.slick.slickAdd(movies.createEmptyItem(newItems[0].display));
+      currentSlide.slick.slickAdd(favourites.createEmptyItem(newItems[0].display));
     }
   },
 

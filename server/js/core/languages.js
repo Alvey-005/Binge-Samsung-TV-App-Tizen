@@ -263,6 +263,7 @@ window.languages = {
         play: "Play",
         continue: "Continue watching",
         add: "Add to my list",
+        added: "Added to my list",
         episodes: "Episodes",
         related: "Related content",
       },
@@ -278,6 +279,11 @@ window.languages = {
     },
     premimumNeedDialog: {
       message: "You cannot watch this content until you subscribe",
+      no: "NO",
+      yes: "YES",
+    },
+    streamLimitCrossed:{
+      message: "Stream Limit Crossed",
       no: "NO",
       yes: "YES",
     },
