@@ -278,8 +278,16 @@ window.home = {
                 $(".row-content")[home.position - 1].slick.currentSlide
               ]
             : home.data.main.banner;
-        //home-screen
-        home_details.init(item, home);
+        // home-screen
+        service.contentDetails({
+          body: {
+            id: item.id,
+            content_type: item.content_type,
+          },
+          success: function (data) {
+            home_details.init(item, data, home);
+          },
+        });
         break;
     }
   },

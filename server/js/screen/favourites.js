@@ -114,7 +114,7 @@ window.favourites = {
 
   start: function () {
     loading.init();
-    service.favourites({
+    service.getFavourites({
       data: {
         page: 1,
         page_size: -1,
@@ -135,7 +135,7 @@ window.favourites = {
         favourites.init();
       },
       error: function (error) {
-        loading.end();
+        loading.destroy();
         console.log(error);
       },
     });
@@ -310,8 +310,16 @@ window.favourites = {
                 $(".row-content")[favourites.position - 1].slick.currentSlide
               ]
             : favourites.data.main.banner;
-        //favourites-screen
-        home_details.init(item, favourites);
+        // favourites-screen
+        service.contentDetails({
+          body: {
+            id: item.id,
+            content_type: item.content_type,
+          },
+          success: function (data) {
+            home_details.init(item, data, favourites);
+          },
+        });
         break;
     }
   },
