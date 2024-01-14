@@ -25,7 +25,7 @@
 }
 
 #home-screen .content ,
-  #movies-screen .content {
+#movies-screen .content {
   height: 100vh;
   /* transition: margin 0.5s; */
 }

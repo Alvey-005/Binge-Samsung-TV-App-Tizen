@@ -175,6 +175,9 @@ window.main = {
           case movies.id:
             movies.keyDown(event);
             break;
+          case favourites.id:
+            favourites.keyDown(event);
+            break;
           case home_details.id:
             home_details.keyDown(event);
             break;
