@@ -12,20 +12,13 @@ window.home_details = {
     destroy: NaN,
   },
 
-  init: function (item, screen, init, destroy) {
+  init: function (item, contentDetails, screen, init, destroy) {
+    home_details.data.contentDetails = contentDetails;
     home_details.appendScreen = screen;
     home_details.callbacks.init = init;
     home_details.callbacks.destroy = destroy;
-    const contentDetailResponse = service.contentDetails({
-      body: {
-        id: item.id,
-        content_type: item.content_type,
-      },
-      success: function (data) {
-        home_details.data.contentDetails = data;
-      },
-    });
     home_details.callbacks.init && home_details.callbacks.init(item);
+    
     var buttons = document.createElement("div");
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
     buttons.innerHTML = `
@@ -35,8 +28,8 @@ window.home_details = {
       <span></span>
     </a>
     <a>
-      <i class="fa-solid fa-bookmark"></i>
-      <p>${translate.go("home.details.add")}</p>
+      <i class="fa-solid ${home_details.data.contentDetails.is_wishlist == true ? 'fa-check' : 'fa-bookmark'}"></i>
+      <p>${home_details.data.contentDetails.is_wishlist ? translate.go("home.details.added") : translate.go("home.details.add")}</p>
     </a>
     <a>
       <i class="fa-solid fa-list"></i>
@@ -66,42 +59,42 @@ window.home_details = {
         .eq(0)
         .width((item.playhead * 100) / item.duration + "%");
     } else {
-      loading.start();
-      service.continue({
-        data: {
-          ids: item.id,
-        },
-        success: function (response) {
-          loading.end();
-          home_details.data.continue = mapper.continue(response);
-          $(`.${home_details.id}.${home_details.id}_buttons a`)
-            .eq(0)
-            .addClass(
-              `${home_details.data.continue.played > 0 ? "played" : ""}`
-            )
-            .attr("percent", home_details.data.continue.played);
+      // loading.start();
+      // service.continue({
+      //   data: {
+      //     ids: item.id,
+      //   },
+      //   success: function (response) {
+      //     loading.end();
+      //     home_details.data.continue = mapper.continue(response);
+      //     $(`.${home_details.id}.${home_details.id}_buttons a`)
+      //       .eq(0)
+      //       .addClass(
+      //         `${home_details.data.continue.played > 0 ? "played" : ""}`
+      //       )
+      //       .attr("percent", home_details.data.continue.played);
 
-          var text = translate.go(
-            `home.details.${
-              home_details.data.continue.played > 0 ? "continue" : "play"
-            }`,
-            {
-              season: home_details.data.continue.season_number,
-              episode: home_details.data.continue.episode_number,
-            }
-          );
-          $(`.${home_details.id}.${home_details.id}_buttons a p`)
-            .eq(0)
-            .text(text);
-          $(`.${home_details.id}.${home_details.id}_buttons a span`)
-            .eq(0)
-            .width(home_details.data.continue.played + "%");
-        },
-        error: function (error) {
-          loading.end();
-          console.log(error);
-        },
-      });
+      //     var text = translate.go(
+      //       `home.details.${
+      //         home_details.data.continue.played > 0 ? "continue" : "play"
+      //       }`,
+      //       {
+      //         season: home_details.data.continue.season_number,
+      //         episode: home_details.data.continue.episode_number,
+      //       }
+      //     );
+      //     $(`.${home_details.id}.${home_details.id}_buttons a p`)
+      //       .eq(0)
+      //       .text(text);
+      //     $(`.${home_details.id}.${home_details.id}_buttons a span`)
+      //       .eq(0)
+      //       .width(home_details.data.continue.played + "%");
+      //   },
+      //   error: function (error) {
+      //     loading.end();
+      //     console.log(error);
+      //   },
+      // });
     }
 
     $(`#${screen.id} .details`).addClass("full");
@@ -117,7 +110,7 @@ window.home_details = {
     $(`.${home_details.id}`).remove();
     home_details.data.continue = NaN;
     home_details.data.this = NaN;
-
+    home_details.data.contentDetails = NaN;
     main.state = home_details.previous;
     home_details.callbacks.destroy && home_details.callbacks.destroy();
   },
@@ -159,10 +152,37 @@ window.home_details = {
             video.init(home_details.data.contentDetails);
             break;
           case 1:
-            console.log("add list");
+            loading.start();
+            service.addToFavourites({
+              data: {
+                customer_id: session.storage.customer.id,
+                product_id: home_details.data.contentDetails.id,
+              },
+              success: function (response) {
+                var item = home_details.data.this;
+                var screen = home_details.appendScreen;
+                home_details.destroy();
+
+                service.contentDetails({
+                  body: {
+                    id: item.id,
+                    content_type: item.content_type,
+                  },
+                  success: function (data) {
+                    setTimeout(function () {
+                        loading.end(); 
+                    }, 1000);
+                    home_details.init(item, data, screen);
+                  },
+                });
+              },
+              error: function (error) {
+                loading.destroy();
+                console.log(error);
+              },
+            });
             break;
           case 2:
-            console.log("screen name", this.appendScreen);
             home_episodes.init(
               home_details.data.contentDetails,
               this.appendScreen

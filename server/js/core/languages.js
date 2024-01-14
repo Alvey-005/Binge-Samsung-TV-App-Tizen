@@ -263,6 +263,7 @@ window.languages = {
         play: "Play",
         continue: "Continue watching",
         add: "Add to my list",
+        added: "Added to my list",
         episodes: "Episodes",
         related: "Related content",
       },

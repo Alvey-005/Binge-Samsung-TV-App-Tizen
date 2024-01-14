@@ -26,12 +26,12 @@ window.menu = {
       icon: "fa-solid fa-bookmark",
       action: "favourites.start",
     },
-    {
-      id: "subscribe",
-      label: "menu.subscribe",
-      icon: "fa-solid fa-bell",
-      action: "subscribe.init",
-    },
+    // {
+    //   id: "subscribe",
+    //   label: "menu.subscribe",
+    //   icon: "fa-solid fa-bell",
+    //   action: "subscribe.init",
+    // },
     // {
     //   id: "historyScreen",
     //   label: "menu.history",
