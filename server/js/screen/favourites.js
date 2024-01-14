@@ -130,10 +130,7 @@ window.favourites = {
             items: [],
           }],
         };
-        console.log("favourites.data.main.lists ", favourites.data.main.lists);
-        console.log("favourites js response.wish_list.products ", response.wish_list.products);
         favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
-        console.log("favourites.data.main.lists.items", favourites.data.main.lists[0].items);
         loading.destroy();
         favourites.init();
       },
