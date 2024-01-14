@@ -87,9 +87,15 @@ window.player = {
                       if (resp.statusCode === 429) {
                           // handleCloseContentError();
                           video.destroy();
+                          streamLimitCrossed.init();
+                          video.destroy();
                       } else if (resp.statusCode === 401) {
                           // handleUnauthorizedError();
+                          video.destroy();
+                          session.clear();
+                          login.init();
                       } else if (resp.statusCode !== 200) {
+                         video.destroy();
                           fireError();
                       }
                   }

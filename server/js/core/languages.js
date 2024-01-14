@@ -281,6 +281,11 @@ window.languages = {
       no: "NO",
       yes: "YES",
     },
+    streamLimitCrossed:{
+      message: "Stream Limit Crossed",
+      no: "NO",
+      yes: "YES",
+    },
     search: {
       placeholder: "Search...",
     },

@@ -145,6 +145,9 @@ window.main = {
           case premiumNeedDialog.id:
             premiumNeedDialog.keyDown(event);
             break;
+          case streamLimitCrossed.id:
+            streamLimitCrossed.keyDown(event);
+            break;
           case login.id:
             login.keyDown(event);
             break;
