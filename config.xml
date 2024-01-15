@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://binge.buzz/" version="1.0.0" viewmodes="maximized">
+<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="https://binge.buzz/" version="1.0.0" viewmodes="fullscreen">
     <access origin="*"></access>
-    <tizen:application id="qXuEoRvlCp.Crunchyroll" package="qXuEoRvlCp" required_version="3.0"/>
+    <tizen:application id="bpeU1aRY4w.Binge" package="bpeU1aRY4w" required_version="3.0"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
