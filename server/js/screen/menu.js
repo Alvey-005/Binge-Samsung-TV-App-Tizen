@@ -110,7 +110,9 @@ window.menu = {
         menu_options += `
         <a class="option ${
           !reset && index === menu.selected ? "selected" : ""
-        }">
+        }" onclick="menu.click(event, '${element.id}', '${element.action}', '${
+          element.event
+        }', '${index}')">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
@@ -133,7 +135,7 @@ window.menu = {
         <p>${session.storage.customer?.name || "Your Name"}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
-      <div class="options" onclick="menu.keyDown(event)">
+      <div class="options">
         ${menu_options}
       </div>
       <div class="tools">
@@ -161,6 +163,24 @@ window.menu = {
     main.state = this.id;
   },
 
+  click: function (event, id = null, action = null, evn = null, idx = null) {
+    console.log("getting", event, id, action, evn);
+    var options = $(`#${menu.id} .option`);
+    if (menu.options[idx].action) {
+      var selected = options.index($(`#${menu.id} .option.selected`));
+      ``;
+      options.removeClass("selected");
+      options.eq(idx).addClass("selected");
+      this.previous = window[menu.options[idx].id].id;
+      window[menu.options[selected].id].destroy();
+      test = menu.options[idx].action.split(".");
+      window[test[0]][test[1]]();
+      menu.close();
+    } else if (menu.options[idx].event) {
+      window.main.events[menu.options[idx].event]();
+    }
+  },
+
   close: function () {
     menu.isOpen = false;
     $("body").removeClass("open-menu");
@@ -185,7 +205,6 @@ window.menu = {
   },
 
   keyDown: function (event) {
-    console.log('menu clciked', event);
     switch (event.keyCode) {
       case tvKey.KEY_RIGHT:
         menu.close();
@@ -197,12 +216,14 @@ window.menu = {
       case tvKey.KEY_UP:
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
+        console.log('cur up', current);
         options.removeClass("focus");
         options.eq(current > 0 ? current - 1 : current).addClass("focus");
         break;
       case tvKey.KEY_DOWN:
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
+        console.log('cur down', current);
         options.removeClass("focus");
         options
           .eq(current < options.length - 1 ? current + 1 : current)
@@ -212,6 +233,7 @@ window.menu = {
       case tvKey.KEY_PANEL_ENTER:
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
+        console.log('cur remote', current);
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
           ``;
