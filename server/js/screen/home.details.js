@@ -145,7 +145,6 @@ window.home_details = {
         var current = buttons.index(
           $(`.${home_details.id}.${home_details.id}_buttons a.selected`)
         );
-        console.log("home details data", home_details);
 
         switch (current) {
           case 0:
