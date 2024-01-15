@@ -312,7 +312,7 @@ window.sports = {
               success: function () {
                 loading.destroy();
                 sports.init();
-                // !menu.initialized && menu.init();
+                !menu.initialized && menu.init();
               },
             });
           },

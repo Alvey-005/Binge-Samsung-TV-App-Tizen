@@ -312,7 +312,7 @@ window.series = {
               success: function () {
                 loading.destroy();
                 series.init();
-                // !menu.initialized && menu.init();
+                !menu.initialized && menu.init();
               },
             });
           },
