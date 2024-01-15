@@ -114,7 +114,7 @@ window.favourites = {
 
   start: function () {
     loading.init();
-    service.getFavourites({
+    api.getFavourites({
       data: {
         page: 1,
         page_size: -1,
@@ -311,7 +311,7 @@ window.favourites = {
               ]
             : favourites.data.main.banner;
         // favourites-screen
-        service.contentDetails({
+        api.contentDetails({
           body: {
             id: item.id,
             content_type: item.content_type,

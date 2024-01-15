@@ -1,5 +1,5 @@
 
-window.baseURL = 'https://ss-staging.binge.buzz';
+window.baseURL = 'https://web-api-staging.binge.buzz';
 function handleInterceptors() {
     return axios.interceptors.response.use(
       function (response) {

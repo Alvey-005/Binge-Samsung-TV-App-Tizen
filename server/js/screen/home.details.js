@@ -60,7 +60,7 @@ window.home_details = {
         .width((item.playhead * 100) / item.duration + "%");
     } else {
       // loading.start();
-      // service.continue({
+      // api.continue({
       //   data: {
       //     ids: item.id,
       //   },
@@ -152,7 +152,7 @@ window.home_details = {
             break;
           case 1:
             loading.start();
-            service.addToFavourites({
+            api.addToFavourites({
               data: {
                 customer_id: session.storage.customer.id,
                 product_id: home_details.data.contentDetails.id,
@@ -162,7 +162,7 @@ window.home_details = {
                 var screen = home_details.appendScreen;
                 home_details.destroy();
 
-                service.contentDetails({
+                api.contentDetails({
                   body: {
                     id: item.id,
                     content_type: item.content_type,

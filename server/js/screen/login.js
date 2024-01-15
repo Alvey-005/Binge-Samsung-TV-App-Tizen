@@ -71,7 +71,7 @@ window.login = {
         login.destroy();
         loading.init();
         session.storage.account.phone = "+88" + phone;
-        service.login({
+        api.login({
           data: {
             phone: "+88" + phone,
           },

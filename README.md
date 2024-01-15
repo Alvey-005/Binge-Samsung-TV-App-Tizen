@@ -32,3 +32,7 @@
 3. In project folder run:
     - online: ```npm run start-tv-online --tv=<name_of_tv_device_manager>```
     - offline: ```npm run start-tv --tv=<name_of_tv_device_manager>```
+
+
+
+tizen install -n Binge.wgt -t UA32T4400ARSFS

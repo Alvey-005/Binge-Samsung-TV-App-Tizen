@@ -234,7 +234,7 @@ window.settings = {
           case "audiolang":
             var options = session.languages.audios;
             var method = function (value) {
-              service.setProfile({
+              api.setProfile({
                 data: {
                   preferred_content_audio_language: value,
                 },
@@ -261,7 +261,7 @@ window.settings = {
           case "subtitlelang":
             var options = session.languages.subtitles;
             var method = function (value) {
-              service.setProfile({
+              api.setProfile({
                 data: {
                   preferred_content_subtitle_language: value,
                 },
@@ -285,7 +285,7 @@ window.settings = {
           case "mature":
             var options = settings.bool;
             var method = function (value) {
-              service.setProfile({
+              api.setProfile({
                 data: {
                   maturity_rating: value,
                 },

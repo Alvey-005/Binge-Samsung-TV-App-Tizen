@@ -1,7 +1,7 @@
-window.service = {
+window.api = {
   api: {
     url: "https://www.crunchyroll.com",
-    bingeStageUrl: "https://ss-staging.binge.buzz",
+    bingeStageUrl: "https://web-api.binge.buzz",
     imageStageURl: "https://web-api-staging.binge.buzz",
     bingeProdUrl: "https://web-api.binge.buzz",
     auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
@@ -28,7 +28,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-        fetch(`${service.api.url}/accounts/v1/me/profile`, {
+        fetch(`${api.api.url}/accounts/v1/me/profile`, {
           headers: headers,
         })
           .then((response) => response.json())
@@ -45,7 +45,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/json");
 
-        fetch(`${service.api.url}/accounts/v1/me/profile`, {
+        fetch(`${api.api.url}/accounts/v1/me/profile`, {
           method: "PATCH",
           headers: headers,
           body: JSON.stringify(request.data),
@@ -64,7 +64,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-        fetch(`${service.api.url}/index/v2`, {
+        fetch(`${api.api.url}/index/v2`, {
           headers: headers,
         })
           .then((response) => response.json())
@@ -82,7 +82,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/content/v2/discover/up_next/${request.data.ids}?locale=${storage.language}&preferred_audio_language=${storage.account.audio}`,
+          `${api.api.url}/content/v2/discover/up_next/${request.data.ids}?locale=${storage.language}&preferred_audio_language=${storage.account.audio}`,
           {
             headers: headers,
           }
@@ -102,7 +102,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/content/v2/${storage.id}/playheads?content_ids=${request.data.ids}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          `${api.api.url}/content/v2/${storage.id}/playheads?content_ids=${request.data.ids}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             headers: headers,
           }
@@ -121,7 +121,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/cms/v2${storage.cookies.bucket}/seasons?series_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+          `${api.api.url}/cms/v2${storage.cookies.bucket}/seasons?series_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
             headers: headers,
           }
@@ -143,7 +143,7 @@ window.service = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         fetch(
-          `${service.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
+          `${api.api.url}/cms/v2${storage.cookies.bucket}/episodes?season_id=${request.data.id}&preferred_audio_language=${storage.account.audio}&locale=${storage.language}&Signature=${storage.cookies.signature}&Policy=${storage.cookies.policy}&Key-Pair-Id=${storage.cookies.key_pair_id}`,
           {
             headers: headers,
           }
@@ -164,7 +164,7 @@ window.service = {
         try {
           request.success();
         } catch (e) {
-          console.error("error in video service", e);
+          console.error("error in video api", e);
         }
       },
       error: function (error) {
@@ -180,7 +180,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         fetch(
-          `${service.api.url}/content/v2/${storage.id}/watch-history?page_size=100&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          `${api.api.url}/content/v2/${storage.id}/watch-history?page_size=100&preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             headers: headers,
           }
@@ -199,7 +199,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/json");
         fetch(
-          `${service.api.url}/content/v2/${storage.id}/playheads?preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
+          `${api.api.url}/content/v2/${storage.id}/playheads?preferred_audio_language=${storage.account.audio}&locale=${storage.language}`,
           {
             method: "POST",
             headers: headers,
@@ -229,7 +229,7 @@ window.service = {
         headers.append("Authorization", `Bearer ${storage.access_token}`);
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         fetch(
-          `${service.api.url}/content/v1/tenant_categories?include_subcategories=true&locale=${storage.language}`,
+          `${api.api.url}/content/v1/tenant_categories?include_subcategories=true&locale=${storage.language}`,
           // `https://web-api-staging.binge.buzz/api/v3/page/allCategories`,
           {
             headers: headers,
@@ -290,7 +290,7 @@ window.service = {
         } catch (e) {
           request.error
             ? request.error(e)
-            : console.error("error in service allCategories \n", e);
+            : console.error("error in api allCategories \n", e);
         }
       },
     });
@@ -306,8 +306,9 @@ window.service = {
         );
         try {
           if (request.success) {
-            request.success(allCatResponse?.data?.data);
-          }
+            if (allCatResponse && allCatResponse.data && allCatResponse.data.data) {
+              request.success(allCatResponse.data.data);
+            }          }
         } catch (e) {
           request.error ? request.error(e) : console.error(e);
         }
@@ -344,7 +345,7 @@ window.service = {
         } catch (e) {
           request.error
             ? request.error(e)
-            : console.error("error in service search \n", e);
+            : console.error("error in api search \n", e);
         }
       },
     });
@@ -406,7 +407,7 @@ window.service = {
         } catch (e) {
           request.error
             ? request.error(e)
-            : console.error("Error in service add to favourites \n", e);
+            : console.error("Error in api add to favourites \n", e);
         }
       },
     });
@@ -426,7 +427,7 @@ window.service = {
         } catch (e) {
           request.error
             ? request.error(e)
-            : console.error("Error in service favourites \n", e);
+            : console.error("Error in api favourites \n", e);
         }
       },
     });
@@ -446,7 +447,7 @@ window.service = {
         } catch (e) {
           request.error
             ? request.error(e)
-            : console.error("Error in service favourites \n", e);
+            : console.error("Error in api favourites \n", e);
         }
       },
     });
@@ -465,7 +466,7 @@ window.service = {
         } catch (e) {
           request.error
             ? request.error(e)
-            : console.error("Error in service favourites \n", e);
+            : console.error("Error in api favourites \n", e);
         }
       },
     });

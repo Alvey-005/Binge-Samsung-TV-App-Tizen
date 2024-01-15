@@ -44,7 +44,7 @@ window.search = {
 
   start: function () {
     loading.start();
-    service.search({
+    api.search({
       data: {
         search: search.input.value,
         page: 1,

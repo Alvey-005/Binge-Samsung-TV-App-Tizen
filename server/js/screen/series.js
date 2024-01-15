@@ -286,7 +286,7 @@ window.series = {
               ]
             : series.data.main.banner;
         // series-screen
-        service.contentDetails({
+        api.contentDetails({
           body: {
             id: item.id,
             content_type: item.content_type,
@@ -301,12 +301,12 @@ window.series = {
 
   start: function () {
     this.restart();
-    service.allCategories({
+    api.allCategories({
       data: {
         page: "web-series",
       },
       success: function (response) {
-        service.seriesBanners({
+        api.seriesBanners({
           success: function (res) {
             mapper.populate(window.series, response, res.data.banners, {
               success: function () {

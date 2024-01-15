@@ -286,7 +286,7 @@ window.sports = {
               ]
             : sports.data.main.banner;
         // sports-screen
-        service.contentDetails({
+        api.contentDetails({
           body: {
             id: item.id,
             content_type: item.content_type,
@@ -301,12 +301,12 @@ window.sports = {
 
   start: function () {
     this.restart();
-    service.allCategories({
+    api.allCategories({
       data: {
         page: "web-sports",
       },
       success: function (response) {
-        service.sportsBanners({
+        api.sportsBanners({
           success: function (res) {
             mapper.populate(window.sports, response, res.data.banners, {
               success: function () {

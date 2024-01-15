@@ -16,8 +16,8 @@ window.mapper = {
         background: mapper.preventImageErrorTest(
           function () {
             return banners.banner_landscape_image_path
-              ? `${service.api.bingeStageUrl}/${banners.banner_landscape_image_path}`
-              : `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+              ? `${api.api.bingeStageUrl}/${banners.banner_landscape_image_path}`
+              : `${api.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
           },
           banners.id ? banners.id : 6132
         ),
@@ -26,7 +26,7 @@ window.mapper = {
         // description: "Baba Someone's Following Me",
         // director: "Shihab Shaheen",
         // background: mapper.preventImageErrorTest(function () {
-        //   return `${service.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        //   return `${api.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
         // }, 6132),
       },
       lists: lists.map((list) => ({
@@ -153,7 +153,7 @@ window.mapper = {
   },
 
   playheads: function (episodes, callback) {
-    service.playheads({
+    api.playheads({
       data: {
         ids: episodes.map((e) => e.id).join(),
       },
@@ -298,11 +298,11 @@ window.mapper = {
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
         } else if (item.content_type == "tv_channel") {
-          var background = `${service.api.bingeStageUrl}/${item.thumb_path}`;
-          var poster = `${service.api.bingeStageUrl}/${item.logo_path}`;
+          var background = `${api.api.bingeStageUrl}/${item.thumb_path}`;
+          var poster = `${api.api.bingeStageUrl}/${item.logo_path}`;
         } else {
-          var background = `${service.api.bingeStageUrl}/${item.image_landscape}`;
-          var poster = item.image_portrait ? `${service.api.bingeStageUrl}/${item.image_portrait}` : item.image_square ? `${service.api.bingeStageUrl}/${item.image_square}` : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
+          var background = `${api.api.bingeStageUrl}/${item.image_landscape}`;
+          var poster = item.image_portrait ? `${api.api.bingeStageUrl}/${item.image_portrait}` : item.image_square ? `${api.api.bingeStageUrl}/${item.image_square}` : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
         }
 
         return {
@@ -332,7 +332,7 @@ window.mapper = {
         headers.append("Content-Type", "application/x-www-form-urlencoded");
 
         return fetch(
-          `${service.api.url}/content/v1/browse?categories=${categories}&n=${size}&start=${offset}`,
+          `${api.api.url}/content/v1/browse?categories=${categories}&n=${size}&start=${offset}`,
           { headers: headers }
         )
           .then((response) => response.json())

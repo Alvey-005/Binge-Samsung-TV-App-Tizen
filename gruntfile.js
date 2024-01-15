@@ -163,6 +163,19 @@ module.exports = function (grunt) {
         },
       },
     },
+    babel: {
+      options: {
+        presets: ['@babel/preset-env']
+      },
+      offline: {
+        files: [{
+          expand: true,
+          cwd: 'js/',  // source directory
+          src: ['**/*.js'],
+          dest: 'dist/js/'  // destination directory
+        }]
+      }
+    },
   });
   grunt.registerTask("cdn", [
     "clean",
@@ -179,5 +192,8 @@ module.exports = function (grunt) {
     "copy:online",
     "string-replace:online",
   ]);
-  grunt.registerTask("offline", ["clean", "copy:offline"]);
+  grunt.registerTask("offline", ["clean",
+  "babel:offline",
+   "copy:offline",
+   ,]);
 };

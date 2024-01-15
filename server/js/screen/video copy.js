@@ -77,7 +77,7 @@ window.video = {
   init: function (item) {
     var video_element = document.createElement("div");
     video_element.id = video.id;
-    
+
     video_element.innerHTML = `
     <div class="content">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
@@ -139,10 +139,10 @@ window.video = {
       video.next.episode = item.related_product[0];
     }
     video.play(item);
-    video.intro = {
-      start: 10,
-      end: 50
-    };
+    // video.intro = {
+    //   start: 10,
+    //   end: 50
+    // };
     video.intro = {
       start: item.intro_start_time,
       end: item.intro_end_time
@@ -358,25 +358,30 @@ window.video = {
     }
   },
   userCanWatchContent: function (contentDetails) {
-    const customer = session.storage.customer;
-    const is_content_premimum =
+    var customer = session.storage.customer;
+    var is_content_premimum =
       contentDetails.free_or_premium === 2 ||
+      // contentDetails.tvod_ids?.length > 0 ||
+      (contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0) ||
+      // contentDetails.tvod_details?.length > 0;
+      (contentDetails.tvod_details && contentDetails.tvod_details.length > 0);
+    // var is_content_tvod : boolean = contentDetails.tvod_ids.length > 0 || contentDetails.tvod_details.length > 0;
+    var content_modality_type =
       (contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0)
-      contentDetails.tvod_details && contentDetails.tvod_details.length > 0;
-    // const is_content_tvod : boolean = contentDetails.tvod_ids.length > 0 || contentDetails.tvod_details.length > 0;
-    const content_modality_type =
-      contentDetails.tvod_details && contentDetails.tvod_details.length > 0
         ? contentDetails.tvod_details[0].tvod_type
         : "svod";
-    const userPremium = customer && customer.status_id === 2;
-    // const [userCanWatch, setUserCanWatch] = useState<boolean>(false);
+    var userPremium = customer && customer.status_id === 2;
+    // var [userCanWatch, setUserCanWatch] = useState<boolean>(false);
     let userCanWatch = false;
-    const tvodIds = customer && customer.tvod_ids;
-    const tvodProducts =
-      contentDetails &&contentDetails.content_type === "vod"
-        ? customer && customer.tvod_products
-        : customer && customer.tvod_tv_channels;
-        var match;
+    var tvodIds = customer && customer.tvod_ids;
+    var tvodProducts;
+
+    if (contentDetails && contentDetails.content_type === "vod") {
+      tvodProducts = customer && customer.tvod_products;
+    } else {
+      tvodProducts = customer && customer.tvod_tv_channels;
+    }
+    var match;
 if (contentDetails && contentDetails.tvod_ids) {
   var found = false;
   for (var i = 0; i < contentDetails.tvod_ids.length; i++) {
@@ -398,6 +403,7 @@ if (contentDetails && contentDetails.tvod_ids) {
     }
   }
 }
+
     if (content_modality_type === "tvod-2" && !!customer && match) {
       content_modality_type !== "tvod-2"
       userCanWatch = true;
@@ -546,9 +552,10 @@ if (contentDetails && contentDetails.tvod_ids) {
   setSubtitles: function () {
     $("#subtitles").html("");
     var subtitles = "";
-    video.subtitles.forEach((element) => {
-      subtitles += `<li class="option${element.name === video.subtitle ? " active" : ""
-        }">${session.languages.subtitles[element.name]}</li>`;
+    video.subtitles.forEach(function(element) {
+      subtitles += '<li class="option';
+      subtitles += element.name === video.subtitle ? ' active' : '';
+      subtitles += '">' + session.languages.subtitles[element.name] + '</li>';
     });
 
     document.getElementById("subtitles").innerHTML = subtitles;

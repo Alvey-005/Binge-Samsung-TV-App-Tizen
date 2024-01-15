@@ -52,12 +52,12 @@ window.main = {
     },
 
     home: function () {
-      service.allCategories({
+      api.allCategories({
         data: {
           page: "web-home-vod",
         },
         success: function (response) {
-          service.banners({
+          api.banners({
             success: function (res) {
               mapper.populate(window.home, response, res.data.banners, {
                 success: function () {
@@ -81,12 +81,12 @@ window.main = {
     },
 
     movies: function () {
-      service.allCategories({
+      api.allCategories({
         data: {
           page: "web-movies",
         },
         success: function (response) {
-          service.movieBanners({
+          api.movieBanners({
             success: function (res) {
               mapper.populate(window.movies, response, res.data.banners, {
                 success: function () {

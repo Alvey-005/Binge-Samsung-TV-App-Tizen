@@ -282,7 +282,7 @@ window.movies = {
               ]
             : movies.data.main.banner;
         // movies-screen
-        service.contentDetails({
+        api.contentDetails({
           body: {
             id: item.id,
             content_type: item.content_type,

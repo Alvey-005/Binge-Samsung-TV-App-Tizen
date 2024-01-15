@@ -62,7 +62,7 @@ window.session = {
 
   refresh: function (callback) {
     // if (session.isExpired()) {
-    //   service.refresh({
+    //   api.refresh({
     //     data: {
     //       refresh_token: session.storage.refresh_token,
     //     },
@@ -89,7 +89,7 @@ window.session = {
 
   cookies: function (callback) {
     if (session.isExpired(true)) {
-      // service.cookies({
+      // api.cookies({
       //   success: function (response) {
       //     session.storage.cookies.bucket = response.cms.bucket;
       //     session.storage.account.premium =
@@ -114,7 +114,7 @@ window.session = {
   },
 
   load_account: function (callback) {
-    service.profile({
+    api.profile({
       success: function (response) {
         session.storage.account.audio =
           response.preferred_content_audio_language;

@@ -14,7 +14,7 @@ window.movies_details = {
   init: function (item, init, destroy) {
     movies_details.callbacks.init = init;
     movies_details.callbacks.destroy = destroy;
-    const contentDetailResponse = service.contentDetails({
+    const contentDetailResponse = api.contentDetails({
       body: {
         id: item.id,
         content_type: item.content_type,
@@ -67,7 +67,7 @@ window.movies_details = {
         .width((item.playhead * 100) / item.duration + "%");
     } else {
       loading.start();
-      service.continue({
+      api.continue({
         data: {
           ids: item.id,
         },

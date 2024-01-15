@@ -10,7 +10,7 @@ window.browse = {
     browse_element.id = browse.id;
 
     loading.start();
-    service.categories({
+    api.categories({
       success: function (response) {
         browse.data.categories = response.items;
         var elements = "";

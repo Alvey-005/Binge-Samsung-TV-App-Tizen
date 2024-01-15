@@ -19,7 +19,7 @@ window.historyScreen = {
     document.body.appendChild(history_element);
 
     loading.start();
-    service.history({
+    api.history({
       success: function (response) {
         var elements = "";
         historyScreen.data = mapper.history(response);

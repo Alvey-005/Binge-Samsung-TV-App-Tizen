@@ -43,7 +43,7 @@ window.home_episodes = {
     home_episodes.load(home_episodes.data.seasons[0]);
 
     // loading.start();
-    // service.seasons({
+    // api.seasons({
     //   data: {
     //     id: item.id,
     //   },
@@ -84,7 +84,7 @@ window.home_episodes = {
       episodes_html += `
       <div class="episode">
         <div class="episode-image">
-          <img src="${service.api.imageStageURl}/${
+          <img src="${api.api.imageStageURl}/${
         episode.thumb_path || episode.image
       }">
           ${home_episodes.view(episode)}
@@ -119,7 +119,7 @@ window.home_episodes = {
 
     $(".episodes .episodes-list")[0].slick.slickGoTo(0);
     // loading.start();
-    // service.episodes({
+    // api.episodes({
     //   data: {
     //     id: season.id,
     //   },
@@ -319,7 +319,7 @@ window.home_episodes = {
           const target = home_episodes.data.episodes[
             $(".episodes .episodes-list")[0].slick.currentSlide
           ];
-          service.contentDetails({
+          api.contentDetails({
             body:{
               id:target.id,
               content_type : target.content_type
