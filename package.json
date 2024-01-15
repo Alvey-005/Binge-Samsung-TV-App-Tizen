@@ -3,31 +3,34 @@
   "version": "1.0.0",
   "description": "## Description:",
   "main": "index.js",
+  "config": {
+    "tv": "10.0.0.95"
+  },
   "scripts": {
     "build": "grunt offline",
     "build-online": "grunt online",
     "build-cdn": "grunt cdn",
     "deploy": "npm run build-cdn && gh-pages -d dist -b cdn",
     "package": "tizen package -t wgt -- dist -o .",
-    "install-app": "tizen install -t $npm_config_tv --name Crunchyroll.wgt",
-    "init": "tizen run -t $npm_config_tv -p qXuEoRvlCp.Crunchyroll",
-    "start-tv-online": "npm run build-online && npm run package && npm run install-app --tv=$npm_config_tv && npm run init --tv=$npm_config_tv",
-    "start-tv": "npm run build && npm run package && npm run install-app --tv=$npm_config_tv && npm run init --tv=$npm_config_tv",
-    "start": "npm run start-tv --tv=T-samsung-7.0-x86",
-    "start-online": "npm run start-tv-online --tv=T-samsung-7.0-x86",
-    "run": "npm run start-tv --tv=LS27AM500NLXZB",
-    "run2": "npm run start-tv --tv=UN65MU6100"
+    "install-app": "tizen install -t 10.0.0.95 --name Binge.wgt",
+    "init": "tizen run -t 10.0.0.95 -p bpeU1aRY4w.Binge",
+    "start-tv-online": "npm run build-online && npm run package && npm run install-app --tv=10.0.0.95 && npm run init --tv=10.0.0.95",
+    "start-tv": "npm run build && npm run package && npm run install-app --tv=10.0.0.95 && npm run init --tv=10.0.0.95",
+    "start": "npm run start-tv",
+    "start-online": "npm run start-tv-online",
+    "run": "npm run start-tv --tv=7XCI6YW6TV5L4",
+    "run2": "npm run start-tv --tv=10.0.0.95"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jhassan8/crunchyroll-tizen.git"
+    "url": "git+https://github.com/anmspro/Binge-Samsung-TV-App-Tizen.git"
   },
-  "author": "jhassan8",
+  "author": "anmspro",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jhassan8/crunchyroll-tizen/issues"
+    "url": "https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/issues"
   },
-  "homepage": "https://github.com/jhassan8/crunchyroll-tizen",
+  "homepage": "https://github.com/anmspro/Binge-Samsung-TV-App-Tizen",
   "devDependencies": {
     "gh-pages": "^5.0.0",
     "grunt": "^1.6.1",

@@ -20,7 +20,18 @@ window.menu = {
       icon: "fa-solid fa-film",
       action: "movies.restart",
     },
-    // { id: "list", label: "menu.list", icon: "fa-solid fa-bookmark" },
+    {
+      id: "favourites",
+      label: "menu.favourites",
+      icon: "fa-solid fa-bookmark",
+      action: "favourites.start",
+    },
+    // {
+    //   id: "subscribe",
+    //   label: "menu.subscribe",
+    //   icon: "fa-solid fa-bell",
+    //   action: "subscribe.init",
+    // },
     // {
     //   id: "historyScreen",
     //   label: "menu.history",
@@ -33,38 +44,18 @@ window.menu = {
     //   icon: "fa-regular fa-rectangle-list",
     //   action: "browse.init",
     // },
-
-    // Binge
-    // {
-    //   id: "sports",
-    //   label: "menu.sports",
-    //   icon: "fa-solid fa-house",
-    //   action: "sports.init",
-    // },
-    // {
-    //   id: "movies",
-    //   label: "menu.movies",
-    //   icon: "fa-solid fa-house",
-    //   action: "movies.init",
-    // },
-    // {
-    //   id: "series",
-    //   label: "menu.series",
-    //   icon: "fa-solid fa-house",
-    //   action: "series.init",
-    // },
-    // {
-    //   id: "favourites",
-    //   label: "menu.favourites",
-    //   icon: "fa-solid fa-house",
-    //   action: "favourites.init",
-    // },
-    // {
-    //   id: "subscribe",
-    //   label: "menu.subscribe",
-    //   icon: "fa-solid fa-house",
-    //   action: "subscribe.init",
-    // },
+    {
+      id: "sports",
+      label: "menu.sports",
+      icon: "fa-solid fa-house",
+      action: "sports.start",
+    },
+    {
+      id: "series",
+      label: "menu.series",
+      icon: "fa-solid fa-house",
+      action: "series.start",
+    },
 
     {
       id: "settings",
