@@ -36,28 +36,6 @@ window.session = {
   },
 
   init: function () {
-    service.languages({
-      data: { type: "audio" },
-      success: function (response) {
-        session.languages.audios = response;
-        session.languages.audios["ja-JP"] = "Japanese";
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-
-    service.languages({
-      data: { type: "subtitle" },
-      success: function (response) {
-        session.languages.subtitles = response;
-        session.languages.subtitles[""] = "Disabled";
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-
     var storage = localStorage.getItem("session");
     if (storage) {
       try {

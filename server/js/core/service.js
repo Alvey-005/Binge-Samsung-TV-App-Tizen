@@ -212,20 +212,7 @@ window.service = {
       },
     });
   },
-
-  languages: function (request) {
-    fetch(
-      `https://static.crunchyroll.com/config/i18n/v3/${
-        request.data.type === "subtitle"
-          ? "timed_text_languages.json"
-          : "audio_languages.json"
-      }`
-    )
-      .then((response) => response.json())
-      .then((json) => request.success(json))
-      .catch((error) => request.error(error));
-  },
-
+  
   intro: function (request) {
     fetch(
       `https://static.crunchyroll.com/datalab-intro-v2/${request.data.id}.json`
