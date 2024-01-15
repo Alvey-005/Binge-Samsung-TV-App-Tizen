@@ -292,7 +292,10 @@ window.service = {
   allCategories: async function (request) {
     return session.refresh({
       success: async function (storage) {
-        const allCatResponse = await requestMethod.post(urls.fetchCategory, request.data);
+        const allCatResponse = await requestMethod.post(
+          urls.fetchCategory,
+          request.data
+        );
         try {
           if (request.success) {
             request.success(allCatResponse.data);
@@ -343,13 +346,18 @@ window.service = {
   search: async function (request) {
     return session.refresh({
       success: async function (storage) {
-        const data = await requestMethod.post(urls.fetchSearchUrl, request.data);
+        const data = await requestMethod.post(
+          urls.fetchSearchUrl,
+          request.data
+        );
         try {
           if (request.success) {
             request.success(data.data);
           }
         } catch (e) {
-          request.error ? request.error(e) : console.error('error in service search \n', e);
+          request.error
+            ? request.error(e)
+            : console.error("error in service search \n", e);
         }
       },
     });
@@ -370,6 +378,36 @@ window.service = {
     });
   },
 
+  sportsBanners: function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const banners = await requestMethod.get(urls.fetchSportsBanner);
+        try {
+          if (request.success) {
+            request.success(banners);
+          }
+        } catch (e) {
+          request.error && request.error(e);
+        }
+      },
+    });
+  },
+
+  seriesBanners: function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const banners = await requestMethod.get(urls.fetchSeriesBanner);
+        try {
+          if (request.success) {
+            request.success(banners);
+          }
+        } catch (e) {
+          request.error && request.error(e);
+        }
+      },
+    });
+  },
+
   addToFavourites: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -379,7 +417,9 @@ window.service = {
             request.success(data.data);
           }
         } catch (e) {
-          request.error ? request.error(e) : console.error('Error in service add to favourites \n', e);
+          request.error
+            ? request.error(e)
+            : console.error("Error in service add to favourites \n", e);
         }
       },
     });
@@ -388,13 +428,57 @@ window.service = {
   getFavourites: async function (request) {
     return session.refresh({
       success: async function (storage) {
-        const data = await requestMethod.post(`${urls.wishlist}/${session.storage.customer.id}`, request.data);
+        const data = await requestMethod.post(
+          `${urls.wishlist}/${session.storage.customer.id}`,
+          request.data
+        );
         try {
           if (request.success) {
             request.success(data.data);
           }
         } catch (e) {
-          request.error ? request.error(e) : console.error('Error in service favourites \n', e);
+          request.error
+            ? request.error(e)
+            : console.error("Error in service favourites \n", e);
+        }
+      },
+    });
+  },
+
+  getSports: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(
+          `${urls.wishlist}/${session.storage.customer.id}`,
+          request.data
+        );
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error
+            ? request.error(e)
+            : console.error("Error in service favourites \n", e);
+        }
+      },
+    });
+  },
+  getFavourites: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(
+          `${urls.wishlist}/${session.storage.customer.id}`,
+          request.data
+        );
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error
+            ? request.error(e)
+            : console.error("Error in service favourites \n", e);
         }
       },
     });

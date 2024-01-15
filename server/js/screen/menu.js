@@ -44,18 +44,18 @@ window.menu = {
     //   icon: "fa-regular fa-rectangle-list",
     //   action: "browse.init",
     // },
-    // {
-    //   id: "sports",
-    //   label: "menu.sports",
-    //   icon: "fa-solid fa-house",
-    //   action: "sports.init",
-    // },
-    // {
-    //   id: "series",
-    //   label: "menu.series",
-    //   icon: "fa-solid fa-house",
-    //   action: "series.init",
-    // },
+    {
+      id: "sports",
+      label: "menu.sports",
+      icon: "fa-solid fa-house",
+      action: "sports.start",
+    },
+    {
+      id: "series",
+      label: "menu.series",
+      icon: "fa-solid fa-house",
+      action: "series.start",
+    },
 
     {
       id: "settings",
