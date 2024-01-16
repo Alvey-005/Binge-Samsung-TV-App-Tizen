@@ -106,8 +106,8 @@ window.favourites = {
     $(`#${favourites.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = favourites.id;
-    
-    var keyDownEvent = new Event('keydown');
+
+    var keyDownEvent = new Event("keydown");
     keyDownEvent.keyCode = tvKey.KEY_DOWN;
     favourites.keyDown(keyDownEvent);
   },
@@ -121,14 +121,16 @@ window.favourites = {
       },
       success: function (response) {
         favourites.data.main = {
-          lists: [{
-            category_id: null,
-            category_type: null,
-            title: "My list",
-            page_id: 1,
-            page_size: -1,
-            items: [],
-          }],
+          lists: [
+            {
+              category_id: null,
+              category_type: null,
+              title: "My list",
+              page_id: 1,
+              page_size: -1,
+              items: [],
+            },
+          ],
         };
         favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
         loading.destroy();
@@ -159,16 +161,14 @@ window.favourites = {
     if (titleElements.length > 0) {
       var title = titleElements[0];
       title.innerText = item.title;
-      title.style.fontSize =
-        title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
       description.innerText = item.description;
-      description.style.fontSize =
-        description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
 
@@ -180,7 +180,6 @@ window.favourites = {
           menu.open();
         } else {
           favourites.destroy();
-          browse.init(favourites.fromCategory.index);
         }
         break;
       case tvKey.KEY_NEXT:
@@ -205,9 +204,7 @@ window.favourites = {
         if (favourites.position > 0) {
           $(".row-content").removeClass("selected");
           favourites.position =
-            favourites.position < favourites.data.main.lists.length
-              ? favourites.position + 1
-              : favourites.position;
+            favourites.position < favourites.data.main.lists.length ? favourites.position + 1 : favourites.position;
           if (favourites.position <= favourites.data.main.lists.length) {
             $(".rows")[0].slick.slickGoTo(favourites.position - 1);
             $(".row-content")[favourites.position - 1].slick.slickGoTo(
@@ -233,7 +230,6 @@ window.favourites = {
               menu.open();
             } else {
               favourites.destroy();
-              browse.init(favourites.fromCategory.index);
             }
           } else {
             $(".row-content")[favourites.position - 1].slick.prev();
@@ -247,13 +243,10 @@ window.favourites = {
               menu.open();
             } else {
               favourites.destroy();
-              browse.init(favourites.fromCategory.index);
             }
           } else {
             buttons.removeClass("selected");
-            buttons
-              .eq(current > 0 ? current - 1 : current)
-              .addClass("selected");
+            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
         }
         break;
@@ -264,10 +257,7 @@ window.favourites = {
 
           if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
             if (favourites.fromCategory.state && currentList.lazy) {
-              if (
-                currentList.items.length > 15 &&
-                currentSlide.slick.currentSlide > currentList.items.length - 10
-              ) {
+              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                 currentList.lazy = false;
                 loading.start();
                 mapper.loadCategoryListAsync(
@@ -277,8 +267,7 @@ window.favourites = {
                   favourites.position - 1,
                   {
                     success: function (response, index) {
-                      favourites.data.main.lists[index].lazy =
-                        response.items.length === 20;
+                      favourites.data.main.lists[index].lazy = response.items.length === 20;
                       favourites.addToList(index, mapper.mapItems(response.items));
                       loading.end();
                     },
@@ -297,9 +286,7 @@ window.favourites = {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           buttons.removeClass("selected");
-          buttons
-            .eq(current < buttons.length - 1 ? current + 1 : current)
-            .addClass("selected");
+          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
@@ -334,8 +321,7 @@ window.favourites = {
   addToList: function (index, newItems) {
     var itemsCount = favourites.data.main.lists[index].items.length;
     var currentSlide = $(".row-content")[favourites.position - 1];
-    favourites.data.main.lists[index].items =
-      favourites.data.main.lists[index].items.concat(newItems);
+    favourites.data.main.lists[index].items = favourites.data.main.lists[index].items.concat(newItems);
 
     // remove empty items for prevent move error
     for (var index = 0; index < 9; index++) {
@@ -343,9 +329,7 @@ window.favourites = {
     }
 
     // added new items
-    newItems.forEach((element) =>
-      currentSlide.slick.slickAdd(favourites.createItem(element))
-    );
+    newItems.forEach((element) => currentSlide.slick.slickAdd(favourites.createItem(element)));
 
     // added empty items for prevent move error
     for (var index = 0; index < 9; index++) {

@@ -120,20 +120,13 @@ window.settings = {
     var className = index === undefined ? "selected" : "active";
     var selected = index === undefined ? 0 : index;
     return settings.options
-      .map(
-        (option, index) =>
-          `<li class="${index === selected ? className : ""}">${translate.go(
-            option.label
-          )}</li>`
-      )
+      .map((option, index) => `<li class="${index === selected ? className : ""}">${translate.go(option.label)}</li>`)
       .join("");
   },
 
   details: {
     show: function (element) {
-      $("#settings-details").html(
-        settings.details[element.type].create(element.id)
-      );
+      $("#settings-details").html(settings.details[element.type].create(element.id));
     },
 
     list: {
@@ -141,19 +134,14 @@ window.settings = {
         switch (id) {
           case "videoquality":
             var options = settings.qualities;
-            var active = session.storage.quality || 'auto';
+            var active = session.storage.quality || "auto";
             break;
         }
 
         return (
           '<ul class="list-active" id="list-details-offset">' +
           Object.keys(options)
-            .map(
-              (option) =>
-                `<li class="${option === active ? "active" : ""}">${
-                  options[option]
-                }</li>`
-            )
+            .map((option) => `<li class="${option === active ? "active" : ""}">${options[option]}</li>`)
             .join("") +
           "</ul>"
         );
@@ -198,25 +186,17 @@ window.settings = {
           return;
         }
         var currentSelected = options.index($(`#settings-details li.selected`));
-        var current =
-          currentSelected >= 0
-            ? currentSelected
-            : options.index($(`#settings-details li.active`));
+        var current = currentSelected >= 0 ? currentSelected : options.index($(`#settings-details li.active`));
 
         options.removeClass("selected");
         if (index < 0) {
           var newCurrent = current > 0 ? current + index : current;
         } else {
-          var newCurrent =
-            current + index < options.length ? current + index : current;
+          var newCurrent = current + index < options.length ? current + index : current;
         }
 
         options.eq(newCurrent).addClass("selected");
-        settings.details.list.adjust(
-          newCurrent,
-          options.length,
-          "list-details-offset"
-        );
+        settings.details.list.adjust(newCurrent, options.length, "list-details-offset");
       },
     },
 
@@ -225,7 +205,7 @@ window.settings = {
         return `
         <div style="color: #fff;font-size: 23px;line-height: 51px;text-align: right;padding: 38px 0;position: absolute;right: 0;bottom: 0;">
           <div>Binge Samsung TV app.</div>
-          <div>Copyright ©2023 Robi Axiata Limited. All Rights Reserved.</div>
+          <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
         </div>`;
       },
 

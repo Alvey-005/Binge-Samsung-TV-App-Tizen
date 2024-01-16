@@ -1,6 +1,6 @@
 window.main = {
   urls: {
-    src: 'server/img',
+    src: "server/img",
   },
   events: {},
   mac: null,
@@ -19,9 +19,9 @@ window.main = {
     logout: function () {
       if (document.getElementById(menu.id) != null) menu.destroy();
 
-      var current_id = main.state.replace('-screen', '');
+      var current_id = main.state.replace("-screen", "");
       if (window[current_id] === undefined) {
-        console.log('Failed to find ID of current screen');
+        console.log("Failed to find ID of current screen");
         menu.init();
         return;
       }
@@ -45,7 +45,7 @@ window.main = {
     home: function () {
       api.allCategories({
         data: {
-          page: 'web-home-vod',
+          page: "web-home-vod",
         },
         success: function (response) {
           api.banners({
@@ -59,7 +59,7 @@ window.main = {
               });
             },
             error: function (error) {
-              console.log('banner fetch error', error);
+              console.log("banner fetch error", error);
             },
           });
         },
@@ -74,7 +74,7 @@ window.main = {
     movies: function () {
       api.allCategories({
         data: {
-          page: 'web-movies',
+          page: "web-movies",
         },
         success: function (response) {
           api.movieBanners({
@@ -88,7 +88,7 @@ window.main = {
               });
             },
             error: function (error) {
-              console.log('banner fetch error', error);
+              console.log("banner fetch error", error);
             },
           });
         },
@@ -107,8 +107,8 @@ window.main = {
   },
 
   log: function (text) {
-    $('#console').html($('#console').html() + `${text}<br/>`);
-    $('#console').scrollTop(3000000);
+    $("#console").html($("#console").html() + `${text}<br/>`);
+    $("#console").scrollTop(3000000);
   },
 
   /* on key press */
@@ -154,9 +154,6 @@ window.main = {
           case search.id:
             search.keyDown(event);
             break;
-          case browse.id:
-            browse.keyDown(event);
-            break;
           case home.id:
             home.keyDown(event);
             break;
@@ -185,7 +182,7 @@ window.main = {
             settings.keyDown(event);
             break;
           default:
-            console.log('keyboard action screen not defined.');
+            console.log("keyboard action screen not defined.");
             break;
         }
       }
