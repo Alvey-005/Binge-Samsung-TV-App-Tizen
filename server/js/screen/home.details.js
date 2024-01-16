@@ -152,34 +152,66 @@ window.home_details = {
             break;
           case 1:
             loading.start();
-            api.addToFavourites({
-              data: {
-                customer_id: session.storage.customer.id,
-                product_id: home_details.data.contentDetails.id,
-              },
-              success: function (response) {
-                var item = home_details.data.this;
-                var screen = home_details.appendScreen;
-                home_details.destroy();
-
-                api.contentDetails({
-                  body: {
-                    id: item.id,
-                    content_type: item.content_type,
-                  },
-                  success: function (data) {
-                    setTimeout(function () {
-                        loading.end(); 
-                    }, 1000);
-                    home_details.init(item, data, screen);
-                  },
-                });
-              },
-              error: function (error) {
-                loading.destroy();
-                console.log(error);
-              },
-            });
+            if(home_details.data.contentDetails.is_wishlist == true) {
+              api.deleteFavourite({
+                data: {
+                  customer_id: session.storage.customer.id,
+                  product_id: home_details.data.contentDetails.id,
+                },
+                success: function (response) {
+                  var item = home_details.data.this;
+                  var screen = home_details.appendScreen;
+                  home_details.destroy();
+  
+                  api.contentDetails({
+                    body: {
+                      id: item.id,
+                      content_type: item.content_type,
+                    },
+                    success: function (data) {
+                      setTimeout(function () {
+                          loading.end(); 
+                      }, 1000);
+                      home_details.init(item, data, screen);
+                    },
+                  });
+                },
+                error: function (error) {
+                  loading.destroy();
+                  console.log(error);
+                },
+              });
+            }
+            else {
+              api.addToFavourites({
+                data: {
+                  customer_id: session.storage.customer.id,
+                  product_id: home_details.data.contentDetails.id,
+                },
+                success: function (response) {
+                  var item = home_details.data.this;
+                  var screen = home_details.appendScreen;
+                  home_details.destroy();
+  
+                  api.contentDetails({
+                    body: {
+                      id: item.id,
+                      content_type: item.content_type,
+                    },
+                    success: function (data) {
+                      setTimeout(function () {
+                          loading.end(); 
+                      }, 1000);
+                      home_details.init(item, data, screen);
+                    },
+                  });
+                },
+                error: function (error) {
+                  loading.destroy();
+                  console.log(error);
+                },
+              });
+            }
             break;
           case 2:
             home_episodes.init(

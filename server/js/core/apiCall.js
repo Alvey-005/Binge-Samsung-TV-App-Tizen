@@ -413,6 +413,23 @@ window.api = {
     });
   },
 
+  deleteFavourite: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.delete(`${urls.wishlist}/${request.data.customer_id}/${request.data.product_id}`, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error
+            ? request.error(e)
+            : console.error("Error in api add to favourites \n", e);
+        }
+      },
+    });
+  },
+
   getFavourites: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -434,25 +451,6 @@ window.api = {
   },
 
   getSports: async function (request) {
-    return session.refresh({
-      success: async function (storage) {
-        const data = await requestMethod.post(
-          `${urls.wishlist}/${session.storage.customer.id}`,
-          request.data
-        );
-        try {
-          if (request.success) {
-            request.success(data.data);
-          }
-        } catch (e) {
-          request.error
-            ? request.error(e)
-            : console.error("Error in api favourites \n", e);
-        }
-      },
-    });
-  },
-  getFavourites: async function (request) {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.post(
