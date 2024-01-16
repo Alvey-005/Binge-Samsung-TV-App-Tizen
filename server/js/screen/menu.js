@@ -33,27 +33,16 @@ window.menu = {
     //   action: "subscribe.init",
     // },
     // {
-    //   id: "historyScreen",
-    //   label: "menu.history",
-    //   icon: "fa-solid fa-clock-rotate-left",
-    //   action: "historyScreen.init",
-    // },
-    // {
-    //   id: "browse",
-    //   label: "menu.browse",
-    //   icon: "fa-regular fa-rectangle-list",
-    //   action: "browse.init",
-    // },
     {
       id: "sports",
       label: "menu.sports",
-      icon: "fa-solid fa-house",
+      icon: "fa-solid fa-person-running",
       action: "sports.start",
     },
     {
       id: "series",
       label: "menu.series",
-      icon: "fa-solid fa-house",
+      icon: "fa-solid fa-clapperboard",
       action: "series.start",
     },
 
