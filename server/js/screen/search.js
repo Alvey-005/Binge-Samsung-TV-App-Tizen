@@ -140,47 +140,57 @@ window.search = {
         if (this.position === -1) {
           keyboard.init(search.input, search.start);
         } else {
-          home_details.init(
-            search.data.result[search.position],
-            home,
-            function (item) {
-              var home_element = document.createElement("div");
-              home_element.id = home.id;
-              home_element.innerHTML = `
-            <div class="content">
-              <div class="details full">
-                <div class="background">
-                  <img src="${item.background}">
-                </div>
-                <div class="info">
-                  <div class="title resize">${item.title}</div>
-                  <div class="description resize">${item.description}</div>
-                  <div class="buttons">
-                    <a class="selected">Play</a>
-                    <a>More information</a>
-                  </div>
-                </div>
-              </div>
-              <div class="logo-fixed">
-                <img src="server/img/logo-big.svg"/>
-              </div>
-            </div>`;
-
-              document.getElementById(search.id).style.display = "none";
-              document.body.appendChild(home_element);
-
-              var title = $(".details .info .title")[0];
-              title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
-
-              var description = $(".details .info .description")[0];
-              description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+          const item = search.data.result[search.last_postion];
+          api.contentDetails({
+            body: {
+              id: item.id,
+              content_type: item.content_type,
             },
-            function () {
-              document.getElementById(search.id).style.display = "block";
-              home.destroy();
-              search.toggleFocus(search.position)
-            }
-          );
+            success: function (data) {
+              home_details.init(
+                search.data.result[search.position],
+                data,
+                home,
+                function (item) {
+                  var home_element = document.createElement('div');
+                  home_element.id = home.id;
+                  home_element.innerHTML = `
+                <div class="content">
+                  <div class="details full">
+                    <div class="background">
+                      <img src="${item.background}">
+                    </div>
+                    <div class="info">
+                      <div class="title resize">${item.title}</div>
+                      <div class="description resize">${item.description}</div>
+                      <div class="buttons">
+                        <a class="selected">Play</a>
+                        <a>More information</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="logo-fixed">
+                    <img src="server/img/logo-big.svg"/>
+                  </div>
+                </div>`;
+
+                  document.getElementById(search.id).style.display = 'none';
+                  document.body.appendChild(home_element);
+
+                  var title = $('.details .info .title')[0];
+                  title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
+
+                  var description = $('.details .info .description')[0];
+                  description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+                },
+                function () {
+                  document.getElementById(search.id).style.display = 'block';
+                  home.destroy();
+                  search.toggleFocus(search.position);
+                }
+              );
+            },
+          });
         }
         break;
     }
