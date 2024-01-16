@@ -2,31 +2,11 @@ window.settings = {
   id: "settings-screen",
   isDetails: false,
   options: [
-    {
-      id: "applicationlang",
-      label: "settings.menu.application_lang",
-      type: "list",
-    },
-    {
-      id: "audiolang",
-      label: "settings.menu.audio_lang",
-      type: "list",
-    },
-    {
-      id: "subtitlelang",
-      label: "settings.menu.subtitle_lang",
-      type: "list",
-    },
-    {
-      id: "videoquality",
-      label: "settings.menu.video_quality",
-      type: "list",
-    },
-    {
-      id: "mature",
-      label: "settings.menu.mature",
-      type: "list",
-    },
+    // {
+    //   id: "videoquality",
+    //   label: "settings.menu.video_quality",
+    //   type: "list",
+    // },
     {
       id: "about",
       label: "settings.menu.about",
@@ -40,10 +20,6 @@ window.settings = {
     480: "480p",
     720: "720p HD",
     1080: "1080p HD",
-  },
-  bool: {
-    M2: "NO",
-    M3: "YES",
   },
   previous: NaN,
 
@@ -153,16 +129,6 @@ window.settings = {
       .join("");
   },
 
-  resetLang: function () {
-    var options = $(`.options li`);
-    var current = options.index($(`.options li.active`));
-
-    $("#settings-menu").html(settings.generateMenu(current));
-
-    menu.destroy();
-    menu.init(true);
-  },
-
   details: {
     show: function (element) {
       $("#settings-details").html(
@@ -173,28 +139,9 @@ window.settings = {
     list: {
       create: function (id) {
         switch (id) {
-          case "audiolang":
-            var options = session.languages.audios;
-            var active = session.storage.account.audio;
-            break;
-          case "applicationlang":
-            var options = JSON.parse(
-              JSON.stringify(session.languages.subtitles)
-            );
-            delete options[""];
-            var active = session.storage.language;
-            break;
-          case "subtitlelang":
-            var options = session.languages.subtitles;
-            var active = session.storage.account.language;
-            break;
           case "videoquality":
             var options = settings.qualities;
             var active = session.storage.quality || 'auto';
-            break;
-          case "mature":
-            var options = settings.bool;
-            var active = session.storage.account.mature;
             break;
         }
 
@@ -231,72 +178,11 @@ window.settings = {
 
         console.log(id, index);
         switch (id) {
-          case "audiolang":
-            var options = session.languages.audios;
-            var method = function (value) {
-              api.setProfile({
-                data: {
-                  preferred_content_audio_language: value,
-                },
-                success: function (response) {
-                  session.storage.account.audio = value;
-                  session.update();
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            };
-            break;
-          case "applicationlang":
-            var options = JSON.parse(
-              JSON.stringify(session.languages.subtitles)
-            );
-            delete options[""];
-            var method = function (value) {
-              translate.updateLanguage(value);
-              settings.resetLang();
-            };
-            break;
-          case "subtitlelang":
-            var options = session.languages.subtitles;
-            var method = function (value) {
-              api.setProfile({
-                data: {
-                  preferred_content_subtitle_language: value,
-                },
-                success: function (response) {
-                  session.storage.account.language = value;
-                  session.update();
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            };
-            break;
           case "videoquality":
             var options = settings.qualities;
             var method = function (value) {
               session.storage.quality = value;
               session.update();
-            };
-            break;
-          case "mature":
-            var options = settings.bool;
-            var method = function (value) {
-              api.setProfile({
-                data: {
-                  maturity_rating: value,
-                },
-                success: function (response) {
-                  session.storage.account.mature = value;
-                  session.update();
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
             };
             break;
         }
@@ -339,9 +225,7 @@ window.settings = {
         return `
         <div style="color: #fff;font-size: 23px;line-height: 51px;text-align: right;padding: 38px 0;position: absolute;right: 0;bottom: 0;">
           <div>Binge Samsung TV app.</div>
-          <div>Github: https://github.com/anmspro/Binge-Samsung-TV-App-Tizen</div>
-          <div>Contact: Github</div>
-          <div>Version: ${session.storage.version}</div>
+          <div>Copyright ©2023 Robi Axiata Limited. All Rights Reserved.</div>
         </div>`;
       },
 

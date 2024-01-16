@@ -8,8 +8,8 @@ echo.
 set /p "tizen_directory=Enter Tizen full path (default: \tizen-studio): "
 if "%tizen_directory%"=="" set "tizen_directory=\tizen-studio"
 
-set /p "app_directory=Enter .wgt app full path (default: crunchyroll_online.wgt): "
-if "%app_directory%"=="" set "app_directory=%~dp0crunchyroll_online.wgt"
+set /p "app_directory=Enter .wgt app full path (default: binge_online.wgt): "
+if "%app_directory%"=="" set "app_directory=%~dp0binge_online.wgt"
 
 set /p "device_ip=Enter device IP (example: 192.168.0.37): "
 
