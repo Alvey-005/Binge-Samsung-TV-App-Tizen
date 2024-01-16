@@ -89,5 +89,26 @@ window.requestMethod = {
             processData: false,
         };
         return axiosConfig(config);
-    }
+    },
+    delete : function(url, body){
+      handleInterceptors();
+      return axios({
+          url,
+          baseURL: baseURL,
+      // baseURL: base_url,
+
+      method: 'delete',
+      headers: {
+          Authorization: `Bearer ${session.storage.jwtToken}`,
+          'Device-Type': 'web',
+          'Content-Type': 'application/json',
+          // 'language': 'en',
+      },
+      data: JSON.stringify(body),
+      timeout: 50000,
+      withCredentials: false,
+      responseEncoding: 'utf8',
+      maxRedirects: 2,
+      })
+  },
 }
