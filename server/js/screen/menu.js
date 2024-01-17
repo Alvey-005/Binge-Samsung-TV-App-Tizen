@@ -93,7 +93,9 @@ window.menu = {
             : index === menu.selected
             ? "selected"
             : ""
-        }">
+        }" onclick="menu.click(event, '${element.id}', '${element.action}', '${
+          element.event
+        }', '${index}')">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;

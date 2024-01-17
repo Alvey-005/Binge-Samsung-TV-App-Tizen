@@ -22,12 +22,12 @@ window.home_details = {
     var buttons = document.createElement("div");
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
     buttons.innerHTML = `
-    <a class="selected">
+    <a class="selected" onclick="console.log('player clicked')">
       <i class="fa-solid fa-play"></i>
       <p>${translate.go("home.details.play", { season: 1, episode: 1 })}</p>
       <span></span>
     </a>
-    <a>
+    <a onclick="home_details.click(event)">
       <i class="fa-solid ${home_details.data.contentDetails.is_wishlist == true ? 'fa-check' : 'fa-bookmark'}"></i>
       <p>${home_details.data.contentDetails.is_wishlist ? translate.go("home.details.added") : translate.go("home.details.add")}</p>
     </a>
@@ -102,6 +102,10 @@ window.home_details = {
 
     home_details.previous = main.state;
     main.state = home_details.id;
+  },
+
+  click: function(event) {
+    console.log('evev', event);
   },
 
   destroy: function () {

@@ -142,7 +142,7 @@ window.onunload = function () {
 };
 
 app.keyDown = function (e) {
-  console.log('ev', e);
+  // console.log('ev', e);
   if (app.state) main.keyDown(e);
   else {
     switch (e.keyCode) {
