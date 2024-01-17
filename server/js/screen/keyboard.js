@@ -160,11 +160,11 @@ window.keyboard = {
         break;
       default:
         keyboard.input.value = event.keyCode;
-      // if (event.keyCode >= 48 && event.keyCode <= 57) {
-      // const num = event.keyCode - 48;
-      // keyboard.input.value = keyboard.input.value + num.toString();
-      // keyboard.input.value = num;
-      // }
+      if (event.keyCode >= 48 && event.keyCode <= 57) {
+        const num = event.keyCode - 48;
+        keyboard.input.value = keyboard.input.value + num.toString();
+        keyboard.input.value = num;
+      }
     }
   },
 
