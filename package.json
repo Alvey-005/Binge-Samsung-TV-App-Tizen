@@ -18,8 +18,8 @@
     "start-tv": "npm run build && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
     "start": "npm run start-tv",
     "start-online": "npm run start-tv-online",
-    "run": "npm run start-tv --tv=UA32T4400ARSFS",
-    "run2": "npm run start-tv-online --tv=UA32T4400ARSFS"
+    "run": "npm run start-tv --tv=7XCI6YW6TV5L4",
+    "run2": "npm run start-tv-online --tv=7XCI6YW6TV5L4"
   },
   "repository": {
     "type": "git",
