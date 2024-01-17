@@ -130,8 +130,8 @@ window.keyboard = {
             keyboard.selected[0] === 3
               ? 3 * (keyboard.selected[1] + 1) - 1
               : keyboard.selected[1] > max
-              ? max
-              : keyboard.selected[1],
+                ? max
+                : keyboard.selected[1],
           ]);
         }
         break;
@@ -143,28 +143,28 @@ window.keyboard = {
             keyboard.selected[0] === 2
               ? Math.round(keyboard.selected[1] / 4.5)
               : keyboard.selected[1] > max
-              ? max
-              : keyboard.selected[1],
+                ? max
+                : keyboard.selected[1],
           ]);
         }
         break;
       case tvKey.KEY_LEFT:
         var selectedColumn =
-          keyboard.selected[1] > 0
-            ? keyboard.selected[1] - 1
-            : { 1: 8, 3: 2 }[keyboard.selected[0]] || 9;
+          keyboard.selected[1] > 0 ? keyboard.selected[1] - 1 : { 1: 8, 3: 2 }[keyboard.selected[0]] || 9;
         keyboard.move([keyboard.selected[0], selectedColumn]);
         break;
       case tvKey.KEY_RIGHT:
         var max = { 1: 8, 3: 2 }[keyboard.selected[0]] || 9;
-        keyboard.move([
-          keyboard.selected[0],
-          keyboard.selected[1] < max ? keyboard.selected[1] + 1 : 0,
-        ]);
+        keyboard.move([keyboard.selected[0], keyboard.selected[1] < max ? keyboard.selected[1] + 1 : 0]);
         break;
       case tvKey.KEY_ENTER:
         keyboard.action(keyboard.selected);
         break;
+      default:
+        if (event.keyCode >= 48 && event.keyCode <= 57) {
+          const num = event.keyCode - 48;
+          keyboard.input.value = keyboard.input.value + num.toString();
+        }
     }
   },
 
