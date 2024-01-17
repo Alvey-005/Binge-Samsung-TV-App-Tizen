@@ -55,7 +55,7 @@ window.keyboard = {
   input: NaN,
   send: NaN,
   alpha: false,
-  number: true,
+  number: false,
 
   init: function (element, send) {
     keyboard.selected = [0, 0];

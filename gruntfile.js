@@ -11,7 +11,7 @@ module.exports = function (grunt) {
           banner: "",
         },
         files: {
-          "dist/crunchyroll.min.css": ["**/server/css/**/*.css"],
+          "dist/binge.min.css": ["**/server/css/**/*.css"],
         },
       },
       online: {
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
       },
       cdn: {
         src: ["server/js/**/*.js"],
-        dest: "dist/crunchyroll.min.js",
+        dest: "dist/binge.min.js",
       },
       online: {
         src: ["js/**/*.js"],

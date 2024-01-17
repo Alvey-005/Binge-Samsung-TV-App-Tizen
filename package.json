@@ -1,6 +1,6 @@
 {
   "name": "binge-tizen",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "## Description:",
   "main": "index.js",
   "config": {
@@ -12,7 +12,7 @@
     "build-cdn": "grunt cdn",
     "deploy": "npm run build-cdn && gh-pages -d dist -b cdn",
     "package": "tizen package -t wgt -- dist -o .",
-    "install-app": "tizen install -t UA32T4400ARSFS --name Binge.wgt",
+    "install-app": "tizen install -t UA32T4400ARSFS --name BingeTV.wgt",
     "init": "tizen run -t UA32T4400ARSFS -p bpeU1aRY4w.Binge",
     "start-tv-online": "npm run build-online && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
     "start-tv": "npm run build && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
