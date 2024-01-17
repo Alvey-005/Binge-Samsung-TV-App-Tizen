@@ -19,7 +19,8 @@
     "start": "npm run start-tv",
     "start-online": "npm run start-tv-online",
     "run": "npm run start-tv --tv=7XCI6YW6TV5L4",
-    "run2": "npm run start-tv-online --tv=7XCI6YW6TV5L4"
+    "run2": "npm run start-tv-online --tv=7XCI6YW6TV5L4",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,10 @@
     "grunt-json-minify": "^1.1.0",
     "grunt-string-replace": "^1.3.3",
     "matchdep": "^2.0.0",
-    "prettier": "^3.2.2"
+    "prettier": "^3.2.2",
+    "husky": "^8.0.0"
+  },
+  "lint-staged": {
+    "server/js/*.js": "prettier --write"
   }
 }
