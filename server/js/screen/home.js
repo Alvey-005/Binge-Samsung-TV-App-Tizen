@@ -32,11 +32,7 @@ window.home = {
 
     home_element.innerHTML = `
     <div class="content">
-      ${
-        home.fromCategory.state
-          ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>`
-          : ""
-      }
+      ${home.fromCategory.state ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>` : ""}
       <div class="details full">
         <div class="background">
           <img src="${home.data.main.banner.background}">
@@ -63,10 +59,10 @@ window.home = {
     document.body.appendChild(home_element);
 
     var title = $(".details .info .title")[0];
-    title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
+    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
     var description = $(".details .info .description")[0];
-    description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
 
     $(`#${home.id} .rows`).slick({
       vertical: true,
@@ -106,37 +102,38 @@ window.home = {
     $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = home.id;
-    
-    var keyDownEvent = new Event('keydown');
+
+    var keyDownEvent = new Event("keydown");
     keyDownEvent.keyCode = tvKey.KEY_DOWN;
     home.keyDown(keyDownEvent);
   },
 
   destroy: function () {
     home.position = 0;
-    if(document.getElementById(home.id)) {
+    if (document.getElementById(home.id)) {
       document.body.removeChild(document.getElementById(home.id));
     }
   },
 
   show_details: function () {
-    var item = home.position > 0
+    var item =
+      home.position > 0
         ? home.data.main.lists[home.position - 1].items[$(".row-content")[home.position - 1].slick.currentSlide]
         : home.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
     var titleElements = $(".details .info .title");
     if (titleElements.length > 0) {
-        var title = titleElements[0];
-        title.innerText = item.title;
-        title.style.fontSize = title.scrollHeight > title.clientHeight ? '3.5vh' : '5vh';
+      var title = titleElements[0];
+      title.innerText = item.title;
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
-        description.innerText = item.description;
-        description.style.fontSize = description.scrollHeight > description.clientHeight ? '2vh' : '2.5vh';
+      description.innerText = item.description;
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
 
@@ -148,7 +145,6 @@ window.home = {
           menu.open();
         } else {
           home.destroy();
-          browse.init(home.fromCategory.index);
         }
         break;
       case tvKey.KEY_NEXT:
@@ -158,11 +154,8 @@ window.home = {
           $(".row-content").removeClass("selected");
           home.position--;
           $(".rows")[0].slick.slickGoTo(home.position - 1);
-          $(".row-content")[home.position - 1].slick.slickGoTo(
-            $(".row-content")[home.position - 1].slick.getCurrent()
-          );
-          $(".row-content")[home.position - 1].className =
-            $(".row-content")[home.position - 1].className + " selected";
+          $(".row-content")[home.position - 1].slick.slickGoTo($(".row-content")[home.position - 1].slick.getCurrent());
+          $(".row-content")[home.position - 1].className = $(".row-content")[home.position - 1].className + " selected";
         } else {
           // $(".details").addClass("full");
           // home.position = 1;
@@ -172,18 +165,14 @@ window.home = {
       case tvKey.KEY_DOWN:
         if (home.position > 0) {
           $(".row-content").removeClass("selected");
-          home.position =
-            home.position < home.data.main.lists.length
-              ? home.position + 1
-              : home.position;
+          home.position = home.position < home.data.main.lists.length ? home.position + 1 : home.position;
           if (home.position <= home.data.main.lists.length) {
             $(".rows")[0].slick.slickGoTo(home.position - 1);
             $(".row-content")[home.position - 1].slick.slickGoTo(
               $(".row-content")[home.position - 1].slick.getCurrent()
             );
           }
-          $(".row-content")[home.position - 1].className =
-            $(".row-content")[home.position - 1].className + " selected";
+          $(".row-content")[home.position - 1].className = $(".row-content")[home.position - 1].className + " selected";
         } else {
           $(".details.full").removeClass("full");
           var first_row = $(".row-content")[0];
@@ -201,7 +190,6 @@ window.home = {
               menu.open();
             } else {
               home.destroy();
-              browse.init(home.fromCategory.index);
             }
           } else {
             $(".row-content")[home.position - 1].slick.prev();
@@ -215,13 +203,10 @@ window.home = {
               menu.open();
             } else {
               home.destroy();
-              browse.init(home.fromCategory.index);
             }
           } else {
             buttons.removeClass("selected");
-            buttons
-              .eq(current > 0 ? current - 1 : current)
-              .addClass("selected");
+            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
         }
         break;
@@ -232,10 +217,7 @@ window.home = {
 
           if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
             if (home.fromCategory.state && currentList.lazy) {
-              if (
-                currentList.items.length > 15 &&
-                currentSlide.slick.currentSlide > currentList.items.length - 10
-              ) {
+              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                 currentList.lazy = false;
                 loading.start();
                 mapper.loadCategoryListAsync(
@@ -245,8 +227,7 @@ window.home = {
                   home.position - 1,
                   {
                     success: function (response, index) {
-                      home.data.main.lists[index].lazy =
-                        response.items.length === 20;
+                      home.data.main.lists[index].lazy = response.items.length === 20;
                       home.addToList(index, mapper.mapItems(response.items));
                       loading.end();
                     },
@@ -265,18 +246,14 @@ window.home = {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           buttons.removeClass("selected");
-          buttons
-            .eq(current < buttons.length - 1 ? current + 1 : current)
-            .addClass("selected");
+          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         var item =
           home.position > 0
-            ? home.data.main.lists[home.position - 1].items[
-                $(".row-content")[home.position - 1].slick.currentSlide
-              ]
+            ? home.data.main.lists[home.position - 1].items[$(".row-content")[home.position - 1].slick.currentSlide]
             : home.data.main.banner;
         // home-screen
         api.contentDetails({
@@ -303,8 +280,7 @@ window.home = {
   addToList: function (index, newItems) {
     var itemsCount = home.data.main.lists[index].items.length;
     var currentSlide = $(".row-content")[home.position - 1];
-    home.data.main.lists[index].items =
-      home.data.main.lists[index].items.concat(newItems);
+    home.data.main.lists[index].items = home.data.main.lists[index].items.concat(newItems);
 
     // remove empty items for prevent move error
     for (var index = 0; index < 9; index++) {
@@ -312,9 +288,7 @@ window.home = {
     }
 
     // added new items
-    newItems.forEach((element) =>
-      currentSlide.slick.slickAdd(home.createItem(element))
-    );
+    newItems.forEach((element) => currentSlide.slick.slickAdd(home.createItem(element)));
 
     // added empty items for prevent move error
     for (var index = 0; index < 9; index++) {

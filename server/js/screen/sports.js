@@ -43,9 +43,7 @@ window.sports = {
             </div>
             <div class="info">
               <div class="title resize">${sports.data.main.banner.title}</div>
-              <div class="description resize">${
-                sports.data.main.banner.description
-              }</div>
+              <div class="description resize">${sports.data.main.banner.description}</div>
               <!--
               <div class="buttons">
                 <a class="selected">${translate.go("sports.banner.play")}</a>
@@ -65,12 +63,10 @@ window.sports = {
     document.body.appendChild(sports_element);
 
     var title = $(".details .info .title")[0];
-    title.style.fontSize =
-      title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
     var description = $(".details .info .description")[0];
-    description.style.fontSize =
-      description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
 
     $(`#${sports.id} .rows`).slick({
       vertical: true,
@@ -124,9 +120,7 @@ window.sports = {
   show_details: function () {
     var item =
       sports.position > 0
-        ? sports.data.main.lists[sports.position - 1].items[
-            $(".row-content")[sports.position - 1].slick.currentSlide
-          ]
+        ? sports.data.main.lists[sports.position - 1].items[$(".row-content")[sports.position - 1].slick.currentSlide]
         : sports.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
@@ -134,16 +128,14 @@ window.sports = {
     if (titleElements.length > 0) {
       var title = titleElements[0];
       title.innerText = item.title;
-      title.style.fontSize =
-        title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
       description.innerText = item.description;
-      description.style.fontSize =
-        description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
 
@@ -155,7 +147,6 @@ window.sports = {
           menu.open();
         } else {
           sports.destroy();
-          browse.init(sports.fromCategory.index);
         }
         break;
       case tvKey.KEY_NEXT:
@@ -179,10 +170,7 @@ window.sports = {
       case tvKey.KEY_DOWN:
         if (sports.position > 0) {
           $(".row-content").removeClass("selected");
-          sports.position =
-            sports.position < sports.data.main.lists.length
-              ? sports.position + 1
-              : sports.position;
+          sports.position = sports.position < sports.data.main.lists.length ? sports.position + 1 : sports.position;
           if (sports.position <= sports.data.main.lists.length) {
             $(".rows")[0].slick.slickGoTo(sports.position - 1);
             $(".row-content")[sports.position - 1].slick.slickGoTo(
@@ -208,7 +196,6 @@ window.sports = {
               menu.open();
             } else {
               sports.destroy();
-              browse.init(sports.fromCategory.index);
             }
           } else {
             $(".row-content")[sports.position - 1].slick.prev();
@@ -222,13 +209,10 @@ window.sports = {
               menu.open();
             } else {
               sports.destroy();
-              browse.init(sports.fromCategory.index);
             }
           } else {
             buttons.removeClass("selected");
-            buttons
-              .eq(current > 0 ? current - 1 : current)
-              .addClass("selected");
+            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
         }
         break;
@@ -239,10 +223,7 @@ window.sports = {
 
           if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
             if (sports.fromCategory.state && currentList.lazy) {
-              if (
-                currentList.items.length > 15 &&
-                currentSlide.slick.currentSlide > currentList.items.length - 10
-              ) {
+              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                 currentList.lazy = false;
                 loading.start();
                 mapper.loadCategoryListAsync(
@@ -252,8 +233,7 @@ window.sports = {
                   sports.position - 1,
                   {
                     success: function (response, index) {
-                      sports.data.main.lists[index].lazy =
-                        response.items.length === 20;
+                      sports.data.main.lists[index].lazy = response.items.length === 20;
                       sports.addToList(index, mapper.mapItems(response.items));
                       loading.end();
                     },
@@ -272,9 +252,7 @@ window.sports = {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           buttons.removeClass("selected");
-          buttons
-            .eq(current < buttons.length - 1 ? current + 1 : current)
-            .addClass("selected");
+          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
@@ -340,8 +318,7 @@ window.sports = {
   addToList: function (index, newItems) {
     var itemsCount = sports.data.main.lists[index].items.length;
     var currentSlide = $(".row-content")[sports.position - 1];
-    sports.data.main.lists[index].items =
-      sports.data.main.lists[index].items.concat(newItems);
+    sports.data.main.lists[index].items = sports.data.main.lists[index].items.concat(newItems);
 
     // remove empty items for prevent move error
     for (var index = 0; index < 9; index++) {
@@ -349,9 +326,7 @@ window.sports = {
     }
 
     // added new items
-    newItems.forEach((element) =>
-      currentSlide.slick.slickAdd(sports.createItem(element))
-    );
+    newItems.forEach((element) => currentSlide.slick.slickAdd(sports.createItem(element)));
 
     // added empty items for prevent move error
     for (var index = 0; index < 9; index++) {

@@ -106,8 +106,8 @@ window.movies = {
     $(`#${movies.id} .rows .row-content`)[0].slick.slickGoTo(0);
 
     main.state = movies.id;
-    
-    var keyDownEvent = new Event('keydown');
+
+    var keyDownEvent = new Event("keydown");
     keyDownEvent.keyCode = tvKey.KEY_DOWN;
     movies.keyDown(keyDownEvent);
   },
@@ -120,9 +120,7 @@ window.movies = {
   show_details: function () {
     var item =
       movies.position > 0
-        ? movies.data.main.lists[movies.position - 1].items[
-            $(".row-content")[movies.position - 1].slick.currentSlide
-          ]
+        ? movies.data.main.lists[movies.position - 1].items[$(".row-content")[movies.position - 1].slick.currentSlide]
         : movies.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
@@ -130,16 +128,14 @@ window.movies = {
     if (titleElements.length > 0) {
       var title = titleElements[0];
       title.innerText = item.title;
-      title.style.fontSize =
-        title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
       description.innerText = item.description;
-      description.style.fontSize =
-        description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
 
@@ -151,7 +147,6 @@ window.movies = {
           menu.open();
         } else {
           movies.destroy();
-          browse.init(movies.fromCategory.index);
         }
         break;
       case tvKey.KEY_NEXT:
@@ -175,10 +170,7 @@ window.movies = {
       case tvKey.KEY_DOWN:
         if (movies.position > 0) {
           $(".row-content").removeClass("selected");
-          movies.position =
-            movies.position < movies.data.main.lists.length
-              ? movies.position + 1
-              : movies.position;
+          movies.position = movies.position < movies.data.main.lists.length ? movies.position + 1 : movies.position;
           if (movies.position <= movies.data.main.lists.length) {
             $(".rows")[0].slick.slickGoTo(movies.position - 1);
             $(".row-content")[movies.position - 1].slick.slickGoTo(
@@ -204,7 +196,6 @@ window.movies = {
               menu.open();
             } else {
               movies.destroy();
-              browse.init(movies.fromCategory.index);
             }
           } else {
             $(".row-content")[movies.position - 1].slick.prev();
@@ -218,13 +209,10 @@ window.movies = {
               menu.open();
             } else {
               movies.destroy();
-              browse.init(movies.fromCategory.index);
             }
           } else {
             buttons.removeClass("selected");
-            buttons
-              .eq(current > 0 ? current - 1 : current)
-              .addClass("selected");
+            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
         }
         break;
@@ -235,10 +223,7 @@ window.movies = {
 
           if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
             if (movies.fromCategory.state && currentList.lazy) {
-              if (
-                currentList.items.length > 15 &&
-                currentSlide.slick.currentSlide > currentList.items.length - 10
-              ) {
+              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                 currentList.lazy = false;
                 loading.start();
                 mapper.loadCategoryListAsync(
@@ -248,8 +233,7 @@ window.movies = {
                   movies.position - 1,
                   {
                     success: function (response, index) {
-                      movies.data.main.lists[index].lazy =
-                        response.items.length === 20;
+                      movies.data.main.lists[index].lazy = response.items.length === 20;
                       movies.addToList(index, mapper.mapItems(response.items));
                       loading.end();
                     },
@@ -268,9 +252,7 @@ window.movies = {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           buttons.removeClass("selected");
-          buttons
-            .eq(current < buttons.length - 1 ? current + 1 : current)
-            .addClass("selected");
+          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
@@ -306,8 +288,7 @@ window.movies = {
   addToList: function (index, newItems) {
     var itemsCount = movies.data.main.lists[index].items.length;
     var currentSlide = $(".row-content")[movies.position - 1];
-    movies.data.main.lists[index].items =
-      movies.data.main.lists[index].items.concat(newItems);
+    movies.data.main.lists[index].items = movies.data.main.lists[index].items.concat(newItems);
 
     // remove empty items for prevent move error
     for (var index = 0; index < 9; index++) {
@@ -315,9 +296,7 @@ window.movies = {
     }
 
     // added new items
-    newItems.forEach((element) =>
-      currentSlide.slick.slickAdd(movies.createItem(element))
-    );
+    newItems.forEach((element) => currentSlide.slick.slickAdd(movies.createItem(element)));
 
     // added empty items for prevent move error
     for (var index = 0; index < 9; index++) {

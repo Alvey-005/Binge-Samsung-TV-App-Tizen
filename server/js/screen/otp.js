@@ -72,7 +72,7 @@ window.otp = {
         api.verify({
           data: {
             otp: enteredOtp,
-            phone: session.storage.account.phone,
+            phone: session.storage.phone,
           },
           success: function (response) {
             session.start({

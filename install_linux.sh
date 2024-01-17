@@ -2,8 +2,8 @@
 
 read -p "Enter tizen path (default: ~/tizen-studio): " tizen_directory
 tizen_directory=${tizen_directory:-$HOME/tizen-studio}
-read -p "Enter .wgt app path (default: Crunchyroll.wgt): " app_directory
-app_directory=${app_directory:-Crunchyroll.wgt}
+read -p "Enter .wgt app path (default: Binge.wgt): " app_directory
+app_directory=${app_directory:-Binge.wgt}
 read -p "Enter device ip (example: 192.168.0.37): " device_ip
 
 if [ -z $device_ip ]; then

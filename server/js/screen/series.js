@@ -43,9 +43,7 @@ window.series = {
               </div>
               <div class="info">
                 <div class="title resize">${series.data.main.banner.title}</div>
-                <div class="description resize">${
-                  series.data.main.banner.description
-                }</div>
+                <div class="description resize">${series.data.main.banner.description}</div>
                 <!--
                 <div class="buttons">
                   <a class="selected">${translate.go("series.banner.play")}</a>
@@ -65,12 +63,10 @@ window.series = {
     document.body.appendChild(series_element);
 
     var title = $(".details .info .title")[0];
-    title.style.fontSize =
-      title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
     var description = $(".details .info .description")[0];
-    description.style.fontSize =
-      description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
 
     $(`#${series.id} .rows`).slick({
       vertical: true,
@@ -124,9 +120,7 @@ window.series = {
   show_details: function () {
     var item =
       series.position > 0
-        ? series.data.main.lists[series.position - 1].items[
-            $(".row-content")[series.position - 1].slick.currentSlide
-          ]
+        ? series.data.main.lists[series.position - 1].items[$(".row-content")[series.position - 1].slick.currentSlide]
         : series.data.main.banner;
     $(".details .background img").attr("src", item.background);
 
@@ -134,16 +128,14 @@ window.series = {
     if (titleElements.length > 0) {
       var title = titleElements[0];
       title.innerText = item.title;
-      title.style.fontSize =
-        title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
     }
 
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
       description.innerText = item.description;
-      description.style.fontSize =
-        description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
 
@@ -155,7 +147,6 @@ window.series = {
           menu.open();
         } else {
           series.destroy();
-          browse.init(series.fromCategory.index);
         }
         break;
       case tvKey.KEY_NEXT:
@@ -179,10 +170,7 @@ window.series = {
       case tvKey.KEY_DOWN:
         if (series.position > 0) {
           $(".row-content").removeClass("selected");
-          series.position =
-            series.position < series.data.main.lists.length
-              ? series.position + 1
-              : series.position;
+          series.position = series.position < series.data.main.lists.length ? series.position + 1 : series.position;
           if (series.position <= series.data.main.lists.length) {
             $(".rows")[0].slick.slickGoTo(series.position - 1);
             $(".row-content")[series.position - 1].slick.slickGoTo(
@@ -208,7 +196,6 @@ window.series = {
               menu.open();
             } else {
               series.destroy();
-              browse.init(series.fromCategory.index);
             }
           } else {
             $(".row-content")[series.position - 1].slick.prev();
@@ -222,13 +209,10 @@ window.series = {
               menu.open();
             } else {
               series.destroy();
-              browse.init(series.fromCategory.index);
             }
           } else {
             buttons.removeClass("selected");
-            buttons
-              .eq(current > 0 ? current - 1 : current)
-              .addClass("selected");
+            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
         }
         break;
@@ -239,10 +223,7 @@ window.series = {
 
           if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
             if (series.fromCategory.state && currentList.lazy) {
-              if (
-                currentList.items.length > 15 &&
-                currentSlide.slick.currentSlide > currentList.items.length - 10
-              ) {
+              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                 currentList.lazy = false;
                 loading.start();
                 mapper.loadCategoryListAsync(
@@ -252,8 +233,7 @@ window.series = {
                   series.position - 1,
                   {
                     success: function (response, index) {
-                      series.data.main.lists[index].lazy =
-                        response.items.length === 20;
+                      series.data.main.lists[index].lazy = response.items.length === 20;
                       series.addToList(index, mapper.mapItems(response.items));
                       loading.end();
                     },
@@ -272,9 +252,7 @@ window.series = {
           var buttons = $(".details .buttons a");
           var current = buttons.index($(`.details .buttons a.selected`));
           buttons.removeClass("selected");
-          buttons
-            .eq(current < buttons.length - 1 ? current + 1 : current)
-            .addClass("selected");
+          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
@@ -340,8 +318,7 @@ window.series = {
   addToList: function (index, newItems) {
     var itemsCount = series.data.main.lists[index].items.length;
     var currentSlide = $(".row-content")[series.position - 1];
-    series.data.main.lists[index].items =
-      series.data.main.lists[index].items.concat(newItems);
+    series.data.main.lists[index].items = series.data.main.lists[index].items.concat(newItems);
 
     // remove empty items for prevent move error
     for (var index = 0; index < 9; index++) {
@@ -349,9 +326,7 @@ window.series = {
     }
 
     // added new items
-    newItems.forEach((element) =>
-      currentSlide.slick.slickAdd(series.createItem(element))
-    );
+    newItems.forEach((element) => currentSlide.slick.slickAdd(series.createItem(element)));
 
     // added empty items for prevent move error
     for (var index = 0; index < 9; index++) {
