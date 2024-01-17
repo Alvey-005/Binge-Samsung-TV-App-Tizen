@@ -23,7 +23,7 @@ window.keyboard = {
         { value: "D", number: "$", symbol: "\\", size: 1 },
         { value: "F", number: "_", symbol: "*", size: 1 },
         { value: "G", number: "&", symbol: "'", size: 1 },
-        { value: "H", number: "-", symbol: "\"", size: 1 },
+        { value: "H", number: "-", symbol: '"', size: 1 },
         { value: "J", number: "+", symbol: "=", size: 1 },
         { value: "K", number: "(", symbol: ">", size: 1 },
         { value: "L", number: ")", symbol: "<", size: 1 },
@@ -55,7 +55,7 @@ window.keyboard = {
   input: NaN,
   send: NaN,
   alpha: false,
-  number: false,
+  number: true,
 
   init: function (element, send) {
     keyboard.selected = [0, 0];
@@ -108,9 +108,7 @@ window.keyboard = {
 
   getSize: function (key) {
     if (key.size === "alpha") {
-      return `size-${keyboard.number ? "symbol" : "alpha"}${
-        keyboard.alpha ? " active" : ""
-      }`;
+      return `size-${keyboard.number ? "symbol" : "alpha"}${keyboard.alpha ? " active" : ""}`;
     } else {
       return `size-${key.size}`;
     }
@@ -204,8 +202,7 @@ window.keyboard = {
       default:
         keyboard.input.value =
           keyboard.input.value +
-          document.getElementsByClassName(keyboard.id + "-option")[selected[0]]
-            .children[selected[1]].innerText;
+          document.getElementsByClassName(keyboard.id + "-option")[selected[0]].children[selected[1]].innerText;
         break;
     }
   },
