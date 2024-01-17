@@ -85,10 +85,10 @@ window.otp = {
       } else {
         otp.destroy();
         loading.init();
-        service.verify({
+        api.verify({
           data: {
             otp: enteredOtp,
-            phone: session.storage.account.phone,
+            phone: session.storage.phone,
           },
           success: function (response) {
             session.start({
@@ -107,7 +107,7 @@ window.otp = {
             // loading.destroy();
             // login.init();
 
-            console.log("service verify error");
+            console.log("api verify error");
             password = "sakibRobi@588";
             username = "abu.sakib@reddotdigitalit.com";
             session.start(username, password, {

@@ -236,7 +236,7 @@ window.languages = {
     login: {
       number: "Enter mobile number",
       generateOtp: "Generate OTP",
-      otp: "Enter otp",
+      otp: "Enter OTP",
       login: "LOGIN",
       verify: "Verify"
     },
@@ -244,8 +244,6 @@ window.languages = {
       search: "Search",
       home: "Home",
       list: "My list",
-      history: "History",
-      browse: "Browse",
       settings: "Settings",
       logout: "Logout",
       sports: "Sports",

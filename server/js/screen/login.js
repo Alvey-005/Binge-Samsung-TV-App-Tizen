@@ -82,14 +82,13 @@ window.login = {
     var options = document.getElementsByClassName(login.id + "-option");
     if (selected == 1) {
       var phone = options[0].firstElementChild.value;
-      // var password = options[1].firstElementChild.value;
       if (phone.length < 10) {
         console.log("Enter valid credentials...");
       } else {
         login.destroy();
         loading.init();
-        session.storage.account.phone = "+88" + phone;
-        service.login({
+        session.storage.phone = "+88" + phone;
+        api.login({
           data: {
             phone: "+88" + phone,
           },

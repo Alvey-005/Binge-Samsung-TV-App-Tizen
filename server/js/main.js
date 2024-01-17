@@ -25,8 +25,7 @@ window.main = {
         menu.init();
         return;
       }
-      if (document.getElementById(main.state) != null)
-        window[current_id].destroy();
+      if (document.getElementById(main.state) != null) window[current_id].destroy();
       session.clear();
       login.init();
     },
@@ -35,14 +34,6 @@ window.main = {
       session.valid({
         success: function () {
           main.events.home();
-          // session.load_account({
-          //   success: function () {
-          //     main.events.home();
-          //   },
-          //   error: function (error) {
-          //     console.log("load_account", error);
-          //   },
-          // });
         },
         error: function (error) {
           loading.destroy();
@@ -52,12 +43,12 @@ window.main = {
     },
 
     home: function () {
-      service.allCategories({
+      api.allCategories({
         data: {
           page: "web-home-vod",
         },
         success: function (response) {
-          service.banners({
+          api.banners({
             success: function (res) {
               mapper.populate(window.home, response, res.data.banners, {
                 success: function () {
@@ -81,12 +72,12 @@ window.main = {
     },
 
     movies: function () {
-      service.allCategories({
+      api.allCategories({
         data: {
           page: "web-movies",
         },
         success: function (response) {
-          service.movieBanners({
+          api.movieBanners({
             success: function (res) {
               mapper.populate(window.movies, response, res.data.banners, {
                 success: function () {
@@ -162,12 +153,6 @@ window.main = {
             break;
           case search.id:
             search.keyDown(event);
-            break;
-          case historyScreen.id:
-            historyScreen.keyDown(event);
-            break;
-          case browse.id:
-            browse.keyDown(event);
             break;
           case home.id:
             home.keyDown(event);

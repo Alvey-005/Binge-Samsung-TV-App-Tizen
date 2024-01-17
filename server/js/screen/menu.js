@@ -33,27 +33,16 @@ window.menu = {
     //   action: "subscribe.init",
     // },
     // {
-    //   id: "historyScreen",
-    //   label: "menu.history",
-    //   icon: "fa-solid fa-clock-rotate-left",
-    //   action: "historyScreen.init",
-    // },
-    // {
-    //   id: "browse",
-    //   label: "menu.browse",
-    //   icon: "fa-regular fa-rectangle-list",
-    //   action: "browse.init",
-    // },
     {
       id: "sports",
       label: "menu.sports",
-      icon: "fa-solid fa-house",
+      icon: "fa-solid fa-person-running",
       action: "sports.start",
     },
     {
       id: "series",
       label: "menu.series",
-      icon: "fa-solid fa-house",
+      icon: "fa-solid fa-clapperboard",
       action: "series.start",
     },
 
@@ -114,9 +103,7 @@ window.menu = {
 
     menu_element.innerHTML = `
     <div class="content">
-      <div class="profile ${
-        session.storage.customer?.status_id === "2" ? "premium" : ""
-      }">
+      <div class="profile">
         <div class="avatar">
           <img src="${
             session.storage.customer.image !== null
@@ -125,7 +112,6 @@ window.menu = {
           }"> 
           <!-- <img src="https://pre.binge.buzz/assets/svg/avatar.svg"> -->
         </div>
-        <p>${session.storage.customer?.name || "Your Name"}</p>
         <i class="fa-solid fa-crown"></i>
       </div>
       <div class="options">

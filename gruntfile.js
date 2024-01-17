@@ -11,7 +11,7 @@ module.exports = function (grunt) {
           banner: "",
         },
         files: {
-          "dist/crunchyroll.min.css": ["**/server/css/**/*.css"],
+          "dist/binge.min.css": ["**/server/css/**/*.css"],
         },
       },
       online: {
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
       },
       cdn: {
         src: ["server/js/**/*.js"],
-        dest: "dist/crunchyroll.min.js",
+        dest: "dist/binge.min.js",
       },
       online: {
         src: ["js/**/*.js"],
@@ -163,6 +163,19 @@ module.exports = function (grunt) {
         },
       },
     },
+    babel: {
+      options: {
+        presets: ['@babel/preset-env']
+      },
+      offline: {
+        files: [{
+          expand: true,
+          cwd: 'js/',  // source directory
+          src: ['**/*.js'],
+          dest: 'dist/js/'  // destination directory
+        }]
+      }
+    },
   });
   grunt.registerTask("cdn", [
     "clean",
@@ -179,5 +192,8 @@ module.exports = function (grunt) {
     "copy:online",
     "string-replace:online",
   ]);
-  grunt.registerTask("offline", ["clean", "copy:offline"]);
+  grunt.registerTask("offline", ["clean",
+  "babel:offline",
+   "copy:offline",
+   ,]);
 };
