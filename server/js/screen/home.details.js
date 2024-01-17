@@ -2,6 +2,7 @@ window.home_details = {
     id: 'home_details-screen',
     appendScreen: NaN,
     previous: NaN,
+    is_wishlist: false,
     data: {
         this: NaN,
         continue: NaN,
@@ -14,6 +15,7 @@ window.home_details = {
 
     init: function (item, contentDetails, screen, init, destroy) {
         home_details.data.contentDetails = contentDetails;
+        home_details.is_wishlist = contentDetails.is_wishlist;
         home_details.appendScreen = screen;
         home_details.callbacks.init = init;
         home_details.callbacks.destroy = destroy;
@@ -28,9 +30,9 @@ window.home_details = {
       <span></span>
     </a>
     <a>
-      <i class="fa-solid ${home_details.data.contentDetails.is_wishlist == true ? 'fa-check' : 'fa-bookmark'}"></i>
+      <i class="fa-solid ${home_details.is_wishlist == true ? 'fa-check' : 'fa-bookmark'}"></i>
       <p>${
-          home_details.data.contentDetails.is_wishlist
+          home_details.is_wishlist
               ? translate.go('home.details.added')
               : translate.go('home.details.add')
       }</p>
@@ -93,8 +95,7 @@ window.home_details = {
                         video.init(home_details.data.contentDetails);
                         break;
                     case 1:
-                        loading.start();
-                        if (home_details.data.contentDetails.is_wishlist == true) {
+                        if (home_details.is_wishlist == true) {
                             api.deleteFavourite({
                                 data: {
                                     customer_id: session.storage.customer.id,
@@ -102,8 +103,12 @@ window.home_details = {
                                 },
                                 success: function (response) {
                                     var item = home_details.data.this;
-                                    var screen = home_details.appendScreen;
-                                    home_details.destroy();
+                                    home_details.is_wishlist = !home_details.is_wishlist;
+                                    var wishlistIcon = home_details.is_wishlist ? 'fa-check' : 'fa-bookmark';
+                                    var wishlistText = home_details.is_wishlist ? translate.go('home.details.added') : translate.go('home.details.add');
+                                    var wishlistButton = $(`.${home_details.id}.${home_details.id}_buttons a`).eq(1);
+                                    wishlistButton.find('i').removeClass('fa-check fa-bookmark').addClass(wishlistIcon);
+                                    wishlistButton.find('p').text(wishlistText);
 
                                     api.contentDetails({
                                         body: {
@@ -111,10 +116,7 @@ window.home_details = {
                                             content_type: item.content_type,
                                         },
                                         success: function (data) {
-                                            setTimeout(function () {
-                                                loading.end();
-                                            }, 1000);
-                                            home_details.init(item, data, screen);
+                                            home_details.data.contentDetails = data;
                                         },
                                     });
                                 },
@@ -131,8 +133,12 @@ window.home_details = {
                                 },
                                 success: function (response) {
                                     var item = home_details.data.this;
-                                    var screen = home_details.appendScreen;
-                                    home_details.destroy();
+                                    home_details.is_wishlist = !home_details.is_wishlist;
+                                    var wishlistIcon = home_details.is_wishlist ? 'fa-check' : 'fa-bookmark';
+                                    var wishlistText = home_details.is_wishlist ? translate.go('home.details.added') : translate.go('home.details.add');
+                                    var wishlistButton = $(`.${home_details.id}.${home_details.id}_buttons a`).eq(1);
+                                    wishlistButton.find('i').removeClass('fa-check fa-bookmark').addClass(wishlistIcon);
+                                    wishlistButton.find('p').text(wishlistText);
 
                                     api.contentDetails({
                                         body: {
@@ -140,10 +146,7 @@ window.home_details = {
                                             content_type: item.content_type,
                                         },
                                         success: function (data) {
-                                            setTimeout(function () {
-                                                loading.end();
-                                            }, 1000);
-                                            home_details.init(item, data, screen);
+                                            home_details.data.contentDetails = data;
                                         },
                                     });
                                 },
