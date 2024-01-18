@@ -180,7 +180,7 @@ window.home = {
     }
     
     // home-screen
-    service.contentDetails({
+    api.contentDetails({
       body: {
         id: item.id,
         content_type: item.content_type,
