@@ -7,14 +7,6 @@ window.session = {
     version: NaN,
     language: NaN,
     quality: "auto",
-    phone:NaN,
-    cookies: {
-      bucket: NaN,
-      policy: NaN,
-      signature: NaN,
-      key_pair_id: NaN,
-      expires: NaN,
-    },
     id: NaN,
     country: NaN,
     token_type: NaN,
@@ -22,9 +14,15 @@ window.session = {
     jwtToken:NaN,
     expires_in: NaN,
     refresh_token: NaN,
-    refresh_token: NaN,
     phone: NaN,
     customer: NaN,
+    cookies: {
+      bucket: NaN,
+      policy: NaN,
+      signature: NaN,
+      key_pair_id: NaN,
+      expires: NaN,
+    },
   },
 
   init: function () {
@@ -37,7 +35,6 @@ window.session = {
         console.log("error parse session.");
       }
     }
-
     session.update();
   },
 
@@ -88,15 +85,15 @@ window.session = {
     session.storage = {
       language: "en-US",
       quality: "auto",
-      account: {
-        password: NaN,
-        username: NaN,
-        mature: NaN,
-        avatar: "0001-cr-white-orange.png",
-        premium: false,
-        language: "en-US",
-        audio: "",
-      },
+      id: NaN,
+      country: NaN,
+      token_type: NaN,
+      access_token: NaN,
+      jwtToken:NaN,
+      expires_in: NaN,
+      refresh_token: NaN,
+      phone: NaN,
+      customer: NaN,
       cookies: {
         bucket: NaN,
         policy: NaN,
@@ -104,12 +101,6 @@ window.session = {
         key_pair_id: NaN,
         expires: NaN,
       },
-      id: NaN,
-      country: NaN,
-      token_type: NaN,
-      access_token: NaN,
-      expires_in: NaN,
-      refresh_token: NaN,
     };
     session.update();
   },
