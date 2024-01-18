@@ -26,6 +26,8 @@ window.session = {
   },
 
   init: function () {
+    // firebaseConfig.init();
+    // console.log("session init", session);
     var storage = localStorage.getItem("session");
     if (storage) {
       try {
