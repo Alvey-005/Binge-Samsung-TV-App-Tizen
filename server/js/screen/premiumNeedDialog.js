@@ -12,12 +12,12 @@ window.premiumNeedDialog = {
       '  <div class="window">' +
       `    <div class="text">${translate.go(`premimumNeedDialog.message`)} </div>` +
       '    <div class="buttons">' +
-      `      <div class="button" id="premium-needed-screen-yes">${translate.go('premimumNeedDialog.yes')}</div>` +
-      `      <div class="button" id="premium-needed-screen-no">${translate.go('premimumNeedDialog.no')}</div>` +
+      `      <div class="button" id="premium-needed-screen-yes">${translate.go("premimumNeedDialog.yes")}</div>` +
+      `      <div class="button" id="premium-needed-screen-no">${translate.go("premimumNeedDialog.no")}</div>` +
       "  </div>" +
       "</div>";
     document.body.appendChild(premiumNeedDialog_element);
-    console.log('prem', premiumNeedDialog_element);
+    console.log("prem", premiumNeedDialog_element);
     premiumNeedDialog.previous = main.state;
     main.state = premiumNeedDialog.id;
     premiumNeedDialog.move(false);
@@ -52,17 +52,13 @@ window.premiumNeedDialog = {
 
   move: function (selected) {
     premiumNeedDialog.selected = selected;
-    document.getElementById(
-      premiumNeedDialog.id + "-" + (selected ? "yes" : "no")
-    ).className = "button selected";
-    document.getElementById(
-      premiumNeedDialog.id + "-" + (!selected ? "yes" : "no")
-    ).className = "button";
+    document.getElementById(premiumNeedDialog.id + "-" + (selected ? "yes" : "no")).className = "button selected";
+    document.getElementById(premiumNeedDialog.id + "-" + (!selected ? "yes" : "no")).className = "button";
   },
 
   action: function (selected) {
     if (selected) {
-      console.log('selected', selected);
+      console.log("selected", selected);
       premiumNeedDialog.destroy();
     } else {
       premiumNeedDialog.destroy();

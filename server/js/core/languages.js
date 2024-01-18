@@ -32,8 +32,7 @@ window.languages = {
     },
     exit: {
       message: "क्या आप ऐप्लिकेशन से बाहर जाना चाहते हैं?",
-      message_logout:
-        "क्या आप लॉगआउट करना और ऐप्लिकेशन से बाहर जाना चाहते हैं?",
+      message_logout: "क्या आप लॉगआउट करना और ऐप्लिकेशन से बाहर जाना चाहते हैं?",
       no: "नहीं",
       yes: "हाँ",
     },
@@ -238,7 +237,7 @@ window.languages = {
       generateOtp: "Generate OTP",
       otp: "Enter OTP",
       login: "LOGIN",
-      verify: "Verify"
+      verify: "Verify",
     },
     menu: {
       search: "Search",
@@ -280,7 +279,7 @@ window.languages = {
       no: "NO",
       yes: "YES",
     },
-    streamLimitCrossed:{
+    streamLimitCrossed: {
       message: "Stream Limit Crossed",
       no: "NO",
       yes: "YES",

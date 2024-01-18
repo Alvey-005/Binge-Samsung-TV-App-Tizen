@@ -38,13 +38,6 @@ window.tvKey = {
   KEY_ESCAPE: 27,
 };
 
-[
-  "MediaPause",
-  "MediaPlay",
-  "MediaPlayPause",
-  "MediaFastForward",
-  "MediaRewind",
-  "MediaStop",
-].forEach((key) => {
+["MediaPause", "MediaPlay", "MediaPlayPause", "MediaFastForward", "MediaRewind", "MediaStop"].forEach((key) => {
   tizen.tvinputdevice.registerKey(key);
 });

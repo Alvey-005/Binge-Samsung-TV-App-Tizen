@@ -14,9 +14,9 @@ window.otp = {
         </div>
         <div class="form">
           <div class="input ${otp.id}-option">
-            <input type="text" placeholder="${translate.go('login.otp')}">
+            <input type="text" placeholder="${translate.go("login.otp")}">
           </div>
-          <a class="button ${otp.id}-option" translate>${translate.go('login.verify')}</a>
+          <a class="button ${otp.id}-option" translate>${translate.go("login.verify")}</a>
         </div>
       </div>
     </div>`;
@@ -33,9 +33,9 @@ window.otp = {
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
-        case tvKey.KEY_ESCAPE:
-          exit.init();
-          break;
+      case tvKey.KEY_ESCAPE:
+        exit.init();
+        break;
       case tvKey.KEY_UP:
         otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
         break;

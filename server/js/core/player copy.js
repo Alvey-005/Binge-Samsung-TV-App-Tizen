@@ -42,30 +42,30 @@ window.player = {
   },
 
   play: function (url, playhead, noplay) {
-    console.log("play", url, playhead, noplay,Hls.isSupported());
+    console.log("play", url, playhead, noplay, Hls.isSupported());
     if (Hls.isSupported()) {
       player.plugin = new Hls();
       player.plugin.loadSource(url);
       player.plugin.attachMedia(player.getVideo());
 
       player.plugin.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-        console.log('manifest fata', data);
+        console.log("manifest fata", data);
         // player.levelId = player.getQuality(data);
         // player.plugin.startLevel = player.levelId;
         player.plugin.startLoad();
-        console.log('player.plugin.keySystems');
+        console.log("player.plugin.keySystems");
         // player.plugin.currentLevel = player.levelId;
         if (!noplay) {
-          console.log('noplahy');
+          console.log("noplahy");
           player.getVideo().play();
           player.state = player.states.PLAYING;
         }
       });
       player.plugin.on(Hls.Events.MANIFEST_LOADED, (event, data) => {
-        console.log('event', event, data);
+        console.log("event", event, data);
       });
       player.plugin.on(Hls.Events.LEVEL_LOADING, (event, data) => {
-        console.log('event', event, data);
+        console.log("event", event, data);
       });
     } else if (player.getVideo().canPlayType("application/vnd.apple.mpegurl")) {
       player.getVideo().src = url;
@@ -108,9 +108,7 @@ window.player = {
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
-        player.values.forward_rewind + player.getPlayed() < 0
-          ? 0
-          : player.values.forward_rewind + player.getPlayed();
+        player.values.forward_rewind + player.getPlayed() < 0 ? 0 : player.values.forward_rewind + player.getPlayed();
       player.values.forward_rewind = 0;
       player.resume();
     }, 500);
@@ -125,8 +123,7 @@ window.player = {
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
-        player.values.forward_rewind + player.getPlayed() >
-        player.getDuration() - player.getDuration() * 0.02
+        player.values.forward_rewind + player.getPlayed() > player.getDuration() - player.getDuration() * 0.02
           ? player.getPlayed()
           : player.values.forward_rewind + player.getPlayed();
       player.values.forward_rewind = 0;
@@ -139,9 +136,7 @@ window.player = {
   },
 
   getQuality: function (data) {
-    var id = Object.keys(data.levels).find(
-      (key) => data.levels[key].height === +session.storage.quality
-    );
+    var id = Object.keys(data.levels).find((key) => data.levels[key].height === +session.storage.quality);
     return id !== undefined ? id : -1;
   },
 

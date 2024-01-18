@@ -77,20 +77,14 @@ window.menu = {
       if (!!element.tool) {
         tool_options += `
         <a class="option ${
-          reset && element.id === "settings"
-            ? "selected"
-            : index === menu.selected
-            ? "selected"
-            : ""
+          reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
         }">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
       } else {
         menu_options += `
-        <a class="option ${
-          !reset && index === menu.selected ? "selected" : ""
-        }">
+        <a class="option ${!reset && index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
@@ -126,8 +120,7 @@ window.menu = {
     if (menu.isOpen) {
       menu.close();
     }
-    document.getElementById(this.id) &&
-      document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
   },
 
   open: function () {
@@ -147,10 +140,7 @@ window.menu = {
 
   move: function () {
     var options = "";
-    (menu.option.root
-      ? menu.options
-      : menu.options[menu.option.item].childs
-    ).forEach((element, index) => {
+    (menu.option.root ? menu.options : menu.options[menu.option.item].childs).forEach((element, index) => {
       options += `<div class="option ${element.icon}${
         this.option.selected === index ? " selected" : ""
       }">${element.text ? element.text : ""}</div>`;
@@ -180,9 +170,7 @@ window.menu = {
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
         options.removeClass("focus");
-        options
-          .eq(current < options.length - 1 ? current + 1 : current)
-          .addClass("focus");
+        options.eq(current < options.length - 1 ? current + 1 : current).addClass("focus");
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:

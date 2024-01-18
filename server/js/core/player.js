@@ -40,22 +40,21 @@ window.player = {
   getDuration: function () {
     return player.getVideo().duration;
   },
-  init: function(){
-
-    var playerInstance =videojs(player.getVideo(), {
+  init: function () {
+    var playerInstance = videojs(player.getVideo(), {
       muted: false,
       // poster: 'https://web-api.binge.buzz/uploads/products/thumbs/YgoPKQ6hbligpQKP8vy7bY642NoRzP4XAS.jpg',
       autoplay: true,
       responsive: true,
       fluid: true,
-      techOrder: ['html5'],
+      techOrder: ["html5"],
       html5: {
         vhs: {
           overrideNative: true,
         },
         nativeAudioTracks: true,
         nativeVideoTracks: true,
-      }
+      },
     });
     player.plugin = playerInstance;
   },
@@ -64,46 +63,46 @@ window.player = {
     player.init();
     player.plugin.src({
       src: url,
-      type: 'application/x-mpegURL' // Use 'application/vnd.apple.mpegurl' for Safari
+      type: "application/x-mpegURL", // Use 'application/vnd.apple.mpegurl' for Safari
     });
     player.plugin.on("loadstart", function (_e) {
       videojs.Vhs.xhr.beforeRequest = (options) => {
-          const modifiedOptions = { ...options };
-          if (modifiedOptions.uri.startsWith('https://ss.binge.buzz/binge-drm')) {
-              const search = new URL(options.uri);
-              const searchParam = search.searchParams.get('r');
-              modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}&drmtoken=${session.storage.jwtToken}`;
-              modifiedOptions.headers = modifiedOptions.headers || {};
-              modifiedOptions.headers.Authorization = `Bearer ${session.storage.jwtToken}`;
-              videojs.xhr(
-                  {
-                      uri: modifiedOptions.uri,
-                      headers: {
-                          'Content-Type': 'application/json',
-                          Authorization: `Bearer ${session.storage.jwtToken}`,
-                      },
-                  },
-                  (err, resp) => {
-                      if (resp.statusCode === 429) {
-                          // handleCloseContentError();
-                          video.destroy();
-                          streamLimitCrossed.init();
-                          video.destroy();
-                      } else if (resp.statusCode === 401) {
-                          // handleUnauthorizedError();
-                          video.destroy();
-                          session.clear();
-                          login.init();
-                      } else if (resp.statusCode !== 200) {
-                         video.destroy();
-                          fireError();
-                      }
-                  }
-              );
-          }
-          return modifiedOptions;
+        const modifiedOptions = { ...options };
+        if (modifiedOptions.uri.startsWith("https://ss.binge.buzz/binge-drm")) {
+          const search = new URL(options.uri);
+          const searchParam = search.searchParams.get("r");
+          modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}&drmtoken=${session.storage.jwtToken}`;
+          modifiedOptions.headers = modifiedOptions.headers || {};
+          modifiedOptions.headers.Authorization = `Bearer ${session.storage.jwtToken}`;
+          videojs.xhr(
+            {
+              uri: modifiedOptions.uri,
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${session.storage.jwtToken}`,
+              },
+            },
+            (err, resp) => {
+              if (resp.statusCode === 429) {
+                // handleCloseContentError();
+                video.destroy();
+                streamLimitCrossed.init();
+                video.destroy();
+              } else if (resp.statusCode === 401) {
+                // handleUnauthorizedError();
+                video.destroy();
+                session.clear();
+                login.init();
+              } else if (resp.statusCode !== 200) {
+                video.destroy();
+                fireError();
+              }
+            }
+          );
+        }
+        return modifiedOptions;
       };
-  });
+    });
     player.getVideo().play();
   },
 
@@ -135,9 +134,7 @@ window.player = {
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
-        player.values.forward_rewind + player.getPlayed() < 0
-          ? 0
-          : player.values.forward_rewind + player.getPlayed();
+        player.values.forward_rewind + player.getPlayed() < 0 ? 0 : player.values.forward_rewind + player.getPlayed();
       player.values.forward_rewind = 0;
       player.resume();
     }, 500);
@@ -152,8 +149,7 @@ window.player = {
     callback(player.values.forward_rewind);
     player.timers.forward_rewind = setTimeout(function () {
       player.getVideo().currentTime =
-        player.values.forward_rewind + player.getPlayed() >
-          player.getDuration() - player.getDuration() * 0.02
+        player.values.forward_rewind + player.getPlayed() > player.getDuration() - player.getDuration() * 0.02
           ? player.getPlayed()
           : player.values.forward_rewind + player.getPlayed();
       player.values.forward_rewind = 0;
@@ -166,9 +162,7 @@ window.player = {
   },
 
   getQuality: function (data) {
-    var id = Object.keys(data.levels).find(
-      (key) => data.levels[key].height === +session.storage.quality
-    );
+    var id = Object.keys(data.levels).find((key) => data.levels[key].height === +session.storage.quality);
     return id !== undefined ? id : -1;
   },
 

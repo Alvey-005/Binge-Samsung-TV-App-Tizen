@@ -49,12 +49,9 @@ window.video = {
   },
 
   toggleAspectRatio: function () {
-    video.aspect =
-      video.aspect < video.aspects.length - 1 ? video.aspect + 1 : 0;
-    document.getElementById("bingeTizen").className =
-      video.aspects[video.aspect];
-    $(".toggle-aspect")[0].className = `toggle-aspect fa-solid fa-${video.aspects[video.aspect]
-      } selected`;
+    video.aspect = video.aspect < video.aspects.length - 1 ? video.aspect + 1 : 0;
+    document.getElementById("bingeTizen").className = video.aspects[video.aspect];
+    $(".toggle-aspect")[0].className = `toggle-aspect fa-solid fa-${video.aspects[video.aspect]} selected`;
   },
 
   openLanguages: function () {
@@ -69,9 +66,7 @@ window.video = {
   },
 
   getSettings: function () {
-    return video.options
-      .map((element) => `<i class="${element.icon}"></i>`)
-      .join("");
+    return video.options.map((element) => `<i class="${element.icon}"></i>`).join("");
   },
 
   init: function (item) {
@@ -145,12 +140,12 @@ window.video = {
     // };
     video.intro = {
       start: item.intro_start_time,
-      end: item.intro_end_time
+      end: item.intro_end_time,
     };
   },
 
   destroy: function () {
-    console.log('destroy is calling');
+    console.log("destroy is calling");
     video.hideOSD();
     player.pause();
     requestMethod.get(urls.closeContent);
@@ -220,9 +215,7 @@ window.video = {
             options.removeClass("active");
             selected.addClass("active");
 
-            isAudio
-              ? video.changeAudio(options.index(selected[0]))
-              : video.changeSubtitle(options.index(selected[0]));
+            isAudio ? video.changeAudio(options.index(selected[0])) : video.changeSubtitle(options.index(selected[0]));
           }
         }
         if (video.intro && video.intro.state) {
@@ -237,12 +230,8 @@ window.video = {
               if (!video.option) {
                 player.playPause();
               } else {
-                var selected = $(".player-settings i").index(
-                  $(".player-settings i.selected")
-                );
-                video[video.options[selected].action](
-                  video.options[selected].param
-                );
+                var selected = $(".player-settings i").index($(".player-settings i.selected"));
+                video[video.options[selected].action](video.options[selected].param);
               }
             }
           }
@@ -254,9 +243,7 @@ window.video = {
           var options = $(".player-settings i");
           var selected = options.index($(".player-settings i.selected"));
           options.removeClass("selected");
-          options
-            .eq(selected > 0 ? selected - 1 : selected)
-            .addClass("selected");
+          options.eq(selected > 0 ? selected - 1 : selected).addClass("selected");
         } else {
           !video.settings.open && player.rewind(video.setPlayingTime);
         }
@@ -267,9 +254,7 @@ window.video = {
           var options = $(".player-settings i");
           var selected = options.index($(".player-settings i.selected"));
           options.removeClass("selected");
-          options
-            .eq(selected < video.options.length - 1 ? selected + 1 : selected)
-            .addClass("selected");
+          options.eq(selected < video.options.length - 1 ? selected + 1 : selected).addClass("selected");
         } else {
           !video.settings.open && player.forward(video.setPlayingTime);
         }
@@ -288,9 +273,7 @@ window.video = {
 
           var marginTop = 0;
           var max = listSelected.attr("id") === "audios" ? 4 : 3;
-          var currentInList = listSelected
-            .children()
-            .index($("#languages-content .option.selected"));
+          var currentInList = listSelected.children().index($("#languages-content .option.selected"));
           if (listSelected.children().length > max && currentInList > max - 1) {
             if (currentInList > listSelected.children().length - (max - 1)) {
               marginTop = -((listSelected.children().length - max) * 82);
@@ -301,10 +284,7 @@ window.video = {
 
           listSelected.children().first()[0].style.marginTop = `${marginTop}px`;
         } else {
-          if (
-            document.getElementById("osd").style.opacity == 1 &&
-            !video.option
-          ) {
+          if (document.getElementById("osd").style.opacity == 1 && !video.option) {
             $(".player-settings").children().first().addClass("selected");
             video.option = true;
           }
@@ -324,9 +304,7 @@ window.video = {
 
           var marginTop = 0;
           var max = listSelected.attr("id") === "audios" ? 4 : 3;
-          var currentInList = listSelected
-            .children()
-            .index($("#languages-content .option.selected"));
+          var currentInList = listSelected.children().index($("#languages-content .option.selected"));
           if (listSelected.children().length > max && currentInList > max - 1) {
             if (currentInList > listSelected.children().length - (max - 1)) {
               marginTop = -((listSelected.children().length - max) * 82);
@@ -342,9 +320,9 @@ window.video = {
         }
         break;
     }
-    (event.keyCode !== tvKey.KEY_STOP &&
+    event.keyCode !== tvKey.KEY_STOP &&
       event.keyCode !== tvKey.KEY_BACK &&
-      event.keyCode !== 27) &&
+      event.keyCode !== 27 &&
       !video.settings.open &&
       osd &&
       video.showOSD();
@@ -367,9 +345,7 @@ window.video = {
       (contentDetails.tvod_details && contentDetails.tvod_details.length > 0);
     // var is_content_tvod : boolean = contentDetails.tvod_ids.length > 0 || contentDetails.tvod_details.length > 0;
     var content_modality_type =
-      (contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0)
-        ? contentDetails.tvod_details[0].tvod_type
-        : "svod";
+      contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0 ? contentDetails.tvod_details[0].tvod_type : "svod";
     var userPremium = customer && customer.status_id === 2;
     // var [userCanWatch, setUserCanWatch] = useState<boolean>(false);
     let userCanWatch = false;
@@ -382,44 +358,40 @@ window.video = {
       tvodProducts = customer && customer.tvod_tv_channels;
     }
     var match;
-if (contentDetails && contentDetails.tvod_ids) {
-  var found = false;
-  for (var i = 0; i < contentDetails.tvod_ids.length; i++) {
-    var el = contentDetails.tvod_ids[i];
-    if (tvodIds && tvodIds.indexOf(el) !== -1) {
-      found = true;
-      match = el;
-      break;
-    }
-  }
+    if (contentDetails && contentDetails.tvod_ids) {
+      var found = false;
+      for (var i = 0; i < contentDetails.tvod_ids.length; i++) {
+        var el = contentDetails.tvod_ids[i];
+        if (tvodIds && tvodIds.indexOf(el) !== -1) {
+          found = true;
+          match = el;
+          break;
+        }
+      }
 
-  if (!found && tvodProducts) {
-    for (var j = 0; j < tvodProducts.length; j++) {
-      var str = tvodProducts[j];
-      if (str === contentDetails.id) {
-        match = str;
-        break;
+      if (!found && tvodProducts) {
+        for (var j = 0; j < tvodProducts.length; j++) {
+          var str = tvodProducts[j];
+          if (str === contentDetails.id) {
+            match = str;
+            break;
+          }
+        }
       }
     }
-  }
-}
 
     if (content_modality_type === "tvod-2" && !!customer && match) {
-      content_modality_type !== "tvod-2"
+      content_modality_type !== "tvod-2";
       userCanWatch = true;
-    } else if (
-      is_content_premimum &&
-      userPremium &&
-      content_modality_type !== "tvod-2"
-    ) {
+    } else if (is_content_premimum && userPremium && content_modality_type !== "tvod-2") {
       userCanWatch = true;
-      console.log('user can watch svod');
+      console.log("user can watch svod");
     } else if (content_modality_type === "tvod-1" && !!(userPremium || match)) {
       userCanWatch = true;
-      console.log('user can watch tvod-1');
+      console.log("user can watch tvod-1");
     } else if (!is_content_premimum && content_modality_type === "svod") {
       userCanWatch = true;
-      console.log('user can watch free');
+      console.log("user can watch free");
     } else {
       userCanWatch = false;
     }
@@ -514,11 +486,7 @@ if (contentDetails && contentDetails.tvod_ids) {
       video.intro.state = false;
       $("#skip-intro").hide();
     } else {
-      if (
-        !video.intro.state &&
-        time > video.intro.start &&
-        time < video.intro.end
-      ) {
+      if (!video.intro.state && time > video.intro.start && time < video.intro.end) {
         video.intro.state = true;
         $("#skip-intro").show();
       }
@@ -529,8 +497,9 @@ if (contentDetails && contentDetails.tvod_ids) {
     $("#audios li").remove();
     var audios = "";
     video.audios.forEach((element, index) => {
-      audios += `<li class="option${element.name === video.audio ? " active selected" : ""
-        }">${session.languages.audios[element.name]}</li>`;
+      audios += `<li class="option${
+        element.name === video.audio ? " active selected" : ""
+      }">${session.languages.audios[element.name]}</li>`;
     });
 
     document.getElementById("audios").innerHTML = audios;
@@ -552,21 +521,17 @@ if (contentDetails && contentDetails.tvod_ids) {
   setSubtitles: function () {
     $("#subtitles").html("");
     var subtitles = "";
-    video.subtitles.forEach(function(element) {
+    video.subtitles.forEach(function (element) {
       subtitles += '<li class="option';
-      subtitles += element.name === video.subtitle ? ' active' : '';
-      subtitles += '">' + session.languages.subtitles[element.name] + '</li>';
+      subtitles += element.name === video.subtitle ? " active" : "";
+      subtitles += '">' + session.languages.subtitles[element.name] + "</li>";
     });
 
     document.getElementById("subtitles").innerHTML = subtitles;
   },
 
   changeSubtitle: function (index) {
-    player.play(
-      video.streams[video.subtitles[index].name].url,
-      player.getPlayed() / 60,
-      true
-    );
+    player.play(video.streams[video.subtitles[index].name].url, player.getPlayed() / 60, true);
   },
 
   stopNext: function () {
@@ -595,14 +560,12 @@ if (contentDetails && contentDetails.tvod_ids) {
         }
         player.plugin.src({
           src: video.next.episode.hls_url,
-          type: 'application/x-mpegURL' // Use 'application/vnd.apple.mpegurl' for Safari
+          type: "application/x-mpegURL", // Use 'application/vnd.apple.mpegurl' for Safari
         });
         $(".osd #title").text(res.name);
-        $(".osd #subtitle").text(
-          `${res.artists}`
-        );
+        $(".osd #subtitle").text(`${res.artists}`);
         video.next.episode = res.related_product[0];
-      }
+      },
     });
   },
 
@@ -658,7 +621,7 @@ if (contentDetails && contentDetails.tvod_ids) {
         content_id: video.episode,
         playhead: time || Math.floor(player.getPlayed()),
       },
-      success: function () { },
+      success: function () {},
       error: function (error) {
         console.log(error);
       },
@@ -673,11 +636,7 @@ if (contentDetails && contentDetails.tvod_ids) {
 
     video.intro && video.showSkip(time);
 
-    if (
-      !video.next.shown &&
-      player.state === player.states.PLAYING &&
-      time >= totalTime - (video.next.time + 2)
-    ) {
+    if (!video.next.shown && player.state === player.states.PLAYING && time >= totalTime - (video.next.time + 2)) {
       video.nextEpisode();
     }
 
@@ -695,11 +654,12 @@ if (contentDetails && contentDetails.tvod_ids) {
     timeMinutes = timeMinutes < 10 ? "0" + timeMinutes : timeMinutes;
     timeSeconds = timeSeconds < 10 ? "0" + timeSeconds : timeSeconds;
 
-    document.getElementById("time").innerText = `${timeHours ? timeHours : "00"
-      }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
-    document.getElementById("total").innerText = `${totalHours ? totalHours : "00"
-      }:${totalMinutes ? totalMinutes : "00"}:${totalSeconds ? totalSeconds : "00"
-      }`;
+    document.getElementById("time").innerText = `${
+      timeHours ? timeHours : "00"
+    }:${timeMinutes ? timeMinutes : "00"}:${timeSeconds ? timeSeconds : "00"}`;
+    document.getElementById("total").innerText = `${
+      totalHours ? totalHours : "00"
+    }:${totalMinutes ? totalMinutes : "00"}:${totalSeconds ? totalSeconds : "00"}`;
     document.getElementById("played").style.width = timePercent + "%";
   },
 };

@@ -14,9 +14,9 @@ window.login = {
         </div>
         <div class="form">
           <div class="input ${login.id}-option">
-            <input type="tel" placeholder="${translate.go('login.number')}">
+            <input type="tel" placeholder="${translate.go("login.number")}">
           </div>
-          <a class="button ${login.id}-option" translate>${translate.go('login.generateOtp')}</a>
+          <a class="button ${login.id}-option" translate>${translate.go("login.generateOtp")}</a>
         </div>
       </div>
     </div>`;
@@ -33,9 +33,9 @@ window.login = {
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
-        case tvKey.KEY_ESCAPE:
-          exit.init();
-          break;
+      case tvKey.KEY_ESCAPE:
+        exit.init();
+        break;
       case tvKey.KEY_UP:
         login.move(login.selected == 0 ? 0 : login.selected - 1);
         break;
@@ -83,7 +83,7 @@ window.login = {
             login.init();
           },
         });
-        // otp.init(); 
+        // otp.init();
         // session.start(number, {
         //   success: function () {
         //     main.events.login();

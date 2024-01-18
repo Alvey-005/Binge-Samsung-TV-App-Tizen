@@ -11,7 +11,7 @@ window.session = {
     country: NaN,
     token_type: NaN,
     access_token: NaN,
-    jwtToken:NaN,
+    jwtToken: NaN,
     expires_in: NaN,
     refresh_token: NaN,
     phone: NaN,
@@ -40,11 +40,11 @@ window.session = {
 
   start: function (callback) {
     try {
-      console.log('session storage', session);
+      console.log("session storage", session);
       session.update();
       callback.success();
     } catch (error) {
-      console.log('error from start', error);
+      console.log("error from start", error);
       return callback.error(error);
     }
   },
@@ -70,9 +70,7 @@ window.session = {
   },
 
   isExpired: function (coockie_type) {
-    var expire_date = coockie_type
-      ? session.storage.cookies.expires
-      : session.storage.expires_in;
+    var expire_date = coockie_type ? session.storage.cookies.expires : session.storage.expires_in;
     return !(expire_date && expire_date >= new Date().getTime());
   },
 
@@ -89,7 +87,7 @@ window.session = {
       country: NaN,
       token_type: NaN,
       access_token: NaN,
-      jwtToken:NaN,
+      jwtToken: NaN,
       expires_in: NaN,
       refresh_token: NaN,
       phone: NaN,
