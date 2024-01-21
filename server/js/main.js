@@ -11,8 +11,9 @@ window.main = {
   init: function () {
     loading.init();
     session.init();
+    firebaseConfig.init();
     translate.init();
-    main.events.login();
+    // main.events.login();
   },
 
   events: {
@@ -36,6 +37,7 @@ window.main = {
           main.events.home();
         },
         error: function (error) {
+          console.log("session invalid login initiated");
           loading.destroy();
           login.init();
         },

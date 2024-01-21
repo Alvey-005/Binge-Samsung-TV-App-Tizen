@@ -12,22 +12,62 @@ window.firebaseConfig = {
         measurementId: "G-CNNSYHBDMN",
     },
 
-    init: function () {
-        this.app = firebase.initializeApp(this.appConfig);
-        this.auth = firebase.initializeAuth(this.app, {
+    init: function (callback) {
+        console.log("firebase init");
+        if (!session.storage.jwtToken) {
+            console.log("token not found");
+            firebaseConfig.initializeFirebase(function () {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+        } 
+        else {
+            console.log("token found");
+        }
+    },
+
+    initializeFirebase: function (callback) {
+        console.log("firebase initialize");
+        firebaseConfig.app = firebase.initializeApp(firebaseConfig.appConfig);
+        firebaseConfig.auth = firebase.initializeAuth(firebaseConfig.app, {
             persistence: firebase.browserSessionPersistence,
             popupRedirectResolver: firebase.browserPopupRedirectResolver,
         });
-        this.firebaseAnonymousSignIn();
+        firebaseConfig.firebaseAnonymousSignIn(callback);
     },
     
-    firebaseAnonymousSignIn: async function () {
-        try {
-            const user = await this.auth.currentUser;
-            const signInResult = await firebase.signInAnonymously(this.auth);
-            console.log("Signed in anonymously:", signInResult.user);
-        } catch (error) {
+    firebaseAnonymousSignIn: function (callback) {
+        console.log("firebase anonymous sign in");
+        firebase.signInAnonymously(firebaseConfig.auth)
+        .then(function (signInResult) {
+        console.log("Signed in anonymously:", signInResult.user);
+            api.handleAnonLogin({
+                data: {
+                    uid: signInResult.user.uid,
+                    access_token: signInResult.user.accessToken,
+                },
+                success: function (response) {
+                    if (response.token) {
+                        console.log("api call: token found");
+                        session.storage.jwtToken = response.token;
+                        session.update();
+                        main.events.login();
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
+            if (typeof callback === 'function') {
+                callback();
+            }
+        })
+        .catch(function (error) {
             console.error("Error signing in anonymously:", error);
-        }
-    }
+            if (typeof callback === 'function') {
+                callback();
+            }
+        });
+    },
 };

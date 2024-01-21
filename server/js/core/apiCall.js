@@ -240,6 +240,21 @@ window.api = {
     });
   },
 
+  handleAnonLogin: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.anonymousLogin, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in api anonymous login \n", e);
+        }
+      },
+    });
+  },
+
   formatBinge: function (params) {
     return Object.keys(params)
       .map(function (k) {
