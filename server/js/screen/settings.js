@@ -3,11 +3,6 @@ window.settings = {
   isDetails: false,
   customer: NaN,
   options: [
-    // {
-    //   id: "videoquality",
-    //   label: "settings.menu.video_quality",
-    //   type: "list",
-    // },
     {
       id: "about",
       label: "settings.menu.about",
@@ -34,14 +29,6 @@ window.settings = {
       type: "html",
     },
   ],
-  // qualities: {
-  //   auto: "Auto",
-  //   240: "240p",
-  //   360: "360p",
-  //   480: "480p",
-  //   720: "720p HD",
-  //   1080: "1080p HD",
-  // },
   interests: {
     action: "ACTION",
     comedy: "COMEDY",
@@ -167,17 +154,11 @@ window.settings = {
     list: {
       create: function (id) {
         switch (id) {
-          // case "videoquality":
-          //   var options = settings.qualities;
-          //   var active = session.storage.quality || "auto";
-          //   break;
           case "interest":
             var options = settings.interests;
             var active = "action";
             break;
         }
-        // console.log("sssssssssss", options);
-        // Object.keys(options).map((option) => console.log(option));
         return (
           '<ul class="list-active" id="list-details-offset">' +
           Object.keys(options)
@@ -266,17 +247,19 @@ window.settings = {
             }
 
             return `
-          <div style="height: 65vh;display: flex;flex-direction:column; justify-content: space-between; color: #fff;font-size: 23px;line-height: 51px;">
-            <div style="display: flex;justify-content: center;align-items: center;height:80%">
-                <div style="width: 200px; height:200px; border-radius: 50%; background-color: #fff">
-
+          <div style="height: 65vh;color: #fff;font-size: 23px;line-height: 51px;">
+            <div style="height:80%; display: grid;grid-template-columns: 1fr 1fr;gap: 16px">
+                <div style="width: 350px; height:350px; border-radius: 50%; background-color: #fff;position: relative">
+                  <div>
+                    <img src="https://pre.binge.buzz/assets/svg/imageUpload.svg" style="width: 100px; height:100px;position: absolute;top: 80%;right:10px;"> 
+                  </div>
                 </div>
-                <div style="margin-left: 30px">
-                 <h1>${settings.customer.name || "Yeasin Zilani"}</h1>
-                 <p style="text-align: right;">${settings.customer.phone || "01833184275"}</p>
+                <div style="text-align: right;margin-top: 50px">
+                  <h1 style="font-size: 3vh">${settings.customer.name || "Yeasin Zilani"}</h1>
+                  <p style="text-align: right;font-size: 2vh">${settings.customer.phone || "01833184275"}</p>
                 </div>
             </div>
-            <div style="display: flex; flex-direction:column; justify-content: end; align-items: center;height:20%">
+            <div style="display: flex; flex-direction:column; justify-content: end; align-items: end;height:20%; font-size: 28px;color:grey">
                 <div>Binge  TV app.</div>
                 <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
             </div>
@@ -310,20 +293,20 @@ window.settings = {
                 <div style="color: #fff">
                   <div style="display: flex;">
                     <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                    <h1 style="font-size: 3rem">Active Subscription</h1>
+                    <h1 style="font-size: 3vh">Active Subscription</h1>
                   </div>
-                  <h2 style="font-size: 2.25rem">${sub.package.title}</h2>
-                  <p style="font-size: 2.25rem">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${sub.expiry_date}</span></p>
-                  <button style="background-color: red;color: white;border-radius: 0.25rem; border: none;padding: 10px 50px 10px 50px; transition: background-color 0.3s;"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Unsubscribe</button>
+                  <h2 style="font-size: 2.5vh">${sub.package.title}</h2>
+                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${sub.expiry_date}</span></p>
+                  <button style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Unsubscribe</button>
              </div>`;
               })}
               </div>`;
             } else {
               return `
-              <div style=" color: #fff;height: 65vh; display: flex;align-items: center;justify-content: center;">
+              <div style=" color: #fff;height: 65vh;">
                 <div>
-                  <h1 style="font-size: 3rem">Choose your desired plan</h1>
-                  <div  style="font-size: 2.25rem">
+                  <h1 style="font-size: 3vh">Choose your desired plan</h1>
+                  <div  style="font-size: 2vh">
                     <p><span style="color:green; margin-right: 15px">&#10003;</span> Watch what you want Ad Free!</p>
                     <p><span style="color:green; margin-right: 15px">&#10003;</span> Multi-devices Access</p>
                     <p><span style="color:green; margin-right: 15px">&#10003;</span> Change or Unsubscribe anytime you want.</p>
@@ -334,22 +317,24 @@ window.settings = {
           case "vouchers":
             return `
             <div style="color: #fff">
-              <div style="display: flex;">
-                <img src="https://pre.binge.buzz/assets/svg/voucher.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                <h1 style="font-size: 3rem">Vouchers</h1>
+              <div style="display: flex;margin-bottom: 30px">
+                <img src="https://pre.binge.buzz/assets/svg/voucher.svg" style="heigth: 70px; width: 70px;margin-right: 30px">
+                <h1 style="font-size: 3vh">Vouchers</h1>
               </div> 
-              <input style="color: #808080;width: 100%;outline: none;border-style: dotted;border-radius: 0.25rem;background-color: transparent; height: 50px;" placeholder="Enter Your Coupon here" />
-              <button style="background-color: red;color: white;border-radius: 0.25rem; border: none;padding: 10px 50px 10px 50px; transition: background-color 0.3s;"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Redeem</button>
+              <div style="border-style: dotted;border-radius: 0.25rem;width: 100%;margin-bottom: 40px;">
+                <input style="color: #808080;width: 100%;outline: none;background-color: transparent;padding: 20px;font-size:2vh" placeholder="Enter Your Coupon here" />
+              </div>
+              <button style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Redeem</button>
             </div>`;
           case "delete":
             return `
             <div style="color: #fff">
               <div style="display: flex;">
                 <img src="https://pre.binge.buzz/assets/svg/delete.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                <h1 style="font-size: 3rem">Delete Account</h1>
+                <h1 style="font-size: 3vh">Delete Account</h1>
               </div>
-              <p>This will permanently delete your account.</p> 
-              <button style="background-color: red;color: white;border-radius: 0.25rem; border: none;padding: 10px 50px 10px 50px; transition: background-color 0.3s;"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+              <p style="font-size: 2vh">This will permanently delete your account.</p> 
+              <button style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh; margin-top: 30px"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
             </div>
             `;
         }

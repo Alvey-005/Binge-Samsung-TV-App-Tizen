@@ -53,7 +53,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 74px;
+  /* height: 74px; */
   border: 2px solid transparent;
 }
 
