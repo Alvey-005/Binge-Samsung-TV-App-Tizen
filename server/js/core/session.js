@@ -16,6 +16,7 @@ window.session = {
     refresh_token: NaN,
     phone: NaN,
     customer: NaN,
+    firebase: NaN,
     cookies: {
       bucket: NaN,
       policy: NaN,
@@ -26,8 +27,9 @@ window.session = {
   },
 
   init: function () {
-    // firebaseConfig.init();
-    // console.log("session init", session);
+    firebaseConfig.init();
+    console.log("session", firebase);
+    console.log("session init", session);
     var storage = localStorage.getItem("session");
     if (storage) {
       try {

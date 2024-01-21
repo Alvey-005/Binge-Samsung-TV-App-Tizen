@@ -1,6 +1,3 @@
-// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
-// import { initializeAuth, signInAnonymously, browserPopupRedirectResolver, browserSessionPersistence } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
-
 window.firebaseConfig = {
     app: null,
     auth: null,
@@ -17,10 +14,10 @@ window.firebaseConfig = {
 
     init: function () {
         console.log("firebase init", window);
-        this.app = initializeApp(this.appConfig);
-        this.auth = initializeAuth(this.app, {
-            persistence: browserSessionPersistence,
-            popupRedirectResolver: browserPopupRedirectResolver,
+        this.app = firebase.initializeApp(this.appConfig);
+        this.auth = firebase.initializeAuth(this.app, {
+            persistence: firebase.browserSessionPersistence,
+            popupRedirectResolver: firebase.browserPopupRedirectResolver,
         });
         this.firebaseAnonymousSignIn();
     },
@@ -28,7 +25,7 @@ window.firebaseConfig = {
     firebaseAnonymousSignIn: async function () {
         try {
             const user = await this.auth.currentUser;
-            const signInResult = await signInAnonymously(this.auth);
+            const signInResult = await firebase.signInAnonymously(this.auth);
             console.log("Signed in anonymously:", signInResult.user);
         } catch (error) {
             console.error("Error signing in anonymously:", error);
