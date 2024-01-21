@@ -1,6 +1,7 @@
 window.settings = {
   id: "settings-screen",
   isDetails: false,
+  customer: NaN,
   options: [
     // {
     //   id: "videoquality",
@@ -12,14 +13,48 @@ window.settings = {
       label: "settings.menu.about",
       type: "html",
     },
+    {
+      id: "subscription",
+      label: "settings.menu.subscription",
+      type: "html",
+    },
+    {
+      id: "vouchers",
+      label: "settings.menu.vouchers",
+      type: "html",
+    },
+    {
+      id: "interest",
+      label: "settings.menu.interest",
+      type: "list",
+    },
+    {
+      id: "delete",
+      label: "settings.menu.delete",
+      type: "html",
+    },
   ],
-  qualities: {
-    auto: "Auto",
-    240: "240p",
-    360: "360p",
-    480: "480p",
-    720: "720p HD",
-    1080: "1080p HD",
+  // qualities: {
+  //   auto: "Auto",
+  //   240: "240p",
+  //   360: "360p",
+  //   480: "480p",
+  //   720: "720p HD",
+  //   1080: "1080p HD",
+  // },
+  interests: {
+    action: "ACTION",
+    comedy: "COMEDY",
+    reality: "REALITY",
+    history: "HISTORY",
+    horror: "HORROR",
+    romance: "ROMANCE",
+    thriller: "THRILLER",
+    drama: "DRAMA",
+    crime: "CRIME",
+    war: "WAR",
+    fantasy: "FANTASY",
+    music: "MUSIC",
   },
   previous: NaN,
 
@@ -132,12 +167,17 @@ window.settings = {
     list: {
       create: function (id) {
         switch (id) {
-          case "videoquality":
-            var options = settings.qualities;
-            var active = session.storage.quality || "auto";
+          // case "videoquality":
+          //   var options = settings.qualities;
+          //   var active = session.storage.quality || "auto";
+          //   break;
+          case "interest":
+            var options = settings.interests;
+            var active = "action";
             break;
         }
-
+        // console.log("sssssssssss", options);
+        // Object.keys(options).map((option) => console.log(option));
         return (
           '<ul class="list-active" id="list-details-offset">' +
           Object.keys(options)
@@ -164,7 +204,6 @@ window.settings = {
         var optionsMenu = $(`#settings-details li`);
         var index = optionsMenu.index($(`#settings-details li.selected`));
 
-        console.log(id, index);
         switch (id) {
           case "videoquality":
             var options = settings.qualities;
@@ -202,11 +241,118 @@ window.settings = {
 
     html: {
       create: function (id) {
-        return `
-        <div style="color: #fff;font-size: 23px;line-height: 51px;text-align: right;padding: 38px 0;position: absolute;right: 0;bottom: 0;">
-          <div>Binge Samsung TV app.</div>
-          <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
-        </div>`;
+        switch (id) {
+          case "about":
+            if (session.storage.customer) {
+              api.profileDetails({
+                id: session.storage.customer.id,
+                success: function (response) {
+                  if (response) {
+                    let sessionInfo = JSON.parse(localStorage.getItem("session"));
+                    const mergedCustomerDetails = { ...session.storage.customer, ...response };
+                    sessionInfo.customer = mergedCustomerDetails;
+                    settings.customer = mergedCustomerDetails;
+                    localStorage.setItem("session", JSON.stringify(sessionInfo));
+                  } else {
+                    settings.customer = session.storage.customer;
+                  }
+                },
+                error: function (error) {
+                  console.error(error);
+                },
+              });
+            } else {
+              settings.customer = session.storage.customer;
+            }
+
+            return `
+          <div style="height: 65vh;display: flex;flex-direction:column; justify-content: space-between; color: #fff;font-size: 23px;line-height: 51px;">
+            <div style="display: flex;justify-content: center;align-items: center;height:80%">
+                <div style="width: 200px; height:200px; border-radius: 50%; background-color: #fff">
+
+                </div>
+                <div style="margin-left: 30px">
+                 <h1>${settings.customer.name || "Yeasin Zilani"}</h1>
+                 <p style="text-align: right;">${settings.customer.phone || "01833184275"}</p>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction:column; justify-content: end; align-items: center;height:20%">
+                <div>Binge  TV app.</div>
+                <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
+            </div>
+              </div>`;
+          case "subscription":
+            if (!settings.customer && !session.storage.customer.active_subscriptions) {
+              api.profileDetails({
+                id: session.storage.customer.id,
+                success: function (response) {
+                  if (response) {
+                    let sessionInfo = JSON.parse(localStorage.getItem("session"));
+                    const mergedCustomerDetails = { ...session.storage.customer, ...response };
+                    sessionInfo.customer = mergedCustomerDetails;
+                    settings.customer = mergedCustomerDetails;
+                    localStorage.setItem("session", JSON.stringify(sessionInfo));
+                  } else {
+                    settings.customer = session.storage.customer;
+                  }
+                },
+                error: function (error) {
+                  console.error(error);
+                },
+              });
+            }
+            subscriptionDetails = settings.customer.active_subscriptions || [];
+            if (subscriptionDetails.length > 0) {
+              return `
+              <div>
+              ${subscriptionDetails.map(function (sub) {
+                return `
+                <div style="color: #fff">
+                  <div style="display: flex;">
+                    <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
+                    <h1 style="font-size: 3rem">Active Subscription</h1>
+                  </div>
+                  <h2 style="font-size: 2.25rem">${sub.package.title}</h2>
+                  <p style="font-size: 2.25rem">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${sub.expiry_date}</span></p>
+                  <button style="background-color: red;color: white;border-radius: 0.25rem; border: none;padding: 10px 50px 10px 50px; transition: background-color 0.3s;"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Unsubscribe</button>
+             </div>`;
+              })}
+              </div>`;
+            } else {
+              return `
+              <div style=" color: #fff;height: 65vh; display: flex;align-items: center;justify-content: center;">
+                <div>
+                  <h1 style="font-size: 3rem">Choose your desired plan</h1>
+                  <div  style="font-size: 2.25rem">
+                    <p><span style="color:green; margin-right: 15px">&#10003;</span> Watch what you want Ad Free!</p>
+                    <p><span style="color:green; margin-right: 15px">&#10003;</span> Multi-devices Access</p>
+                    <p><span style="color:green; margin-right: 15px">&#10003;</span> Change or Unsubscribe anytime you want.</p>
+                  </div>
+                </div>
+              </div>`;
+            }
+          case "vouchers":
+            return `
+            <div style="color: #fff">
+              <div style="display: flex;">
+                <img src="https://pre.binge.buzz/assets/svg/voucher.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
+                <h1 style="font-size: 3rem">Vouchers</h1>
+              </div> 
+              <input style="color: #808080;width: 100%;outline: none;border-style: dotted;border-radius: 0.25rem;background-color: transparent; height: 50px;" placeholder="Enter Your Coupon here" />
+              <button style="background-color: red;color: white;border-radius: 0.25rem; border: none;padding: 10px 50px 10px 50px; transition: background-color 0.3s;"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Redeem</button>
+            </div>`;
+          case "delete":
+            return `
+            <div style="color: #fff">
+              <div style="display: flex;">
+                <img src="https://pre.binge.buzz/assets/svg/delete.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
+                <h1 style="font-size: 3rem">Delete Account</h1>
+              </div>
+              <p>This will permanently delete your account.</p> 
+              <button style="background-color: red;color: white;border-radius: 0.25rem; border: none;padding: 10px 50px 10px 50px; transition: background-color 0.3s;"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+            </div>
+            `;
+        }
       },
 
       move: function () {},

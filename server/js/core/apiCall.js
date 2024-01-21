@@ -102,6 +102,23 @@ window.api = {
     });
   },
 
+  profileDetails: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const profile = await requestMethod.get(`${urls.profileApi}/${request.id}`);
+        try {
+          if (request.success) {
+            if (profile && profile.data.customer) {
+              request.success(profile.data.customer);
+            }
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error(e);
+        }
+      },
+    });
+  },
+
   banners: function (request) {
     return session.refresh({
       success: async function (storage) {
