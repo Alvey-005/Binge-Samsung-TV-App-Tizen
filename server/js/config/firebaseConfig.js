@@ -13,7 +13,6 @@ window.firebaseConfig = {
     },
 
     init: function () {
-        console.log("firebase init", window);
         this.app = firebase.initializeApp(this.appConfig);
         this.auth = firebase.initializeAuth(this.app, {
             persistence: firebase.browserSessionPersistence,
