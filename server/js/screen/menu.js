@@ -60,6 +60,13 @@ window.menu = {
       tool: true,
       event: "logout",
     },
+    {
+      id: "login",
+      label: "menu.login",
+      icon: "fa-solid fa-sign-out",
+      tool: true,
+      event: "login",
+    },
   ],
   selected: 1,
   previous: NaN,
@@ -74,7 +81,10 @@ window.menu = {
     var menu_options = "";
 
     menu.options.forEach((element, index) => {
-      if (!!element.tool) {
+
+      if (session.storage.isAnonymous && element.id === "logout") {}
+      else if (!session.storage.isAnonymous && element.id === "login") {}
+      else if (!!element.tool) {
         tool_options += `
         <a class="option ${
           reset && element.id === "settings"
@@ -106,7 +116,7 @@ window.menu = {
       <div class="profile">
         <div class="avatar">
           <img src="${
-            session.storage.customer.image !== null
+            session.storage.customer && session.storage.customer.image !== null
               ? "https://ss-staging.binge.buzz" + session.storage.customer.image
               : "https://pre.binge.buzz/favicon.ico"
           }"> 
@@ -130,8 +140,7 @@ window.menu = {
     if (menu.isOpen) {
       menu.close();
     }
-    document.getElementById(this.id) &&
-      document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
   },
 
   open: function () {
@@ -169,10 +178,7 @@ window.menu = {
 
   move: function () {
     var options = "";
-    (menu.option.root
-      ? menu.options
-      : menu.options[menu.option.item].childs
-    ).forEach((element, index) => {
+    (menu.option.root ? menu.options : menu.options[menu.option.item].childs).forEach((element, index) => {
       options += `<div class="option ${element.icon}${
         this.option.selected === index ? " selected" : ""
       }">${element.text ? element.text : ""}</div>`;
@@ -204,9 +210,7 @@ window.menu = {
         var current = options.index($(`#${menu.id} .option.focus`));
         console.log('cur down', current);
         options.removeClass("focus");
-        options
-          .eq(current < options.length - 1 ? current + 1 : current)
-          .addClass("focus");
+        options.eq(current < options.length - 1 ? current + 1 : current).addClass("focus");
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:

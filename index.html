@@ -12,6 +12,19 @@
   <script src="js/keys.js"></script>
   <script src="js/app.js"></script>
 
+  <script async type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+    import { initializeAuth, signInAnonymously, browserPopupRedirectResolver, browserSessionPersistence } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+
+    window.firebase = {
+      initializeApp: initializeApp,
+      initializeAuth: initializeAuth,
+      signInAnonymously: signInAnonymously,
+      browserPopupRedirectResolver: browserPopupRedirectResolver,
+      browserSessionPersistence: browserSessionPersistence,
+    }
+  </script>
+
   <link rel="stylesheet" href="css/app.css" />
   <link rel="stylesheet" href="server/css/icons/font-awesome.min.css" />
   <link rel="stylesheet" href="server/css/slick.css" />
@@ -76,13 +89,14 @@
   <script async src="server/js/screen/menu.js"></script>
   <script async src="server/js/screen/settings.js"></script>
   <script async src="server/js/config/urls.js"></script>
+  <script async src="server/js/config/firebaseConfig.js"></script>
   <script async src="server/js/utils/requestMethods.js"></script>
   <script async src="server/js/main.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- <script src="https://unpkg.com/video.js/dist/video.min.js"></script> -->
   <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
   <!-- end js -->
-  <!-- <script src="http://192.168.122.153:8080/target.js"></script> -->
+  <!-- <script src="http://10.0.0.111:8080/target.js"></script> -->
 </body>
 
 </html>

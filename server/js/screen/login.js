@@ -15,6 +15,7 @@ window.login = {
         <div class="form">
           <div class="input ${login.id}-option">
             <input type="tel" placeholder="${translate.go("login.number")}">
+            <input type="tel" placeholder="${translate.go("login.number")}">
           </div>
           <a class="button ${
             login.id

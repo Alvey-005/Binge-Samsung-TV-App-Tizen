@@ -7,7 +7,16 @@ window.session = {
     version: NaN,
     language: NaN,
     quality: "auto",
-    phone:NaN,
+    id: NaN,
+    country: NaN,
+    token_type: NaN,
+    access_token: NaN,
+    jwtToken: NaN,
+    expires_in: NaN,
+    refresh_token: NaN,
+    phone: NaN,
+    customer: NaN,
+    isAnonymous: NaN,
     cookies: {
       bucket: NaN,
       policy: NaN,
@@ -15,19 +24,9 @@ window.session = {
       key_pair_id: NaN,
       expires: NaN,
     },
-    id: NaN,
-    country: NaN,
-    token_type: NaN,
-    access_token: NaN,
-    jwtToken:NaN,
-    expires_in: NaN,
-    refresh_token: NaN,
-    refresh_token: NaN,
-    phone: NaN,
-    customer: NaN,
   },
 
-  init: function () {
+  init: function (callback) {
     var storage = localStorage.getItem("session");
     if (storage) {
       try {
@@ -37,17 +36,16 @@ window.session = {
         console.log("error parse session.");
       }
     }
-
     session.update();
   },
 
   start: function (callback) {
     try {
-      console.log('session storage', session);
+      console.log("session storage", session);
       session.update();
       callback.success();
     } catch (error) {
-      console.log('error from start', error);
+      console.log("error from start", error);
       return callback.error(error);
     }
   },
@@ -73,9 +71,7 @@ window.session = {
   },
 
   isExpired: function (coockie_type) {
-    var expire_date = coockie_type
-      ? session.storage.cookies.expires
-      : session.storage.expires_in;
+    var expire_date = coockie_type ? session.storage.cookies.expires : session.storage.expires_in;
     return !(expire_date && expire_date >= new Date().getTime());
   },
 
@@ -88,15 +84,15 @@ window.session = {
     session.storage = {
       language: "en-US",
       quality: "auto",
-      account: {
-        password: NaN,
-        username: NaN,
-        mature: NaN,
-        avatar: "0001-cr-white-orange.png",
-        premium: false,
-        language: "en-US",
-        audio: "",
-      },
+      id: NaN,
+      country: NaN,
+      token_type: NaN,
+      access_token: NaN,
+      jwtToken: NaN,
+      expires_in: NaN,
+      refresh_token: NaN,
+      phone: NaN,
+      customer: NaN,
       cookies: {
         bucket: NaN,
         policy: NaN,
@@ -104,12 +100,6 @@ window.session = {
         key_pair_id: NaN,
         expires: NaN,
       },
-      id: NaN,
-      country: NaN,
-      token_type: NaN,
-      access_token: NaN,
-      expires_in: NaN,
-      refresh_token: NaN,
     };
     session.update();
   },

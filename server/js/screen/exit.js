@@ -14,8 +14,8 @@ window.exit = {
       '  <div class="window">' +
       `    <div class="text">${translate.go(`exit.message${exit.logout ? "_logout" : ""}`)}` +
       '    <div class="buttons">' +
-      `      <div class="button" id="exit-screen-yes">${translate.go('exit.yes')}</div>` +
-      `      <div class="button" id="exit-screen-no">${translate.go('exit.no')}</div>` +
+      `      <div class="button" id="exit-screen-yes">${translate.go("exit.yes")}</div>` +
+      `      <div class="button" id="exit-screen-no">${translate.go("exit.no")}</div>` +
       "    </div>" +
       "  </div>" +
       "</div>";
@@ -54,17 +54,11 @@ window.exit = {
   },
 
   move: function (selected) {
-    console.log('selec',selected);
+    console.log("selec", selected);
     exit.selected = selected;
-    document.getElementById(
-      exit.id + "-" + (selected ? "yes" : "no")
-    ).className = "button selected";
-    console.log('selec',selected,document.getElementById(
-      exit.id + "-" + (selected ? "yes" : "no")
-    ));
-    document.getElementById(
-      exit.id + "-" + (!selected ? "yes" : "no")
-    ).className = "button";
+    document.getElementById(exit.id + "-" + (selected ? "yes" : "no")).className = "button selected";
+    console.log("selec", selected, document.getElementById(exit.id + "-" + (selected ? "yes" : "no")));
+    document.getElementById(exit.id + "-" + (!selected ? "yes" : "no")).className = "button";
   },
 
   action: function (selected) {

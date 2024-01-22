@@ -11,19 +11,14 @@ window.translate = {
 
   refresh: function () {
     var elements = document.querySelectorAll("[translate]");
-    elements.forEach(
-      (element) => (element.innerText = translate.go(element.innerText))
-    );
+    elements.forEach((element) => (element.innerText = translate.go(element.innerText)));
   },
 
   go: function (key, params) {
     var keys = key.split(".");
     var text = key;
     try {
-      var text = keys.reduce(
-        (obj, i) => obj[i],
-        languages[translate.lang]
-      );
+      var text = keys.reduce((obj, i) => obj[i], languages[translate.lang]);
       text = params ? translate.withParams(text, params) : text;
     } catch (error) {}
     return text || key;
@@ -31,8 +26,7 @@ window.translate = {
 
   withParams: function (message, params) {
     return Object.keys(params).reduce(
-      (param, key) =>
-        param.replace(new RegExp(`{\s*${key}\s*}`, "g"), params[key]),
+      (param, key) => param.replace(new RegExp(`{\s*${key}\s*}`, "g"), params[key]),
       message
     );
   },

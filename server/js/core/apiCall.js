@@ -67,6 +67,10 @@ window.api = {
       session.update();
       request.success();
     }
+    else {
+      console.error("OTP verification error");
+      request.error();
+    }
   },
 
   allCategories: async function (request) {
@@ -235,6 +239,21 @@ window.api = {
           }
         } catch (e) {
           request.error ? request.error(e) : console.error("Error in api favourites \n", e);
+        }
+      },
+    });
+  },
+
+  handleAnonLogin: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.anonymousLogin, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in api anonymous login \n", e);
         }
       },
     });

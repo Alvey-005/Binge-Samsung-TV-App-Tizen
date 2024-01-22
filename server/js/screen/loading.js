@@ -3,7 +3,7 @@ window.loading = {
   active: false,
 
   start: function () {
-    if(!document.getElementById(loading.id)) {
+    if (!document.getElementById(loading.id)) {
       loading.active = true;
       var loading_element = document.createElement("div");
       loading_element.id = loading.id;
@@ -18,8 +18,7 @@ window.loading = {
   },
 
   end: function () {
-    document.getElementById(loading.id) &&
-      document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(loading.id) && document.body.removeChild(document.getElementById(this.id));
     loading.active = false;
   },
 

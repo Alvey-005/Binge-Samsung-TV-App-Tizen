@@ -15,6 +15,7 @@ window.otp = {
         <div class="form">
           <div class="input ${otp.id}-option">
             <input type="text" placeholder="${translate.go("login.otp")}">
+            <input type="text" placeholder="${translate.go("login.otp")}">
           </div>
           <a class="button ${
             otp.id
@@ -91,38 +92,12 @@ window.otp = {
             phone: session.storage.phone,
           },
           success: function (response) {
-            session.start({
-              success: function () {
-                main.events.login();
-              },
-              error: function () {
-                // loading.destroy();
-                // login.init();
-
-                main.events.login();
-              },
-            });
+            session.storage.isAnonymous = false;
+            main.events.login();
           },
           error: function (error) {
-            // loading.destroy();
-            // login.init();
-
-            console.log("api verify error");
-            password = "sakibRobi@588";
-            username = "abu.sakib@reddotdigitalit.com";
-            session.start(username, password, {
-              success: function () {
-                console.log("session start success");
-                main.events.login();
-              },
-              error: function () {
-                // loading.destroy();
-                // login.init();
-
-                console.log("session start error");
-                main.events.login();
-              },
-            });
+            loading.destroy();
+            login.init();
           },
         });
       }
