@@ -31,6 +31,7 @@ window.video = {
   audios: [],
   audio: null,
   intro: null,
+  appScreen: NaN,
   streams: [],
   timers: {
     history: {
@@ -69,7 +70,8 @@ window.video = {
     return video.options.map((element) => `<i class="${element.icon}"></i>`).join("");
   },
 
-  init: function (item) {
+  init: function (item, screen) {
+    video.appScreen = screen;
     var video_element = document.createElement("div");
     video_element.id = video.id;
 
@@ -127,7 +129,7 @@ window.video = {
     </div>`;
     document.body.appendChild(video_element);
     player.config(video.setPlayingTime, video.end);
-    $(`#${home.id}`).hide();
+    $(`#${video.appScreen.id}`).hide();
     video.previous = main.state;
     main.state = video.id;
     if (item && item.related_product[0]) {
@@ -155,7 +157,7 @@ window.video = {
     clearInterval(video.timers.history.object);
     main.state = video.previous;
     document.body.removeChild(document.getElementById(video.id));
-    $(`#${home.id}`).show();
+    $(`#${video.appScreen.id}`).show();
     video.next.episode = null;
     video.next.status = false;
     video.next.shown = false;
