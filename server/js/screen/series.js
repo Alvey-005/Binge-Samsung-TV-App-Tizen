@@ -281,7 +281,7 @@ window.series = {
     this.restart();
     api.allCategories({
       data: {
-        page: "web-series",
+        page: "tizen-series",
       },
       success: function (response) {
         api.seriesBanners({

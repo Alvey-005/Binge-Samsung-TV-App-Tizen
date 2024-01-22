@@ -47,7 +47,7 @@ window.main = {
     home: function () {
       api.allCategories({
         data: {
-          page: "web-home-vod",
+          page: "tizen-home-vod",
         },
         success: function (response) {
           api.banners({
@@ -76,7 +76,7 @@ window.main = {
     movies: function () {
       api.allCategories({
         data: {
-          page: "web-movies",
+          page: "tizen-movies",
         },
         success: function (response) {
           api.movieBanners({
