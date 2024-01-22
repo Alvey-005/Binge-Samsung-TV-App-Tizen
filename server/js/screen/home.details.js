@@ -181,7 +181,7 @@ window.home_details = {
 
         switch (current) {
           case 0:
-            video.init(home_details.data.contentDetails);
+            video.init(home_details.data.contentDetails, home_details.appendScreen); // screen = home_details.appendScreen;
             break;
           case 1:
             if (home_details.is_wishlist == true) {

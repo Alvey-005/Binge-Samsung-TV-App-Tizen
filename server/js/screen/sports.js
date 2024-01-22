@@ -281,7 +281,7 @@ window.sports = {
     this.restart();
     api.allCategories({
       data: {
-        page: "web-sports",
+        page: "tizen-sports",
       },
       success: function (response) {
         api.sportsBanners({
