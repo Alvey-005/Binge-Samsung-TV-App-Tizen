@@ -11,6 +11,11 @@ window.video = {
     option: false,
     options: [
         {
+            icon: 'fa-solid fa-play',
+            action: 'playPause',
+            // param: true,
+        },
+        {
             icon: 'fa-solid fa-forward-step',
             action: 'nextEpisode',
             param: true,
@@ -66,7 +71,7 @@ window.video = {
     },
 
     getSettings: function () {
-        return video.options.map((element) => `<i class="${element.icon}"></i>`).join('');
+        return video.options.map((element) => `<i class="${element.icon}" onclick="video.optionClickHandler(event, '${element.action}')"></i>`).join('');
     },
 
     init: function (item) {
@@ -74,7 +79,7 @@ window.video = {
         video_element.id = video.id;
 
         video_element.innerHTML = `
-    <div class="content">
+    <div class="content" onmousemove="video.mouseHandler(event)">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
       <video id="bingeTizen" class="video-js" >
     </video>
@@ -90,7 +95,7 @@ window.video = {
         </div>
         <div class="progress">
           <div id="time">00:00:00</div>
-          <div class="bar">
+          <div class="bar" id="progress_bar" onclick="video.progressBarController(event)")">
             <div id="played">
               <div class="preview">
                 <img id="preview">
@@ -169,6 +174,40 @@ window.video = {
         player.state = -1;
     },
 
+    mouseHandler: function(event) {
+        // console.log('inside mouse handler', event);
+        video.showOSD();
+    },
+
+    progressBarController: function(event) {
+        console.log('progress event', event);
+        var progressBarClickable = document.getElementById('progress_bar');
+        var clickPosition = event.clientX - progressBarClickable.getBoundingClientRect().left;
+        var percentage = (clickPosition / progressBarClickable.offsetWidth) * 100;
+        var duration = player.getDuration();
+        var newTime = (percentage / 100) * duration;
+        player.getVideo().currentTime = newTime;
+        console.log('pos', newTime);
+    },
+
+    optionClickHandler: function(event, action) {
+        console.log('options ev', event, action);
+        switch(action) {
+            case 'playPause':
+                console.log('playpause');
+                player.playPause();
+                break;
+            case 'nextEpisode':
+                console.log('playnxt');
+                video[video.options[1].action](video.options[1].param);
+                break;
+            case 'openLanguages':
+                console.log('open lang');
+                video[video.options[2].action](video.options[2].param);
+                break;
+        }
+    },
+
     keyDown: function (event) {
         var osd = true;
         switch (event.keyCode) {
@@ -234,6 +273,7 @@ window.video = {
                             } else {
                                 var selected = $('.player-settings i').index($('.player-settings i.selected'));
                                 video[video.options[selected].action](video.options[selected].param);
+                                console.log('sel', selected);
                             }
                         }
                     }

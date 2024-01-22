@@ -60,6 +60,10 @@ window.player = {
     player.plugin = playerInstance;
   },
 
+  click: function(event) {
+    console.log('event on player', event);
+  },
+
   play: function (url, playhead, noplay) {
     player.init();
     player.plugin.src({
@@ -108,6 +112,7 @@ window.player = {
   },
 
   pause: function () {
+    console.log('pausing');
     player.getVideo().pause();
     player.state = player.states.PAUSED;
     video.showBTN("pause");
