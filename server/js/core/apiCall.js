@@ -67,6 +67,10 @@ window.api = {
       session.update();
       request.success();
     }
+    else {
+      console.error("OTP verification error");
+      request.error();
+    }
   },
 
   allCategories: async function (request) {
