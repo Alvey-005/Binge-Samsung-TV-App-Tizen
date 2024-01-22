@@ -60,6 +60,13 @@ window.menu = {
       tool: true,
       event: "logout",
     },
+    {
+      id: "login",
+      label: "menu.login",
+      icon: "fa-solid fa-sign-out",
+      tool: true,
+      event: "login",
+    },
   ],
   selected: 1,
   previous: NaN,
@@ -74,7 +81,10 @@ window.menu = {
     var menu_options = "";
 
     menu.options.forEach((element, index) => {
-      if (!!element.tool) {
+
+      if (session.storage.isAnonymous && element.id === "logout") {}
+      else if (!session.storage.isAnonymous && element.id === "login") {}
+      else if (!!element.tool) {
         tool_options += `
         <a class="option ${
           reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
@@ -96,7 +106,7 @@ window.menu = {
       <div class="profile">
         <div class="avatar">
           <img src="${
-            session.storage.customer.image !== null
+            session.storage.customer && session.storage.customer.image !== null
               ? "https://ss-staging.binge.buzz" + session.storage.customer.image
               : "https://pre.binge.buzz/favicon.ico"
           }"> 

@@ -16,7 +16,7 @@ window.session = {
     refresh_token: NaN,
     phone: NaN,
     customer: NaN,
-    firebase: NaN,
+    isAnonymous: NaN,
     cookies: {
       bucket: NaN,
       policy: NaN,

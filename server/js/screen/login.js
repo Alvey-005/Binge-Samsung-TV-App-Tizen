@@ -83,16 +83,6 @@ window.login = {
             login.init();
           },
         });
-        // otp.init();
-        // session.start(number, {
-        //   success: function () {
-        //     main.events.login();
-        //   },
-        //   error: function () {
-        //     loading.destroy();
-        //     login.init();
-        //   },
-        // });
       }
     } else {
       keyboard.init(options[selected].firstElementChild);

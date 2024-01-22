@@ -244,6 +244,7 @@ window.languages = {
       home: "Home",
       list: "My list",
       settings: "Settings",
+      login: "login",
       logout: "Logout",
       sports: "Sports",
       movies: "Movies",

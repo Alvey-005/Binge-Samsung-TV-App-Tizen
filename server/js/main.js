@@ -12,7 +12,7 @@ window.main = {
     loading.init();
     session.init();
     firebaseConfig.init();
-    translate.init();
+    // translate.init();
     // main.events.login();
   },
 

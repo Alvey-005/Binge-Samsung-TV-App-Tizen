@@ -24,6 +24,9 @@ window.firebaseConfig = {
         } 
         else {
             console.log("token found");
+            session.update();
+            translate.init();
+            main.events.login();
         }
     },
 
@@ -51,7 +54,9 @@ window.firebaseConfig = {
                     if (response.token) {
                         console.log("api call: token found");
                         session.storage.jwtToken = response.token;
+                        session.storage.isAnonymous = true;
                         session.update();
+                        translate.init();
                         main.events.login();
                     }
                 },
