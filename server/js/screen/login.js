@@ -62,6 +62,7 @@ window.login = {
 
   action: function (selected) {
     var options = document.getElementsByClassName(login.id + "-option");
+    console.log(options[selected].firstElementChild);
     if (selected == 1) {
       var phone = options[0].firstElementChild.value;
       if (phone.length < 10) {
