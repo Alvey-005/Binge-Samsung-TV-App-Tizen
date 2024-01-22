@@ -32,8 +32,10 @@ window.main = {
     },
 
     login: function () {
+      console.log('calling');
       session.valid({
         success: function () {
+          console.log('call call');
           main.events.home();
         },
         error: function (error) {

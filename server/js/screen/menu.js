@@ -152,9 +152,11 @@ window.menu = {
   },
 
   click: function (event, id = null, action = null, evn = null, idx = null) {
-    console.log("getting", event, id, action, evn);
+    console.log("getting", event, id, action, evn, idx);
     var options = $(`#${menu.id} .option`);
+    console.log(options);
     if (menu.options[idx].action) {
+      console.log('it is?');
       var selected = options.index($(`#${menu.id} .option.selected`));
       ``;
       options.removeClass("selected");
@@ -165,7 +167,9 @@ window.menu = {
       window[test[0]][test[1]]();
       menu.close();
     } else if (menu.options[idx].event) {
+      console.log('Then it is..')
       window.main.events[menu.options[idx].event]();
+      // window.main.events[menu.options[current].event]();
     }
   },
 
@@ -228,6 +232,7 @@ window.menu = {
           window[test[0]][test[1]]();
           menu.close();
         } else if (menu.options[current].event) {
+          console.log('here');
           window.main.events[menu.options[current].event]();
         }
         break;

@@ -15,7 +15,6 @@ window.otp = {
         <div class="form">
           <div class="input ${otp.id}-option">
             <input type="text" placeholder="${translate.go("login.otp")}">
-            <input type="text" placeholder="${translate.go("login.otp")}">
           </div>
           <a class="button ${
             otp.id
