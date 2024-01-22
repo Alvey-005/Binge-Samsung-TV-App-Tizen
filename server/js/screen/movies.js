@@ -20,8 +20,8 @@ window.movies = {
         <div class="row">
           <div class="row-title">${element.title}</div>
           <div class="row-content ${element.items[0].display}">`;
-        element.items.forEach((item) => {
-          poster_items += movies.createItem(item);
+        element.items.forEach((item, idx) => {
+          poster_items += movies.createItem(item, idx, index);
         });
         for (var index = 0; index < 9; index++) {
           poster_items += movies.createEmptyItem(element.items[0].display);
@@ -118,6 +118,7 @@ window.movies = {
   },
 
   show_details: function () {
+    console.log('details');
     var item =
       movies.position > 0
         ? movies.data.main.lists[movies.position - 1].items[$(".row-content")[movies.position - 1].slick.currentSlide]
@@ -304,7 +305,7 @@ window.movies = {
     }
   },
 
-  createItem: function (item) {
+  createItem: function (item, colIndex, rowIndex) {
     var playhead = item.playhead
       ? `<div class="progress" style="width: ${
           (item.playhead * 100) / item.duration
@@ -312,7 +313,7 @@ window.movies = {
       : "";
     return `
       <div class="item">
-        <div class="poster ${item.display}">
+        <div class="poster ${item.display}" onclick="movies.click(event, '${colIndex}', '${rowIndex}')">
           ${
             item.display !== "serie"
               ? '<img src="' + item.background + '">' + playhead
@@ -329,5 +330,54 @@ window.movies = {
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
         </div>
       </div>`;
+  },
+
+  click: function (event, colIndex, rowIndex) {
+    // console.log("ev", event, colIndex, rowIndex);
+    $(".row-content").removeClass("selected");
+
+    $(".rows")[0].slick.slickGoTo(rowIndex);
+    $(".row-content")[rowIndex].slick.slickGoTo(
+      $(".row-content")[rowIndex].slick.getCurrent()
+    );
+    $(".row-content")[rowIndex].className =
+      $(".row-content")[rowIndex].className + " selected";
+
+    // var item =
+    //   home.position > 0
+    //     ? home.data.main.lists[home.position - 1].items[
+    //         $(".row-content")[home.position - 1].slick.currentSlide
+    //       ]
+    //     : home.data.main.banner;
+    var item = movies.data.main.lists[rowIndex].items[colIndex];
+
+    $(".row-content").slick("slickGoTo", colIndex);
+
+    $(".details .background img").attr("src", item.background);
+    var titleElements = $(".details .info .title");
+    if (titleElements.length > 0) {
+      var title = titleElements[0];
+      title.innerText = item.title;
+      title.style.fontSize =
+        title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+    }
+
+    var descriptionElements = $(".details .info .description");
+    if (descriptionElements.length > 0) {
+      var description = descriptionElements[0];
+      description.innerText = item.description;
+      description.style.fontSize =
+        description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+    }
+    
+    api.contentDetails({
+      body: {
+        id: item.id,
+        content_type: item.content_type,
+      },
+      success: function (data) {
+        home_details.init(item, data, movies);
+      },
+    });
   },
 };

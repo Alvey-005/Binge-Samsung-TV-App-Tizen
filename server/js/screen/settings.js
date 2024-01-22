@@ -204,7 +204,7 @@ window.settings = {
       create: function (id) {
         return `
         <div style="color: #fff;font-size: 23px;line-height: 51px;text-align: right;padding: 38px 0;position: absolute;right: 0;bottom: 0;">
-          <div>Binge Samsung TV app.</div>
+          <div>Binge WebOS TV app.</div>
           <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
         </div>`;
       },

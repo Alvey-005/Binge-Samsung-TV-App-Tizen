@@ -191,18 +191,18 @@ window.video = {
     },
 
     optionClickHandler: function(event, action) {
-        console.log('options ev', event, action);
+        // console.log('options ev', event, action);
         switch(action) {
             case 'playPause':
-                console.log('playpause');
+                // console.log('playpause');
                 player.playPause();
                 break;
             case 'nextEpisode':
-                console.log('playnxt');
+                // console.log('playnxt');
                 video[video.options[1].action](video.options[1].param);
                 break;
             case 'openLanguages':
-                console.log('open lang');
+                // console.log('open lang');
                 video[video.options[2].action](video.options[2].param);
                 break;
         }
