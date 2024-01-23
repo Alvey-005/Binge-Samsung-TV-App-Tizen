@@ -32,7 +32,6 @@ window.menu = {
     //   icon: "fa-solid fa-bell",
     //   action: "subscribe.init",
     // },
-    // {
     {
       id: "sports",
       label: "menu.sports",
@@ -83,11 +82,7 @@ window.menu = {
     var menu_options = "";
 
     menu.options.forEach((element, index) => {
-
-      if (session.storage.isAnonymous && element.id === "logout") {}
-      // else if (session.storage.isAnonymous && element.id === "favourites") {}
-      else if (!session.storage.isAnonymous && element.id === "login") {}
-      else if (!!element.tool) {
+      if (!!element.tool) {
         tool_options += `
         <a class="option ${
           reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
