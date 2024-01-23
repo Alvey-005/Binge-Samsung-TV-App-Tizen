@@ -1,5 +1,6 @@
 window.favourites = {
   id: "favourites-screen",
+  available: false,
   data: {
     main: NaN,
   },
@@ -29,38 +30,46 @@ window.favourites = {
         poster_items += `</div></div>`;
       }
     });
-
-    favourites_element.innerHTML = `
-      <div class="content">
-        ${
-          favourites.fromCategory.state
-            ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
-            : ""
-        }
-        <div class="details full">
-          <div class="background">
-            <img src="${favourites.data.main.lists[0].items[0].background}">
-          </div>
-          <div class="info">
-            <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
-            <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
-            <!--
-            <div class="buttons">
-              <a class="selected">${translate.go("favourites.banner.play")}</a>
-              <a>${translate.go("favourites.banner.info")}</a>
+    if (favourites.available) {
+      favourites_element.innerHTML = `
+        <div class="content">
+          ${
+            favourites.fromCategory.state
+              ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
+              : ""
+          }
+          <div class="details full">
+            <div class="background">
+              <img src="${favourites.data.main.lists[0].items[0].background}">
             </div>
-            -->
+            <div class="info">
+              <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
+              <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
+              <!--
+              <div class="buttons">
+                <a class="selected">${translate.go("favourites.banner.play")}</a>
+                <a>${translate.go("favourites.banner.info")}</a>
+              </div>
+              -->
+            </div>
           </div>
+          <div class="rows">
+            ${poster_items}
+          </div>
+          <!--
+          <div class="logo-fixed">
+            <img src="server/img/logo-big.svg"/>
+          </div>
+          -->
+        </div>`;
+    } else {
+      favourites_element.innerHTML = `
+      <div class="content">
+        <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
+            <div class="title resize" style="color: red;font-size: 4vh;font-weight: bold">No Data Available</div>
         </div>
-        <div class="rows">
-          ${poster_items}
-        </div>
-        <!--
-        <div class="logo-fixed">
-          <img src="server/img/logo-big.svg"/>
-        </div>
-        -->
       </div>`;
+    }
 
     document.body.appendChild(favourites_element);
 
@@ -120,33 +129,36 @@ window.favourites = {
     //   loading.destroy();
     //   // login.init();
     // } else {
-      api.getFavourites({
-        data: {
-          page: 1,
-          page_size: -1,
-        },
-        success: function (response) {
-          favourites.data.main = {
-            lists: [
-              {
-                category_id: null,
-                category_type: null,
-                title: "My list",
-                page_id: 1,
-                page_size: -1,
-                items: [],
-              },
-            ],
-          };
+    api.getFavourites({
+      data: {
+        page: 1,
+        page_size: -1,
+      },
+      success: function (response) {
+        favourites.data.main = {
+          lists: [
+            {
+              category_id: null,
+              category_type: null,
+              title: "My list",
+              page_id: 1,
+              page_size: -1,
+              items: [],
+            },
+          ],
+        };
+        if (response.wish_list.total > 0) {
+          favourites.available = true;
           favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
-          loading.destroy();
-          favourites.init();
-        },
-        error: function (error) {
-          loading.destroy();
-          console.log(error);
-        },
-      });
+        }
+        loading.destroy();
+        favourites.init();
+      },
+      error: function (error) {
+        loading.destroy();
+        console.log(error);
+      },
+    });
     // }
   },
 
