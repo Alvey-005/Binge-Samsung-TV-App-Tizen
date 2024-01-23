@@ -17,7 +17,6 @@ window.premiumNeedDialog = {
       "  </div>" +
       "</div>";
     document.body.appendChild(premiumNeedDialog_element);
-    console.log("prem", premiumNeedDialog_element);
     premiumNeedDialog.previous = main.state;
     main.state = premiumNeedDialog.id;
     premiumNeedDialog.move(false);

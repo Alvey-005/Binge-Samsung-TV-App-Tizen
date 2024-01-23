@@ -46,11 +46,11 @@ window.settings = {
       label: "settings.menu.vouchers",
       type: "html",
     },
-    {
-      id: "interest",
-      label: "settings.menu.interest",
-      type: "list",
-    },
+    // {
+    //   id: "interest",
+    //   label: "settings.menu.interest",
+    //   type: "list",
+    // },
     {
       id: "delete",
       label: "settings.menu.delete",
@@ -129,7 +129,6 @@ window.settings = {
               }
             case "delete_account":
             case "interest":
-              console.log("key down");
               var options = $(`.options li`);
               var current = options.index($(`.options li.active`));
               settings.details[settings.options[current].type].move(1);
@@ -157,6 +156,7 @@ window.settings = {
             case "voucher":
               settings.settingsTab.voucher.selected = 0;
               settings.settingsTab.voucher.keyboardElement = undefined;
+              $(`#voucher-input`).css("background-color", "transparent");
               break;
             case "delete_account":
               $(`#delete_button`).css("background-color", "red");
@@ -197,12 +197,26 @@ window.settings = {
                   document.getElementById("errorMsg").innerText = "Please Enter Correct 8 Digit Code.";
                 } else {
                   document.getElementById("errorMsg").innerText = "";
+                  api.voucherRedeem({
+                    data: {
+                      customer_id: settings.customer.id,
+                      phone: settings.customer.phone,
+                      voucher_code: voucherInput,
+                    },
+                    success: function (response) {
+                      document.getElementById("errorMsg").innerText = `${response}`;
+                    },
+                    error: function (error) {
+                      console.error(error);
+                    },
+                  });
                 }
               }
               break;
             case "delete_account":
               if (settings.settingsTab.deleteAccount.buttonElement) {
-                console.log("delete button pressed");
+                accountDeleteDialog.init();
+                // premiumNeedDialog.init();
               }
               break;
             case "interest":
@@ -321,7 +335,7 @@ window.settings = {
               settings.customer = session.storage.customer;
             }
 
-            subscriptionDetails = settings.customer.active_subscriptions || [];
+            subscriptionDetails = settings.customer.active_subscriptions || undefined;
 
             return `
           <div style="height: 65vh;color: #fff;font-size: 23px;line-height: 51px;display: flex; flex-direction: column; justify-content: space-between;">
@@ -329,11 +343,11 @@ window.settings = {
               <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 350px; height:350px;">
               <div style="text-align: right;margin-top: 50px">
                 <h1 style="font-size: 3vh">${settings.customer.name || "Yeasin Zilani"}</h1>
-                <p style="text-align: right;font-size: 2vh">${settings.customer.phone || "01833184275"}</p>
+                <p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone || "+01833184275"}</p>
               </div>
             </div>
             ${
-              subscriptionDetails.length > 0 &&
+              subscriptionDetails &&
               subscriptionDetails.map(function (sub) {
                 return `
                 <div style="color: #fff">
@@ -347,7 +361,7 @@ window.settings = {
               })
             }
             <div style="display: flex; flex-direction:column; justify-content: end; align-items: end;font-size: 28px;color:grey">
-                <div>Binge  TV app.</div>
+                <div>Binge TV app.</div>
                 <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
             </div>
           </div>`;
@@ -440,7 +454,7 @@ window.settings = {
               settings.settingsTab.voucher.keyboardElement = document.getElementById("voucher-input");
               break;
             }
-          case 3:
+          case 2:
             //delete account
             settings.selectedTab = "delete_account";
             $(`#delete_button`).css("background-color", "rgb(229, 9, 20)");
