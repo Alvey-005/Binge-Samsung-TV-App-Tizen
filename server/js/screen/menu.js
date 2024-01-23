@@ -59,6 +59,7 @@ window.menu = {
       icon: "fa-solid fa-sign-out",
       tool: true,
       event: "logout",
+      // action: "logout",
     },
     {
       id: "login",
@@ -66,6 +67,7 @@ window.menu = {
       icon: "fa-solid fa-sign-out",
       tool: true,
       event: "login",
+      // action: "login.init",
     },
   ],
   selected: 1,
@@ -83,6 +85,7 @@ window.menu = {
     menu.options.forEach((element, index) => {
 
       if (session.storage.isAnonymous && element.id === "logout") {}
+      else if (session.storage.isAnonymous && element.id === "favourites") {}
       else if (!session.storage.isAnonymous && element.id === "login") {}
       else if (!!element.tool) {
         tool_options += `
@@ -188,7 +191,6 @@ window.menu = {
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
-          ``;
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
