@@ -26,9 +26,11 @@ window.search = {
         <div class="list-container">
           <div class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);"></div>
         </div>
+        <!--
         <div class="logo-fixed">
           <img src="server/img/logo-big.svg"/>
         </div>
+        -->
       </div>`;
 
     document.body.appendChild(search_element);
@@ -168,9 +170,11 @@ window.search = {
                       </div>
                     </div>
                   </div>
+                  <!--
                   <div class="logo-fixed">
                     <img src="server/img/logo-big.svg"/>
                   </div>
+                  -->
                 </div>`;
 
                   document.getElementById(search.id).style.display = "none";

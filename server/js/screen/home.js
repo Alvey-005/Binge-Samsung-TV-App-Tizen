@@ -51,9 +51,11 @@ window.home = {
       <div class="rows">
         ${poster_items}
       </div>
+      <!--
       <div class="logo-fixed">
         <img src="server/img/logo-big.svg"/>
       </div>
+      -->
     </div>`;
 
     document.body.appendChild(home_element);

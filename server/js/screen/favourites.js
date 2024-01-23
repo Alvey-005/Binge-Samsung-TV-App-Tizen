@@ -55,9 +55,11 @@ window.favourites = {
         <div class="rows">
           ${poster_items}
         </div>
+        <!--
         <div class="logo-fixed">
           <img src="server/img/logo-big.svg"/>
         </div>
+        -->
       </div>`;
 
     document.body.appendChild(favourites_element);
@@ -114,33 +116,38 @@ window.favourites = {
 
   start: function () {
     loading.init();
-    api.getFavourites({
-      data: {
-        page: 1,
-        page_size: -1,
-      },
-      success: function (response) {
-        favourites.data.main = {
-          lists: [
-            {
-              category_id: null,
-              category_type: null,
-              title: "My list",
-              page_id: 1,
-              page_size: -1,
-              items: [],
-            },
-          ],
-        };
-        favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
-        loading.destroy();
-        favourites.init();
-      },
-      error: function (error) {
-        loading.destroy();
-        console.log(error);
-      },
-    });
+    // if(session.storage.isAnonymous) {
+    //   loading.destroy();
+    //   // login.init();
+    // } else {
+      api.getFavourites({
+        data: {
+          page: 1,
+          page_size: -1,
+        },
+        success: function (response) {
+          favourites.data.main = {
+            lists: [
+              {
+                category_id: null,
+                category_type: null,
+                title: "My list",
+                page_id: 1,
+                page_size: -1,
+                items: [],
+              },
+            ],
+          };
+          favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
+          loading.destroy();
+          favourites.init();
+        },
+        error: function (error) {
+          loading.destroy();
+          console.log(error);
+        },
+      });
+    // }
   },
 
   destroy: function () {
