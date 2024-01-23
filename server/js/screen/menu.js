@@ -66,7 +66,7 @@ window.menu = {
       label: "menu.login",
       icon: "fa-solid fa-sign-out",
       tool: true,
-      event: "login",
+      event: "logout",
       // action: "login.init",
     },
   ],
@@ -85,7 +85,7 @@ window.menu = {
     menu.options.forEach((element, index) => {
 
       if (session.storage.isAnonymous && element.id === "logout") {}
-      else if (session.storage.isAnonymous && element.id === "favourites") {}
+      // else if (session.storage.isAnonymous && element.id === "favourites") {}
       else if (!session.storage.isAnonymous && element.id === "login") {}
       else if (!!element.tool) {
         tool_options += `
