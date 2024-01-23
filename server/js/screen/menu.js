@@ -70,6 +70,75 @@ window.menu = {
       // action: "login.init",
     },
   ],
+  defaultOptions: [
+    {
+      id: "search",
+      label: "menu.search",
+      icon: "fa-solid fa-magnifying-glass",
+      action: "search.init",
+    },
+    {
+      id: "home",
+      label: "menu.home",
+      icon: "fa-solid fa-house",
+      action: "home.restart",
+    },
+    {
+      id: "movies",
+      label: "menu.movies",
+      icon: "fa-solid fa-film",
+      action: "movies.restart",
+    },
+    {
+      id: "favourites",
+      label: "menu.favourites",
+      icon: "fa-solid fa-bookmark",
+      action: "favourites.start",
+    },
+    // {
+    //   id: "subscribe",
+    //   label: "menu.subscribe",
+    //   icon: "fa-solid fa-bell",
+    //   action: "subscribe.init",
+    // },
+    // {
+    {
+      id: "sports",
+      label: "menu.sports",
+      icon: "fa-solid fa-person-running",
+      action: "sports.start",
+    },
+    {
+      id: "series",
+      label: "menu.series",
+      icon: "fa-solid fa-clapperboard",
+      action: "series.start",
+    },
+
+    {
+      id: "settings",
+      label: "menu.settings",
+      icon: "fa-solid fa-gear",
+      tool: true,
+      action: "settings.init",
+    },
+    {
+      id: "logout",
+      label: "menu.logout",
+      icon: "fa-solid fa-sign-out",
+      tool: true,
+      event: "logout",
+      // action: "logout",
+    },
+    {
+      id: "login",
+      label: "menu.login",
+      icon: "fa-solid fa-sign-out",
+      tool: true,
+      event: "logout",
+      // action: "login.init",
+    },
+  ],
   selected: 1,
   previous: NaN,
   isOpen: false,
@@ -81,13 +150,20 @@ window.menu = {
 
     var tool_options = "";
     var menu_options = "";
+    if (session.storage.isAnonymous) {
+      menu.options = menu.options = menu.options.filter(
+        (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
+      );
+    } else {
+      menu.options = menu.defaultOptions;
+    }
 
     menu.options.forEach((element, index) => {
-
-      if (session.storage.isAnonymous && element.id === "logout") {}
+      if (session.storage.isAnonymous && element.id === "logout") {
+      }
       // else if (session.storage.isAnonymous && element.id === "favourites") {}
-      else if (!session.storage.isAnonymous && element.id === "login") {}
-      else if (!!element.tool) {
+      else if (!session.storage.isAnonymous && element.id === "login") {
+      } else if (!!element.tool) {
         tool_options += `
         <a class="option ${
           reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
