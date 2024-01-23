@@ -1,7 +1,8 @@
 window.menu = {
   id: "menu-screen",
   initialized: 0,
-  options: [
+  options: [],
+  defaultOptions: [
     {
       id: "search",
       label: "menu.search",
@@ -32,6 +33,7 @@ window.menu = {
     //   icon: "fa-solid fa-bell",
     //   action: "subscribe.init",
     // },
+    // {
     {
       id: "sports",
       label: "menu.sports",
@@ -80,6 +82,13 @@ window.menu = {
 
     var tool_options = "";
     var menu_options = "";
+    if (session.storage.isAnonymous) {
+      menu.options = menu.defaultOptions.filter(
+        (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
+      );
+    } else {
+      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+    }
 
     menu.options.forEach((element, index) => {
       if (!!element.tool) {
