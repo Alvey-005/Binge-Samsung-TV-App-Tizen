@@ -89,7 +89,7 @@ window.sports = {
         dots: false,
         arrows: false,
         infinite: false,
-        slidesToShow: 9,
+        slidesToShow: 5,
         slidesToScroll: 1,
         speed: 0,
         waitForAnimate: false,

@@ -190,11 +190,14 @@ window.mapper = {
           var poster = `${api.api.bingeStageUrl}/${item.logo_path}`;
         } else {
           var background = `${api.api.bingeStageUrl}/${item.image_landscape}`;
-          var poster = item.image_portrait
-            ? `${api.api.bingeStageUrl}/${item.image_portrait}`
-            : item.image_square
-              ? `${api.api.bingeStageUrl}/${item.image_square}`
-              : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
+          // var poster = item.image_portrait
+          //   ? `${api.api.bingeStageUrl}/${item.image_portrait}`
+          //   : item.image_square
+          //     ? `${api.api.bingeStageUrl}/${item.image_square}`
+          //     : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
+          var poster = item.image_landscape
+            ? `${api.api.bingeStageUrl}/${item.image_landscape}`
+            : `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${item.id}`;
         }
 
         return {
