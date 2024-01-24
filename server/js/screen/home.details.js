@@ -70,7 +70,7 @@ window.home_details = {
 
     switch (className) {
       case 'play':
-          video.init(home_details.data.contentDetails);
+          video.init(home_details.data.contentDetails, home_details.appendScreen);
           break;
       case 'wishlist':
           if (home_details.is_wishlist == true) {

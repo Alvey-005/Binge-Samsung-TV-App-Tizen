@@ -56,6 +56,7 @@ window.main = {
             success: function (res) {
               mapper.populate(window.home, response, res.data.banners, {
                 success: function () {
+                  console.log('coming');
                   loading.destroy();
                   home.init();
                   !menu.initialized && menu.init();

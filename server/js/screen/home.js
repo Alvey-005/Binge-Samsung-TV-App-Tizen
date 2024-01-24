@@ -19,7 +19,7 @@ window.home = {
         poster_items += `
       <div class="row">
         <div class="row-title">${element.title}</div>
-        <div class="row-content ${element.items[0].display}">`;
+        <div class="row-content">${element.items[0].display}</span>">`;
         element.items.forEach((item, idx) => {
           poster_items += home.createItem(item, idx, index);
         });
@@ -142,7 +142,7 @@ window.home = {
   },
 
   click: function (event, colIndex, rowIndex) {
-    // console.log("ev", event, colIndex, rowIndex);
+    console.log("ev", event, colIndex, rowIndex, home.position);
     $(".row-content").removeClass("selected");
 
     $(".rows")[0].slick.slickGoTo(rowIndex);
@@ -152,12 +152,6 @@ window.home = {
     $(".row-content")[rowIndex].className =
       $(".row-content")[rowIndex].className + " selected";
 
-    // var item =
-    //   home.position > 0
-    //     ? home.data.main.lists[home.position - 1].items[
-    //         $(".row-content")[home.position - 1].slick.currentSlide
-    //       ]
-    //     : home.data.main.banner;
     var item = home.data.main.lists[rowIndex].items[colIndex];
 
     $(".row-content").slick("slickGoTo", colIndex);
@@ -178,6 +172,8 @@ window.home = {
       description.style.fontSize =
         description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
+
+    console.log('home item', item);
     
     // home-screen
     api.contentDetails({

@@ -55,7 +55,7 @@ window.home_episodes = {
     home_episodes.data.episodes.forEach((episode, index) => {
       console.log("episode", episode);
       episodes_html += `
-      <div class="episode">
+      <div class="episode" onclick="home_episodes.episodeClickHandler()">
         <div class="episode-image">
           <img src="${api.api.imageStageURl}/${episode.thumb_path || episode.image}">
           ${home_episodes.view(episode)}
@@ -89,6 +89,10 @@ window.home_episodes = {
     });
 
     $(".episodes .episodes-list")[0].slick.slickGoTo(0);
+  },
+
+  episodeClickHandler: function(event) {
+
   },
 
   view: function (episode) {

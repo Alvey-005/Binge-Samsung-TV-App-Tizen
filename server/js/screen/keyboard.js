@@ -195,6 +195,7 @@ window.keyboard = {
         keyboard.input.value = keyboard.input.value + " ";
         break;
       case "32":
+        console.log('this is case 32');
         keyboard.send && keyboard.send();
         keyboard.destroy();
         break;

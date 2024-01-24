@@ -6,6 +6,7 @@ window.menu = {
       id: "search",
       label: "menu.search",
       icon: "fa-solid fa-magnifying-glass",
+      // icon: "search",
       action: "search.init",
     },
     {
@@ -65,7 +66,7 @@ window.menu = {
       label: "menu.login",
       icon: "fa-solid fa-sign-out",
       tool: true,
-      event: "login",
+      event: "logout",
     },
   ],
   selected: 1,
@@ -158,7 +159,6 @@ window.menu = {
     if (menu.options[idx].action) {
       console.log('it is?');
       var selected = options.index($(`#${menu.id} .option.selected`));
-      ``;
       options.removeClass("selected");
       options.eq(idx).addClass("selected");
       this.previous = window[menu.options[idx].id].id;
@@ -167,7 +167,7 @@ window.menu = {
       window[test[0]][test[1]]();
       menu.close();
     } else if (menu.options[idx].event) {
-      console.log('Then it is..')
+      console.log('Then it is..', menu.options[idx].event)
       window.main.events[menu.options[idx].event]();
       // window.main.events[menu.options[current].event]();
     }
@@ -232,7 +232,7 @@ window.menu = {
           window[test[0]][test[1]]();
           menu.close();
         } else if (menu.options[current].event) {
-          console.log('here');
+          console.log('here', menu.options[current].event);
           window.main.events[menu.options[current].event]();
         }
         break;
