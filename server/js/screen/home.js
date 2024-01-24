@@ -18,9 +18,9 @@ window.home = {
       home.data.main.lists.forEach((element, index) => {
         if (element.items.length > 0) {
           poster_items += `
-      <div class="row">
-        <div class="row-title">${element.title}</div>
-        <div class="row-content ${element.items[0].display}">`;
+        <div class="row">
+          <div class="row-title">${element.title}</div>
+          <div class="row-content ${element.items[0].display}">`;
           element.items.forEach((item) => {
             poster_items += home.createItem(item);
           });
@@ -59,8 +59,7 @@ window.home = {
       -->
     </div>`;
 
-      document.body.appendChild(home_element);
-
+    document.body.appendChild(home_element);
       var title = $(".details .info .title")[0];
       title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
@@ -103,24 +102,20 @@ window.home = {
 
       $(`#${home.id} .rows`)[0].slick.slickGoTo(0);
       $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
-
       main.state = home.id;
-
+      
       var keyDownEvent = new Event("keydown");
       keyDownEvent.keyCode = tvKey.KEY_DOWN;
       home.keyDown(keyDownEvent);
     } else {
       home_element.innerHTML = `
     <div class="content">
-      <div class="details full">
-        <div class="info">
-          <div class="title resize">No Data Available</div>
-        </div>
+      <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
+          <div style="font-size: 4vh;color: red">No Data Available</div>
       </div>
     </div>`;
-      document.body.appendChild(home_element);
+    document.body.appendChild(home_element);
     }
-
   },
 
   destroy: function () {

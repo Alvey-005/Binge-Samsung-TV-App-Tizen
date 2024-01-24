@@ -52,9 +52,7 @@ window.main = {
         success: function (response) {
           api.banners({
             success: function (res) {
-              console.log("first");
               if (response.categories.length > 0) {
-                console.log("coming in if block");
                 mapper.populate(window.home, response, res.data.banners, {
                   success: function () {
                     loading.destroy();
