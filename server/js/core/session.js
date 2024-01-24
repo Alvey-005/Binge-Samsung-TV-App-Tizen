@@ -16,6 +16,7 @@ window.session = {
     refresh_token: NaN,
     phone: NaN,
     customer: NaN,
+    isAnonymous: NaN,
     cookies: {
       bucket: NaN,
       policy: NaN,
@@ -25,7 +26,7 @@ window.session = {
     },
   },
 
-  init: function () {
+  init: function (callback) {
     var storage = localStorage.getItem("session");
     if (storage) {
       try {

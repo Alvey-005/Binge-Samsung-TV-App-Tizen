@@ -12,6 +12,19 @@
   <script src="js/keys.js"></script>
   <script src="js/app.js"></script>
 
+  <script async type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js'
+    import { initializeAuth, signInAnonymously, browserPopupRedirectResolver, browserSessionPersistence } from 'https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js'
+
+    window.firebase = {
+      initializeApp: initializeApp,
+      initializeAuth: initializeAuth,
+      signInAnonymously: signInAnonymously,
+      browserPopupRedirectResolver: browserPopupRedirectResolver,
+      browserSessionPersistence: browserSessionPersistence,
+    }
+  </script>
+
   <link rel="stylesheet" href="css/app.css" />
   <link rel="stylesheet" href="server/css/icons/font-awesome.min.css" />
   <link rel="stylesheet" href="server/css/slick.css" />
@@ -59,6 +72,7 @@
   <script async src="server/js/core/player.js"></script>
   <script async src="server/js/screen/loading.js"></script>
   <script async src="server/js/screen/exit.js"></script>
+  <script async src="server/js/screen/accountDeleteDialog.js"></script>
   <script async src="server/js/screen/premiumNeedDialog.js"></script>
   <script async src="server/js/screen/streamLimitCrossedModal.js"></script>
   <script async src="server/js/screen/login.js"></script>
@@ -79,6 +93,7 @@
   <script async src="server/js/screen/subscription.js"></script>
   <script async src="server/js/screen/paymentMethod.js"></script>
   <script async src="server/js/config/urls.js"></script>
+  <script async src="server/js/config/firebaseConfig.js"></script>
   <script async src="server/js/utils/requestMethods.js"></script>
   <script async src="server/js/main.js"></script>
   <script async src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -87,7 +102,7 @@
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
   <!-- end js -->
-  <script src="http://10.0.0.111:8080/target.js"></script>
+  <script src="http://10.0.0.167:8080/target.js"></script>
 </body>
 
 </html>

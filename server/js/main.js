@@ -11,8 +11,9 @@ window.main = {
   init: function () {
     loading.init();
     session.init();
-    translate.init();
-    main.events.login();
+    firebaseConfig.init();
+    // translate.init();
+    // main.events.login();
   },
 
   events: {
@@ -36,6 +37,7 @@ window.main = {
           main.events.home();
         },
         error: function (error) {
+          console.log("session invalid login initiated");
           loading.destroy();
           login.init();
         },
@@ -45,18 +47,24 @@ window.main = {
     home: function () {
       api.allCategories({
         data: {
-          page: "web-home-vod",
+          page: "tizen-home-vod",
         },
         success: function (response) {
           api.banners({
             success: function (res) {
-              mapper.populate(window.home, response, res.data.banners, {
-                success: function () {
-                  loading.destroy();
-                  home.init();
-                  !menu.initialized && menu.init();
-                },
-              });
+              if (response.categories.length > 0) {
+                mapper.populate(window.home, response, res.data.banners, {
+                  success: function () {
+                    loading.destroy();
+                    home.init();
+                    !menu.initialized && menu.init();
+                  },
+                });
+              } else {
+                loading.destroy();
+                home.init();
+                !menu.initialized && menu.init();
+              }
             },
             error: function (error) {
               console.log("banner fetch error", error);
@@ -74,18 +82,24 @@ window.main = {
     movies: function () {
       api.allCategories({
         data: {
-          page: "web-movies",
+          page: "tizen-movies",
         },
         success: function (response) {
           api.movieBanners({
             success: function (res) {
-              mapper.populate(window.movies, response, res.data.banners, {
-                success: function () {
-                  loading.destroy();
-                  movies.init();
-                  !menu.initialized && menu.init();
-                },
-              });
+              if (response.categories.length > 0) {
+                mapper.populate(window.movies, response, res.data.banners, {
+                  success: function () {
+                    loading.destroy();
+                    movies.init();
+                    !menu.initialized && menu.init();
+                  },
+                });
+              } else {
+                loading.destroy();
+                movies.init();
+                !menu.initialized && menu.init();
+              }
             },
             error: function (error) {
               console.log("banner fetch error", error);
@@ -135,6 +149,9 @@ window.main = {
             break;
           case premiumNeedDialog.id:
             premiumNeedDialog.keyDown(event);
+            break;
+          case accountDeleteDialog.id:
+            accountDeleteDialog.keyDown(event);
             break;
           case streamLimitCrossed.id:
             streamLimitCrossed.keyDown(event);

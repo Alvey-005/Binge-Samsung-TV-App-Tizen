@@ -1,5 +1,6 @@
 #exit-screen,
 #premium-needed-screen,
+#account-delete-screen,
 #stream-limit-crossed {
   width: 100%;
   height: 100%;
@@ -12,7 +13,8 @@
 
 #exit-screen .content,
 #premium-needed-screen .content,
- #stream-limit-crossed .content {
+#account-delete-screen .content,
+#stream-limit-crossed .content {
   width: 100%;
   height: 100%;
   display: flex;
@@ -23,6 +25,7 @@
 
 #exit-screen .window,
 #premium-needed-screen .window ,
+#account-delete-screen .window,
 #stream-limit-crossed .window 
 {
   width: 25vw;
@@ -36,7 +39,9 @@
 
 #exit-screen .text,
 #stream-limit-crossed .text ,
-  #premium-needed-screen .text {
+#premium-needed-screen .text,
+#account-delete-screen .text
+{
   color: #fff;
   text-align: center;
   font-size: 2rem;
@@ -45,7 +50,9 @@
 
 #exit-screen .buttons,
 #stream-limit-crossed .buttons,
-#premium-needed-screen .buttons {
+#premium-needed-screen .buttons,
+#account-delete-screen .buttons
+{
   padding: 5px;
   display: flex;
   justify-content: space-between;
@@ -55,7 +62,9 @@
 
 #exit-screen .button,
 #stream-limit-crossed .button,
-#premium-needed-screen .button {
+#premium-needed-screen .button,
+#account-delete-screen .button
+{
   background: rgba(255, 255, 255, 0.5);
   color: #000;
   width: 40%;
@@ -68,7 +77,9 @@
 
 #exit-screen .button.selected,
 #stream-limit-crossed .button.selected,
-#premium-needed-screen .button.selected {
+#premium-needed-screen .button.selected,
+#account-delete-screen .button.selected
+ {
   background: #e50914;
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
 }

@@ -67,6 +67,10 @@ window.api = {
       session.update();
       request.success();
     }
+    else {
+      console.error("OTP verification error");
+      request.error();
+    }
   },
 
   allCategories: async function (request) {
@@ -94,6 +98,54 @@ window.api = {
             if (allCatResponse && allCatResponse.data && allCatResponse.data.data) {
               request.success(allCatResponse.data.data);
             }
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error(e);
+        }
+      },
+    });
+  },
+
+  profileDetails: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const profile = await requestMethod.get(`${urls.profileApi}/${request.id}`);
+        try {
+          if (request.success) {
+            if (profile && profile.data.customer) {
+              request.success(profile.data.customer);
+            }
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error(e);
+        }
+      },
+    });
+  },
+
+  voucherRedeem: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const params = request.data;
+        const voucherConfirmation = await requestMethod.post(`${urls.giftVoucher}`, params);
+        try {
+          if (request.success) {
+            request.success(voucherConfirmation.data.message);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error(e);
+        }
+      },
+    });
+  },
+
+  removeAccount: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const accountRemoval = await requestMethod.post(`${urls.remove}/${request.data.id}`);
+        try {
+          if (request.success) {
+            request.success();
           }
         } catch (e) {
           request.error ? request.error(e) : console.error(e);
@@ -281,6 +333,21 @@ window.api = {
     });
   },
 
+
+  handleAnonLogin: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.anonymousLogin, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in api anonymous login \n", e);
+        }
+      },
+    });
+  },
 
   formatBinge: function (params) {
     return Object.keys(params)

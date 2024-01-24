@@ -206,7 +206,7 @@ window.home_episodes = {
               content_type: target.content_type,
             },
             success: function (response) {
-              video.init(response);
+              video.init(response, home_episodes.appScreen);
             },
           });
         } else {

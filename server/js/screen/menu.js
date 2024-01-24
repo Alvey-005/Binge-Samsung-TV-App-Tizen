@@ -1,7 +1,8 @@
 window.menu = {
   id: "menu-screen",
   initialized: 0,
-  options: [
+  options: [],
+  defaultOptions: [
     {
       id: "search",
       label: "menu.search",
@@ -65,6 +66,15 @@ window.menu = {
       icon: "fa-solid fa-sign-out",
       tool: true,
       event: "logout",
+      // action: "logout",
+    },
+    {
+      id: "login",
+      label: "menu.login",
+      icon: "fa-solid fa-sign-out",
+      tool: true,
+      event: "logout",
+      // action: "login.init",
     },
   ],
   selected: 1,
@@ -78,6 +88,13 @@ window.menu = {
 
     var tool_options = "";
     var menu_options = "";
+    if (session.storage.isAnonymous) {
+      menu.options = menu.defaultOptions.filter(
+        (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
+      );
+    } else {
+      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+    }
 
     menu.options.forEach((element, index) => {
       if (!!element.tool) {
@@ -102,7 +119,7 @@ window.menu = {
       <div class="profile">
         <div class="avatar">
           <img src="${
-            session.storage.customer.image !== null
+            session.storage.customer && session.storage.customer.image !== null
               ? "https://ss-staging.binge.buzz" + session.storage.customer.image
               : "https://pre.binge.buzz/favicon.ico"
           }"> 
@@ -184,7 +201,6 @@ window.menu = {
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
-          ``;
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
