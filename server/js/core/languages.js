@@ -264,8 +264,8 @@ window.languages = {
       details: {
         play: "Play",
         continue: "Continue watching",
-        add: "Add to my list",
-        added: "Added to my list",
+        add: "Add to favourites",
+        added: "Added to favourites",
         episodes: "Episodes",
         related: "Related content",
       },
