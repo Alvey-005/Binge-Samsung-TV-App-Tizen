@@ -144,6 +144,7 @@ window.menu = {
   isOpen: false,
 
   init: function (reset) {
+    console.log("sadasdasdasdasd");
     menu.initialized = 1;
     var menu_element = document.createElement("div");
     menu_element.id = this.id;
@@ -151,7 +152,7 @@ window.menu = {
     var tool_options = "";
     var menu_options = "";
     if (session.storage.isAnonymous) {
-      menu.options = menu.options = menu.options.filter(
+      menu.options = menu.options.filter(
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {

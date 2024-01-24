@@ -204,108 +204,118 @@ window.favourites = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        if (favourites.position > 1) {
-          $(".row-content").removeClass("selected");
-          favourites.position--;
-          $(".rows")[0].slick.slickGoTo(favourites.position - 1);
-          $(".row-content")[favourites.position - 1].slick.slickGoTo(
-            $(".row-content")[favourites.position - 1].slick.getCurrent()
-          );
-          $(".row-content")[favourites.position - 1].className =
-            $(".row-content")[favourites.position - 1].className + " selected";
-        } else {
-          // $(".details").addClass("full");
-          // favourites.position = 0;
-        }
-        favourites.show_details();
-        break;
-      case tvKey.KEY_DOWN:
-        if (favourites.position > 0) {
-          $(".row-content").removeClass("selected");
-          favourites.position =
-            favourites.position < favourites.data.main.lists.length ? favourites.position + 1 : favourites.position;
-          if (favourites.position <= favourites.data.main.lists.length) {
+        if (favourites.available) {
+          if (favourites.position > 1) {
+            $(".row-content").removeClass("selected");
+            favourites.position--;
             $(".rows")[0].slick.slickGoTo(favourites.position - 1);
             $(".row-content")[favourites.position - 1].slick.slickGoTo(
               $(".row-content")[favourites.position - 1].slick.getCurrent()
             );
+            $(".row-content")[favourites.position - 1].className =
+              $(".row-content")[favourites.position - 1].className + " selected";
+          } else {
+            // $(".details").addClass("full");
+            // favourites.position = 0;
           }
-          $(".row-content")[favourites.position - 1].className =
-            $(".row-content")[favourites.position - 1].className + " selected";
-        } else {
-          $(".details.full").removeClass("full");
-          var first_row = $(".row-content")[0];
-          $(".rows")[0].slick.slickGoTo(0);
-          first_row.slick.slickGoTo(first_row.slick.getCurrent());
-          first_row.className = first_row.className + " selected";
-          favourites.position++;
+          favourites.show_details();
         }
-        favourites.show_details();
+        break;
+      case tvKey.KEY_DOWN:
+        if(favourites.available){
+          if (favourites.position > 0) {
+            $(".row-content").removeClass("selected");
+            favourites.position =
+              favourites.position < favourites.data.main.lists.length ? favourites.position + 1 : favourites.position;
+            if (favourites.position <= favourites.data.main.lists.length) {
+              $(".rows")[0].slick.slickGoTo(favourites.position - 1);
+              $(".row-content")[favourites.position - 1].slick.slickGoTo(
+                $(".row-content")[favourites.position - 1].slick.getCurrent()
+              );
+            }
+            $(".row-content")[favourites.position - 1].className =
+              $(".row-content")[favourites.position - 1].className + " selected";
+          } else {
+            $(".details.full").removeClass("full");
+            var first_row = $(".row-content")[0];
+            $(".rows")[0].slick.slickGoTo(0);
+            first_row.slick.slickGoTo(first_row.slick.getCurrent());
+            first_row.className = first_row.className + " selected";
+            favourites.position++;
+          }
+          favourites.show_details();
+        }
         break;
       case tvKey.KEY_LEFT:
-        if (favourites.position > 0) {
-          if ($(".row-content")[favourites.position - 1].slick.currentSlide === 0) {
-            if (!favourites.fromCategory.state) {
-              menu.open();
+        if(favourites.available){
+          if (favourites.position > 0) {
+            if ($(".row-content")[favourites.position - 1].slick.currentSlide === 0) {
+              if (!favourites.fromCategory.state) {
+                menu.open();
+              } else {
+                favourites.destroy();
+              }
             } else {
-              favourites.destroy();
+              $(".row-content")[favourites.position - 1].slick.prev();
+              favourites.show_details();
             }
           } else {
-            $(".row-content")[favourites.position - 1].slick.prev();
-            favourites.show_details();
-          }
-        } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          if (current === 0) {
-            if (!favourites.fromCategory.state) {
-              menu.open();
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            if (current === 0) {
+              if (!favourites.fromCategory.state) {
+                menu.open();
+              } else {
+                favourites.destroy();
+              }
             } else {
-              favourites.destroy();
+              buttons.removeClass("selected");
+              buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
             }
-          } else {
-            buttons.removeClass("selected");
-            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
+        }else{
+          menu.open()
         }
         break;
       case tvKey.KEY_RIGHT:
-        if (favourites.position > 0) {
-          var currentList = favourites.data.main.lists[favourites.position - 1];
-          var currentSlide = $(".row-content")[favourites.position - 1];
-
-          if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
-            if (favourites.fromCategory.state && currentList.lazy) {
-              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
-                currentList.lazy = false;
-                loading.start();
-                mapper.loadCategoryListAsync(
-                  `${favourites.data.main.category},${currentList.id}`,
-                  currentList.items.length,
-                  20,
-                  favourites.position - 1,
-                  {
-                    success: function (response, index) {
-                      favourites.data.main.lists[index].lazy = response.items.length === 20;
-                      favourites.addToList(index, mapper.mapItems(response.items));
-                      loading.end();
-                    },
-                    error: function (error) {
-                      console.log(error);
-                      loading.end();
-                    },
-                  }
-                );
+        if(favourites.available){
+          if (favourites.position > 0) {
+            var currentList = favourites.data.main.lists[favourites.position - 1];
+            var currentSlide = $(".row-content")[favourites.position - 1];
+  
+            if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
+              if (favourites.fromCategory.state && currentList.lazy) {
+                if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
+                  currentList.lazy = false;
+                  loading.start();
+                  mapper.loadCategoryListAsync(
+                    `${favourites.data.main.category},${currentList.id}`,
+                    currentList.items.length,
+                    20,
+                    favourites.position - 1,
+                    {
+                      success: function (response, index) {
+                        favourites.data.main.lists[index].lazy = response.items.length === 20;
+                        favourites.addToList(index, mapper.mapItems(response.items));
+                        loading.end();
+                      },
+                      error: function (error) {
+                        console.log(error);
+                        loading.end();
+                      },
+                    }
+                  );
+                }
               }
+              currentSlide.slick.next();
+              favourites.show_details();
             }
-            currentSlide.slick.next();
-            favourites.show_details();
+          } else {
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            buttons.removeClass("selected");
+            buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
           }
-        } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          buttons.removeClass("selected");
-          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
