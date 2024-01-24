@@ -14,23 +14,24 @@ window.home = {
     home_element.id = home.id;
 
     var poster_items = ``;
-    home.data.main.lists.forEach((element, index) => {
-      if (element.items.length > 0) {
-        poster_items += `
-      <div class="row">
-        <div class="row-title">${element.title}</div>
-        <div class="row-content ${element.items[0].display}">`;
-        element.items.forEach((item) => {
-          poster_items += home.createItem(item);
-        });
-        for (var index = 0; index < 9; index++) {
-          poster_items += home.createEmptyItem(element.items[0].display);
+    if (home.data.main) {
+      home.data.main.lists.forEach((element, index) => {
+        if (element.items.length > 0) {
+          poster_items += `
+        <div class="row">
+          <div class="row-title">${element.title}</div>
+          <div class="row-content ${element.items[0].display}">`;
+          element.items.forEach((item) => {
+            poster_items += home.createItem(item);
+          });
+          for (var index = 0; index < 9; index++) {
+            poster_items += home.createEmptyItem(element.items[0].display);
+          }
+          poster_items += `</div></div>`;
         }
-        poster_items += `</div></div>`;
-      }
-    });
+      });
 
-    home_element.innerHTML = `
+      home_element.innerHTML = `
     <div class="content">
       ${home.fromCategory.state ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>` : ""}
       <div class="details full">
@@ -58,56 +59,62 @@ window.home = {
       -->
     </div>`;
 
+      var title = $(".details .info .title")[0];
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+
+      var description = $(".details .info .description")[0];
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+
+      $(`#${home.id} .rows`).slick({
+        vertical: true,
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 1.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      /***
+       * if slide to show is changed, change the css file too
+       */
+      $(`#${home.id} .rows .row-content`).not(".episode").slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 9,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $(`#${home.id} .rows .row-content.episode`).slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 4.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $(`#${home.id} .rows`)[0].slick.slickGoTo(0);
+      $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
+
+      var keyDownEvent = new Event("keydown");
+      keyDownEvent.keyCode = tvKey.KEY_DOWN;
+      home.keyDown(keyDownEvent);
+    } else {
+      home_element.innerHTML = `
+    <div class="content">
+      <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
+          <div style="font-size: 4vh;color: red">No Data Available</div>
+      </div>
+    </div>`;
+    }
     document.body.appendChild(home_element);
-
-    var title = $(".details .info .title")[0];
-    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
-
-    var description = $(".details .info .description")[0];
-    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
-
-    $(`#${home.id} .rows`).slick({
-      vertical: true,
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 1.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    /***
-     * if slide to show is changed, change the css file too
-     */
-    $(`#${home.id} .rows .row-content`).not(".episode").slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 9,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${home.id} .rows .row-content.episode`).slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 4.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${home.id} .rows`)[0].slick.slickGoTo(0);
-    $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
-
     main.state = home.id;
-
-    var keyDownEvent = new Event("keydown");
-    keyDownEvent.keyCode = tvKey.KEY_DOWN;
-    home.keyDown(keyDownEvent);
   },
 
   destroy: function () {
@@ -186,30 +193,34 @@ window.home = {
         home.show_details();
         break;
       case tvKey.KEY_LEFT:
-        if (home.position > 0) {
-          if ($(".row-content")[home.position - 1].slick.currentSlide === 0) {
-            if (!home.fromCategory.state) {
-              menu.open();
+        if(home.data.main){
+          if (home.position > 0) {
+            if ($(".row-content")[home.position - 1].slick.currentSlide === 0) {
+              if (!home.fromCategory.state) {
+                menu.open();
+              } else {
+                home.destroy();
+              }
             } else {
-              home.destroy();
+              $(".row-content")[home.position - 1].slick.prev();
+              home.show_details();
             }
           } else {
-            $(".row-content")[home.position - 1].slick.prev();
-            home.show_details();
-          }
-        } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          if (current === 0) {
-            if (!home.fromCategory.state) {
-              menu.open();
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            if (current === 0) {
+              if (!home.fromCategory.state) {
+                menu.open();
+              } else {
+                home.destroy();
+              }
             } else {
-              home.destroy();
+              buttons.removeClass("selected");
+              buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
             }
-          } else {
-            buttons.removeClass("selected");
-            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
+        }else{
+          menu.open();
         }
         break;
       case tvKey.KEY_RIGHT:

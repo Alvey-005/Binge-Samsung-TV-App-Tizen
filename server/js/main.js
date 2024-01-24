@@ -52,13 +52,19 @@ window.main = {
         success: function (response) {
           api.banners({
             success: function (res) {
-              mapper.populate(window.home, response, res.data.banners, {
-                success: function () {
-                  loading.destroy();
-                  home.init();
-                  !menu.initialized && menu.init();
-                },
-              });
+              if (res.data.banners.length > 0) {
+                mapper.populate(window.home, response, res.data.banners, {
+                  success: function () {
+                    loading.destroy();
+                    home.init();
+                    !menu.initialized && menu.init();
+                  },
+                });
+              } else {
+                loading.destroy();
+                home.init();
+                !menu.initialized && menu.init();
+              }
             },
             error: function (error) {
               console.log("banner fetch error", error);
