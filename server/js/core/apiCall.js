@@ -239,6 +239,48 @@ window.api = {
       },
     });
   },
+  getPGWLink: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.pgwSSLSubscribe, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in fetching session ssl api \n", e);
+        }
+      },
+    });
+  },getNagadLink: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.nagadDirectPayment, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in api favourites \n", e);
+        }
+      },
+    });
+  },
+  getSubscription : async function(request){
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.get(urls.fetchPackages);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in api  fetching subscription \n", e);
+        }
+      },
+    });
+  },
+
 
   formatBinge: function (params) {
     return Object.keys(params)

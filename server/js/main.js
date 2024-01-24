@@ -181,6 +181,12 @@ window.main = {
           case settings.id:
             settings.keyDown(event);
             break;
+          case subscription.id:
+            subscription.keyDown(event);
+            break;
+          case paymentMethod.id:
+              paymentMethod.keyDown(event);
+              break;
           default:
             console.log("keyboard action screen not defined.");
             break;

@@ -31,7 +31,6 @@ window.home_episodes = {
     </div>
     `;
     $(`#${screen.id}`).append(episode_contents);
-    console.log("seasons", home_episodes.data.seasons);
     var seasons_html = "";
     home_episodes.data.seasons.forEach((season, index) => {
       seasons_html += `
@@ -53,13 +52,10 @@ window.home_episodes = {
 
     var episodes_html = "";
     home_episodes.data.episodes.forEach((episode, index) => {
-      console.log("episode", episode);
       episodes_html += `
       <div class="episode">
         <div class="episode-image">
           <img src="${api.api.imageStageURl}/${episode.thumb_path || episode.image}">
-          ${home_episodes.view(episode)}
-          ${home_episodes.premium(episode)}
         </div>
         <div class="episode-details">
           <div class="episode-title">${index + 1}. ${episode.name}</div>

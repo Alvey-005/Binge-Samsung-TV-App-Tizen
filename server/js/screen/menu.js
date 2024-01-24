@@ -45,6 +45,12 @@ window.menu = {
       icon: "fa-solid fa-clapperboard",
       action: "series.start",
     },
+    {
+      id: "subscription",
+      label: "menu.subscribe",
+      icon: "fa-solid fa-ticket",
+      action: "subscription.start",
+    },
 
     {
       id: "settings",
