@@ -292,7 +292,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
-  /* padding-top: 150%; */
+  padding-top: 60%;
 }
 
 #home-screen .content .row .row-content .item .poster.episode, 

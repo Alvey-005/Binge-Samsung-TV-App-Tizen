@@ -71,7 +71,7 @@ window.home = {
         dots: false,
         arrows: false,
         infinite: false,
-        slidesToShow: 1.5,
+        slidesToShow: 1.7,
         slidesToScroll: 1,
         speed: 0,
         waitForAnimate: false,
