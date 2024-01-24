@@ -53,13 +53,16 @@ window.main = {
           api.banners({
             success: function (res) {
               if (response.categories.length > 0) {
-                mapper.populate(window.home, response, res.data.banners, {
-                  success: function () {
-                    loading.destroy();
-                    home.init();
-                    !menu.initialized && menu.init();
-                  },
-                });
+                // mapper.populate(window.home, response, res.data.banners, {
+                //   success: function () {
+                //     loading.destroy();
+                //     home.init();
+                //     !menu.initialized && menu.init();
+                //   },
+                // });
+                loading.destroy();
+                home.init();
+                !menu.initialized && menu.init();
               } else {
                 loading.destroy();
                 home.init();

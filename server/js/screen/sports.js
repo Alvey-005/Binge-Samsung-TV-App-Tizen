@@ -14,104 +14,116 @@ window.sports = {
     sports_element.id = sports.id;
 
     var poster_items = ``;
-    sports.data.main.lists.forEach((element, index) => {
-      if (element.items.length > 0) {
-        poster_items += `
-          <div class="row">
-            <div class="row-title">${element.title}</div>
-            <div class="row-content ${element.items[0].display}">`;
-        element.items.forEach((item) => {
-          poster_items += sports.createItem(item);
-        });
-        for (var index = 0; index < 9; index++) {
-          poster_items += sports.createEmptyItem(element.items[0].display);
-        }
-        poster_items += `</div></div>`;
-      }
-    });
-
-    sports_element.innerHTML = `
-        <div class="content">
-          ${
-            sports.fromCategory.state
-              ? `<div class="browse-back"><span></span><p>${sports.fromCategory.title}</p></div>`
-              : ""
+    if(sports.data.main){
+      sports.data.main.lists.forEach((element, index) => {
+        if (element.items.length > 0) {
+          poster_items += `
+            <div class="row">
+              <div class="row-title">${element.title}</div>
+              <div class="row-content ${element.items[0].display}">`;
+          element.items.forEach((item) => {
+            poster_items += sports.createItem(item);
+          });
+          for (var index = 0; index < 9; index++) {
+            poster_items += sports.createEmptyItem(element.items[0].display);
           }
-          <div class="details full">
-            <div class="background">
-              <img src="${sports.data.main.banner.background}">
-            </div>
-            <div class="info">
-              <div class="title resize">${sports.data.main.banner.title}</div>
-              <div class="description resize">${sports.data.main.banner.description}</div>
-              <!--
-              <div class="buttons">
-                <a class="selected">${translate.go("sports.banner.play")}</a>
-                <a>${translate.go("sports.banner.info")}</a>
+          poster_items += `</div></div>`;
+        }
+      });
+  
+      sports_element.innerHTML = `
+          <div class="content">
+            ${
+              sports.fromCategory.state
+                ? `<div class="browse-back"><span></span><p>${sports.fromCategory.title}</p></div>`
+                : ""
+            }
+            <div class="details full">
+              <div class="background">
+                <img src="${sports.data.main.banner.background}">
               </div>
-              -->
+              <div class="info">
+                <div class="title resize">${sports.data.main.banner.title}</div>
+                <div class="description resize">${sports.data.main.banner.description}</div>
+                <!--
+                <div class="buttons">
+                  <a class="selected">${translate.go("sports.banner.play")}</a>
+                  <a>${translate.go("sports.banner.info")}</a>
+                </div>
+                -->
+              </div>
             </div>
-          </div>
-          <div class="rows">
-            ${poster_items}
-          </div>
-          <!--
-          <div class="logo-fixed">
-            <img src="server/img/logo-big.svg"/>
-          </div>
-          -->
-        </div>`;
-
-    document.body.appendChild(sports_element);
-
-    var title = $(".details .info .title")[0];
-    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
-
-    var description = $(".details .info .description")[0];
-    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
-
-    $(`#${sports.id} .rows`).slick({
-      vertical: true,
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 1.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    /***
-     * if slide to show is changed, change the css file too
-     */
-    $(`#${sports.id} .rows .row-content`).not(".episode").slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 9,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${sports.id} .rows .row-content.episode`).slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 4.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${sports.id} .rows`)[0].slick.slickGoTo(0);
-    $(`#${sports.id} .rows .row-content`)[0].slick.slickGoTo(0);
-
-    main.state = sports.id;
-
-    var keyDownEvent = new Event("keydown");
-    keyDownEvent.keyCode = tvKey.KEY_DOWN;
-    sports.keyDown(keyDownEvent);
+            <div class="rows">
+              ${poster_items}
+            </div>
+            <!--
+            <div class="logo-fixed">
+              <img src="server/img/logo-big.svg"/>
+            </div>
+            -->
+          </div>`;
+  
+      document.body.appendChild(sports_element);
+  
+      var title = $(".details .info .title")[0];
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+  
+      var description = $(".details .info .description")[0];
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+  
+      $(`#${sports.id} .rows`).slick({
+        vertical: true,
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 1.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+  
+      /***
+       * if slide to show is changed, change the css file too
+       */
+      $(`#${sports.id} .rows .row-content`).not(".episode").slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 9,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+  
+      $(`#${sports.id} .rows .row-content.episode`).slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 4.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+  
+      $(`#${sports.id} .rows`)[0].slick.slickGoTo(0);
+      $(`#${sports.id} .rows .row-content`)[0].slick.slickGoTo(0);
+  
+      main.state = sports.id;
+  
+      var keyDownEvent = new Event("keydown");
+      keyDownEvent.keyCode = tvKey.KEY_DOWN;
+      sports.keyDown(keyDownEvent);
+    }else{
+      sports_element.innerHTML = `
+          <div class="content">
+            <div class="details full">
+              <div class="info">
+                <div class="title resize">No Data Available</div>
+              </div>
+            </div>
+          </div>`;
+      document.body.appendChild(sports_element);
+    }
   },
 
   destroy: function () {
@@ -288,13 +300,19 @@ window.sports = {
       success: function (response) {
         api.sportsBanners({
           success: function (res) {
-            mapper.populate(window.sports, response, res.data.banners, {
-              success: function () {
-                loading.destroy();
-                sports.init();
-                !menu.initialized && menu.init();
-              },
-            });
+            if (response.categories.length > 0) {
+              mapper.populate(window.sports, response, res.data.banners, {
+                success: function () {
+                  loading.destroy();
+                  sports.init();
+                  !menu.initialized && menu.init();
+                },
+              });
+            } else {
+              loading.destroy();
+              sports.init();
+              !menu.initialized && menu.init();
+            }
           },
           error: function (error) {
             console.log("banner fetch error", error);
