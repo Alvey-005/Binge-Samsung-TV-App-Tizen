@@ -144,7 +144,6 @@ window.menu = {
   isOpen: false,
 
   init: function (reset) {
-    console.log("sadasdasdasdasd");
     menu.initialized = 1;
     var menu_element = document.createElement("div");
     menu_element.id = this.id;
