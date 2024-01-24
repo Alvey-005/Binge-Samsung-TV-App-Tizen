@@ -5,7 +5,7 @@ function handleInterceptors() {
       if (response.status === 401 || (response.data && response.data.message === "Invalid Signatureinv4")) {
         console.log("401");
         session.clear();
-        login.init();
+        main.init();
         loading.destroy();
       }
       return response;
@@ -14,7 +14,7 @@ function handleInterceptors() {
       if (error.response.status === 401 || error.message === "Invalid Signatureinv4") {
         console.log("Invalid Signatureinv4");
         session.clear();
-        login.init();
+        main.init();
         loading.destroy();
       }
       return Promise.reject(error);
