@@ -148,8 +148,8 @@ window.paymentMethod = {
         // For example, concatenate with this.selectedPaymentMode or any other logic
         var qrcode = new QRCode(document.getElementById('payment-qr-code'), {
             text: newText,
-            width: 1024,
-            height: 1024,
+            width: 512,
+            height: 512,
             colorDark: '#FFF',
             colorLight: '#000',
             correctLevel: QRCode.CorrectLevel.H
