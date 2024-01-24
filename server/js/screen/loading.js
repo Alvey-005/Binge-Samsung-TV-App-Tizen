@@ -44,6 +44,7 @@ window.loading = {
   },
 
   destroy: function () {
+    console.log(document.getElementById(this.id));
     document.body.removeChild(document.getElementById(this.id));
   },
 

@@ -15,120 +15,119 @@ window.favourites = {
     favourites_element.id = favourites.id;
 
     var poster_items = ``;
-    favourites.data.main.lists.forEach((element, index) => {
-      if (element.items.length > 0) {
-        poster_items += `
-      <div class="row">
-        <div class="row-title">${element.title}</div>
-        <div class="row-content ${element.items[0].display}">`;
-        element.items.forEach((item) => {
-          poster_items += favourites.createItem(item);
-        });
-        for (var index = 0; index < 9; index++) {
-          poster_items += favourites.createEmptyItem(element.items[0].display);
-        }
-        poster_items += `</div></div>`;
-      }
-    });
-    if (favourites.available) {
-      favourites_element.innerHTML = `
-        <div class="content">
-          ${
-            favourites.fromCategory.state
-              ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
-              : ""
+    if(favourites.available){
+      favourites.data.main.lists.forEach((element, index) => {
+        if (element.items.length > 0) {
+          poster_items += `
+        <div class="row">
+          <div class="row-title">${element.title}</div>
+          <div class="row-content ${element.items[0].display}">`;
+          element.items.forEach((item) => {
+            poster_items += favourites.createItem(item);
+          });
+          for (var index = 0; index < 9; index++) {
+            poster_items += favourites.createEmptyItem(element.items[0].display);
           }
-          <div class="details full">
-            <div class="background">
-              <img src="${favourites.data.main.lists[0].items[0].background}">
-            </div>
-            <div class="info">
-              <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
-              <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
-              <!--
-              <div class="buttons">
-                <a class="selected">${translate.go("favourites.banner.play")}</a>
-                <a>${translate.go("favourites.banner.info")}</a>
+          poster_items += `</div></div>`;
+        }
+      });
+      favourites_element.innerHTML = `
+          <div class="content">
+            ${
+              favourites.fromCategory.state
+                ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
+                : ""
+            }
+            <div class="details full">
+              <div class="background">
+                <img src="${favourites.data.main.lists[0].items[0].background}">
               </div>
-              -->
+              <div class="info">
+                <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
+                <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
+                <!--
+                <div class="buttons">
+                  <a class="selected">${translate.go("favourites.banner.play")}</a>
+                  <a>${translate.go("favourites.banner.info")}</a>
+                </div>
+                -->
+              </div>
             </div>
-          </div>
-          <div class="rows">
-            ${poster_items}
-          </div>
-          <!--
-          <div class="logo-fixed">
-            <img src="server/img/logo-big.svg"/>
-          </div>
-          -->
+            <div class="rows">
+              ${poster_items}
+            </div>
+            <!--
+            <div class="logo-fixed">
+              <img src="server/img/logo-big.svg"/>
+            </div>
+            -->
         </div>`;
-    } else {
+
+      document.body.appendChild(favourites_element);
+
+      var title = $(".details .info .title")[0];
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+
+      var description = $(".details .info .description")[0];
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+
+      $(`#${favourites.id} .rows`).slick({
+        vertical: true,
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 1.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      /***
+       * if slide to show is changed, change the css file too
+       */
+      $(`#${favourites.id} .rows .row-content`).not(".episode").slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $(`#${favourites.id} .rows .row-content.episode`).slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 4.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $(`#${favourites.id} .rows`)[0].slick.slickGoTo(0);
+      $(`#${favourites.id} .rows .row-content`)[0].slick.slickGoTo(0);
+
+      main.state = favourites.id;
+
+      var keyDownEvent = new Event("keydown");
+      keyDownEvent.keyCode = tvKey.KEY_DOWN;
+      favourites.keyDown(keyDownEvent);
+    }else{
       favourites_element.innerHTML = `
       <div class="content">
         <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
             <div class="title resize" style="color: red;font-size: 4vh;font-weight: bold">No Data Available</div>
         </div>
       </div>`;
+
+      document.body.appendChild(favourites_element);
+      main.state = favourites.id;
     }
-
-    document.body.appendChild(favourites_element);
-
-    var title = $(".details .info .title")[0];
-    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
-
-    var description = $(".details .info .description")[0];
-    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
-
-    $(`#${favourites.id} .rows`).slick({
-      vertical: true,
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 1.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    /***
-     * if slide to show is changed, change the css file too
-     */
-    $(`#${favourites.id} .rows .row-content`).not(".episode").slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${favourites.id} .rows .row-content.episode`).slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 4.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${favourites.id} .rows`)[0].slick.slickGoTo(0);
-    $(`#${favourites.id} .rows .row-content`)[0].slick.slickGoTo(0);
-
-    main.state = favourites.id;
-
-    var keyDownEvent = new Event("keydown");
-    keyDownEvent.keyCode = tvKey.KEY_DOWN;
-    favourites.keyDown(keyDownEvent);
   },
 
   start: function () {
     loading.init();
-    // if(session.storage.isAnonymous) {
-    //   loading.destroy();
-    //   // login.init();
-    // } else {
     api.getFavourites({
       data: {
         page: 1,
@@ -150,6 +149,8 @@ window.favourites = {
         if (response.wish_list.total > 0) {
           favourites.available = true;
           favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
+        }else{
+          favourites.available = false;
         }
         loading.destroy();
         favourites.init();
@@ -159,7 +160,6 @@ window.favourites = {
         console.log(error);
       },
     });
-    // }
   },
 
   destroy: function () {
