@@ -67,6 +67,7 @@ window.firebaseConfig = {
       })
       .catch(function (error) {
         console.error("Error signing in anonymously:", error);
+        firebaseConfig.firebaseAnonymousSignIn(callback);
         if (typeof callback === "function") {
           callback();
         }
