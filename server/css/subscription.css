@@ -58,7 +58,7 @@
     .package-details{
       display:flex;
       flex-direction:column;
-      gap:20px;
+      /* gap:20px; */
     }
     .package-price-text{
       padding-left:30px;
@@ -71,6 +71,15 @@
     .package-price{
       position:relative;
     }
+    .margin-right-40{
+        margin-right: 40px;
+    }
+    .mb-20{
+        margin-bottom: 20px;
+    }
+    .ml-20{
+        margin-left: 20px;
+    }
     .package-price svg{
       position:absolute;
       top:0;
@@ -78,8 +87,8 @@
     
     .package-description{
       display:flex;
-      gap:40px;
-      row-gap: 40px !important;
+      /* gap:40px; */
+      /* row-gap: 40px !important; */
       align-items:center;
     }
     .package-title{
@@ -91,7 +100,7 @@
     }
     .package-subtilte-wrapper{
       display:flex;
-      gap:18px;
+      /* gap:18px; */
       align-items:center;
     }
     .package-subtitle{
@@ -109,8 +118,8 @@
     .package-validity-title{
       position:absolute;
       top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
+      left:40%;
+      transform:translate(-40%,-60%);
       color: rgba(255, 255, 255, 0.88);
     font-size: 40px;
     font-style: normal;
@@ -126,21 +135,27 @@
 #show-payment-method .payment-content {
     margin-left: 100px;
     margin-top: 100px;
-    width: 50%;
-    text-align: center;
+    width: 100%;
 }
 
 #show-payment-method .payment-content .payment_mode {
     /* border:2px solid #fff; */
     padding: 20px;
-    /* margin: 20px 0; */
+margin-bottom: 20px;
     background-color: #1F1F1F;
+    color: #FFF;
+text-align: center;
+font-size: 34px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
 }
 
 #show-payment-method .payment-method-page {
     display: flex;
     justify-content: space-between;
     margin: 0 200px;
+    margin-top: 200px;
 }
 
 #subscription .payment-list::after {
@@ -148,7 +163,7 @@
     /* border: 2px solid rgba(244, 130, 33, 0.9); */
     border: 2px solid rgba(222, 13, 30, 0.9);
     width: 100%;
-    height: 59px;
+    height: 80px;
     position: absolute;
     top: 0px;
     box-sizing: border-box;
@@ -160,4 +175,30 @@
 
 #payment-qr-code img {
     border: 10px solid #fff;
+}
+
+.selected-pack-description{
+    display:flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+.selected-pack-description > .package-title{
+    font-size: 64px;
+    margin-bottom: 40px;
+}
+.selected-pack-description > .package-subtilte-wrapper{
+    font-size: 48px;
+    margin-bottom: 40px;
+}
+
+.selected-pack-description > .package-price{
+    margin-bottom: 40px;
+    font-size: 64px;
+
+}
+#payment-qr-code{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
