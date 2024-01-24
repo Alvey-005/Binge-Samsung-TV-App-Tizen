@@ -115,14 +115,14 @@ window.sports = {
       sports.keyDown(keyDownEvent);
     }else{
       sports_element.innerHTML = `
-          <div class="content">
-            <div class="details full">
-              <div class="info">
-                <div class="title resize">No Data Available</div>
-              </div>
-            </div>
-          </div>`;
+      <div class="content">
+        <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
+            <div style="font-size: 4vh;color: red">No Data Available</div>
+        </div>
+      </div>`;
       document.body.appendChild(sports_element);
+
+      main.state = sports.id;
     }
   },
 
@@ -166,107 +166,117 @@ window.sports = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        if (sports.position > 1) {
-          $(".row-content").removeClass("selected");
-          sports.position--;
-          $(".rows")[0].slick.slickGoTo(sports.position - 1);
-          $(".row-content")[sports.position - 1].slick.slickGoTo(
-            $(".row-content")[sports.position - 1].slick.getCurrent()
-          );
-          $(".row-content")[sports.position - 1].className =
-            $(".row-content")[sports.position - 1].className + " selected";
-        } else {
-          // $(".details").addClass("full");
-          // sports.position = 0;
-        }
-        sports.show_details();
-        break;
-      case tvKey.KEY_DOWN:
-        if (sports.position > 0) {
-          $(".row-content").removeClass("selected");
-          sports.position = sports.position < sports.data.main.lists.length ? sports.position + 1 : sports.position;
-          if (sports.position <= sports.data.main.lists.length) {
+        if (sports.data.main) {
+          if (sports.position > 1) {
+            $(".row-content").removeClass("selected");
+            sports.position--;
             $(".rows")[0].slick.slickGoTo(sports.position - 1);
             $(".row-content")[sports.position - 1].slick.slickGoTo(
               $(".row-content")[sports.position - 1].slick.getCurrent()
             );
+            $(".row-content")[sports.position - 1].className =
+              $(".row-content")[sports.position - 1].className + " selected";
+          } else {
+            // $(".details").addClass("full");
+            // sports.position = 0;
           }
-          $(".row-content")[sports.position - 1].className =
-            $(".row-content")[sports.position - 1].className + " selected";
-        } else {
-          $(".details.full").removeClass("full");
-          var first_row = $(".row-content")[0];
-          $(".rows")[0].slick.slickGoTo(0);
-          first_row.slick.slickGoTo(first_row.slick.getCurrent());
-          first_row.className = first_row.className + " selected";
-          sports.position++;
+          sports.show_details();
         }
-        sports.show_details();
+        break;
+      case tvKey.KEY_DOWN:
+        if(sports.data.main){
+          if (sports.position > 0) {
+            $(".row-content").removeClass("selected");
+            sports.position = sports.position < sports.data.main.lists.length ? sports.position + 1 : sports.position;
+            if (sports.position <= sports.data.main.lists.length) {
+              $(".rows")[0].slick.slickGoTo(sports.position - 1);
+              $(".row-content")[sports.position - 1].slick.slickGoTo(
+                $(".row-content")[sports.position - 1].slick.getCurrent()
+              );
+            }
+            $(".row-content")[sports.position - 1].className =
+              $(".row-content")[sports.position - 1].className + " selected";
+          } else {
+            $(".details.full").removeClass("full");
+            var first_row = $(".row-content")[0];
+            $(".rows")[0].slick.slickGoTo(0);
+            first_row.slick.slickGoTo(first_row.slick.getCurrent());
+            first_row.className = first_row.className + " selected";
+            sports.position++;
+          }
+          sports.show_details();
+        }
         break;
       case tvKey.KEY_LEFT:
-        if (sports.position > 0) {
-          if ($(".row-content")[sports.position - 1].slick.currentSlide === 0) {
-            if (!sports.fromCategory.state) {
-              menu.open();
+        if (sports.data.main) {
+          if (sports.position > 0) {
+            if ($(".row-content")[sports.position - 1].slick.currentSlide === 0) {
+              if (!sports.fromCategory.state) {
+                menu.open();
+              } else {
+                sports.destroy();
+              }
             } else {
-              sports.destroy();
+              $(".row-content")[sports.position - 1].slick.prev();
+              sports.show_details();
             }
           } else {
-            $(".row-content")[sports.position - 1].slick.prev();
-            sports.show_details();
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            if (current === 0) {
+              if (!sports.fromCategory.state) {
+                menu.open();
+              } else {
+                sports.destroy();
+              }
+            } else {
+              buttons.removeClass("selected");
+              buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
+            }
           }
         } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          if (current === 0) {
-            if (!sports.fromCategory.state) {
-              menu.open();
-            } else {
-              sports.destroy();
-            }
-          } else {
-            buttons.removeClass("selected");
-            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
-          }
+          menu.open();
         }
         break;
       case tvKey.KEY_RIGHT:
-        if (sports.position > 0) {
-          var currentList = sports.data.main.lists[sports.position - 1];
-          var currentSlide = $(".row-content")[sports.position - 1];
+        if(sports.data.main){
+          if (sports.position > 0) {
+            var currentList = sports.data.main.lists[sports.position - 1];
+            var currentSlide = $(".row-content")[sports.position - 1];
 
-          if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
-            if (sports.fromCategory.state && currentList.lazy) {
-              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
-                currentList.lazy = false;
-                loading.start();
-                mapper.loadCategoryListAsync(
-                  `${sports.data.main.category},${currentList.id}`,
-                  currentList.items.length,
-                  20,
-                  sports.position - 1,
-                  {
-                    success: function (response, index) {
-                      sports.data.main.lists[index].lazy = response.items.length === 20;
-                      sports.addToList(index, mapper.mapItems(response.items));
-                      loading.end();
-                    },
-                    error: function (error) {
-                      console.log(error);
-                      loading.end();
-                    },
-                  }
-                );
+            if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
+              if (sports.fromCategory.state && currentList.lazy) {
+                if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
+                  currentList.lazy = false;
+                  loading.start();
+                  mapper.loadCategoryListAsync(
+                    `${sports.data.main.category},${currentList.id}`,
+                    currentList.items.length,
+                    20,
+                    sports.position - 1,
+                    {
+                      success: function (response, index) {
+                        sports.data.main.lists[index].lazy = response.items.length === 20;
+                        sports.addToList(index, mapper.mapItems(response.items));
+                        loading.end();
+                      },
+                      error: function (error) {
+                        console.log(error);
+                        loading.end();
+                      },
+                    }
+                  );
+                }
               }
+              currentSlide.slick.next();
+              sports.show_details();
             }
-            currentSlide.slick.next();
-            sports.show_details();
+          } else {
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            buttons.removeClass("selected");
+            buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
           }
-        } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          buttons.removeClass("selected");
-          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
