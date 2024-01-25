@@ -2,6 +2,7 @@ window.menu = {
   id: "menu-screen",
   initialized: 0,
   options: [],
+  previousExit: NaN,
   defaultOptions: [
     {
       id: "search",
@@ -203,18 +204,25 @@ window.menu = {
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
+          console.log(selected, current);
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
-          if (menu.options[current].action.split(".")[0] === "exit") {
-            exit.fromScreen = window[menu.options[selected].id].id;
+          if (menu.options[current].action.split(".")[0] !== "exit") {
+            if (selected !== 8) {
+              window[menu.options[selected].id].destroy();
+            } else {
+              if (menu.previousExit) {
+                window[menu.options[menu.previousExit].id].destroy();
+              }
+            }
+            test = menu.options[current].action.split(".");
+            window[test[0]][test[1]]();
+            menu.close();
           } else {
-            exit.fromScreen = undefined;
-            window[menu.options[selected].id].destroy();
+            menu.previousExit = selected;
+            exit.init();
           }
-          test = menu.options[current].action.split(".");
-          window[test[0]][test[1]]();
-          menu.close();
         } else if (menu.options[current].event) {
           window.main.events[menu.options[current].event]();
         }

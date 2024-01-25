@@ -22,12 +22,12 @@ window.exit = {
       "</div>";
     document.body.appendChild(exit_element);
 
-    if (exit.fromScreen) {
-      exit.previous = exit.fromScreen;
-      // exit.fromScreen = undefined;
-    } else {
-      exit.previous = main.state;
-    }
+    // if (exit.fromScreen) {
+    //   exit.previous = exit.fromScreen;
+    //   // exit.fromScreen = undefined;
+    // } else {
+    exit.previous = main.state;
+    // }
 
     main.state = exit.id;
     exit.move(false);
@@ -35,6 +35,7 @@ window.exit = {
 
   destroy: function () {
     document.body.removeChild(document.getElementById(this.id));
+    console.log(exit.previous)
     main.state = exit.previous;
   },
 
