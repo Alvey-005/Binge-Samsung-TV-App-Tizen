@@ -1,7 +1,8 @@
 #otp-screen {
   width: 100%;
   height: 100%;
-  background: #000;
+  /* background: #000; */
+  background: url('../img/cover.jpg') center/cover no-repeat;
   padding: 2rem;
 }
 
