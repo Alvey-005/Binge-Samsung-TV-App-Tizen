@@ -255,6 +255,7 @@ window.languages = {
       series: "Series",
       favourites: "Favourites",
       subscribe: "Subscribe",
+      exit: "Exit",
     },
     home: {
       banner: {
