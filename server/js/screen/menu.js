@@ -212,6 +212,7 @@ window.menu = {
             } else {
               if (menu.previousExit) {
                 window[menu.options[menu.previousExit].id].destroy();
+                menu.previousExit = NaN;
               }
             }
             test = menu.options[current].action.split(".");
