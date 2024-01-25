@@ -348,6 +348,20 @@ window.api = {
       },
     });
   },
+  getCustomerDetails:  async function( request){
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.get(`${urls.profileApi}/${session.storage.customer.id}`);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in user data fetch api \n", e);
+        }
+      },
+    });
+  },
 
   formatBinge: function (params) {
     return Object.keys(params)
