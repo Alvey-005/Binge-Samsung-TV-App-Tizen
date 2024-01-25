@@ -3,6 +3,7 @@ window.exit = {
   previous: null,
   selected: false,
   logout: false,
+  fromScreen: undefined,
 
   init: function (logout) {
     var exit_element = document.createElement("div");
@@ -22,12 +23,14 @@ window.exit = {
     document.body.appendChild(exit_element);
 
     exit.previous = main.state;
+
     main.state = exit.id;
     exit.move(false);
   },
 
   destroy: function () {
     document.body.removeChild(document.getElementById(this.id));
+    console.log(exit.previous, "previos in exit");
     main.state = exit.previous;
   },
 
@@ -54,10 +57,9 @@ window.exit = {
   },
 
   move: function (selected) {
-    console.log("selec", selected);
     exit.selected = selected;
     document.getElementById(exit.id + "-" + (selected ? "yes" : "no")).className = "button selected";
-    console.log("selec", selected, document.getElementById(exit.id + "-" + (selected ? "yes" : "no")));
+    // console.log("selec", selected, document.getElementById(exit.id + "-" + (selected ? "yes" : "no")));
     document.getElementById(exit.id + "-" + (!selected ? "yes" : "no")).className = "button";
   },
 

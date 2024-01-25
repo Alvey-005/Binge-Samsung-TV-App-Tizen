@@ -70,6 +70,13 @@ window.menu = {
       event: "logout",
       // action: "login.init",
     },
+    {
+      id: "exit",
+      label: "menu.exit",
+      icon: "fa-solid fa-xmark",
+      tool: true,
+      action: "exit.init",
+    },
   ],
   selected: 1,
   previous: NaN,
@@ -87,7 +94,7 @@ window.menu = {
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {
-      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+      menu.options = menu.defaultOptions.filter((item) => item.id !== "login");
     }
 
     menu.options.forEach((element, index) => {
@@ -198,7 +205,16 @@ window.menu = {
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
-          window[menu.options[selected].id].destroy();
+          console.log(window[menu.options[selected].id].id, "sssssssssssssss");
+          if (menu.options[current].action.split(".")[0] === "exit") {
+            console.log(window[menu.options[selected].id], "sssssssssssssss");
+            exit.fromScreen = window[menu.options[selected].id].id;
+
+            // exit.init(window[menu.options[selected].id].id);
+          } else {
+            exit.fromScreen = undefined;
+            window[menu.options[selected].id].destroy();
+          }
           test = menu.options[current].action.split(".");
           window[test[0]][test[1]]();
           menu.close();
