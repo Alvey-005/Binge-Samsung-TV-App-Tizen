@@ -186,6 +186,7 @@ window.menu = {
         break;
       case tvKey.KEY_UP:
         var options = $(`#${menu.id} .option`);
+        // console.log('screeeeeen', options);
         var current = options.index($(`#${menu.id} .option.focus`));
         options.removeClass("focus");
         options.eq(current > 0 ? current - 1 : current).addClass("focus");
@@ -205,13 +206,13 @@ window.menu = {
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
-          console.log(window[menu.options[selected].id].id, "sssssssssssssss");
+          console.log(menu.options[current], "sssssssssssssss");
           if (menu.options[current].action.split(".")[0] === "exit") {
-            console.log(window[menu.options[selected].id], "sssssssssssssss");
+            console.log("coming in exit block");
             exit.fromScreen = window[menu.options[selected].id].id;
-
             // exit.init(window[menu.options[selected].id].id);
           } else {
+            console.log("coming in not exit block", window[menu.options[selected].id]);
             exit.fromScreen = undefined;
             window[menu.options[selected].id].destroy();
           }

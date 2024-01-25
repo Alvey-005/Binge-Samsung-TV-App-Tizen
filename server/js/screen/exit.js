@@ -22,15 +22,20 @@ window.exit = {
       "</div>";
     document.body.appendChild(exit_element);
 
-    exit.previous = main.state;
+    if (exit.fromScreen) {
+      exit.previous = exit.fromScreen;
+      // exit.fromScreen = undefined;
+    } else {
+      exit.previous = main.state;
+    }
 
     main.state = exit.id;
     exit.move(false);
   },
 
   destroy: function () {
+    console.log(document.getElementById(this.id), "checking in exit destroy")
     document.body.removeChild(document.getElementById(this.id));
-    console.log(exit.previous, "previos in exit");
     main.state = exit.previous;
   },
 
