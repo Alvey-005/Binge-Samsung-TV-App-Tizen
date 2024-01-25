@@ -4,7 +4,7 @@ window.search = {
   input: NaN,
   position: -1,
   last_postion: 0,
-  items_per_row: 9,
+  items_per_row: 5,
   scroll_data: {
     item_padding: 30,
     item_height: 390,
