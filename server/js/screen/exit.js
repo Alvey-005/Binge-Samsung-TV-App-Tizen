@@ -21,21 +21,13 @@ window.exit = {
       "  </div>" +
       "</div>";
     document.body.appendChild(exit_element);
-
-    // if (exit.fromScreen) {
-    //   exit.previous = exit.fromScreen;
-    //   // exit.fromScreen = undefined;
-    // } else {
     exit.previous = main.state;
-    // }
-
     main.state = exit.id;
     exit.move(false);
   },
 
   destroy: function () {
     document.body.removeChild(document.getElementById(this.id));
-    console.log(exit.previous)
     main.state = exit.previous;
   },
 
@@ -64,7 +56,6 @@ window.exit = {
   move: function (selected) {
     exit.selected = selected;
     document.getElementById(exit.id + "-" + (selected ? "yes" : "no")).className = "button selected";
-    // console.log("selec", selected, document.getElementById(exit.id + "-" + (selected ? "yes" : "no")));
     document.getElementById(exit.id + "-" + (!selected ? "yes" : "no")).className = "button";
   },
 

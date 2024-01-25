@@ -187,7 +187,6 @@ window.menu = {
         break;
       case tvKey.KEY_UP:
         var options = $(`#${menu.id} .option`);
-        // console.log('screeeeeen', options);
         var current = options.index($(`#${menu.id} .option.focus`));
         options.removeClass("focus");
         options.eq(current > 0 ? current - 1 : current).addClass("focus");
@@ -204,7 +203,6 @@ window.menu = {
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
-          console.log(selected, current);
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
