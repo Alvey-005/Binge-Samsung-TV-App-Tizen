@@ -54,14 +54,19 @@ window.main = {
         success: function (response) {
           api.banners({
             success: function (res) {
-              mapper.populate(window.home, response, res.data.banners, {
-                success: function () {
-                  console.log('coming');
-                  loading.destroy();
-                  home.init();
-                  !menu.initialized && menu.init();
-                },
-              });
+              if (response.categories.length > 0) {
+                mapper.populate(window.home, response, res.data.banners, {
+                  success: function () {
+                    loading.destroy();
+                    home.init();
+                    !menu.initialized && menu.init();
+                  },
+                });
+              } else {
+                loading.destroy();
+                home.init();
+                !menu.initialized && menu.init();
+              }
             },
             error: function (error) {
               console.log("banner fetch error", error);
@@ -84,13 +89,19 @@ window.main = {
         success: function (response) {
           api.movieBanners({
             success: function (res) {
-              mapper.populate(window.movies, response, res.data.banners, {
-                success: function () {
-                  loading.destroy();
-                  movies.init();
-                  !menu.initialized && menu.init();
-                },
-              });
+              if (response.categories.length > 0) {
+                mapper.populate(window.movies, response, res.data.banners, {
+                  success: function () {
+                    loading.destroy();
+                    movies.init();
+                    !menu.initialized && menu.init();
+                  },
+                });
+              } else {
+                loading.destroy();
+                movies.init();
+                !menu.initialized && menu.init();
+              }
             },
             error: function (error) {
               console.log("banner fetch error", error);
@@ -141,6 +152,9 @@ window.main = {
           case premiumNeedDialog.id:
             premiumNeedDialog.keyDown(event);
             break;
+          case accountDeleteDialog.id:
+            accountDeleteDialog.keyDown(event);
+            break;
           case streamLimitCrossed.id:
             streamLimitCrossed.keyDown(event);
             break;
@@ -186,6 +200,12 @@ window.main = {
           case settings.id:
             settings.keyDown(event);
             break;
+          case subscription.id:
+            subscription.keyDown(event);
+            break;
+          case paymentMethod.id:
+              paymentMethod.keyDown(event);
+              break;
           default:
             console.log("keyboard action screen not defined.");
             break;

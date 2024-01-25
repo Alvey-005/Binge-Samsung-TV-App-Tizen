@@ -127,17 +127,17 @@ module.exports = function (grunt) {
             {
               pattern: /server\/img\//g,
               replacement:
-                "https://jhassan8.github.io/crunchyroll-tizen/assets/imgs/",
+                "https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/assets/imgs/",
             },
             {
               pattern: /url\(webfonts\//g,
               replacement:
-                "url(https://jhassan8.github.io/crunchyroll-tizen/assets/icons/",
+                "url(https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/assets/icons/",
             },
             {
               pattern: /server\/translate\//g,
               replacement:
-                "url(https://jhassan8.github.io/crunchyroll-tizen/assets/translate/",
+                "url(https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/assets/translate/",
             },
           ],
         },
@@ -152,12 +152,12 @@ module.exports = function (grunt) {
               pattern: /<!-- start css -->([\S\s]*?)<!-- end css -->/g,
               replacement: `<script src="app.min.js"></script>
     <link rel="stylesheet" href="app.min.css" />
-    <link rel="stylesheet" href="https://jhassan8.github.io/crunchyroll-tizen/crunchyroll.min.css" />`,
+    <link rel="stylesheet" href="https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/binge.min.css" />`,
             },
             {
               pattern: /<!-- start js -->([\S\s]*?)<!-- end js -->/g,
               replacement:
-                '<script src="https://jhassan8.github.io/crunchyroll-tizen/crunchyroll.min.js"></script>',
+                '<script src="https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/binge.min.js"></script>',
             },
           ],
         },

@@ -12,7 +12,7 @@ window.changelog = {
         description: "longs titles issues and selected item style issue in some devices.",
       },
     ],
-    extra: "If you have any issues or suggestions, you can report them on the GitHub jhassan8/crunchyroll-tizen.",
+    extra: "If you have any issues or suggestions, you can report them on the GitHub anmspro/Binge-Samsung-TV-App-Tizen.",
   },
 
   init: function () {
@@ -23,7 +23,7 @@ window.changelog = {
       changelog_element.innerHTML = `
       <div class="content">
         <div class="header">
-          Crunchyroll updated to version ${changelog.data.version}
+          Binge updated to version ${changelog.data.version}
         </div>
         <div class="body">
           <ul class="changes">

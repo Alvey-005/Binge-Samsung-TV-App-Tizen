@@ -1,5 +1,6 @@
 window.favourites = {
   id: "favourites-screen",
+  available: false,
   data: {
     main: NaN,
   },
@@ -14,102 +15,141 @@ window.favourites = {
     favourites_element.id = favourites.id;
 
     var poster_items = ``;
-    favourites.data.main.lists.forEach((element, index) => {
-      if (element.items.length > 0) {
-        poster_items += `
-      <div class="row">
-        <div class="row-title">${element.title}</div>
-        <div class="row-content ${element.items[0].display}">`;
-        element.items.forEach((item, idx) => {
-          poster_items += favourites.createItem(item, idx, index);
-        });
-        for (var index = 0; index < 9; index++) {
-          poster_items += favourites.createEmptyItem(element.items[0].display);
+    if(favourites.available){
+      favourites.data.main.lists.forEach((element, index) => {
+        if (element.items.length > 0) {
+          poster_items += `
+        <div class="row">
+          <div class="row-title">${element.title}</div>
+          <div class="row-content ${element.items[0].display}">`;
+          element.items.forEach((item, idx) => {
+            poster_items += favourites.createItem(item, idx, index);
+          });
+          for (var index = 0; index < 9; index++) {
+            poster_items += favourites.createEmptyItem(element.items[0].display);
+          }
+          poster_items += `</div></div>`;
         }
-        poster_items += `</div></div>`;
-      }
-    });
-
-    favourites_element.innerHTML = `
-      <div class="content">
-        ${
-          favourites.fromCategory.state
-            ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
-            : ""
-        }
-        <div class="details full">
-          <div class="background">
-            <img src="${favourites.data.main.lists[0].items[0].background}">
-          </div>
-          <div class="info">
-            <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
-            <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
+      });
+      favourites_element.innerHTML = `
+          <div class="content">
+            ${
+              favourites.fromCategory.state
+                ? `<div class="browse-back"><span></span><p>${favourites.fromCategory.title}</p></div>`
+                : ""
+            }
+            <div class="details full">
+              <div class="background">
+                <img src="${favourites.data.main.lists[0].items[0].background}">
+              </div>
+              <div class="info">
+                <div class="title resize">${favourites.data.main.lists[0].items[0].title}</div>
+                <div class="description resize">${favourites.data.main.lists[0].items[0].description}</div>
+                <!--
+                <div class="buttons">
+                  <a class="selected">${translate.go("favourites.banner.play")}</a>
+                  <a>${translate.go("favourites.banner.info")}</a>
+                </div>
+                -->
+              </div>
+            </div>
+            <div class="rows">
+              ${poster_items}
+            </div>
             <!--
-            <div class="buttons">
-              <a class="selected">${translate.go("favourites.banner.play")}</a>
-              <a>${translate.go("favourites.banner.info")}</a>
+            <div class="logo-fixed">
+              <img src="server/img/logo-big.svg"/>
             </div>
             -->
-          </div>
-        </div>
-        <div class="rows">
-          ${poster_items}
-        </div>
-        <div class="logo-fixed">
-          <img src="server/img/logo-big.svg"/>
+        </div>`;
+
+      document.body.appendChild(favourites_element);
+
+      var title = $(".details .info .title")[0];
+      title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+
+      var description = $(".details .info .description")[0];
+      description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+
+      $(`#${favourites.id} .rows`).slick({
+        vertical: true,
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: favourites.data.main.lists.length,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $('.rows').on('click', '.selected', function(event) {
+        var item =
+          favourites.position > 0
+            ? favourites.data.main.lists[favourites.position - 1].items[
+                $(".row-content")[favourites.position - 1].slick.currentSlide
+              ]
+            : favourites.data.main.banner;
+        
+        api.contentDetails({
+          body: {
+            id: item.id,
+            content_type: item.content_type,
+          },
+          success: function (data) {
+            home_details.init(item, data, favourites);
+          },
+        });
+        // if ($(this).hasClass('slick-current')) {
+        //     // Access element data or structure to retrieve colIndex and rowIndex
+        //     // var colIndex = /* ... */;
+        //     // var rowIndex = /* ... */;
+        //     console.log('slick slick');
+        //     home.click(event, colIndex, rowIndex);
+        // }
+      });
+
+      /***
+       * if slide to show is changed, change the css file too
+       */
+      $(`#${favourites.id} .rows .row-content`).not(".episode").slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $(`#${favourites.id} .rows .row-content.episode`).slick({
+        dots: false,
+        arrows: false,
+        infinite: false,
+        slidesToShow: 4.5,
+        slidesToScroll: 1,
+        speed: 0,
+        waitForAnimate: false,
+      });
+
+      $(`#${favourites.id} .rows`)[0].slick.slickGoTo(0);
+      $(`#${favourites.id} .rows .row-content`)[0].slick.slickGoTo(0);
+
+      main.state = favourites.id;
+
+      var keyDownEvent = new Event("keydown");
+      keyDownEvent.keyCode = tvKey.KEY_DOWN;
+      favourites.keyDown(keyDownEvent);
+    }else{
+      favourites_element.innerHTML = `
+      <div class="content">
+        <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
+            <div class="title resize" style="color: red;font-size: 4vh;font-weight: bold">No Data Available</div>
         </div>
       </div>`;
 
-    document.body.appendChild(favourites_element);
-
-    var title = $(".details .info .title")[0];
-    title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
-
-    var description = $(".details .info .description")[0];
-    description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
-
-    $(`#${favourites.id} .rows`).slick({
-      vertical: true,
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 1.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    /***
-     * if slide to show is changed, change the css file too
-     */
-    $(`#${favourites.id} .rows .row-content`).not(".episode").slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 9,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${favourites.id} .rows .row-content.episode`).slick({
-      dots: false,
-      arrows: false,
-      infinite: false,
-      slidesToShow: 4.5,
-      slidesToScroll: 1,
-      speed: 0,
-      waitForAnimate: false,
-    });
-
-    $(`#${favourites.id} .rows`)[0].slick.slickGoTo(0);
-    $(`#${favourites.id} .rows .row-content`)[0].slick.slickGoTo(0);
-
-    main.state = favourites.id;
-
-    var keyDownEvent = new Event("keydown");
-    keyDownEvent.keyCode = tvKey.KEY_DOWN;
-    favourites.keyDown(keyDownEvent);
+      document.body.appendChild(favourites_element);
+      main.state = favourites.id;
+    }
   },
 
   start: function () {
@@ -132,7 +172,12 @@ window.favourites = {
             },
           ],
         };
-        favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
+        if (response.wish_list.total > 0) {
+          favourites.available = true;
+          favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
+        }else{
+          favourites.available = false;
+        }
         loading.destroy();
         favourites.init();
       },
@@ -185,108 +230,118 @@ window.favourites = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        if (favourites.position > 1) {
-          $(".row-content").removeClass("selected");
-          favourites.position--;
-          $(".rows")[0].slick.slickGoTo(favourites.position - 1);
-          $(".row-content")[favourites.position - 1].slick.slickGoTo(
-            $(".row-content")[favourites.position - 1].slick.getCurrent()
-          );
-          $(".row-content")[favourites.position - 1].className =
-            $(".row-content")[favourites.position - 1].className + " selected";
-        } else {
-          // $(".details").addClass("full");
-          // favourites.position = 0;
-        }
-        favourites.show_details();
-        break;
-      case tvKey.KEY_DOWN:
-        if (favourites.position > 0) {
-          $(".row-content").removeClass("selected");
-          favourites.position =
-            favourites.position < favourites.data.main.lists.length ? favourites.position + 1 : favourites.position;
-          if (favourites.position <= favourites.data.main.lists.length) {
+        if (favourites.available) {
+          if (favourites.position > 1) {
+            $(".row-content").removeClass("selected");
+            favourites.position--;
             $(".rows")[0].slick.slickGoTo(favourites.position - 1);
             $(".row-content")[favourites.position - 1].slick.slickGoTo(
               $(".row-content")[favourites.position - 1].slick.getCurrent()
             );
+            $(".row-content")[favourites.position - 1].className =
+              $(".row-content")[favourites.position - 1].className + " selected";
+          } else {
+            // $(".details").addClass("full");
+            // favourites.position = 0;
           }
-          $(".row-content")[favourites.position - 1].className =
-            $(".row-content")[favourites.position - 1].className + " selected";
-        } else {
-          $(".details.full").removeClass("full");
-          var first_row = $(".row-content")[0];
-          $(".rows")[0].slick.slickGoTo(0);
-          first_row.slick.slickGoTo(first_row.slick.getCurrent());
-          first_row.className = first_row.className + " selected";
-          favourites.position++;
+          favourites.show_details();
         }
-        favourites.show_details();
+        break;
+      case tvKey.KEY_DOWN:
+        if(favourites.available){
+          if (favourites.position > 0) {
+            $(".row-content").removeClass("selected");
+            favourites.position =
+              favourites.position < favourites.data.main.lists.length ? favourites.position + 1 : favourites.position;
+            if (favourites.position <= favourites.data.main.lists.length) {
+              $(".rows")[0].slick.slickGoTo(favourites.position - 1);
+              $(".row-content")[favourites.position - 1].slick.slickGoTo(
+                $(".row-content")[favourites.position - 1].slick.getCurrent()
+              );
+            }
+            $(".row-content")[favourites.position - 1].className =
+              $(".row-content")[favourites.position - 1].className + " selected";
+          } else {
+            $(".details.full").removeClass("full");
+            var first_row = $(".row-content")[0];
+            $(".rows")[0].slick.slickGoTo(0);
+            first_row.slick.slickGoTo(first_row.slick.getCurrent());
+            first_row.className = first_row.className + " selected";
+            favourites.position++;
+          }
+          favourites.show_details();
+        }
         break;
       case tvKey.KEY_LEFT:
-        if (favourites.position > 0) {
-          if ($(".row-content")[favourites.position - 1].slick.currentSlide === 0) {
-            if (!favourites.fromCategory.state) {
-              menu.open();
+        if(favourites.available){
+          if (favourites.position > 0) {
+            if ($(".row-content")[favourites.position - 1].slick.currentSlide === 0) {
+              if (!favourites.fromCategory.state) {
+                menu.open();
+              } else {
+                favourites.destroy();
+              }
             } else {
-              favourites.destroy();
+              $(".row-content")[favourites.position - 1].slick.prev();
+              favourites.show_details();
             }
           } else {
-            $(".row-content")[favourites.position - 1].slick.prev();
-            favourites.show_details();
-          }
-        } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          if (current === 0) {
-            if (!favourites.fromCategory.state) {
-              menu.open();
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            if (current === 0) {
+              if (!favourites.fromCategory.state) {
+                menu.open();
+              } else {
+                favourites.destroy();
+              }
             } else {
-              favourites.destroy();
+              buttons.removeClass("selected");
+              buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
             }
-          } else {
-            buttons.removeClass("selected");
-            buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
           }
+        }else{
+          menu.open()
         }
         break;
       case tvKey.KEY_RIGHT:
-        if (favourites.position > 0) {
-          var currentList = favourites.data.main.lists[favourites.position - 1];
-          var currentSlide = $(".row-content")[favourites.position - 1];
-
-          if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
-            if (favourites.fromCategory.state && currentList.lazy) {
-              if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
-                currentList.lazy = false;
-                loading.start();
-                mapper.loadCategoryListAsync(
-                  `${favourites.data.main.category},${currentList.id}`,
-                  currentList.items.length,
-                  20,
-                  favourites.position - 1,
-                  {
-                    success: function (response, index) {
-                      favourites.data.main.lists[index].lazy = response.items.length === 20;
-                      favourites.addToList(index, mapper.mapItems(response.items));
-                      loading.end();
-                    },
-                    error: function (error) {
-                      console.log(error);
-                      loading.end();
-                    },
-                  }
-                );
+        if(favourites.available){
+          if (favourites.position > 0) {
+            var currentList = favourites.data.main.lists[favourites.position - 1];
+            var currentSlide = $(".row-content")[favourites.position - 1];
+  
+            if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
+              if (favourites.fromCategory.state && currentList.lazy) {
+                if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
+                  currentList.lazy = false;
+                  loading.start();
+                  mapper.loadCategoryListAsync(
+                    `${favourites.data.main.category},${currentList.id}`,
+                    currentList.items.length,
+                    20,
+                    favourites.position - 1,
+                    {
+                      success: function (response, index) {
+                        favourites.data.main.lists[index].lazy = response.items.length === 20;
+                        favourites.addToList(index, mapper.mapItems(response.items));
+                        loading.end();
+                      },
+                      error: function (error) {
+                        console.log(error);
+                        loading.end();
+                      },
+                    }
+                  );
+                }
               }
+              currentSlide.slick.next();
+              favourites.show_details();
             }
-            currentSlide.slick.next();
-            favourites.show_details();
+          } else {
+            var buttons = $(".details .buttons a");
+            var current = buttons.index($(`.details .buttons a.selected`));
+            buttons.removeClass("selected");
+            buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
           }
-        } else {
-          var buttons = $(".details .buttons a");
-          var current = buttons.index($(`.details .buttons a.selected`));
-          buttons.removeClass("selected");
-          buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
         }
         break;
       case tvKey.KEY_ENTER:
@@ -403,14 +458,14 @@ window.favourites = {
     }
     
     // home-screen
-    api.contentDetails({
-      body: {
-        id: item.id,
-        content_type: item.content_type,
-      },
-      success: function (data) {
-        home_details.init(item, data, favourites);
-      },
-    });
+    // api.contentDetails({
+    //   body: {
+    //     id: item.id,
+    //     content_type: item.content_type,
+    //   },
+    //   success: function (data) {
+    //     home_details.init(item, data, favourites);
+    //   },
+    // });
   },
 };

@@ -12,8 +12,8 @@ window.streamLimitCrossed = {
       '  <div class="window">' +
       `    <div class="text">${translate.go(`streamLimitCrossed.message`)} </div>` +
       '    <div class="buttons">' +
-      `      <div class="button" id="${streamLimitCrossed.id}-yes">${translate.go("streamLimitCrossed.yes")}</div>` +
-      `      <div class="button" id="${streamLimitCrossed.id}-no">${translate.go("streamLimitCrossed.no")}</div>` +
+      `      <div onclcik="console.log('its yes')" class="button" id="${streamLimitCrossed.id}-yes">${translate.go("streamLimitCrossed.yes")}</div>` +
+      `      <div onclcik="streamLimitCrossed.handleNo(event)" class="button" id="${streamLimitCrossed.id}-no">${translate.go("streamLimitCrossed.no")}</div>` +
       "  </div>" +
       "</div>";
     document.body.appendChild(streamLimitCrossed_element);
@@ -21,6 +21,16 @@ window.streamLimitCrossed = {
     streamLimitCrossed.previous = main.state;
     main.state = streamLimitCrossed.id;
     streamLimitCrossed.move(false);
+  },
+
+  handleYes: function(event) {
+    console.log('yes');
+    streamLimitCrossed.destroy();
+  },
+
+  handleNo: function(event) {
+    console.log('no');
+    streamLimitCrossed.destroy();
   },
 
   destroy: function () {

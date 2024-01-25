@@ -13,7 +13,7 @@ window.video = {
         {
             icon: 'fa-solid fa-play',
             action: 'playPause',
-            // param: true,
+            //param: true,
         },
         {
             icon: 'fa-solid fa-forward-step',
@@ -198,6 +198,7 @@ window.video = {
             case 'playPause':
                 // console.log('playpause');
                 player.playPause();
+                // video[video.options[0].action]();
                 break;
             case 'nextEpisode':
                 // console.log('playnxt');
@@ -272,6 +273,7 @@ window.video = {
                 player.playPause();
               } else {
                 var selected = $(".player-settings i").index($(".player-settings i.selected"));
+                if (video[video.options[selected].action])
                 video[video.options[selected].action](video.options[selected].param);
               }
             }

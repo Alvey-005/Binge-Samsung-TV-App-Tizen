@@ -26,25 +26,30 @@ window.home_details = {
     buttons.innerHTML = `
     <a class="selected" onclick="home_details.click(this, 'play')">
       <i class="fa-solid fa-play"></i>
-      <p>${translate.go("home.details.play", { season: 1, episode: 1 })}</p>
+      <p>${translate.go("home.details.play")}</p>
       <span></span>
     </a>
-    <a onclick="home_details.click(this, 'wishlist')">
-      <i class="fa-solid ${home_details.is_wishlist == true ? 'fa-check' : 'fa-bookmark'}"></i>
-      <p>${
+    ${!session.storage.isAnonymous ? 
+      `<a onclick="home_details.click(this, 'wishlist')">
+        <i class="fa-solid ${home_details.is_wishlist == true ? 'fa-check' : 'fa-bookmark'}"></i>
+        <p>${
           home_details.is_wishlist
               ? translate.go('home.details.added')
               : translate.go('home.details.add')
       }</p>
-    </a>
+      </a>` : ``
+    }
     <a onclick="home_details.click(this, 'episodes')">
       <i class="fa-solid fa-list"></i>
       <p>${translate.go("home.details.episodes")}</p>
     </a>
+    <!--
     <a onclick="home_details.click(this, 'related')">
       <i class="fa-solid fa-clone"></i>
       <p>${translate.go("home.details.related")}</p>
-    </a>`;
+    </a>
+    -->
+    `;
 
     home_details.data.this = item;
     $(`#${screen.id} .details .info`).append(buttons);
@@ -179,6 +184,9 @@ window.home_details = {
         var buttons = $(`.${home_details.id}.${home_details.id}_buttons a`);
         var current = buttons.index($(`.${home_details.id}.${home_details.id}_buttons a.selected`));
 
+        if (session.storage.isAnonymous && current == 1){
+          current++;
+        }
         switch (current) {
           case 0:
             video.init(home_details.data.contentDetails, home_details.appendScreen); // screen = home_details.appendScreen;

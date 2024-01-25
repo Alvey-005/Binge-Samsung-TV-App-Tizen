@@ -12,15 +12,22 @@ window.premiumNeedDialog = {
       '  <div class="window">' +
       `    <div class="text">${translate.go(`premimumNeedDialog.message`)} </div>` +
       '    <div class="buttons">' +
-      `      <div class="button" id="premium-needed-screen-yes">${translate.go("premimumNeedDialog.yes")}</div>` +
-      `      <div class="button" id="premium-needed-screen-no">${translate.go("premimumNeedDialog.no")}</div>` +
+      `      <div onclick="premiumNeedDialog.handleYes(event)" class="button" id="premium-needed-screen-yes">${translate.go("premimumNeedDialog.yes")}</div>` +
+      `      <div onclick="premiumNeedDialog.handleNo(event)" class="button" id="premium-needed-screen-no">${translate.go("premimumNeedDialog.no")}</div>` +
       "  </div>" +
       "</div>";
     document.body.appendChild(premiumNeedDialog_element);
-    console.log("prem", premiumNeedDialog_element);
     premiumNeedDialog.previous = main.state;
     main.state = premiumNeedDialog.id;
     premiumNeedDialog.move(false);
+  },
+
+  handleYes: function(event) {
+    premiumNeedDialog.destroy();
+  },
+
+  handleNo: function(event) {
+    premiumNeedDialog.destroy();
   },
 
   destroy: function () {

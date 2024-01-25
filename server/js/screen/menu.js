@@ -1,7 +1,8 @@
 window.menu = {
   id: "menu-screen",
   initialized: 0,
-  options: [
+  options: [],
+  defaultOptions: [
     {
       id: "search",
       label: "menu.search",
@@ -46,6 +47,12 @@ window.menu = {
       icon: "fa-solid fa-clapperboard",
       action: "series.start",
     },
+    {
+      id: "subscription",
+      label: "menu.subscribe",
+      icon: "fa-solid fa-ticket",
+      action: "subscription.start",
+    },
 
     {
       id: "settings",
@@ -60,6 +67,7 @@ window.menu = {
       icon: "fa-solid fa-sign-out",
       tool: true,
       event: "logout",
+      // action: "logout",
     },
     {
       id: "login",
@@ -80,12 +88,16 @@ window.menu = {
 
     var tool_options = "";
     var menu_options = "";
+    if (session.storage.isAnonymous) {
+      menu.options = menu.defaultOptions.filter(
+        (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
+      );
+    } else {
+      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+    }
 
     menu.options.forEach((element, index) => {
-
-      if (session.storage.isAnonymous && element.id === "logout") {}
-      else if (!session.storage.isAnonymous && element.id === "login") {}
-      else if (!!element.tool) {
+      if (!!element.tool) {
         tool_options += `
         <a class="option ${
           reset && element.id === "settings"
@@ -223,7 +235,6 @@ window.menu = {
         console.log('cur remote', current);
         if (menu.options[current].action) {
           var selected = options.index($(`#${menu.id} .option.selected`));
-          ``;
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;

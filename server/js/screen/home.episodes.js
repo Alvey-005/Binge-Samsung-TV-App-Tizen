@@ -31,7 +31,6 @@ window.home_episodes = {
     </div>
     `;
     $(`#${screen.id}`).append(episode_contents);
-    console.log("seasons", home_episodes.data.seasons);
     var seasons_html = "";
     home_episodes.data.seasons.forEach((season, index) => {
       seasons_html += `
@@ -53,15 +52,12 @@ window.home_episodes = {
 
     var episodes_html = "";
     home_episodes.data.episodes.forEach((episode, index) => {
-      console.log("episode", episode);
       episodes_html += `
-      <div class="episode" onclick="home_episodes.episodeClickHandler()">
+      <div class="episode">
         <div class="episode-image">
           <img src="${api.api.imageStageURl}/${episode.thumb_path || episode.image}">
-          ${home_episodes.view(episode)}
-          ${home_episodes.premium(episode)}
         </div>
-        <div class="episode-details">
+        <div class="episode-details" onclick="home_episodes.episodeClickHandler('${index}')">
           <div class="episode-title">${index + 1}. ${episode.name}</div>
           <div class="episode-description">${episode.description}</div>
         </div>
@@ -83,16 +79,31 @@ window.home_episodes = {
       arrows: false,
       infinite: false,
       slidesToShow: 5,
-      slidesToScroll: 1,
+      slidesToScroll: 3,
       speed: 0,
       waitForAnimate: false,
     });
 
     $(".episodes .episodes-list")[0].slick.slickGoTo(0);
+
+    $('.seasons').on('click', '.selected', function(event) {
+      console.log('this is selected');
+    });
+
+    $('.episodes').on('click', function(event) {
+      const target = home_episodes.data.episodes[$(".episodes .episodes-list")[0].slick.currentSlide];
+      console.log('this is selected episode', target);
+    });
   },
 
-  episodeClickHandler: function(event) {
-
+  episodeClickHandler: function(index) {
+    console.log('episode idx', index);
+    var options = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
+    var current = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
+    options.removeClass("active");
+    console.log('cur cur', current, index);
+    // episodes[index].addClass('active');
+    // options.eq(current < options.length - 1 ? current + 1 : current).addClass("active");
   },
 
   view: function (episode) {
@@ -178,6 +189,7 @@ window.home_episodes = {
         }
         break;
       case tvKey.KEY_DOWN:
+        console.log('hii hii key down');
         var options = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
         var current = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
         if (current > 0) {

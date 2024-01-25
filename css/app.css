@@ -41,6 +41,7 @@ input[type=number],
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
 #error-screen {
   display: none;
   width: 100%;

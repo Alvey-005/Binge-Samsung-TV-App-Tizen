@@ -14,8 +14,8 @@ window.exit = {
       '  <div class="window">' +
       `    <div class="text">${translate.go(`exit.message${exit.logout ? "_logout" : ""}`)}` +
       '    <div class="buttons">' +
-      `      <div class="button" id="exit-screen-yes">${translate.go("exit.yes")}</div>` +
-      `      <div class="button" id="exit-screen-no">${translate.go("exit.no")}</div>` +
+      `      <div onclick="exit.handleYes(event)" class="button" id="exit-screen-yes">${translate.go("exit.yes")}</div>` +
+      `      <div onclick="exit.handleNo(event)" class="button" id="exit-screen-no">${translate.go("exit.no")}</div>` +
       "    </div>" +
       "  </div>" +
       "</div>";
@@ -24,6 +24,17 @@ window.exit = {
     exit.previous = main.state;
     main.state = exit.id;
     exit.move(false);
+  },
+
+  handleYes: function(event) {
+    if (exit.logout) {
+      session.clear();
+    }
+    window.close();
+  },
+
+  handleNo: function(event) {
+    exit.destroy();
   },
 
   destroy: function () {
@@ -66,7 +77,7 @@ window.exit = {
       if (exit.logout) {
         session.clear();
       }
-      tizen.application.getCurrentApplication().exit();
+      window.close();
     } else {
       exit.destroy();
     }
