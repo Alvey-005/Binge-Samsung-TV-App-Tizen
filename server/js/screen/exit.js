@@ -34,7 +34,6 @@ window.exit = {
   },
 
   destroy: function () {
-    console.log(document.getElementById(this.id), "checking in exit destroy")
     document.body.removeChild(document.getElementById(this.id));
     main.state = exit.previous;
   },

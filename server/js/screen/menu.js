@@ -206,13 +206,9 @@ window.menu = {
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
-          console.log(menu.options[current], "sssssssssssssss");
           if (menu.options[current].action.split(".")[0] === "exit") {
-            console.log("coming in exit block");
             exit.fromScreen = window[menu.options[selected].id].id;
-            // exit.init(window[menu.options[selected].id].id);
           } else {
-            console.log("coming in not exit block", window[menu.options[selected].id]);
             exit.fromScreen = undefined;
             window[menu.options[selected].id].destroy();
           }
