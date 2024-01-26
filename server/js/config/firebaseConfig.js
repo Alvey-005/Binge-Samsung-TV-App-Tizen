@@ -1,6 +1,7 @@
 window.firebaseConfig = {
   app: null,
   auth: null,
+  retry: 0,
   appConfig: {
     apiKey: "AIzaSyDKtOJpkYEDnQVKNnyCeyoN1DjajMW7o9g",
     authDomain: "binge-mobile.firebaseapp.com",
@@ -66,8 +67,15 @@ window.firebaseConfig = {
         }
       })
       .catch(function (error) {
+        firebaseConfig.retry++;
         console.error("Error signing in anonymously:", error);
-        firebaseConfig.firebaseAnonymousSignIn(callback);
+        if (firebaseConfig.retry > 3) {
+          session.update();
+          translate.init();
+          main.events.login();
+        } else {
+          firebaseConfig.firebaseAnonymousSignIn(callback);
+        }
         if (typeof callback === "function") {
           callback();
         }

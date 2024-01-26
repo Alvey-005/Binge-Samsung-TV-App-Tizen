@@ -56,6 +56,7 @@ window.home = {
         ${poster_items}
       </div>
       <!--
+      <!--
       <div class="logo-fixed">
         <img src="server/img/logo-big.svg"/>
       </div>

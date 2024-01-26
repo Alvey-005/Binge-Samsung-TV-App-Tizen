@@ -280,7 +280,7 @@ window.languages = {
       yes: "YES",
     },
     premimumNeedDialog: {
-      message: "You cannot watch this content until you subscribe",
+      message: "You cannot watch this content until you subscribe. Do you want to subscribe?",
       no: "NO",
       yes: "YES",
     },

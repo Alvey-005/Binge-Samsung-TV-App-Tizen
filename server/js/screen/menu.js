@@ -3,6 +3,8 @@ window.menu = {
   initialized: 0,
   options: [],
   defaultOptions: [
+  options: [],
+  defaultOptions: [
     {
       id: "search",
       label: "menu.search",

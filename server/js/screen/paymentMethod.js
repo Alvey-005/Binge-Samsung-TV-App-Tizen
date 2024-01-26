@@ -11,6 +11,7 @@ window.paymentMethod = {
         pgw: 'Online/MFS Payment ',
         nagad: 'Nagad'
     },
+    timer:NaN,
     init: function () {
         var paymentMethod_element = document.createElement('div');
         paymentMethod_element.id = paymentMethod.id;
@@ -55,8 +56,31 @@ window.paymentMethod = {
         $("#subscription .content").hide();
 
 
+        var cutomerApiCalled = 0;
         paymentMethod.load();
         this.updateQRCodeText(this.paymentLink[0]);
+        this.timer = setInterval(function() {
+        cutomerApiCalled++;
+        console.log('cutomerApiCalled',cutomerApiCalled);
+        if (cutomerApiCalled ===24){
+            console.log('ashe nah ken');
+            clearInterval(window.paymentMethod.timer);
+            window.paymentMethod.destroy();
+        };
+            api.getCustomerDetails({
+                success: function(data){
+                    if(data.customer && data.customer.status_id === 2){
+                        window.session.storage.customer = data.customer;
+                        window.session.update();
+                        clearInterval(window.paymentMethod.timer);
+                        window.paymentMethod.destroy();
+                        subscription.destroy();
+                        main.init();
+                    }
+                }
+            })
+        },30000);
+        
 
     },
     load: async function () {
@@ -143,6 +167,8 @@ window.paymentMethod = {
                 paymentMethod.destroy();
                 break;
             case tvKey.KEY_UP:
+                var buttons = $(`.payment-content.payment-mode`);
+                console.log('buttons', buttons);
                 $("#subscription .payment-list")[0].slick.prev();
                 this.selectedPaymentMode = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
                 this.updateQRCodeText(this.paymentLink[this.selectedPaymentMode]);
@@ -150,6 +176,8 @@ window.paymentMethod = {
 
                 break;
             case tvKey.KEY_DOWN:
+                var buttons = $(`.payment-content.payment-mode`);
+                console.log('buttons', buttons);
                 $("#subscription .payment-list")[0].slick.next();
                 this.selectedPaymentMode = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
                 // this.updateQRCodeText("instagram.com");
@@ -167,7 +195,7 @@ window.paymentMethod = {
         }
     },
     destroy: function () {
-        console.log('destroy');
+        clearInterval(this.timer);
         $(`#${paymentMethod.id}`).remove();
         $("#subscription .content").show();
         main.state = paymentMethod.previous;
@@ -176,15 +204,107 @@ window.paymentMethod = {
         console.log('ami call hpcci');
         $("#payment-qr-code").empty();
         var newText = paymentLink;
+        var imageLink = "";
+        console.log('payment link', paymentLink);
+        // if(paymentLink && paymentLink.includes("sslcommerz")){
+        //     imageLink = "https://binge.buzz/assets/svg/card.svg"
+        // }else{
+        //     imageLink = "https://binge.buzz/assets/svg/nagad.svg"
+        // }
         // Customize newText based on your requirements
         // For example, concatenate with this.selectedPaymentMode or any other logic
-        var qrcode = new QRCode(document.getElementById('payment-qr-code'), {
-            text: newText,
-            width: 512,
-            height: 512,
-            colorDark: '#FFF',
-            colorLight: '#000',
-            correctLevel: QRCode.CorrectLevel.H
-        });
+        // var qrcode = new QRCode(document.getElementById('payment-qr-code'), {
+        //     text: newText,
+        //     width: 512,
+        //     height: 512,
+        //     colorDark: '#FFF',
+        //     colorLight: '#000',
+        //     correctLevel: QRCode.CorrectLevel.H
+        // });
+        const qrCode = new QRCodeStyling(
+            {
+                "width": 700,
+                "height": 700,
+                "data": paymentLink,
+                "margin": 5,
+                "imageOptions": {
+                  "hideBackgroundDots": true,
+                  "imageSize": 0.3,
+                  "margin": 0
+                },
+                "dotsOptions": {
+                  "type": "extra-rounded",
+                  "color": "#000000",
+                  "gradient": null
+                },
+                "backgroundOptions": {
+                  "color": "#ffffff"
+                },
+                // image: imageLink,
+                "dotsOptionsHelper": {
+                  "colorType": {
+                    "single": true,
+                    "gradient": false
+                  },
+                  "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#6a1a4c",
+                    "color2": "#6a1a4c",
+                    "rotation": "0"
+                  }
+                },
+                "cornersSquareOptions": {
+                  "type": "square",
+                  "color": "#000000"
+                },
+                "cornersSquareOptionsHelper": {
+                  "colorType": {
+                    "single": true,
+                    "gradient": false
+                  },
+                  "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                  }
+                },
+                "cornersDotOptions": {
+                  "type": "square",
+                  "color": "#000000"
+                },
+                "cornersDotOptionsHelper": {
+                  "colorType": {
+                    "single": true,
+                    "gradient": false
+                  },
+                  "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#000000",
+                    "color2": "#000000",
+                    "rotation": "0"
+                  }
+                },
+                "backgroundOptionsHelper": {
+                  "colorType": {
+                    "single": true,
+                    "gradient": false
+                  },
+                  "gradient": {
+                    "linear": true,
+                    "radial": false,
+                    "color1": "#ffffff",
+                    "color2": "#ffffff",
+                    "rotation": "0"
+                  }
+                }
+              }
+        );
+    
+        qrCode.append(document.getElementById('payment-qr-code'));
+        // qrCode.download({ name: "qr", extension: "svg" });
     },
 }
