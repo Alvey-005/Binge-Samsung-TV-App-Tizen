@@ -182,6 +182,11 @@ window.home = {
     }
   },
 
+  hover: function(event, colIndex, rowIndex) {
+    console.log('hovering', event);
+    var item = home.data.main.lists[rowIndex].items[colIndex];
+  },
+
   click: function (event, colIndex, rowIndex) {
     console.log("ev", event, colIndex, rowIndex, home.position);
     $(".row-content").removeClass("selected");
@@ -417,7 +422,7 @@ window.home = {
     <div class="item">
       <div class="poster ${
         item.display
-      }" onclick="home.click(event, '${colIndex}', '${rowIndex}')">
+      }" onclick="home.click(event, '${colIndex}', '${rowIndex}')" onmouseover="home.hover(event, '${colIndex}', '${rowIndex}')">
         ${
           item.display !== "serie"
             ? '<img src="' + item.background + '">' + playhead

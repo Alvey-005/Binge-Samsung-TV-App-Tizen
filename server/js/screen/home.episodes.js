@@ -53,11 +53,11 @@ window.home_episodes = {
     var episodes_html = "";
     home_episodes.data.episodes.forEach((episode, index) => {
       episodes_html += `
-      <div class="episode">
+      <div class="episode" onclick="home_episodes.episodeClickHandler('${index}')">
         <div class="episode-image">
           <img src="${api.api.imageStageURl}/${episode.thumb_path || episode.image}">
         </div>
-        <div class="episode-details" onclick="home_episodes.episodeClickHandler('${index}')">
+        <div class="episode-details">
           <div class="episode-title">${index + 1}. ${episode.name}</div>
           <div class="episode-description">${episode.description}</div>
         </div>
@@ -90,19 +90,37 @@ window.home_episodes = {
       console.log('this is selected');
     });
 
-    $('.episodes').on('click', function(event) {
-      const target = home_episodes.data.episodes[$(".episodes .episodes-list")[0].slick.currentSlide];
-      console.log('this is selected episode', target);
-    });
+    // $('.episodes').on('click', function(event) {
+    //   const target = home_episodes.data.episodes[$(".episodes .episodes-list")[0].slick.currentSlide];
+    //   console.log('this is selected episode', target);
+    // });
   },
 
   episodeClickHandler: function(index) {
-    console.log('episode idx', index);
     var options = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
     var current = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
+    $(".episodes .episodes-list")[0].slick.slickGoTo(2);
     options.removeClass("active");
-    console.log('cur cur', current, index);
-    // episodes[index].addClass('active');
+    
+
+    var options1 = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
+    var current1 = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
+    options.addClass("active");
+    var item = home_episodes.data.episodes[index];
+    console.log('Its from the click function', item, current, current1);
+    // home_episodes.data.episodes[current-1].removeClass('active');
+
+    // --------------------------------------------------
+
+    // var options = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
+    // var current = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
+    // options.removeClass("active");
+    // console.log('before', $(".episodes .episodes-list")[0].slick.currentSlide)
+    // $(".episodes .episodes-list")[0].slick.slickGoTo(index);
+    // console.log('hi episode', home_episodes.data.episodes[current - 1]);
+    // console.log('hi episode 1', home_episodes.data.episodes[index]);
+   // console.log('after', $(".episodes .episodes-list")[0].slick.currentSlide)
+    // home_episodes.data.episodes[index].className = home_episodes.data.episodes[index].className + 'option' + 'active';
     // options.eq(current < options.length - 1 ? current + 1 : current).addClass("active");
   },
 

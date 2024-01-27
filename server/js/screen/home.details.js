@@ -27,7 +27,6 @@ window.home_details = {
     <a class="selected" onclick="home_details.click(this, 'play')">
       <i class="fa-solid fa-play"></i>
       <p>${translate.go("home.details.play")}</p>
-      <p>${translate.go("home.details.play")}</p>
       <span></span>
     </a>
     ${!session.storage.isAnonymous ? 

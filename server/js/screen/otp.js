@@ -101,7 +101,8 @@ window.otp = {
         });
       }
     } else {
-      keyboard.init(options[selected].firstElementChild);
+      // keyboard.init(options[selected].firstElementChild);
+      document.activeElement.blur();
     }
   },
 };

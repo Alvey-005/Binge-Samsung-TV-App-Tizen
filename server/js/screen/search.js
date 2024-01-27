@@ -196,7 +196,9 @@ window.search = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         if (this.position === -1) {
-          keyboard.init(search.input, search.start);
+          // keyboard.init(search.input, search.start);
+          document.activeElement.blur();
+          search.start();
         } else {
           const item = search.data.result[search.last_postion];
           api.contentDetails({

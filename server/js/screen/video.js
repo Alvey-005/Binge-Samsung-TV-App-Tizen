@@ -197,7 +197,8 @@ window.video = {
         switch(action) {
             case 'playPause':
                 // console.log('playpause');
-                player.playPause();
+                // video.playPause();
+                video[video.options[0].action](video.options[1].param);
                 // video[video.options[0].action]();
                 break;
             case 'nextEpisode':
@@ -560,6 +561,11 @@ window.video = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  playPause: function () {
+    console.log('playPause of video is calling');
+    player.playPause();
   },
 
   showOSD: function () {

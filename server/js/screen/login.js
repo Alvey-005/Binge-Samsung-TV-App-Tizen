@@ -112,8 +112,10 @@ window.login = {
         //   },
         // });
       }
-    } else {
-      keyboard.init(options[selected].firstElementChild);
+    } 
+    else {
+      // keyboard.init(options[selected].firstElementChild);
+      document.activeElement.blur();
     }
   },
 };
