@@ -100,7 +100,7 @@ window.menu = {
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {
-      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login" && item.id !== "connectToTv");
     }
 
     menu.options.forEach((element, index) => {

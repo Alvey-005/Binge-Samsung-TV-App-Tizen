@@ -1,5 +1,5 @@
 window.connectToTv = {
-    id: 'connect-to-tv',
+    id: 'connectToTv',
     activationCode: NaN,
     timer:NaN,
     init: function () {
@@ -51,9 +51,12 @@ window.connectToTv = {
 
   </div>
   <div class="right-container">
+  <div class="qr-code-text">Scan the code using App</div>
     <div id="login-qr-code">
     </div>
-    <div class="Activation-code"></div>
+    <div class="code-text">Or Type in the code</div>
+    <div class="activation-code">
+    </div>
   </div>
 </div>
         `;
@@ -77,6 +80,8 @@ window.connectToTv = {
                 console.log('activation',data);
                 window.connectToTv.activationCode = data.activationCode;
                 connectToTv.init();
+                $(".activation-code").eq(0).html(data.activationCode);
+                console.log('active code', $('.activation-code'));
             }catch(e){
                 console.log('error ',e);
             }
@@ -105,7 +110,7 @@ window.connectToTv = {
                     }
                 }
             })
-        },10000);
+        },5000);
         
     },
     destroy: function () {
@@ -131,8 +136,8 @@ window.connectToTv = {
         // });
         const qrCode = new QRCodeStyling(
             {
-                "width": 700,
-                "height": 700,
+                "width": 500,
+                "height": 500,
                 "data": paymentLink,
                 "margin": 5,
                 "imageOptions": {

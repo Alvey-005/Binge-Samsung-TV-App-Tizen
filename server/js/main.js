@@ -26,11 +26,14 @@ window.main = {
         menu.init();
         return;
       }
+      console.log('document.getElementById(main.state)',document.getElementById(main.state));
+      console.log('current_id = ' + current_id);
       if (document.getElementById(main.state) != null) 
       {
         window[current_id].destroy();
       }
       session.clear();
+      window.location.reload();
       login.init();
     },
 
