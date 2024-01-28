@@ -255,6 +255,7 @@ window.languages = {
       series: "Series",
       favourites: "Favourites",
       subscribe: "Subscribe",
+      connectToTv:'Connect to TV',
     },
     home: {
       banner: {

@@ -362,6 +362,35 @@ window.api = {
       },
     });
   },
+  getActivationCode: async function(request){
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.get(urls.getActivationCode);
+        console.log('sucess', request);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in activation code api \n", e);
+        }
+      },
+    });
+  },
+  verifyActivationCode: async function(request){
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.verifyActivationCode,request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in activation code api \n", e);
+        }
+      },
+    });
+  },
 
   formatBinge: function (params) {
     return Object.keys(params)

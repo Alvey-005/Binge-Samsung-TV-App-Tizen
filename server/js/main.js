@@ -26,20 +26,22 @@ window.main = {
         menu.init();
         return;
       }
-      if (document.getElementById(main.state) != null) window[current_id].destroy();
+      if (document.getElementById(main.state) != null) {
+        window[current_id].destroy();
+      }
       session.clear();
       login.init();
     },
 
     login: function () {
-      console.log('calling');
+      console.log("calling");
       session.valid({
         success: function () {
-          console.log('call call');
+          console.log("call call");
           main.events.home();
         },
         error: function (error) {
-          console.log("session invalid login initiated");
+          console.error("session invalid login initiated", error);
           loading.destroy();
           login.init();
         },
@@ -204,8 +206,11 @@ window.main = {
             subscription.keyDown(event);
             break;
           case paymentMethod.id:
-              paymentMethod.keyDown(event);
-              break;
+            paymentMethod.keyDown(event);
+            break;
+          case connectToTv.id:
+            connectToTv.keyDown(event);
+            break;
           default:
             console.log("keyboard action screen not defined.");
             break;
