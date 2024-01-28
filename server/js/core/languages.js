@@ -244,7 +244,7 @@ window.languages = {
       verify: "Verify",
       resend_otp: "Resend OTP",
       error: {
-        invalid: "Enter valid credentials...",
+        invalid: "Enter valid credentials.",
         fetch: "OTP fetch error",
       },
     },
@@ -260,7 +260,7 @@ window.languages = {
       series: "Series",
       favourites: "Favourites",
       subscribe: "Subscribe",
-      connectToTv:'Connect to TV',
+      connectToTv: "Connect to TV",
     },
     home: {
       banner: {

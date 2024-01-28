@@ -124,7 +124,8 @@ window.otp = {
           },
           error: function (error) {
             loading.destroy();
-            login.init();
+            otp.init();
+            otp.error(translate.go("login.error.invalid"));
           },
         });
       }
