@@ -148,7 +148,7 @@ window.movies = {
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
-      description.innerText = item.description;
+      description.innerHTML = item.description;
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
@@ -166,7 +166,7 @@ window.movies = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        if(movies.data.main){
+        if (movies.data.main) {
           if (movies.position > 1) {
             $(".row-content").removeClass("selected");
             movies.position--;
@@ -184,7 +184,7 @@ window.movies = {
         }
         break;
       case tvKey.KEY_DOWN:
-        if(movies.data.main){
+        if (movies.data.main) {
           if (movies.position > 0) {
             $(".row-content").removeClass("selected");
             movies.position = movies.position < movies.data.main.lists.length ? movies.position + 1 : movies.position;
@@ -208,7 +208,7 @@ window.movies = {
         }
         break;
       case tvKey.KEY_LEFT:
-        if(movies.data.main){
+        if (movies.data.main) {
           if (movies.position > 0) {
             if ($(".row-content")[movies.position - 1].slick.currentSlide === 0) {
               if (!movies.fromCategory.state) {
@@ -234,16 +234,16 @@ window.movies = {
               buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
             }
           }
-        }else{
+        } else {
           menu.open();
         }
         break;
       case tvKey.KEY_RIGHT:
-        if(movies.data.main){
+        if (movies.data.main) {
           if (movies.position > 0) {
             var currentList = movies.data.main.lists[movies.position - 1];
             var currentSlide = $(".row-content")[movies.position - 1];
-  
+
             if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
               if (movies.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
