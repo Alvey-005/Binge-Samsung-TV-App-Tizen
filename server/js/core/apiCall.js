@@ -64,6 +64,7 @@ window.api = {
     if (verifyResponse.data && verifyResponse.data.is_success) {
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
+      session.storage.isAnonymous = false;
       session.update();
       request.success();
     }

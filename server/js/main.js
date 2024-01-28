@@ -30,6 +30,7 @@ window.main = {
         window[current_id].destroy();
       }
       session.clear();
+      window.location.reload();
       login.init();
     },
 

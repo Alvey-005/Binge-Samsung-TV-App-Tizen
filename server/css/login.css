@@ -90,3 +90,12 @@
   background: #e50914;
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
 }
+
+#login-screen .content .box .form #login-error-message {
+  color: #d13c3c;
+  font-size: 30px;
+  padding: 20px;
+  bottom: 35px;
+  position: absolute;
+  display: none;
+}

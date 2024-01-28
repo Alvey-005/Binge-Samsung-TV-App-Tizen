@@ -81,7 +81,8 @@ window.menu = {
       label: "menu.login",
       icon: "fa-solid fa-sign-out",
       tool: true,
-      event: "logout",
+      // event: "logout",
+      action: "login.init",
     },
   ],
   selected: 1,
@@ -100,7 +101,7 @@ window.menu = {
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {
-      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login" && item.id !== "connectToTv");
     }
 
     menu.options.forEach((element, index) => {
