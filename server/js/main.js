@@ -26,7 +26,10 @@ window.main = {
         menu.init();
         return;
       }
-      if (document.getElementById(main.state) != null) window[current_id].destroy();
+      if (document.getElementById(main.state) != null) 
+      {
+        window[current_id].destroy();
+      }
       session.clear();
       login.init();
     },
@@ -37,7 +40,7 @@ window.main = {
           main.events.home();
         },
         error: function (error) {
-          console.log("session invalid login initiated");
+          console.error("session invalid login initiated", error);
           loading.destroy();
           login.init();
         },
@@ -203,6 +206,9 @@ window.main = {
             break;
           case paymentMethod.id:
               paymentMethod.keyDown(event);
+              break;
+          case connectToTv.id:
+              connectToTv.keyDown(event);
               break;
           default:
             console.log("keyboard action screen not defined.");
