@@ -63,7 +63,8 @@ window.otp = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_ESCAPE:
-        exit.init();
+      case tvKey.KEY_LEFT:
+        menu.open();
         break;
       case tvKey.KEY_UP:
         otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
