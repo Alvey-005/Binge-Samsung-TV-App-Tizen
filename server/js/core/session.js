@@ -40,7 +40,7 @@ window.session = {
           });
         }
       } catch (error) {
-        console.log("error parse session.");
+        console.error("error parse session.");
       }
     }
     session.update();
@@ -48,11 +48,10 @@ window.session = {
 
   start: function (callback) {
     try {
-      console.log("session storage", session);
       session.update();
       callback.success();
     } catch (error) {
-      console.log("error from start", error);
+      console.error("error from start", error);
       return callback.error(error);
     }
   },
@@ -71,9 +70,7 @@ window.session = {
 
   // return session token, if expires refresh, if doesn't exist returns undefined
   valid: function (callback) {
-    console.log('valid session token');
     if (session.storage && session.storage.jwtToken) {
-      console.log('jwt token ache', session.storage.jwtToken);
       return session.refresh(callback);
     }
     return callback.error();
