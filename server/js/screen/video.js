@@ -22,7 +22,7 @@ window.video = {
         },
         {
             icon: 'fa-solid fa-message',
-            action: 'openLanguages',
+            action: 'toggleSubtitles',
         },
         {
             icon: 'toggle-aspect fa-solid fa-expand',
@@ -33,6 +33,8 @@ window.video = {
     aspect: 0,
     subtitles: [],
     subtitle: null,
+    contentSubtitle: "",
+    isSubtitle: false,
     audios: [],
     audio: null,
     intro: null,
@@ -123,14 +125,7 @@ window.video = {
         ${translate.go("video.skip")}
       </div>
 
-      <div class="settings-slide">
-        <div id="languages-content">
-          <div class="title">${translate.go("video.languages.audios")}</div>
-          <ul id="audios"></ul>
-          <div class="title">${translate.go("video.languages.subtitles")}</div>
-          <ul id="subtitles"></ul>
-        </div>
-      </div>
+      
     </div>`;
     document.body.appendChild(video_element);
     player.config(video.setPlayingTime, video.end);
@@ -149,7 +144,37 @@ window.video = {
       start: item.intro_start_time,
       end: item.intro_end_time,
     };
+    video.contentSubtitle = `${api.api.bingeStageUrl}/${item.subtitle}`;
   },
+
+  toggleSubtitles: function() {
+    video.isSubtitle = !video.isSubtitle;
+    const player = videojs('bingeTizen');
+    
+    player.addRemoteTextTrack(
+      {
+        kind: "subtitles",
+        src: video.contentSubtitle,
+        srclang: "en",
+        label: "English",
+        default: false,
+      }
+    );
+
+    const tracks = player.textTracks(); 
+
+    for (var i = 0; i < tracks.length; i++) {
+      var track = tracks[i];
+      if (track.kind === "captions" || track.kind === "subtitles") {
+        if(video.isSubtitle) {
+          track.mode = "showing";
+        } else {
+          track.mode = "hidden";
+        }
+      }
+    }
+  },
+  
 
   destroy: function () {
     console.log("destroy is calling");
@@ -198,14 +223,14 @@ window.video = {
             case 'playPause':
                 // console.log('playpause');
                 // video.playPause();
-                video[video.options[0].action](video.options[1].param);
+                video[video.options[0].action](video.options[0].param);
                 // video[video.options[0].action]();
                 break;
             case 'nextEpisode':
                 // console.log('playnxt');
                 video[video.options[1].action](video.options[1].param);
                 break;
-            case 'openLanguages':
+            case 'toggleSubtitles':
                 // console.log('open lang');
                 video[video.options[2].action](video.options[2].param);
                 break;
@@ -258,7 +283,7 @@ window.video = {
             options.removeClass("active");
             selected.addClass("active");
 
-            isAudio ? video.changeAudio(options.index(selected[0])) : video.changeSubtitle(options.index(selected[0]));
+            // isAudio ? video.changeAudio(options.index(selected[0])) : video.changeSubtitle(options.index(selected[0]));
           }
         }
         if (video.intro && video.intro.state) {
@@ -273,6 +298,7 @@ window.video = {
               if (!video.option) {
                 player.playPause();
               } else {
+                console.log('executing only once..');
                 var selected = $(".player-settings i").index($(".player-settings i.selected"));
                 if (video[video.options[selected].action])
                 video[video.options[selected].action](video.options[selected].param);
