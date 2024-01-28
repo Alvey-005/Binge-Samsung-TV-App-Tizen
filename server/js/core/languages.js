@@ -242,6 +242,11 @@ window.languages = {
       otp: "Enter OTP",
       login: "LOGIN",
       verify: "Verify",
+      resend_otp: "Resend OTP",
+      error: {
+        invalid: "Enter valid credentials...",
+        fetch: "OTP fetch error",
+      },
     },
     menu: {
       search: "Search",
