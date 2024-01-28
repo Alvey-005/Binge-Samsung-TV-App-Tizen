@@ -485,6 +485,11 @@
   /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
 }
 
+#home-screen .content .row .row-content.selected::after {
+  height: 94.5% !important;
+  top: 16px !important;
+}
+
 #home-screen .content .row .row-content.episode.selected::after, 
 #movies-screen .content .row .row-content.episode.selected::after,
 #sports-screen .content .row .row-content.episode.selected::after, 

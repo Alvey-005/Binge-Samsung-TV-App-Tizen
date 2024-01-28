@@ -31,6 +31,11 @@ window.subscription = {
             }
         })
     },
+    packageClick: function(event, index) {
+      console.log(index);
+      console.log(subscription.packages[index]);
+      $("#subscription .subscription-packages")[0].slick.slickGoTo(index);
+    },
     destroy: function () {
         document.body.removeChild(document.getElementById(subscription.id));
     },
@@ -38,9 +43,10 @@ window.subscription = {
 
         var packages_html = "";
         var i = 1;
-        subscription.packages.forEach(pack => {
+        console.log('len', subscription.packages.length);
+        subscription.packages.forEach((pack, index) => {
             packages_html +=
-                `<div class='package'>
+                `<div class='package' onclick="subscription.packageClick(event, '${index}')")">
                 <div class='package-description'>
                   <div class='package-price margin-right-40'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="27" height="32" viewBox="0 0 27 32" fill="none">
@@ -97,7 +103,7 @@ window.subscription = {
             dots: false,
             arrows: false,
             infinite: false,
-            slidesToShow: 7,
+            slidesToShow: this.packages && subscription.packages.length,
             slidesToScroll: 1,
             speed: 0,
             waitForAnimate: false,
