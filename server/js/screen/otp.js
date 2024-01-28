@@ -75,7 +75,7 @@ window.otp = {
             phone: session.storage.phone,
           },
           success: function (response) {
-            session.storage.isAnonymous = false;
+            window.location.reload();
             main.events.login();
           },
           error: function (error) {
