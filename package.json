@@ -14,7 +14,6 @@
     "package": "ares-package --no-minify .",
     "install-app": "ares-install --device LG-TV2 bingeTV.ipk",
     "launch": "ares-launch --device LG-TV1 bingebuzz.tv",
-    "init": "tizen run -t UA32T4400ARSFS -p bpeU1aRY4w.Binge",
     "debug": "ares-inspect --device LG-TV1 --app binge.buzz.tv --open",
     "start-tv-online": "npm run build-online && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
     "start-tv": "npm run build && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
@@ -22,7 +21,12 @@
     "start-online": "npm run start-tv-online",
     "run": "npm run start-tv --tv=7XCI6YW6TV5L4",
     "run2": "npm run start-tv-online --tv=7XCI6YW6TV5L4",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "webos-build": "grunt offline-webos",
+    "webos-build-online": "grunt online-webos",
+    "webos-package": "ares-package dist --no-minify",
+    "webos-install": "ares-install --device LG-TV3 bingebuzz.tv_1.0.0_all.ipk",
+    "webos-run": "ares-launch --device LG-TV3 bingebuzz.tv"
   },
   "repository": {
     "type": "git",

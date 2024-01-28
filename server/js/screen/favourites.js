@@ -15,7 +15,7 @@ window.favourites = {
     favourites_element.id = favourites.id;
 
     var poster_items = ``;
-    if(favourites.available){
+    if (favourites.available) {
       favourites.data.main.lists.forEach((element, index) => {
         if (element.items.length > 0) {
           poster_items += `
@@ -139,7 +139,7 @@ window.favourites = {
       var keyDownEvent = new Event("keydown");
       keyDownEvent.keyCode = tvKey.KEY_DOWN;
       favourites.keyDown(keyDownEvent);
-    }else{
+    } else {
       favourites_element.innerHTML = `
       <div class="content">
         <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
@@ -175,7 +175,7 @@ window.favourites = {
         if (response.wish_list.total > 0) {
           favourites.available = true;
           favourites.data.main.lists[0].items = mapper.mapItems(response.wish_list.products);
-        }else{
+        } else {
           favourites.available = false;
         }
         loading.destroy();
@@ -212,7 +212,7 @@ window.favourites = {
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
-      description.innerText = item.description;
+      description.innerHTML = item.description;
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
@@ -248,7 +248,7 @@ window.favourites = {
         }
         break;
       case tvKey.KEY_DOWN:
-        if(favourites.available){
+        if (favourites.available) {
           if (favourites.position > 0) {
             $(".row-content").removeClass("selected");
             favourites.position =
@@ -273,7 +273,7 @@ window.favourites = {
         }
         break;
       case tvKey.KEY_LEFT:
-        if(favourites.available){
+        if (favourites.available) {
           if (favourites.position > 0) {
             if ($(".row-content")[favourites.position - 1].slick.currentSlide === 0) {
               if (!favourites.fromCategory.state) {
@@ -299,16 +299,16 @@ window.favourites = {
               buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
             }
           }
-        }else{
-          menu.open()
+        } else {
+          menu.open();
         }
         break;
       case tvKey.KEY_RIGHT:
-        if(favourites.available){
+        if (favourites.available) {
           if (favourites.position > 0) {
             var currentList = favourites.data.main.lists[favourites.position - 1];
             var currentSlide = $(".row-content")[favourites.position - 1];
-  
+
             if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
               if (favourites.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {

@@ -11,7 +11,7 @@ module.exports = function (grunt) {
           banner: "",
         },
         files: {
-          "dist/binge.min.css": ["**/server/css/**/*.css"],
+          "dist/crunchyroll.min.css": ["**/server/css/**/*.css"],
         },
       },
       online: {
@@ -29,7 +29,7 @@ module.exports = function (grunt) {
       },
       cdn: {
         src: ["server/js/**/*.js"],
-        dest: "dist/binge.min.js",
+        dest: "dist/crunchyroll.min.js",
       },
       online: {
         src: ["js/**/*.js"],
@@ -74,7 +74,7 @@ module.exports = function (grunt) {
             dest: "dist/img",
           },
           {
-            src: ["index.html", "config.xml", "icon.png"],
+            src: ["index.html", "Binge_130.png"],
             dest: "dist/",
           },
         ],
@@ -106,7 +106,15 @@ module.exports = function (grunt) {
             dest: "dist/js",
           },
           {
-            src: ["index.html", "config.xml", "icon.png"],
+            src: ["index.html", "Binge_130.png"],
+            dest: "dist/",
+          },
+        ],
+      },
+      webos: {
+        files: [
+          {
+            src: ["appinfo.json"],
             dest: "dist/",
           },
         ],
@@ -114,8 +122,8 @@ module.exports = function (grunt) {
     },
     "json-minify": {
       cdn: {
-        files: 'dist/assets/translate/*.json'
-      }
+        files: "dist/assets/translate/*.json",
+      },
     },
     "string-replace": {
       cdn: {
@@ -124,21 +132,7 @@ module.exports = function (grunt) {
         },
         options: {
           replacements: [
-            {
-              pattern: /server\/img\//g,
-              replacement:
-                "https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/assets/imgs/",
-            },
-            {
-              pattern: /url\(webfonts\//g,
-              replacement:
-                "url(https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/assets/icons/",
-            },
-            {
-              pattern: /server\/translate\//g,
-              replacement:
-                "url(https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/assets/translate/",
-            },
+            
           ],
         },
       },
@@ -148,33 +142,10 @@ module.exports = function (grunt) {
         },
         options: {
           replacements: [
-            {
-              pattern: /<!-- start css -->([\S\s]*?)<!-- end css -->/g,
-              replacement: `<script src="app.min.js"></script>
-    <link rel="stylesheet" href="app.min.css" />
-    <link rel="stylesheet" href="https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/binge.min.css" />`,
-            },
-            {
-              pattern: /<!-- start js -->([\S\s]*?)<!-- end js -->/g,
-              replacement:
-                '<script src="https://github.com/anmspro/Binge-Samsung-TV-App-Tizen/binge.min.js"></script>',
-            },
+           
           ],
         },
       },
-    },
-    babel: {
-      options: {
-        presets: ['@babel/preset-env']
-      },
-      offline: {
-        files: [{
-          expand: true,
-          cwd: 'js/',  // source directory
-          src: ['**/*.js'],
-          dest: 'dist/js/'  // destination directory
-        }]
-      }
     },
   });
   grunt.registerTask("cdn", [
@@ -185,15 +156,13 @@ module.exports = function (grunt) {
     "json-minify:cdn",
     "string-replace:cdn",
   ]);
-  grunt.registerTask("online", [
+  grunt.registerTask("online-webos", [
     "clean",
     "uglify:online",
     "cssmin:online",
     "copy:online",
+    "copy:webos",
     "string-replace:online",
   ]);
-  grunt.registerTask("offline", ["clean",
-  "babel:offline",
-   "copy:offline",
-   ,]);
+  grunt.registerTask("offline-webos", ["clean", "copy:offline", "copy:webos"]);
 };

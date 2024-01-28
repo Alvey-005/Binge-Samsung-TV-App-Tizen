@@ -169,10 +169,7 @@ window.mapper = {
         var id = item.id;
         var display = "serie";
         var title = item.name;
-        var description = item.description
-          ? item.description
-          : item.artists
-          // "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        var description = item.description ? item.description : item.artists ? item.artists : "";
 
         if (item.type === "episode") {
           id = item.episode_metadata.series_id;

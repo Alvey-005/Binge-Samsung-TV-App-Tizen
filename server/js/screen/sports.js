@@ -14,7 +14,7 @@ window.sports = {
     sports_element.id = sports.id;
 
     var poster_items = ``;
-    if(sports.data.main){
+    if (sports.data.main) {
       sports.data.main.lists.forEach((element, index) => {
         if (element.items.length > 0) {
           poster_items += `
@@ -30,7 +30,7 @@ window.sports = {
           poster_items += `</div></div>`;
         }
       });
-  
+
       sports_element.innerHTML = `
           <div class="content">
             ${
@@ -62,15 +62,15 @@ window.sports = {
             </div>
             -->
           </div>`;
-  
+
       document.body.appendChild(sports_element);
-  
+
       var title = $(".details .info .title")[0];
       title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
-  
+
       var description = $(".details .info .description")[0];
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
-  
+
       $(`#${sports.id} .rows`).slick({
         vertical: true,
         dots: false,
@@ -120,7 +120,7 @@ window.sports = {
         speed: 0,
         waitForAnimate: false,
       });
-  
+
       $(`#${sports.id} .rows .row-content.episode`).slick({
         dots: false,
         arrows: false,
@@ -130,16 +130,16 @@ window.sports = {
         speed: 0,
         waitForAnimate: false,
       });
-  
+
       $(`#${sports.id} .rows`)[0].slick.slickGoTo(0);
       $(`#${sports.id} .rows .row-content`)[0].slick.slickGoTo(0);
-  
+
       main.state = sports.id;
-  
+
       var keyDownEvent = new Event("keydown");
       keyDownEvent.keyCode = tvKey.KEY_DOWN;
       sports.keyDown(keyDownEvent);
-    }else{
+    } else {
       sports_element.innerHTML = `
       <div class="content">
         <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
@@ -174,7 +174,7 @@ window.sports = {
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
-      description.innerText = item.description;
+      description.innerHTML = item.description;
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
@@ -210,7 +210,7 @@ window.sports = {
         }
         break;
       case tvKey.KEY_DOWN:
-        if(sports.data.main){
+        if (sports.data.main) {
           if (sports.position > 0) {
             $(".row-content").removeClass("selected");
             sports.position = sports.position < sports.data.main.lists.length ? sports.position + 1 : sports.position;
@@ -265,7 +265,7 @@ window.sports = {
         }
         break;
       case tvKey.KEY_RIGHT:
-        if(sports.data.main){
+        if (sports.data.main) {
           if (sports.position > 0) {
             var currentList = sports.data.main.lists[sports.position - 1];
             var currentSlide = $(".row-content")[sports.position - 1];

@@ -1,11 +1,11 @@
 {
   "id": "bingebuzz.tv",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "vendor": "My Company",
   "type": "web",
   "main": "index.html",
   "title": "binge webOS v1",
-  "icon": "icon.png",
+  "icon": "Binge_130.png",
   "largeIcon": "Binge_130.png",
   "disableBackHistoryAPI": true
 }
