@@ -59,7 +59,7 @@ window.home = {
       -->
     </div>`;
 
-    document.body.appendChild(home_element);
+      document.body.appendChild(home_element);
       var title = $(".details .info .title")[0];
       title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
@@ -102,7 +102,7 @@ window.home = {
 
       $(`#${home.id} .rows`)[0].slick.slickGoTo(0);
       $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
-      
+
       main.state = home.id;
 
       var keyDownEvent = new Event("keydown");
@@ -115,9 +115,9 @@ window.home = {
           <div style="font-size: 4vh;color: red">No Data Available</div>
       </div>
     </div>`;
-    document.body.appendChild(home_element);
+      document.body.appendChild(home_element);
 
-    main.state = home.id;
+      main.state = home.id;
     }
   },
 
@@ -145,7 +145,7 @@ window.home = {
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
-      description.innerText = item.description;
+      description.innerHTML = item.description;
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
