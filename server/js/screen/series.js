@@ -14,7 +14,7 @@ window.series = {
     series_element.id = series.id;
 
     var poster_items = ``;
-    if(series.data.main){
+    if (series.data.main) {
       series.data.main.lists.forEach((element, index) => {
         if (element.items.length > 0) {
           poster_items += `
@@ -30,7 +30,7 @@ window.series = {
           poster_items += `</div></div>`;
         }
       });
-  
+
       series_element.innerHTML = `
             <div class="content">
               ${
@@ -62,15 +62,15 @@ window.series = {
               </div>
               -->
             </div>`;
-  
+
       document.body.appendChild(series_element);
-  
+
       var title = $(".details .info .title")[0];
       title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
-  
+
       var description = $(".details .info .description")[0];
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
-  
+
       $(`#${series.id} .rows`).slick({
         vertical: true,
         dots: false,
@@ -81,7 +81,7 @@ window.series = {
         speed: 0,
         waitForAnimate: false,
       });
-  
+
       /***
        * if slide to show is changed, change the css file too
        */
@@ -94,7 +94,7 @@ window.series = {
         speed: 0,
         waitForAnimate: false,
       });
-  
+
       $(`#${series.id} .rows .row-content.episode`).slick({
         dots: false,
         arrows: false,
@@ -104,16 +104,16 @@ window.series = {
         speed: 0,
         waitForAnimate: false,
       });
-  
+
       $(`#${series.id} .rows`)[0].slick.slickGoTo(0);
       $(`#${series.id} .rows .row-content`)[0].slick.slickGoTo(0);
-  
+
       main.state = series.id;
-  
+
       var keyDownEvent = new Event("keydown");
       keyDownEvent.keyCode = tvKey.KEY_DOWN;
       series.keyDown(keyDownEvent);
-    }else{
+    } else {
       series_element.innerHTML = `
       <div class="content">
         <div style="height: 100vh; display: flex; justify-content: center; align-items: center">
@@ -147,7 +147,7 @@ window.series = {
     var descriptionElements = $(".details .info .description");
     if (descriptionElements.length > 0) {
       var description = descriptionElements[0];
-      description.innerText = item.description;
+      description.innerHTML = item.description;
       description.style.fontSize = description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
     }
   },
@@ -165,7 +165,7 @@ window.series = {
       case tvKey.KEY_NEXT:
         break;
       case tvKey.KEY_UP:
-        if(series.data.main){
+        if (series.data.main) {
           if (series.position > 1) {
             $(".row-content").removeClass("selected");
             series.position--;
@@ -176,14 +176,14 @@ window.series = {
             $(".row-content")[series.position - 1].className =
               $(".row-content")[series.position - 1].className + " selected";
           } else {
-          // $(".details").addClass("full");
-          // series.position = 0;
+            // $(".details").addClass("full");
+            // series.position = 0;
           }
-        series.show_details();
+          series.show_details();
         }
         break;
       case tvKey.KEY_DOWN:
-        if(series.data.main){
+        if (series.data.main) {
           if (series.position > 0) {
             $(".row-content").removeClass("selected");
             series.position = series.position < series.data.main.lists.length ? series.position + 1 : series.position;
@@ -207,7 +207,7 @@ window.series = {
         }
         break;
       case tvKey.KEY_LEFT:
-        if(series.data.main){
+        if (series.data.main) {
           if (series.position > 0) {
             if ($(".row-content")[series.position - 1].slick.currentSlide === 0) {
               if (!series.fromCategory.state) {
@@ -233,16 +233,16 @@ window.series = {
               buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
             }
           }
-        }else{
+        } else {
           menu.open();
         }
         break;
       case tvKey.KEY_RIGHT:
-        if(series.data.main){
+        if (series.data.main) {
           if (series.position > 0) {
             var currentList = series.data.main.lists[series.position - 1];
             var currentSlide = $(".row-content")[series.position - 1];
-  
+
             if (currentSlide.slick.currentSlide < currentList.items.length - 1) {
               if (series.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
