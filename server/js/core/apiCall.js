@@ -353,6 +353,11 @@ window.api = {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.get(`${urls.profileApi}/${session.storage.customer.id}`);
+        console.log('customer data',data);
+        if(data.data.is_success) {
+          session.storage.customer = data.data.customer;
+          session.update();
+        }
         try {
           if (request.success) {
             request.success(data.data);

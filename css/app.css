@@ -91,3 +91,36 @@ input[type=number],
   z-index: 300;
   overflow: auto;
 }
+
+
+
+
+.vjs-text-track-display {
+  position: absolute;
+  bottom: 90px !important;
+  left: 20px;
+  color: white;
+  font-size: 24px !important;
+  font-family: "BingeFont", "Helvetica Neue", "Segoe UI", "Roboto", "Ubuntu",
+    "Noto Sans Bengali", "sans-serif" !important;
+}
+
+
+    .css-17o5nyn{
+      margin: unset !important;
+    }
+
+    .css-6od3lo-MuiChip-label{
+      padding: 0;
+    }
+
+
+    .css-sedmo1-MuiAccordionSummary-expandIconWrapper.Mui-expanded{
+      transform: rotate(0) !important;
+    }
+    .css-117srsq.Mui-expanded{
+      transform: rotate(0) !important;
+    }
+    .Mui-expanded{
+      transform: rotate(0) !important;
+    }
