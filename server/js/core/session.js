@@ -64,7 +64,9 @@ window.session = {
 
   // return session token, if expires refresh, if doesn't exist returns undefined
   valid: function (callback) {
+    console.log('valid session token');
     if (session.storage && session.storage.jwtToken) {
+      console.log('jwt token ache', session.storage.jwtToken);
       return session.refresh(callback);
     }
     return callback.error();

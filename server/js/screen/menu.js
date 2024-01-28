@@ -47,6 +47,13 @@ window.menu = {
       action: "series.start",
     },
     {
+      id: "connectToTv",
+      label: "menu.connectToTv",
+      icon: "fa-solid fa-tv",
+      action: "connectToTv.start",
+      // action: "logout",
+    },
+    {
       id: "subscription",
       label: "menu.subscribe",
       icon: "fa-solid fa-ticket",
@@ -93,7 +100,7 @@ window.menu = {
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {
-      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login");
+      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login" && item.id !== "connectToTv");
     }
 
     menu.options.forEach((element, index) => {
@@ -198,8 +205,11 @@ window.menu = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         var options = $(`#${menu.id} .option`);
+        console.log('options', options);
         var current = options.index($(`#${menu.id} .option.focus`));
+        console.log('current', current);
         if (menu.options[current].action) {
+          console.log('action', menu.options[current].action);
           var selected = options.index($(`#${menu.id} .option.selected`));
           options.removeClass("selected");
           options.eq(current).addClass("selected");

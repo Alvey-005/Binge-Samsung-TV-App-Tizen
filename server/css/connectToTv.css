@@ -1,0 +1,107 @@
+#connectToTv {
+    background-color: #141414;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    color: #fff;
+}
+
+.ml-30 {
+    margin-left: 30px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.container {
+    margin: 220px;
+    margin-top: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-container {}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.left-top-content {
+    display: flex;
+    align-items: center;
+}
+
+.left-top-content-text {
+    color: #fff;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.left-bottom-content {}
+
+.active-text {
+    color: #ff1a00;
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.steps {}
+
+.single-steps {
+    display: flex;
+    align-items: center;
+}
+
+.square-steps {
+    padding: 8px 40px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    color: #fff;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.step-details {
+    color: #FFF;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.activation-code {
+    font-size: 45px;
+    text-align: center;
+    letter-spacing: 20px;
+    margin-top: 25px;
+}
+
+.qr-code-text {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 64px;
+}
+
+.code-text {
+    text-align: center;
+    font-size: 64px;
+    margin-top: 40px;
+}
