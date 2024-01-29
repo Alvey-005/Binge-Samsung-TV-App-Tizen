@@ -16,6 +16,12 @@ window.menu = {
       action: "home.restart",
     },
     {
+      id: "hot",
+      label: "menu.hot",
+      icon: "fa-solid fa-fire",
+      action: "hot.restart",
+    },
+    {
       id: "movies",
       label: "menu.movies",
       icon: "fa-solid fa-film",

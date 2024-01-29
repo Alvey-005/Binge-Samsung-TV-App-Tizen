@@ -259,6 +259,7 @@ window.languages = {
       movies: "Movies",
       series: "Series",
       favourites: "Favourites",
+      hot: "Hot & New",
       subscribe: "Subscribe",
       connectToTv: "Connect to TV",
     },

@@ -192,6 +192,9 @@ window.main = {
           case favourites.id:
             favourites.keyDown(event);
             break;
+          case hot.id:
+            hot.keyDown(event);
+            break;
           case home_details.id:
             home_details.keyDown(event);
             break;
