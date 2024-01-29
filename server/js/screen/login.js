@@ -53,6 +53,9 @@ window.login = {
         case tvKey.KEY_BACK:
         case tvKey.KEY_ESCAPE:
         case tvKey.KEY_LEFT:
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
         menu.open();
           break;
         case tvKey.KEY_UP:

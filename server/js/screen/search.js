@@ -167,6 +167,9 @@ window.search = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_ESCAPE:
+        if (document.activeElement) {
+          document.activeElement.blur();
+        }
         if (search.position === -1) {
           menu.open();
         } else {

@@ -24,10 +24,6 @@ window.video = {
             icon: 'fa-solid fa-message',
             action: 'toggleSubtitles',
         },
-        {
-            icon: 'toggle-aspect fa-solid fa-expand',
-            action: 'toggleAspectRatio',
-        },
     ],
     aspects: ['expand', 'compress', 'crop-simple'],
     aspect: 0,
@@ -81,7 +77,6 @@ window.video = {
     video.appScreen = screen;
     var video_element = document.createElement("div");
     video_element.id = video.id;
-
         video_element.innerHTML = `
     <div class="content" onmousemove="video.mouseHandler(event)">
       <img id="background" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
@@ -194,6 +189,7 @@ window.video = {
     video.episode = null;
     video.data = null;
     video.streams = [];
+    video.isSubtitle = false;
     // player.plugin.dispose();
     player.stop();
     player.plugin = NaN;

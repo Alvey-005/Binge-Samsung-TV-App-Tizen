@@ -204,6 +204,7 @@ window.main = {
             settings.keyDown(event);
             break;
           case subscription.id:
+            console.log("is it really?");
             subscription.keyDown(event);
             break;
           case paymentMethod.id:
