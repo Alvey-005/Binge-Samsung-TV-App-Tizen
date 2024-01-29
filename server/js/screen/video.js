@@ -188,6 +188,7 @@ window.video = {
     video.next.shown = false;
     video.episode = null;
     video.data = null;
+    video.isSubtitle = false;
     video.streams = [];
     // player.plugin.dispose();
     player.stop();
