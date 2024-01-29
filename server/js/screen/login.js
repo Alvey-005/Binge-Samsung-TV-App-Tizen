@@ -3,6 +3,7 @@ window.login = {
   selected: 0,
 
   init: function () {
+    menu.destroy();
     var login_element = document.createElement("div");
     login_element.id = login.id;
 
@@ -35,8 +36,9 @@ window.login = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_ESCAPE:
-      case tvKey.KEY_LEFT:
-        menu.open();
+        // case tvKey.KEY_LEFT:
+        //   menu.open();
+        returnHome.init();
         break;
       case tvKey.KEY_UP:
         login.move(login.selected == 0 ? 0 : login.selected - 1);

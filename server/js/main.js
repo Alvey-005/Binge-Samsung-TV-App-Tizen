@@ -26,10 +26,7 @@ window.main = {
         menu.init();
         return;
       }
-      console.log('document.getElementById(main.state)',document.getElementById(main.state));
-      console.log('current_id = ' + current_id);
-      if (document.getElementById(main.state) != null) 
-      {
+      if (document.getElementById(main.state) != null) {
         window[current_id].destroy();
       }
       session.clear();
@@ -153,6 +150,9 @@ window.main = {
           case exit.id:
             exit.keyDown(event);
             break;
+          case returnHome.id:
+            returnHome.keyDown(event);
+            break;
           case premiumNeedDialog.id:
             premiumNeedDialog.keyDown(event);
             break;
@@ -208,11 +208,11 @@ window.main = {
             subscription.keyDown(event);
             break;
           case paymentMethod.id:
-              paymentMethod.keyDown(event);
-              break;
+            paymentMethod.keyDown(event);
+            break;
           case connectToTv.id:
-              connectToTv.keyDown(event);
-              break;
+            connectToTv.keyDown(event);
+            break;
           default:
             console.log("keyboard action screen not defined.");
             break;

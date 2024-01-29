@@ -281,6 +281,7 @@ window.languages = {
     },
     exit: {
       message: "Do you want to exit the application?",
+      return_home: "Do you want to return home?",
       message_logout: "Do you want to logout and exit the application?",
       no: "NO",
       yes: "YES",
