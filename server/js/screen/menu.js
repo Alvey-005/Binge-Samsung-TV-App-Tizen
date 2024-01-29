@@ -28,13 +28,6 @@ window.menu = {
       icon: "fa-solid fa-bookmark",
       action: "favourites.start",
     },
-    // {
-    //   id: "subscribe",
-    //   label: "menu.subscribe",
-    //   icon: "fa-solid fa-bell",
-    //   action: "subscribe.init",
-    // },
-    // {
     {
       id: "sports",
       label: "menu.sports",
@@ -107,7 +100,7 @@ window.menu = {
     menu.options.forEach((element, index) => {
       if (!!element.tool) {
         tool_options += `
-        <a class="option ${
+        <a id="${element.id}" class="option ${
           reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
         }">
           <i class="${element.icon}"></i>
@@ -115,7 +108,7 @@ window.menu = {
         </a>`;
       } else {
         menu_options += `
-        <a class="option ${!reset && index === menu.selected ? "selected" : ""}">
+        <a id="${element.id}" class="option ${!reset && index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
@@ -213,12 +206,12 @@ window.menu = {
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
           if (menu.options[current].action.split(".")[0] !== "exit") {
-            if (selected !== 8) {
+            if (selected !== menu.options.length - 1) {
               window[menu.options[selected].id].destroy();
             } else {
               if (menu.previousExit) {
                 window[menu.options[menu.previousExit].id].destroy();
-                menu.previousExit = NaN;
+                // menu.previousExit = NaN;
               }
             }
             test = menu.options[current].action.split(".");
@@ -226,6 +219,8 @@ window.menu = {
             menu.close();
           } else {
             menu.previousExit = selected;
+            document.getElementById(menu.options[selected].id).classList.add("selected");
+            document.getElementById(menu.options[selected].id).classList.add("focus");
             exit.init();
           }
         } else if (menu.options[current].event) {
