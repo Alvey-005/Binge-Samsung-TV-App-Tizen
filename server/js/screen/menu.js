@@ -121,7 +121,7 @@ window.menu = {
         </a>`;
       } else {
         menu_options += `
-        <a class="option ${
+        <a class="option ${element.id == "subscription" ? "subscription" : ""} ${
           !reset && index === menu.selected ? "selected" : ""
         }" onclick="menu.click(event, '${element.id}', '${element.action}', '${
           element.event
