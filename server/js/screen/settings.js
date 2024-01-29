@@ -32,6 +32,9 @@ window.settings = {
     termsOfUse: {
       scrollableContent: null,
     },
+    privacyNotice: {
+      scrollableContent: null,
+    },
   },
   options: [
     {
@@ -109,12 +112,21 @@ window.settings = {
               settings.details[settings.options[current].type].move(-1);
               break;
             case "terms_of_use":
-              const newScrollTop = settings.settingsTab.termsOfUse.scrollableContent.scrollTop - 50;
-              settings.settingsTab.termsOfUse.scrollableContent.scrollTop = Math.min(
-                newScrollTop,
-                settings.settingsTab.termsOfUse.scrollableContent.scrollHeight -
-                  settings.settingsTab.termsOfUse.scrollableContent.clientHeight
+              const touScrollContainer = settings.settingsTab.termsOfUse.scrollableContent;
+              const touNewScrollTop = touScrollContainer.scrollTop - 50;
+              touScrollContainer.scrollTop = Math.min(
+                touNewScrollTop,
+                touScrollContainer.scrollHeight - touScrollContainer.clientHeight
               );
+              break;
+            case "privacy_notice":
+              const pnScrollContainer = settings.settingsTab.privacyNotice.scrollableContent;
+              const pnNewScrollTop = pnScrollContainer.scrollTop - 50;
+              pnScrollContainer.scrollTop = Math.min(
+                pnNewScrollTop,
+                pnScrollContainer.scrollHeight - pnScrollContainer.clientHeight
+              );
+              break;
             case "voucher":
               if (settings.settingsTab.voucher.selected) {
                 settings.settingsTab.voucher.selected = 0;
@@ -148,12 +160,21 @@ window.settings = {
                 break;
               }
             case "terms_of_use":
-              const newScrollTop = settings.settingsTab.termsOfUse.scrollableContent.scrollTop + 50;
-              settings.settingsTab.termsOfUse.scrollableContent.scrollTop = Math.min(
-                newScrollTop,
-                settings.settingsTab.termsOfUse.scrollableContent.scrollHeight -
-                  settings.settingsTab.termsOfUse.scrollableContent.clientHeight
+              const touScrollContainer = settings.settingsTab.termsOfUse.scrollableContent;
+              const touNewScrollTop = touScrollContainer.scrollTop + 50;
+              touScrollContainer.scrollTop = Math.min(
+                touNewScrollTop,
+                touScrollContainer.scrollHeight - touScrollContainer.clientHeight
               );
+              break;
+            case "privacy_notice":
+              const pnScrollContainer = settings.settingsTab.privacyNotice.scrollableContent;
+              const pnNewScrollTop = pnScrollContainer.scrollTop + 50;
+              pnScrollContainer.scrollTop = Math.min(
+                pnNewScrollTop,
+                pnScrollContainer.scrollHeight - pnScrollContainer.clientHeight
+              );
+              break;
             case "delete_account":
             case "interest":
               var options = $(`.options li`);
@@ -657,13 +678,122 @@ window.settings = {
             `;
           case "privacy_notice":
             return `
-            <div style="color: #fff">
-              <div style="display: flex;">
-                <img src="https://pre.binge.buzz/assets/svg/delete.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                <h1 style="font-size: 3vh">Delete Account</h1>
-              </div>
-              <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button id="delete_button" style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh; margin-top: 30px"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+            <div class="settings-div" id="settings-div" style="color: #fff; text-align: justify">
+              <h1>PRIVACY NOTICE</h1>
+
+              <p>At Robi, we understand that in today’s digitally connected and data driven world, sometimes it can be difficult to understand how your personal information is being collected and used. As part of our commitment to being transparent with our customers and business partners, we want to clearly explain about our data privacy practices and how we protect your privacy so that you can make informed decisions.</p>
+
+              <p>As we recognize the importance of protecting and safeguarding your personal information that you have entrusted to us, we have established privacy policies that defines and enforces the structure and accountability for secure and respectful collection, use and sharing of your personal information.</p>
+
+              <p>All our activities are underpinned by our T.R.U.S.T principles of being Transparent, respecting your Rights, Using of your personal data, implementing robust cyber Security practices and taking due care when data Transfer is required.</p>
+
+              <p>Please take a moment to make yourself familiar with our data privacy practices. Should you have any queries, feel free to reach us at dpo@robi.com.bd</p>
+
+              <h2>Information about Children</h2>
+
+              <p>If you are under the age of [18], you are required to obtain the consent of your parent, guardian or person who has parental responsibility over you before sending us your personal data (for example, your name, address and email address). In such cases, we may require sufficient proof of such consent at any time.</p>
+
+              <h2>What personal data do we collect?</h2>
+
+              <p>The types of personal data we collect or obtain may vary according to our relationship with a data subject (person whose data are collected) and may include the following:</p>
+
+              <h2>For Customers</h2>
+
+              <ul id="pn_ulist">
+                <li>contact information (such as name, address, email address and telephone number)</li>
+                <li>demographic information (such as age range, gender etc.)</li>
+                <li>photographs, videos such as those that you may submit for contests or prize-winning competitions</li>
+                <li>banking information (such as direct debit or credit and related bill payment banking transactions)</li>
+                <li>information from other sources and combine that with information we collect through the Platform. For example, if you create an account using your credentials from a third-party websites (such as but not limited to Google, Facebook and others), we will have access to certain information from that site, such as your name, profile and account information, "likes", comments you have shared, groups and location, in accordance with the authorization procedures determined by such third-party social media site.</li>
+                <li>information about users from our partners and service providers, (including, for example, business partners, analytics vendors and search information providers) which we use to personalize your experience on the Platform.</li>
+                <li>subscribers and their usage behaviour of service, their interactions with Binge’s advertising, as well as information regarding subscriber’s computer, handheld device or other device used to access Binge’s service (such as gaming systems, smart TVs, mobile devices, and set top boxes)</li>
+                <li>subscriber’s activity on Binge service, such as title selections, watch history and search queries; details of subscriber’s interactions with Customer Service, such as the date, time and reason for contacting Binge, transcripts of any chat conversations, and if subscribers call Binge, their phone number and call recordings; device IDs or other unique identifiers; device and software characteristics (such as type and configuration), connection information, statistics on page views, referral URLs, IP address (which may inform Binge user's general location), browser and standard web server log information. Information collected via the use of cookies, web beacons and other technologies, including ad data (such as information on the availability and delivery of ads, the site URL, as well as the date and time).</li>
+              </ul>
+
+              <h2>When do we collect your personal data?</h2>
+
+              <p>We may collect or obtain your personal data:</p>
+
+              <h2>For Customers</h2>
+              <ul id="pn_ulist">
+                <li>providing you with our products, services and/or offers which may be of interest to you</li>
+                <li>notifying you about benefits and changes to the features of our products and services</li>
+                <li>providing you with our latest offers, campaigns and promotions (where you subscribe to such updates)</li>
+                <li>sending you service messages about our subscription or account registration</li>
+                <li>using your data for participation in our customer surveys or meetings</li>
+                <li>compliance with laws and legal, contractual and/or regulatory obligations protecting or exercising our legal, contractual and/or regulatory rights and remedies</li>
+                <li>sending you information via telephone calls, text messages or other digital channels, emails, etc. or social media about products and services offered by selected third parties that we think may interest you</li>
+                <li>Resolve disputes, securing payments against purchase, and troubleshoot problems</li>
+                <li>Customize, measure and improve our services, content and advertising</li>
+                <li>Compare subscribers’ submitted/tracked information for accuracy, and verify it with third parties</li>
+                <li>other legitimate purposes</li>
+              </ul>
+
+              <h2>Who do we disclose your personal data to?</h2>
+              <p>We may disclose your personal data:</p>
+
+              <h2>For Customers</h2>
+
+              <ul id="pn_ulist">
+                <li>to members of our group companies</li>
+                <li>to other carriers and operators when routing international calls</li>
+                <li>to third parties when disclosure is necessary or reasonable to protect our rights, protect your security, investigate fraud or respond to a law enforcement request</li>
+                <li>to our service providers, field engineers, contractors, subcontractors or any other third-party performing work on our behalf or at our instruction</li>
+                <li>to our business partners for our marketing activities</li>
+                <li>to third parties for credit checks and fraud management</li>
+                <li>to third parties for carrying out analytics to understand how you use our services</li>
+                <li>to third parties for research and development purposes</li>
+                <li>to our dealers or agents</li>
+                <li>to third parties for the purposes set out under “why do we collect your personal data?”</li>
+              </ul>
+
+              <p>We use reasonable efforts in accordance with industry best practices to ensure that the above-mentioned maintain the confidentiality of your personal data and are restricted from using your personal data for any unauthorised purpose.</p>
+
+              <h2>What are your rights?</h2>
+              <p>We respect your rights and privacy by taking steps to ensure that your personal data is accurate, complete, not misleading and up to date. As a data subject of Robi, you have the following rights:</p>
+
+              <ul id="pn_ulist">
+                <li>Right to be informed,</li>
+                <li>Right to access your personal data</li>
+                <li>Right to correct/update your personal information you have provided to us.</li>
+              </ul>
+
+              <p><strong>Transfers of Personal Data</strong> We may transfer your personal data across geographical borders to other entities in compliance with law. Where your personal data has been transferred to members of our group of companies and/or to third parties located outside of Bangladesh, the transfer of your personal data is carried out under organizational, contractual and legal measures and with adequate levels of protection implemented as well as any additional local legal requirements for the parties receiving this information in order to safeguard your personal data.
+              </p>
+
+              <h2>How do we store and protect your personal data?</h2>
+              <p>We may collect and store your personal data in electronic or physical form, depending upon the requirement. Information may be stored at our and third-party premises within IT Systems (e.g. external cloud storage, internal or third-party management systems, e-mail, database, hard drives), document warehouses etc ensuring proper security measures.</p>
+
+              <p>We endeavour, where practicable, to process your personal data in a safe environment by preventing any unauthorized or unlawful processing of personal data or accidental loss or destruction of, or damage to, such information. We have implemented various physical, technical and administrative security measures to protect your personal data and our network from unauthorized access. Some of these measures include:</p>
+
+              <ul id="pn_ulist">
+                <li>encryption of data in transit or at rest</li>
+                <li>strict adherence to privacy and security practices</li>
+                <li>periodic security assessment and reviews to upgrade our practices</li>
+                <li>restriction of access to such data to personnel who have a need to know such data</li>
+              </ul>
+
+              <h2>How long do we retain your personal data?</h2>
+              <p>We will retain your personal data only for as long as such information is necessary for the purposes it was collected for. The retention period for personal data may also be affected by the requirements of applicable laws. In all cases information may be held for a) a longer period where there is a legal or regulatory reason to do so (in which case it will be deleted once no longer required for the legal or regulatory purpose) or b) a shorter period where the individual objects to the processing of their personal data.</p>
+
+              <h2>Consequences of not providing personal data</h2>
+              <p>We may require collection of certain personal data about you and failure to provide such information may:</p>
+              <ul id="pn_ulist">
+                <li>result in us being unable to process your application and/or provide you with our services</li>
+                <li>result in us being unable to respond to your requests on our products/services</li>
+                <li>limit or prevent access to certain features on our website/weblinks</li>
+                <li>result in us being unable to update you on latest updates regarding any promotions, our services/products or launches</li>
+                <li>result in your inability to receive invitation to promotional activities organized by us • negatively affect our ability to communicate with you</li>
+                <li>negatively affect our ability to communicate with you</li>
+                <li>result in our ability to enter into a contract with you or a counter-party or continuing to contract with you or a counter-party</li>
+                <li>negatively impact your chances of being selected for any potential employment, engagement or internship</li>
+              </ul>
+
+              <h2>By submitting personal data to us, you acknowledge that:</h2>
+              <ul id="pn_ulist">
+                <li>You have read and understood this Privacy Notice and agree and consent to the use, processing and transfer of personal data as set out herein.</li>
+                <li>All information and representation provided are true and correct to the best of your knowledge, and you have not knowingly omitted any relevant information</li>
+              </ul>
             </div>
             `;
           case "faq":
@@ -681,7 +811,6 @@ window.settings = {
       },
 
       move: function (id) {
-        console.log(id);
         switch (id) {
           case 0:
           case 1:
@@ -694,12 +823,13 @@ window.settings = {
             }
           case 3:
             settings.selectedTab = "terms_of_use";
-            // settings.termsOfUse.scrollableDiv = document.getElementById("settings-details");
             settings.settingsTab.termsOfUse.scrollableContent = document.getElementById("settings-div");
-            // console.log(settings.termsOfUse);
+            break;
+          case 4:
+            settings.selectedTab = "privacy_notice";
+            settings.settingsTab.privacyNotice.scrollableContent = document.getElementById("settings-div");
             break;
           case 5:
-            //delete account
             settings.selectedTab = "delete_account";
             $(`#delete_button`).css("background-color", "rgb(229, 9, 20)");
             settings.settingsTab.deleteAccount.buttonElement = document.getElementById("delete_button");

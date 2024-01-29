@@ -101,10 +101,18 @@
   font-size: 3vh;
 }
 
-#settings-screen .settings-div h2 {
-  font-size: 2vh;
-}
-
+#settings-screen .settings-div h2, 
 #settings-screen .settings-div p {
   font-size: 2vh;
 }
+
+#settings-screen #settings-div #pn_ulist li {
+  margin: 0px;
+  font-size: 2vh;
+  white-space: normal;
+}
+
+#settings-screen #settings-div #pn_ulist li::marker {
+  color: white;
+}
+
