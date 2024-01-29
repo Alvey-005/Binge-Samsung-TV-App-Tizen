@@ -112,17 +112,15 @@ window.menu = {
     menu.options.forEach((element, index) => {
       if (!!element.tool) {
         tool_options += `
-        <a class="option ${
-          reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
-        }">
+        <a class="option ${reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
       } else {
         menu_options += `
-        <a class="option ${!reset && index === menu.selected ? "selected" : ""}">
+        <a class="option ${element.id == "subscription" ? "subscription" : ""} ${!reset && index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
-          <p>${translate.go(element.label)}</p>
+          <p class="">${translate.go(element.label)}</p>
         </a>`;
       }
     });
