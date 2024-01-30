@@ -32,6 +32,13 @@ window.session = {
       try {
         storage = JSON.parse(storage);
         session.storage = storage || session.storage;
+        if(session.storage.customer){
+          api.getCustomerDetails({
+            success: function(){
+              console.log("Getting customer Data");
+            }
+          });
+        }
       } catch (error) {
         console.error("error parse session.");
       }

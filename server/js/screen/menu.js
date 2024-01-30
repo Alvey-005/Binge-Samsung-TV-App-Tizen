@@ -17,6 +17,12 @@ window.menu = {
       action: "home.restart",
     },
     {
+      id: "hot",
+      label: "menu.hot",
+      icon: "fa-solid fa-fire",
+      action: "hot.restart",
+    },
+    {
       id: "movies",
       label: "menu.movies",
       icon: "fa-solid fa-film",
@@ -81,7 +87,7 @@ window.menu = {
       label: "menu.login",
       icon: "fa-solid fa-sign-out",
       tool: true,
-      // event: "logout",
+      // event: "login",
       action: "login.init",
     },
   ],
@@ -101,7 +107,7 @@ window.menu = {
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {
-      menu.options = menu.defaultOptions.filter( (item) => item.id !== "login" && item.id !== "connectToTv");
+      menu.options = menu.defaultOptions.filter((item) => item.id !== "login" && item.id !== "connectToTv");
     }
 
     menu.options.forEach((element, index) => {
@@ -127,7 +133,7 @@ window.menu = {
           element.event
         }', '${index}')">
           <i class="${element.icon}"></i>
-          <p>${translate.go(element.label)}</p>
+          <p class="">${translate.go(element.label)}</p>
         </a>`;
       }
     });
@@ -239,11 +245,9 @@ window.menu = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         var options = $(`#${menu.id} .option`);
-        console.log('options', options);
         var current = options.index($(`#${menu.id} .option.focus`));
-        console.log('current', current);
         if (menu.options[current].action) {
-          console.log('action', menu.options[current].action);
+          console.log("action", menu.options[current].action);
           var selected = options.index($(`#${menu.id} .option.selected`));
           options.removeClass("selected");
           options.eq(current).addClass("selected");

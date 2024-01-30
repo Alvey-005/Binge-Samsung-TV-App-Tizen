@@ -5,6 +5,7 @@ window.otp = {
   input: NaN,
 
   init: function () {
+    menu.destroy();
     var otp_element = document.createElement("div");
     otp_element.id = otp.id;
 
@@ -67,6 +68,27 @@ window.otp = {
     }
   },
 
+  resendOtp: function () {
+    otp.countdown = 60;
+    otp.startCountdown();
+
+    loading.init();
+    api.login({
+      data: {
+        phone: session.storage.phone,
+      },
+      success: function (response) {
+        otp.destroy();
+        loading.destroy();
+        otp.init();
+      },
+      error: function (error) {
+        loading.destroy();
+        otp.error(translate.go("login.error.fetch"));
+      },
+    });
+  },
+
   destroy: function () {
     document.body.removeChild(document.getElementById(this.id));
   },
@@ -80,12 +102,13 @@ window.otp = {
       switch (event.keyCode) {
         case tvKey.KEY_BACK:
         case tvKey.KEY_ESCAPE:
-        case tvKey.KEY_LEFT:
+          // case tvKey.KEY_LEFT:
           if (document.activeElement) {
             document.activeElement.blur();
           }
-        menu.open();
-          break;
+        //   menu.open();
+          returnHome.init();
+        break;
         case tvKey.KEY_UP:
           otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
           break;
@@ -152,7 +175,6 @@ window.otp = {
         });
       }
     } else {
-      // keyboard.init(options[selected].firstElementChild);
       document.activeElement.blur();
     }
   },

@@ -57,6 +57,13 @@ window.home_details = {
     $(`#${screen.id} .details`).addClass("full");
     $(`body`).addClass(`${home_details.id}`);
 
+    if(session.storage.customer){
+      api.getCustomerDetails({
+        success: function(){
+          console.log("Getting customer Data");
+        }
+      });
+    };
     home_details.previous = main.state;
     main.state = home_details.id;
   },

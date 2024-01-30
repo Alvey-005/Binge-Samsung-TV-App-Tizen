@@ -4,6 +4,7 @@ window.login = {
   input: NaN,
 
   init: function () {
+    menu.destroy();
     var login_element = document.createElement("div");
     login_element.id = login.id;
 

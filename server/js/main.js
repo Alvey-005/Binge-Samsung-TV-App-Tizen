@@ -152,6 +152,9 @@ window.main = {
           case exit.id:
             exit.keyDown(event);
             break;
+          case returnHome.id:
+            returnHome.keyDown(event);
+            break;
           case premiumNeedDialog.id:
             premiumNeedDialog.keyDown(event);
             break;
@@ -190,6 +193,9 @@ window.main = {
             break;
           case favourites.id:
             favourites.keyDown(event);
+            break;
+          case hot.id:
+            hot.keyDown(event);
             break;
           case home_details.id:
             home_details.keyDown(event);

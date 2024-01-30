@@ -74,6 +74,13 @@ window.video = {
     },
 
   init: function (item, screen) {
+    if(session.storage.customer){
+      api.getCustomerDetails({
+        success: function(){
+          console.log("Getting customer Data");
+        }
+      });
+    };
     video.appScreen = screen;
     var video_element = document.createElement("div");
     video_element.id = video.id;
@@ -119,8 +126,6 @@ window.video = {
         <i class="fa-solid fa-forward"></i>
         ${translate.go("video.skip")}
       </div>
-
-      
     </div>`;
     document.body.appendChild(video_element);
     player.config(video.setPlayingTime, video.end);
@@ -131,10 +136,6 @@ window.video = {
       video.next.episode = item.related_product[0];
     }
     video.play(item);
-    video.intro = {
-      start: 10,
-      end: 50,
-    };
     video.intro = {
       start: item.intro_start_time,
       end: item.intro_end_time,
@@ -188,6 +189,7 @@ window.video = {
     video.next.shown = false;
     video.episode = null;
     video.data = null;
+    video.isSubtitle = false;
     video.streams = [];
     video.isSubtitle = false;
     // player.plugin.dispose();
@@ -401,7 +403,7 @@ window.video = {
       video.destroy();
     }
   },
-  userCanWatchContent: function (contentDetails) {
+  userCanWatchContent:  function (contentDetails) {
     const customer = session.storage.customer;
     const is_content_premimum =
       contentDetails.free_or_premium === 2 || (contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0);
@@ -412,7 +414,6 @@ window.video = {
         ? contentDetails.tvod_details[0].tvod_type
         : "svod";
     const userPremium = customer && customer.status_id === 2;
-    // const [userCanWatch, setUserCanWatch] = useState<boolean>(false);
     let userCanWatch = false;
     const tvodIds = customer && customer.tvod_ids;
     const tvodProducts =
@@ -464,6 +465,7 @@ window.video = {
       video.destroy();
       return;
     }
+    console.log('user can watch contetn',video.userCanWatchContent(item));
     if (!video.userCanWatchContent(item)) {
       video.destroy();
       premiumNeedDialog.init();
