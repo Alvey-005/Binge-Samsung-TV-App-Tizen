@@ -3,6 +3,7 @@ window.login = {
   selected: 0,
 
   init: function () {
+    menu.destroy();
     var login_element = document.createElement("div");
     login_element.id = login.id;
 
@@ -16,6 +17,7 @@ window.login = {
           <div class="input ${login.id}-option">
             <input type="tel" placeholder="${translate.go("login.number")}">
           </div>
+          <span id="login-error-message"></span>
           <a class="button ${login.id}-option" translate>${translate.go("login.generateOtp")}</a>
         </div>
       </div>
@@ -34,7 +36,9 @@ window.login = {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_ESCAPE:
-        exit.init();
+        // case tvKey.KEY_LEFT:
+        //   menu.open();
+        returnHome.init();
         break;
       case tvKey.KEY_UP:
         login.move(login.selected == 0 ? 0 : login.selected - 1);
@@ -60,12 +64,21 @@ window.login = {
     }
   },
 
+  error: function (message) {
+    var element = $("#login-error-message");
+    element.text(message);
+    element.show();
+    setTimeout(function () {
+      element.hide();
+    }, 3000);
+  },
+
   action: function (selected) {
     var options = document.getElementsByClassName(login.id + "-option");
     if (selected == 1) {
       var phone = options[0].firstElementChild.value;
-      if (phone.length < 10) {
-        console.log("Enter valid credentials...");
+      if (phone.length < 10 || phone.length > 11) {
+        login.error(translate.go("login.error.invalid"));
       } else {
         login.destroy();
         loading.init();

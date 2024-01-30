@@ -17,6 +17,12 @@ window.menu = {
       action: "home.restart",
     },
     {
+      id: "hot",
+      label: "menu.hot",
+      icon: "fa-solid fa-fire",
+      action: "hot.restart",
+    },
+    {
       id: "movies",
       label: "menu.movies",
       icon: "fa-solid fa-film",
@@ -39,6 +45,13 @@ window.menu = {
       label: "menu.series",
       icon: "fa-solid fa-clapperboard",
       action: "series.start",
+    },
+    {
+      id: "connectToTv",
+      label: "menu.connectToTv",
+      icon: "fa-solid fa-tv",
+      action: "connectToTv.start",
+      // action: "logout",
     },
     {
       id: "subscription",
@@ -67,8 +80,8 @@ window.menu = {
       label: "menu.login",
       icon: "fa-solid fa-sign-out",
       tool: true,
-      event: "logout",
-      // action: "login.init",
+      // event: "login",
+      action: "login.init",
     },
     {
       id: "exit",
@@ -94,23 +107,21 @@ window.menu = {
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else {
-      menu.options = menu.defaultOptions.filter((item) => item.id !== "login");
+      menu.options = menu.defaultOptions.filter((item) => item.id !== "login" && item.id !== "connectToTv");
     }
 
     menu.options.forEach((element, index) => {
       if (!!element.tool) {
         tool_options += `
-        <a id="${element.id}" class="option ${
-          reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""
-        }">
+        <a class="option ${reset && element.id === "settings" ? "selected" : index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
           <p>${translate.go(element.label)}</p>
         </a>`;
       } else {
         menu_options += `
-        <a id="${element.id}" class="option ${!reset && index === menu.selected ? "selected" : ""}">
+        <a class="option ${element.id == "subscription" ? "subscription" : ""} ${!reset && index === menu.selected ? "selected" : ""}">
           <i class="${element.icon}"></i>
-          <p>${translate.go(element.label)}</p>
+          <p class="">${translate.go(element.label)}</p>
         </a>`;
       }
     });
@@ -201,6 +212,7 @@ window.menu = {
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
+          console.log("action", menu.options[current].action);
           var selected = options.index($(`#${menu.id} .option.selected`));
           options.removeClass("selected");
           options.eq(current).addClass("selected");

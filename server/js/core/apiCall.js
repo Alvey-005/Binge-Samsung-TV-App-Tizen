@@ -64,10 +64,10 @@ window.api = {
     if (verifyResponse.data && verifyResponse.data.is_success) {
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
+      session.storage.isAnonymous = false;
       session.update();
       request.success();
-    }
-    else {
+    } else {
       console.error("OTP verification error");
       request.error();
     }
@@ -291,6 +291,22 @@ window.api = {
       },
     });
   },
+
+  getHot: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.fetchCategoryProduct, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in api favourites \n", e);
+        }
+      },
+    });
+  },
+
   getPGWLink: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -304,7 +320,9 @@ window.api = {
         }
       },
     });
-  },getNagadLink: async function (request) {
+  },
+
+  getNagadLink: async function (request) {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.post(urls.nagadDirectPayment, request.data);
@@ -318,7 +336,8 @@ window.api = {
       },
     });
   },
-  getSubscription : async function(request){
+
+  getSubscription: async function (request) {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.get(urls.fetchPackages);
@@ -333,7 +352,6 @@ window.api = {
     });
   },
 
-
   handleAnonLogin: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -344,6 +362,57 @@ window.api = {
           }
         } catch (e) {
           request.error ? request.error(e) : console.error("Error in api anonymous login \n", e);
+        }
+      },
+    });
+  },
+
+  getCustomerDetails: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.get(`${urls.profileApi}/${session.storage.customer.id}`);
+        console.log("customer data", data);
+        if (data.data.is_success) {
+          session.storage.customer = data.data.customer;
+          session.update();
+        }
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in user data fetch api \n", e);
+        }
+      },
+    });
+  },
+
+  getActivationCode: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.get(urls.getActivationCode);
+        console.log("sucess", request);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in activation code api \n", e);
+        }
+      },
+    });
+  },
+
+  verifyActivationCode: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const data = await requestMethod.post(urls.verifyActivationCode, request.data);
+        try {
+          if (request.success) {
+            request.success(data.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("Error in activation code api \n", e);
         }
       },
     });

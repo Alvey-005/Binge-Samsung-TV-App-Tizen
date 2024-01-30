@@ -30,17 +30,19 @@ body {
   box-sizing: border-box;
   outline: none;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=tel]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=tel]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
-input[type=number], 
-  input[type=tel] {
+input[type=number],
+input[type=tel] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
 #error-screen {
   display: none;
   width: 100%;
@@ -90,4 +92,70 @@ input[type=number],
   position: absolute;
   z-index: 300;
   overflow: auto;
+}
+
+
+
+
+.vjs-text-track-display {
+  position: absolute;
+  bottom: 90px !important;
+  left: 20px;
+  color: white;
+  font-size: 24px !important;
+  font-family: "BingeFont", "Helvetica Neue", "Segoe UI", "Roboto", "Ubuntu",
+    "Noto Sans Bengali", "sans-serif" !important;
+}
+
+
+.css-17o5nyn {
+  margin: unset !important;
+}
+
+.css-6od3lo-MuiChip-label {
+  padding: 0;
+}
+
+
+.css-sedmo1-MuiAccordionSummary-expandIconWrapper.Mui-expanded {
+  transform: rotate(0) !important;
+}
+
+.css-117srsq.Mui-expanded {
+  transform: rotate(0) !important;
+}
+
+.Mui-expanded {
+  transform: rotate(0) !important;
+}
+
+
+.toaster {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  background-color: #333;
+  color: #fff;
+  padding: 65px;
+  border-radius: 5px;
+  display: none;
+  animation: fadeInOut 1s ease-in-out;
+  font-size: 45px;
+  border-radius: 10px;
+  
+  /* Apply fadeInOut animation */
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-40%);
+  }
+  /* Hold the position */
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Fade out and move down */
 }

@@ -32,8 +32,15 @@ window.session = {
       try {
         storage = JSON.parse(storage);
         session.storage = storage || session.storage;
+        if(session.storage.customer){
+          api.getCustomerDetails({
+            success: function(){
+              console.log("Getting customer Data");
+            }
+          });
+        }
       } catch (error) {
-        console.log("error parse session.");
+        console.error("error parse session.");
       }
     }
     session.update();
@@ -41,11 +48,10 @@ window.session = {
 
   start: function (callback) {
     try {
-      console.log("session storage", session);
       session.update();
       callback.success();
     } catch (error) {
-      console.log("error from start", error);
+      console.error("error from start", error);
       return callback.error(error);
     }
   },

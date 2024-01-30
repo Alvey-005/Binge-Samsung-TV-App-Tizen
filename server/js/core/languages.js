@@ -242,6 +242,11 @@ window.languages = {
       otp: "Enter OTP",
       login: "LOGIN",
       verify: "Verify",
+      resend_otp: "Resend OTP",
+      error: {
+        invalid: "Enter valid credentials.",
+        fetch: "OTP fetch error",
+      },
     },
     menu: {
       search: "Search",
@@ -254,8 +259,10 @@ window.languages = {
       movies: "Movies",
       series: "Series",
       favourites: "Favourites",
+      hot: "Hot & New",
       subscribe: "Subscribe",
       exit: "Exit",
+      connectToTv: "Connect to TV",
     },
     home: {
       banner: {
@@ -276,6 +283,7 @@ window.languages = {
     },
     exit: {
       message: "Do you want to exit the application?",
+      return_home: "Do you want to return home?",
       message_logout: "Do you want to logout and exit the application?",
       no: "NO",
       yes: "YES",

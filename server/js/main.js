@@ -26,8 +26,11 @@ window.main = {
         menu.init();
         return;
       }
-      if (document.getElementById(main.state) != null) window[current_id].destroy();
+      if (document.getElementById(main.state) != null) {
+        window[current_id].destroy();
+      }
       session.clear();
+      window.location.reload();
       login.init();
     },
 
@@ -37,7 +40,7 @@ window.main = {
           main.events.home();
         },
         error: function (error) {
-          console.log("session invalid login initiated");
+          console.error("session invalid login initiated", error);
           loading.destroy();
           login.init();
         },
@@ -147,6 +150,9 @@ window.main = {
           case exit.id:
             exit.keyDown(event);
             break;
+          case returnHome.id:
+            returnHome.keyDown(event);
+            break;
           case premiumNeedDialog.id:
             premiumNeedDialog.keyDown(event);
             break;
@@ -186,6 +192,9 @@ window.main = {
           case favourites.id:
             favourites.keyDown(event);
             break;
+          case hot.id:
+            hot.keyDown(event);
+            break;
           case home_details.id:
             home_details.keyDown(event);
             break;
@@ -202,8 +211,11 @@ window.main = {
             subscription.keyDown(event);
             break;
           case paymentMethod.id:
-              paymentMethod.keyDown(event);
-              break;
+            paymentMethod.keyDown(event);
+            break;
+          case connectToTv.id:
+            connectToTv.keyDown(event);
+            break;
           default:
             console.log("keyboard action screen not defined.");
             break;

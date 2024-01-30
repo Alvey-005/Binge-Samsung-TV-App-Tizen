@@ -17,7 +17,7 @@ window.video = {
     },
     {
       icon: "fa-solid fa-message",
-      action: "openLanguages",
+      action: "toggleSubtitles",
     },
     {
       icon: "toggle-aspect fa-solid fa-expand",
@@ -28,6 +28,8 @@ window.video = {
   aspect: 0,
   subtitles: [],
   subtitle: null,
+  contentSubtitle: "",
+  isSubtitle: false,
   audios: [],
   audio: null,
   intro: null,
@@ -71,6 +73,13 @@ window.video = {
   },
 
   init: function (item, screen) {
+    if(session.storage.customer){
+      api.getCustomerDetails({
+        success: function(){
+          console.log("Getting customer Data");
+        }
+      });
+    };
     video.appScreen = screen;
     var video_element = document.createElement("div");
     video_element.id = video.id;
@@ -117,15 +126,6 @@ window.video = {
         <i class="fa-solid fa-forward"></i>
         ${translate.go("video.skip")}
       </div>
-
-      <div class="settings-slide">
-        <div id="languages-content">
-          <div class="title">${translate.go("video.languages.audios")}</div>
-          <ul id="audios"></ul>
-          <div class="title">${translate.go("video.languages.subtitles")}</div>
-          <ul id="subtitles"></ul>
-        </div>
-      </div>
     </div>`;
     document.body.appendChild(video_element);
     player.config(video.setPlayingTime, video.end);
@@ -137,20 +137,46 @@ window.video = {
     }
     video.play(item);
     video.intro = {
-      start: 10,
-      end: 50,
-    };
-    video.intro = {
       start: item.intro_start_time,
       end: item.intro_end_time,
     };
+    video.contentSubtitle = `${api.api.bingeStageUrl}/${item.subtitle}`;
   },
 
+  toggleSubtitles: function() {
+    console.log('subtitle calling');
+    video.isSubtitle = !video.isSubtitle;
+    const player = videojs('bingeTizen');
+
+    player.addRemoteTextTrack(
+      {
+        kind: "subtitles",
+        src: video.contentSubtitle,
+        srclang: "en",
+        label: "English",
+        default: false,
+      }
+    );
+
+    const tracks = player.textTracks(); 
+
+    for (var i = 0; i < tracks.length; i++) {
+      var track = tracks[i];
+      if (track.kind === "captions" || track.kind === "subtitles") {
+        if(video.isSubtitle) {
+          track.mode = "showing";
+        } else {
+          track.mode = "hidden";
+        }
+      }
+    }
+  },
   destroy: function () {
-    console.log("destroy is calling");
     video.hideOSD();
     player.pause();
-    requestMethod.get(urls.closeContent);
+    if(session.storage.customer && session.storage.customer.id){
+      requestMethod.get(urls.closeContent);
+    }
     // player.stop();
     clearTimeout(video.timers.osd.object);
     clearInterval(video.timers.next);
@@ -163,6 +189,7 @@ window.video = {
     video.next.shown = false;
     video.episode = null;
     video.data = null;
+    video.isSubtitle = false;
     video.streams = [];
     // player.plugin.dispose();
     player.stop();
@@ -217,7 +244,7 @@ window.video = {
             options.removeClass("active");
             selected.addClass("active");
 
-            isAudio ? video.changeAudio(options.index(selected[0])) : video.changeSubtitle(options.index(selected[0]));
+            // isAudio ? video.changeAudio(options.index(selected[0])) : video.changeSubtitle(options.index(selected[0]));
           }
         }
         if (video.intro && video.intro.state) {
@@ -337,7 +364,7 @@ window.video = {
       video.destroy();
     }
   },
-  userCanWatchContent: function (contentDetails) {
+  userCanWatchContent:  function (contentDetails) {
     const customer = session.storage.customer;
     const is_content_premimum =
       contentDetails.free_or_premium === 2 || (contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0);
@@ -348,7 +375,6 @@ window.video = {
         ? contentDetails.tvod_details[0].tvod_type
         : "svod";
     const userPremium = customer && customer.status_id === 2;
-    // const [userCanWatch, setUserCanWatch] = useState<boolean>(false);
     let userCanWatch = false;
     const tvodIds = customer && customer.tvod_ids;
     const tvodProducts =
@@ -400,9 +426,15 @@ window.video = {
       video.destroy();
       return;
     }
+    console.log('user can watch contetn',video.userCanWatchContent(item));
     if (!video.userCanWatchContent(item)) {
       video.destroy();
-      premiumNeedDialog.init();
+      // premiumNeedDialog.init();
+      if(session.storage.customer){
+        loginToaster.show('In order to watch this content, Please Login First');
+      }else{
+        loginToaster.show('In order to watch this content, Please Subscribe First');
+      }
       return;
     }
     video.episode = item.id;
