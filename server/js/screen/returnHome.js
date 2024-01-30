@@ -11,11 +11,11 @@ window.returnHome = {
       '<div class="content">' +
       '  <div class="window">' +
       `    <div class="text">${translate.go(`exit.return_home`)}` +
+      "  </div>" +
       '    <div class="buttons">' +
       `      <div class="button" id="return-home-screen-yes">${translate.go("exit.yes")}</div>` +
       `      <div class="button" id="return-home-screen-no">${translate.go("exit.no")}</div>` +
       "    </div>" +
-      "  </div>" +
       "</div>";
     document.body.appendChild(returnHome_element);
 
