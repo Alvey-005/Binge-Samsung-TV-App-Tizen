@@ -139,7 +139,8 @@ input[type=tel] {
   padding: 65px;
   border-radius: 5px;
   display: none;
-  animation: fadeInOut 1s ease-in-out;
+  width: 600px;
+  /* animation: fadeInOut 1s ease-in-out; */
   font-size: 45px;
   border-radius: 10px;
   
