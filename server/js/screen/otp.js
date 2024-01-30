@@ -3,6 +3,7 @@ window.otp = {
   selected: 0,
   countdown: 60,
   input: NaN,
+  countdownInterval:NaN,
 
   init: function () {
     menu.destroy();
@@ -46,10 +47,10 @@ window.otp = {
 
   startCountdown: function () {
     otp.updateResendButton();
-    var countdownInterval = setInterval(function () {
+     this.countdownInterval = setInterval(function () {
       otp.countdown--;
       if (otp.countdown <= 0) {
-        clearInterval(countdownInterval);
+        clearInterval(this.countdownInterval);
         otp.updateResendButton();
       } else {
         otp.updateResendButton();
@@ -90,6 +91,7 @@ window.otp = {
   },
 
   destroy: function () {
+    clearInterval(this.countdownInterval);
     document.body.removeChild(document.getElementById(this.id));
   },
 
@@ -164,7 +166,6 @@ window.otp = {
             phone: session.storage.phone,
           },
           success: function (response) {
-            window.location.reload();
             main.events.login();
           },
           error: function (error) {

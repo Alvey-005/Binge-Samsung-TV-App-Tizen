@@ -261,6 +261,7 @@ window.languages = {
       favourites: "Favourites",
       hot: "Hot & New",
       subscribe: "Subscribe",
+      exit: "Exit",
       connectToTv: "Connect to TV",
     },
     home: {
@@ -319,6 +320,9 @@ window.languages = {
         vouchers: "Vouchers",
         interest: "Add your interest",
         delete: "Delete Account",
+        faq: "FAQ",
+        tou: "Terms of Use",
+        prnotice: "Privacy Notice",
       },
     },
   },

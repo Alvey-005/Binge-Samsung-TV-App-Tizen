@@ -62,6 +62,7 @@ window.api = {
     };
     const verifyResponse = await requestMethod.post(urls.verifyOtpUrl, params);
     if (verifyResponse.data && verifyResponse.data.is_success) {
+      console.log('customer data', verifyResponse.data);
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
       session.storage.isAnonymous = false;

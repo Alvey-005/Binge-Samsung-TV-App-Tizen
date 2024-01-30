@@ -1,4 +1,19 @@
 window.baseURL = "https://web-api-staging.binge.buzz";
+window.globalBaseUrl = "https://stage-geo.binge.buzz";
+async function checkCountry (){
+  const countryResponse = await axios({
+    url: urls.fetchCountry,
+    method: 'get',
+    baseURL: window.baseURL,
+    timeout: 50000, // default is `0` (no timeout)
+    withCredentials: false, // default
+    responseEncoding: 'utf8', // default
+    maxRedirects: 2,
+});
+session.storage.country = countryResponse.data.country;
+// session.update();
+return countryResponse.data.country;
+}
 function handleInterceptors() {
   return axios.interceptors.response.use(
     function (response) {
@@ -27,7 +42,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: baseURL,
+      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      // baseURL: baseURL,
       method: "get", // default
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -46,8 +62,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: baseURL,
-      // baseURL: base_url,
+      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      // baseURL: baseURL,
       method: "post",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -66,7 +82,8 @@ window.requestMethod = {
     handleInterceptors();
     const config = {
       url,
-      baseURL: baseURL,
+      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      // baseURL: baseURL,
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -90,8 +107,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
+      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
       baseURL: baseURL,
-      // baseURL: base_url,
 
       method: "delete",
       headers: {

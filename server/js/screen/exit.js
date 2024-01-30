@@ -3,6 +3,7 @@ window.exit = {
   previous: null,
   selected: false,
   logout: false,
+  fromScreen: undefined,
 
   init: function (logout) {
     var exit_element = document.createElement("div");
@@ -13,14 +14,13 @@ window.exit = {
       '<div class="content">' +
       '  <div class="window">' +
       `    <div class="text">${translate.go(`exit.message${exit.logout ? "_logout" : ""}`)}` +
+      "  </div>" +
       '    <div class="buttons">' +
       `      <div onclick="exit.handleYes(event)" class="button" id="exit-screen-yes">${translate.go("exit.yes")}</div>` +
       `      <div onclick="exit.handleNo(event)" class="button" id="exit-screen-no">${translate.go("exit.no")}</div>` +
       "    </div>" +
-      "  </div>" +
       "</div>";
     document.body.appendChild(exit_element);
-
     exit.previous = main.state;
     main.state = exit.id;
     exit.move(false);
@@ -65,10 +65,8 @@ window.exit = {
   },
 
   move: function (selected) {
-    console.log("selec", selected);
     exit.selected = selected;
     document.getElementById(exit.id + "-" + (selected ? "yes" : "no")).className = "button selected";
-    console.log("selec", selected, document.getElementById(exit.id + "-" + (selected ? "yes" : "no")));
     document.getElementById(exit.id + "-" + (!selected ? "yes" : "no")).className = "button";
   },
 

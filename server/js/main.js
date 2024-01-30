@@ -8,10 +8,11 @@ window.main = {
   state: null,
 
   /* on init app */
-  init: function () {
+  init: async function () {
     loading.init();
-    session.init();
-    firebaseConfig.init();
+    await session.init();
+    await checkCountry();
+    await firebaseConfig.init();
     // translate.init();
     // main.events.login();
   },

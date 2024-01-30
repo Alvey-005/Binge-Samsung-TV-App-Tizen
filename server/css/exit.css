@@ -26,38 +26,40 @@
 }
 
 #exit-screen .window,
-#premium-needed-screen .window ,
+#premium-needed-screen .window,
 #account-delete-screen .window,
 #return-home-screen .window,
-#stream-limit-crossed .window 
-{
-  width: 25vw;
-  /* height: 20vh; */
-  background-color: #000;
-  padding: 20px;
+#stream-limit-crossed .window {
+  /* background-color: #fff; */
+  padding: 80px 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  border-radius: 14px;
+  background: #141414;
+  backdrop-filter: blur(25px);
 }
 
 #exit-screen .text,
-#stream-limit-crossed .text ,
+#stream-limit-crossed .text,
 #premium-needed-screen .text,
 #account-delete-screen .text,
-#return-home-screen .text
-{
+#return-home-screen .text {
   color: #fff;
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 50px;
+  margin-bottom: 90px;
+  text-align: center;
+  font-size: 44px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 #exit-screen .buttons,
 #stream-limit-crossed .buttons,
 #premium-needed-screen .buttons,
 #account-delete-screen .buttons,
-#return-home-screen .buttons
-{
+#return-home-screen .buttons {
   padding: 5px;
   display: flex;
   justify-content: space-between;
@@ -69,24 +71,30 @@
 #stream-limit-crossed .button,
 #premium-needed-screen .button,
 #account-delete-screen .button,
-#return-home-screen .button
-{
-  background: rgba(255, 255, 255, 0.5);
-  color: #000;
+#return-home-screen .button {
+  color:#e50914;;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
   width: 40%;
   border-radius: 5px;
-  padding: 10px 20px;
+  padding: 18px 70px;
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 #exit-screen .button.selected,
 #stream-limit-crossed .button.selected,
 #premium-needed-screen .button.selected,
 #account-delete-screen .button.selected,
-#return-home-screen .button.selected
- {
+#return-home-screen .button.selected {
+  color: #fff;
+  border-radius: 5px;
   background: #e50914;
-  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
+    /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
 }
