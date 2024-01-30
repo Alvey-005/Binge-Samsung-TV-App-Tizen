@@ -2,6 +2,7 @@ window.otp = {
   id: "otp-screen",
   selected: 0,
   countdown: 60,
+  input: NaN,
 
   init: function () {
     var otp_element = document.createElement("div");
@@ -15,7 +16,7 @@ window.otp = {
         </div>
         <div class="form">
           <div class="input ${otp.id}-option">
-            <input type="text" placeholder="${translate.go("login.otp")}">
+            <input type="number" id="otp" placeholder="${translate.go("login.otp")}">
           </div>
           <span id="login-error-message"></span>
           <a class="button ${
@@ -28,6 +29,7 @@ window.otp = {
       </div>
     </div>`;
     document.body.appendChild(otp_element);
+    otp.input = document.getElementById("otp").focus();
     // document
     //   .getElementById("verifyOtpBtn")
     //   .addEventListener("click", function (e) {

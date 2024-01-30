@@ -35,6 +35,7 @@ window.search = {
 
     document.body.appendChild(search_element);
     search.input = document.getElementById("search-screen_input").firstElementChild;
+    search.input.focus();
   },
 
   destroy: function () {

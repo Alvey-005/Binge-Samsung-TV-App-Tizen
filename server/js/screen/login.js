@@ -1,6 +1,7 @@
 window.login = {
   id: "login-screen",
   selected: 0,
+  input: NaN,
 
   init: function () {
     var login_element = document.createElement("div");
@@ -13,8 +14,8 @@ window.login = {
           <img src="server/img/logo-big.svg" alt="">
         </div>
         <div class="form">
-          <div class="input ${login.id}-option">
-            <input type="tel" placeholder="${translate.go("login.number")}">
+          <div class="input focus ${login.id}-option">
+            <input type="tel" id="login" placeholder="${translate.go("login.number")}">
           </div>
           <span id="login-error-message"></span>
           <a class="button ${
@@ -26,7 +27,8 @@ window.login = {
       </div>
     </div>`;
     document.body.appendChild(login_element);
-
+    login.input = document.getElementById('login').focus();
+    
     // document
     //   .getElementById("generateOtpBtn")
     //   .addEventListener("click", function (e) {
