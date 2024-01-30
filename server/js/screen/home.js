@@ -36,7 +36,7 @@ window.home = {
     <div class="content">
       ${home.fromCategory.state ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>` : ""}
       <div class="details full">
-        <div class="background">
+        <div class="background" id="banner">
           <img src="${home.data.main.banner.background}">
         </div>
         <div class="info">
@@ -64,6 +64,17 @@ window.home = {
     </div>`;
 
       document.body.appendChild(home_element);
+      
+
+      const clickEvent = new MouseEvent("click", {
+        // bubbles: true,
+        // cancelable: true,
+        view: window
+    });
+
+      const elm = document.getElementById("banner");
+      elm.dispatchEvent(clickEvent);
+
       var title = $(".details .info .title")[0];
       title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
 
@@ -75,11 +86,19 @@ window.home = {
         dots: false,
         arrows: false,
         infinite: false,
+        // mouseWheel: true,
         slidesToShow: home.data.main.lists.length,
         slidesToScroll: 1,
         speed: 0,
         waitForAnimate: false,
       });
+
+      // $(`#${home.id} .rows`).on('afterChange', function(event, slick, currentSlide){
+      //   // Scroll the page when navigating through the slides
+      //   console.log('scrolling', event, slick, currentSlide, document.body.scrollHeight)
+      //   window.scrollTo(0, document.body.scrollHeight);
+      //   // $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+      // });
 
       $('.rows').on('click', '.selected', function(event) {
         var item =
@@ -182,8 +201,9 @@ window.home = {
   },
 
   hover: function(event, colIndex, rowIndex) {
-    console.log('hovering', event);
+    // console.log('hovering', event);
     var item = home.data.main.lists[rowIndex].items[colIndex];
+    console.log('hover item', item);
   },
 
   click: function (event, colIndex, rowIndex) {
@@ -279,6 +299,11 @@ window.home = {
             }
             $(".row-content")[home.position - 1].className =
               $(".row-content")[home.position - 1].className + " selected";
+              // window.addEventListener('scroll', function() {
+              //   window.scrollY = 8;
+              // })
+              window.scrollY = 8;
+              console.log(document.scrollY);
           } else {
             $(".details.full").removeClass("full");
             var first_row = $(".row-content")[0];
@@ -287,6 +312,7 @@ window.home = {
             first_row.className = first_row.className + " selected";
             home.position++;
           }
+          // window.scrollY = 8;
           home.show_details();
         }
         break;
@@ -421,7 +447,7 @@ window.home = {
     <div class="item">
       <div class="poster ${
         item.display
-      }" onclick="home.click(event, '${colIndex}', '${rowIndex}')" onmouseover="home.hover(event, '${colIndex}', '${rowIndex}')">
+      }" onclick="home.click(event, '${colIndex}', '${rowIndex}')" onmouseenter="home.hover(event, '${colIndex}', '${rowIndex}')">
         ${
           item.display !== "serie"
             ? '<img src="' + item.background + '">' + playhead

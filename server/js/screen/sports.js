@@ -82,6 +82,18 @@ window.sports = {
         waitForAnimate: false,
       });
 
+      $(`#${sports.id} .rows`).on('wheel', (function(e) {
+        if ( e.originalEvent.deltaX !== 0 ) {
+            e.preventDefault();
+            if (e.originalEvent.deltaX >= 10) {
+              $(this).slick.prev();
+            } 
+            if (e.originalEvent.deltaX <= -10) {
+              $(this).slick.next();
+            }
+        }
+    }));
+
       $('.rows').on('click', '.selected', function(event) {
         var item =
           sports.position > 0
@@ -398,7 +410,7 @@ window.sports = {
       : "";
     return `
         <div class="item">
-          <div class="poster ${item.display}" onclick="sports.click(event, '${colIndex}', '${rowIndex}')">
+          <div class="poster ${item.display}" onclick="sports.click(event, '${colIndex}', '${rowIndex}')" onmouseenter="sports.mouseEnter(event, '${colIndex}', '${rowIndex}')">
             ${
               item.display !== "serie"
                 ? '<img src="' + item.background + '">' + playhead
@@ -466,4 +478,27 @@ window.sports = {
     //   },
     // });
   },
+
+  mouseEnter: function(event, colIndex, rowIndex) {
+
+    // $(".rows")[0].slick.slickGoTo(rowIndex);
+    // $(".row-content")[rowIndex].slick.slickGoTo(
+    //   $(".row-content")[rowIndex].slick.getCurrent()
+    // );
+    // $(".row-content")[rowIndex].className =
+    //   $(".row-content")[rowIndex].className + " hovered";
+
+    // var item =
+    //   home.position > 0
+    //     ? home.data.main.lists[home.position - 1].items[
+    //         $(".row-content")[home.position - 1].slick.currentSlide
+    //       ]
+    //     : home.data.main.banner;
+    // var item = sports.data.main.lists[rowIndex].items[colIndex];
+
+    // $(".row-content").slick("slickGoTo", colIndex);
+
+    // var item = sports.data.main.lists[rowIndex].items[colIndex];
+    // console.log('hover item', item);
+  }
 };

@@ -139,7 +139,7 @@ window.menu = {
     });
 
     menu_element.innerHTML = `
-    <div class="content">
+    <div class="content" onmouseenter="menu.open()" onmouseleave="menu.close()">
       <div class="profile">
         <div class="avatar">
           <img src="${

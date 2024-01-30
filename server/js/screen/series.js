@@ -82,6 +82,18 @@ window.series = {
         waitForAnimate: false,
       });
 
+      $(`#${series.id} .rows`).on('wheel', (function(e) {
+        if ( e.originalEvent.deltaX !== 0 ) {
+            e.preventDefault();
+            if (e.originalEvent.deltaX >= 10) {
+              $(this).slick.prev();
+            } 
+            if (e.originalEvent.deltaX <= -10) {
+              $(this).slick.next();
+            }
+        }
+    }));
+
       $('.rows').on('click', '.selected', function(event) {
         var item =
           series.position > 0

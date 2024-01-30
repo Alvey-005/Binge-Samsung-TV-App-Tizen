@@ -98,6 +98,7 @@
   text-transform: uppercase;
   /* transition: width 0.3s; */
   white-space: nowrap;
+  /* transition: 0.2s ease-in-out; */
 }
 
 #menu-screen .content .options .option.selected,
@@ -133,6 +134,7 @@
     rgba(0, 0, 0, 0) 100%
   );
   width: 600px;
+  /* transition: 0.2s ease-in-out; */
 }
 
 .open-menu #menu-screen .content .options .option p,

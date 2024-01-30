@@ -22,8 +22,8 @@ window.hot = {
           <div class="row">
             <div class="row-title">${element.title}</div>
             <div class="row-content ${element.items[0].display}">`;
-          element.items.forEach((item) => {
-            poster_items += hot.createItem(item);
+          element.items.forEach((item, idx) => {
+            poster_items += hot.createItem(item, idx, index);
           });
           for (var index = 0; index < 9; index++) {
             poster_items += hot.createEmptyItem(element.items[0].display);
@@ -80,6 +80,32 @@ window.hot = {
         slidesToScroll: 1,
         speed: 0,
         waitForAnimate: false,
+      });
+
+      $('.rows').on('click', '.selected', function(event) {
+        var item =
+        hot.position > 0
+          ? hot.data.main.lists[hot.position - 1].items[$(".row-content")[hot.position - 1].slick.currentSlide]
+          : hot.data.main.banner;
+            console.log('slick slick 1', item);
+            // console.log('pos pos', home.position);
+        // home-screen
+        api.contentDetails({
+          body: {
+            id: item.id,
+            content_type: item.content_type,
+          },
+          success: function (data) {
+            home_details.init(item, data, hot);
+          },
+        });
+        // if ($(this).hasClass('slick-current')) {
+        //     // Access element data or structure to retrieve colIndex and rowIndex
+        //     // var colIndex = /* ... */;
+        //     // var rowIndex = /* ... */;
+        //     console.log('slick slick');
+        //     home.click(event, colIndex, rowIndex);
+        // }
       });
 
       /***
@@ -164,6 +190,54 @@ window.hot = {
         console.log(error);
       },
     });
+  },
+
+  click: function (event, colIndex, rowIndex) {
+    $(".row-content").removeClass("selected");
+
+    $(".rows")[0].slick.slickGoTo(rowIndex);
+    $(".row-content")[rowIndex].slick.slickGoTo(
+      $(".row-content")[rowIndex].slick.getCurrent()
+    );
+    $(".row-content")[rowIndex].className =
+      $(".row-content")[rowIndex].className + " selected";
+
+    var item = hot.data.main.lists[rowIndex].items[colIndex];
+
+
+    $(".row-content").slick("slickGoTo", colIndex);
+
+    $(".details .background img").attr("src", item.background);
+    var titleElements = $(".details .info .title");
+    if (titleElements.length > 0) {
+      var title = titleElements[0];
+      title.innerText = item.title;
+      title.style.fontSize =
+        title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
+    }
+
+    var descriptionElements = $(".details .info .description");
+    if (descriptionElements.length > 0) {
+      var description = descriptionElements[0];
+      description.innerText = item.description;
+      description.style.fontSize =
+        description.scrollHeight > description.clientHeight ? "2vh" : "2.5vh";
+    }
+
+    console.log('home item', item);
+
+    // home-screen
+    // api.contentDetails({
+    //   body: {
+    //     id: item.id,
+    //     content_type: item.content_type,
+    //   },
+    //   success: function (data) {
+    //     console.log('details calling');
+    //     home_details.init(item, data, home);
+    //   },
+    // });
+
   },
 
   destroy: function () {
@@ -361,7 +435,7 @@ window.hot = {
     }
   },
 
-  createItem: function (item) {
+  createItem: function (item, colIndex, rowIndex) {
     var playhead = item.playhead
       ? `<div class="progress" style="width: ${
           (item.playhead * 100) / item.duration
@@ -369,7 +443,7 @@ window.hot = {
       : "";
     return `
         <div class="item">
-          <div class="poster ${item.display}">
+          <div class="poster ${item.display}" onclick="hot.click(event, '${colIndex}', '${rowIndex}')">
             ${
               item.display !== "serie"
                 ? '<img src="' + item.background + '">' + playhead

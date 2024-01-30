@@ -1,8 +1,8 @@
 #subscription {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background: #000;
-    overflow: auto;
+    overflow: hidden;
     color: #fff;
 }
 

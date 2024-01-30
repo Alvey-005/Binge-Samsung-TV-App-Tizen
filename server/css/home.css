@@ -982,3 +982,23 @@
 #home-screen .content .row .row-content.episode.zoom-in {
   animation: zoomIn 0.5s ease-in-out;
 } */
+
+
+
+
+
+#home-screen .content .details .info .buttons a.hovered, 
+#movies-screen .content .details .info .buttons a.hovered,
+#sports-screen .content .details .info .buttons a.hovered, 
+#series-screen .content .details .info .buttons a.hovered,
+#hot-screen .content .details .info .buttons a.hovered,
+#favourites-screen .content .details .info .buttons a.hovered {
+  /* border: 2px solid rgba(244, 130, 33, 0.9); */
+  border: 2px solid rgba(222, 13, 30, 0.9);
+  box-sizing: border-box;
+  /* box-shadow: 0 0 25px 6px #e50914, 0 0 15px 6px #e50914 inset; */
+  /* color: rgb(250, 150, 60); */
+  color: rgb(228, 15, 50);
+  /* text-shadow: 0 0 25px #e50914, 0 0 15px #e50914, 0 0 15px #e50914; */
+  opacity: 0.3;
+}
