@@ -13,6 +13,7 @@ window.paymentMethod = {
   },
   timer:NaN,
   init: function () {
+    console.log('inside payment method', subscription.selectedPack);
       var paymentMethod_element = document.createElement('div');
       paymentMethod_element.id = paymentMethod.id;
       paymentMethod_element.innerHTML = `
@@ -212,9 +213,8 @@ window.paymentMethod = {
       clearInterval(this.timer);
       $(`#${paymentMethod.id}`).remove();
       $("#subscription .content").show();
-      subscription.keyDown();
       main.state = paymentMethod.previous;
-      console.log('coming here destroyed!!!');
+      $("#subscription .subscription-packages")[0].slick.slickGoTo(subscription.index);
   },
   updateQRCodeText: function (paymentLink) {
       console.log('ami call hpcci');

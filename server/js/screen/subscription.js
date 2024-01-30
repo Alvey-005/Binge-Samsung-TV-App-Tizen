@@ -4,6 +4,7 @@ window.subscription = {
   selected: false,
   packages: null,
   selectedPack : null,
+  index: 0,
 
   init: function () {
 
@@ -35,7 +36,6 @@ window.subscription = {
       document.body.removeChild(document.getElementById(subscription.id));
   },
   load: function () {
-    console.log('loaaaaingggggggggg..................');
       var packages_html = "";
       var i = 1;
       console.log('len', subscription.packages.length);
@@ -102,38 +102,28 @@ window.subscription = {
           slidesToScroll: 1,
           speed: 0,
           waitForAnimate: false,
-          cssEase: 'ease-in-out'
+          // cssEase: 'ease-in-out',
       });
 
       $("#subscription .subscription-packages")[0].slick.slickGoTo(0);
-      this.selectedPack = subscription.packages[$("#subscription .subscription-packages")[0]];
+      this.selectedPack = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
 
       $('.subscription-packages').on('click', function(event) {
         var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
         console.log('iteeeeeem', item);
-        this.selectedPack = item;
         paymentMethod.init();
       });
       
   },
 
   packageClick: function(event, index) {
-    console.log(index);
-    console.log('pak pak', subscription.packages[index]);
     $("#subscription .subscription-packages")[0].slick.slickGoTo(index);
     this.selectedPack = subscription.packages[index];
+    this.index = index;
     // paymentMethod.init();
   },
 
   keyDown: function (event) {
-    if (!event) {
-      console.log('no event here', this.selectedPack);
-      $("#subscription .subscription-packages")[0].slick.next();
-      $("#subscription .subscription-packages")[0].slick.prev();
-      var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
-      this.selectedPack = item;
-      return;
-    }
       switch (event.keyCode) {
           case tvKey.KEY_BACK:
           case tvKey.KEY_ESCAPE:
