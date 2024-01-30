@@ -405,12 +405,13 @@ window.settings = {
             subscriptionDetails = settings.customer.active_subscriptions || undefined;
 
             return `
-          <div style="height: 65vh;color: #fff;font-size: 23px;line-height: 51px;display: flex; flex-direction: column; justify-content: space-between;">
-            <div style="display: grid;grid-template-columns: 1fr 1fr;gap: 16px;">
-              <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 350px; height:350px;">
-              <div style="text-align: right;margin-top: 50px">
+          <div class="about-container">
+            <div class="about-profile">
+              <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 50%; height:auto;">
+              <div style="text-align: right;">
                 <h1 style="font-size: 3vh">${settings.customer.name || "Your name"}</h1>
-                <p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone || "+01833184275"}</p>
+                ${settings.customer.phone && `<p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone}</p>`}
+                
               </div>
             </div>
             ${
@@ -427,10 +428,6 @@ window.settings = {
                 </div>`;
               })
             }
-            <div style="display: flex; flex-direction:column; justify-content: end; align-items: end;font-size: 28px;color:grey">
-                <div>Binge TV app.</div>
-                <div>Copyright ©2024 Robi Axiata Limited. All Rights Reserved.</div>
-            </div>
           </div>`;
           // case "subscription":
           //   if (!settings.customer && !session.storage.customer.active_subscriptions) {
@@ -490,10 +487,10 @@ window.settings = {
                 <img src="https://pre.binge.buzz/assets/svg/voucher.svg" style="heigth: 70px; width: 70px;margin-right: 30px">
                 <h1 style="font-size: 3vh">Vouchers</h1>
               </div> 
-              <div style="border-style: dotted;border-radius: 0.25rem;width: 100%;margin-bottom: 40px;">
-                <input id="voucher-input" style="color: #808080;width: 100%;outline: none;background-color: transparent;padding: 20px;font-size:2vh" placeholder="Enter Your Coupon here" />
+              <div class="voucher-input-container">
+                <input id="voucher-input" placeholder="Enter Your Coupon here" />
               </div>
-              <button id="redeem_button" style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh">Redeem</button>
+              <button id="redeem_button">Redeem</button>
              <p id="errorMsg" style="font-size: 2vh; color: red"></p>
             </div>`;
           case "delete":
@@ -504,7 +501,7 @@ window.settings = {
                 <h1 style="font-size: 3vh">Delete Account</h1>
               </div>
               <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button id="delete_button" style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh; margin-top: 30px"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+              <button id="delete_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
             </div>
             `;
           case "terms_of_use":
