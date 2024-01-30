@@ -134,14 +134,14 @@ input[type=tel] {
   position: fixed;
   bottom: 5%;
   right: 5%;
-  background-color: #333;
+  background-color: #00000075;
   color: #fff;
   padding: 65px;
   border-radius: 5px;
   display: none;
-  width: 600px;
-  /* animation: fadeInOut 1s ease-in-out; */
-  font-size: 45px;
+  width: 700px;
+  animation: fadeInOut 1s ease-in-out;
+  font-size: 36px;
   border-radius: 10px;
   
   /* Apply fadeInOut animation */
@@ -150,12 +150,12 @@ input[type=tel] {
 @keyframes fadeInOut {
   0% {
     opacity: 0;
-    transform: translateX(-40%);
+    /* transform: translateX(-40%); */
   }
   /* Hold the position */
   100% {
     opacity: 1;
-    transform: translateX(0);
+    /* transform: translateX(0); */
   }
 
   /* Fade out and move down */
