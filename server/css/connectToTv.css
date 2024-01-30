@@ -22,27 +22,25 @@
     margin-bottom: 40px;
 }
 
-.container {
+#connectToTv .container {
     margin: 220px;
     margin-top: 150px;
     display: flex;
     justify-content: space-between;
 }
 
-.left-container {}
-
-.right-container {
+#connectToTv .right-container {
     display: flex;
     flex-direction: column;
     align-items: center; 
 }
 
-.left-top-content {
+#connectToTv .left-top-content {
     display: flex;
     align-items: center;
 }
 
-.left-top-content-text {
+#connectToTv .left-top-content-text {
     color: #fff;
     font-size: 40px;
     font-style: normal;
@@ -52,7 +50,7 @@
 
 .left-bottom-content {}
 
-.active-text {
+#connectToTv .active-text {
     color: #ff1a00;
     font-size: 38px;
     font-style: normal;
@@ -62,12 +60,12 @@
 
 .steps {}
 
-.single-steps {
+#connectToTv .single-steps {
     display: flex;
     align-items: center;
 }
 
-.square-steps {
+#connectToTv .square-steps {
     padding: 8px 40px;
     text-align: center;
     border-radius: 5px;
@@ -79,7 +77,7 @@
     line-height: normal;
 }
 
-.step-details {
+#connectToTv .step-details {
     color: #FFF;
     font-size: 28px;
     font-style: normal;
@@ -87,20 +85,20 @@
     line-height: normal;
 }
 
-.activation-code {
+#connectToTv .activation-code {
     font-size: 45px;
     text-align: center;
     letter-spacing: 20px;
     margin-top: 25px;
 }
 
-.qr-code-text {
+#connectToTv .qr-code-text {
     text-align: center;
     margin-bottom: 40px;
     font-size: 64px;
 }
 
-.code-text {
+#connectToTv .code-text {
     text-align: center;
     font-size: 64px;
     margin-top: 40px;
