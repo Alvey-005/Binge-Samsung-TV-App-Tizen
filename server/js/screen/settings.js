@@ -407,7 +407,7 @@ window.settings = {
             return `
           <div class="about-container">
             <div class="about-profile">
-              <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 50%; height:auto;">
+              <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 50%; height:auto;min-width: 200px">
               <div style="text-align: right;">
                 <h1 style="font-size: 3vh">${settings.customer.name || "Your name"}</h1>
                 ${settings.customer.phone && `<p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone}</p>`}
