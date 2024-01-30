@@ -110,9 +110,12 @@
   margin: 0px;
   font-size: 2vh;
   white-space: normal;
+  color: white;
 }
 
 #settings-screen #settings-div #pn_ulist li::marker {
   color: white;
 }
+
+
 

@@ -35,6 +35,9 @@ window.settings = {
     privacyNotice: {
       scrollableContent: null,
     },
+    faq: {
+      scrollableContent: null,
+    },
   },
   options: [
     {
@@ -127,6 +130,14 @@ window.settings = {
                 pnScrollContainer.scrollHeight - pnScrollContainer.clientHeight
               );
               break;
+            case "faq":
+              const faqScrollContainer = settings.settingsTab.faq.scrollableContent;
+              const faqNewScrollTop = faqScrollContainer.scrollTop - 50;
+              faqScrollContainer.scrollTop = Math.min(
+                faqNewScrollTop,
+                faqScrollContainer.scrollHeight - faqScrollContainer.clientHeight
+              );
+              break;
             case "voucher":
               if (settings.settingsTab.voucher.selected) {
                 settings.settingsTab.voucher.selected = 0;
@@ -165,6 +176,14 @@ window.settings = {
               touScrollContainer.scrollTop = Math.min(
                 touNewScrollTop,
                 touScrollContainer.scrollHeight - touScrollContainer.clientHeight
+              );
+              break;
+            case "faq":
+              const faqScrollContainer = settings.settingsTab.faq.scrollableContent;
+              const faqNewScrollTop = faqScrollContainer.scrollTop + 50;
+              faqScrollContainer.scrollTop = Math.min(
+                faqNewScrollTop,
+                faqScrollContainer.scrollHeight - faqScrollContainer.clientHeight
               );
               break;
             case "privacy_notice":
@@ -390,7 +409,7 @@ window.settings = {
             <div style="display: grid;grid-template-columns: 1fr 1fr;gap: 16px;">
               <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 350px; height:350px;">
               <div style="text-align: right;margin-top: 50px">
-                <h1 style="font-size: 3vh">${settings.customer.name || "Yeasin Zilani"}</h1>
+                <h1 style="font-size: 3vh">${settings.customer.name || "Your name"}</h1>
                 <p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone || "+01833184275"}</p>
               </div>
             </div>
@@ -798,13 +817,341 @@ window.settings = {
             `;
           case "faq":
             return `
-            <div style="color: #fff">
-              <div style="display: flex;">
-                <img src="https://pre.binge.buzz/assets/svg/delete.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                <h1 style="font-size: 3vh">Delete Account</h1>
-              </div>
-              <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button id="delete_button" style="background-color: red;color: white;border-radius: 0.5rem; border: none;padding: 20px 100px 20px 100px; transition: background-color 0.3s;font-size: 2vh; margin-top: 30px"  onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+            <div class="settings-div" id="settings-div" style="color: #fff; text-align: justify">
+
+             <h2>What is Binge?</h2>
+             <p>Binge is an online video streaming OTT (Over-the-top) platform that offers endless entertainment in the form of Live TV, web series, films, dramas, movies, Binge Exclusive Originals and much more! At Binge, we truly believe in providing a truly seamless entertainment experience to you. Watch as much as you want, whenever you want, without a single commercial! There is always something new to discover in the world of Binge!</p>
+
+             <h2>What services/benefits are included in Binge?</h2>
+             <p>Currently, the services offered under Binge can be enjoyed by purchasing a Binge-branded Android™ Smart device from Robi Sheba/Airtel Care Centers. In the world of Binge, select and enjoy your favorite series, movies, drama, video content, both local and international.  Enjoy Live TV feature to relish on your favorite TV channel, with your friends and family. At Binge, we believe in bringing the best content from all video platforms, right at your fingertips.</p>
+             
+             <h2>What are the Binge subscription package plans?</h2>
+             <p>For Mobile Balance (Robi, Airtel User Bangladesh): Tk-5 Daily Pack, Tk-25 Weekly Pack, Tk-75 Monthly Pack (All price excluding VAT, SD, SC)</p>
+             <p>For Any net (Only for Bangladesh): Tk-10 Daily Pack, Tk-40 Weekly Pack, Tk-99 Monthly Pack (All price excluding VAT, SD, SC)</p>
+             <p>For Large Screen (Only for Bangladesh):  Tk 399 Monthly Pack, Tk 999 Quarterly Pack, Tk 1899 Half Yearly Pack All price inclusive of (VAT, SD, SC)</p>
+             <p>For Global: (Regular Price $5; Offer $3) BDT ৳260- Monthly Pack, (Regular Price $20; Offer $12) BDT ৳1040- Yearly Pack  (All price inclusive of SD, SC, VAT)</p>
+             <p>Only in Malaysia: Celcom-Mobile Balance: 3RM-Weekly Pack, 7RM-Monthly Pack (All price inclusive of SD, SC, VAT)</p>
+             
+             <h2>What type of content is available on Binge?</h2>
+             <p>Binge brings to you a wide variety of contents from: Live TV, web series, films, dramas, movies, Video-On-Demand to Binge Exclusive Originals. Just name it- we have it all!</p>
+             
+             <h2>Is Binge available outside of Bangladesh?</h2>
+             <p>Binge is currently available 100+ countries all over the world !!</p>
+
+             <h2>How much speed do I need to have to watch a movie or Live using Binge device?</h2>
+             <p>To enjoy the best video streaming experience, we recommend you use a 4G, 5G or a dedicated broadband connection.</p>
+             
+             <h2>How do I register for Binge?</h2>
+             <p>To register for Binge, follow this process:</p>
+
+             <p>1. For Mobile:</p>
+             <ul id="pn_ulist">
+               <li>Select Binge App (From Home Page), after successful installation.</li>
+               <li>Select User Login option (Mobile Number)</li>
+               <li>Enter your active mobile number.</li>
+               <li>Accept the Terms and Conditions</li>
+               <li>After select “LOGIN” will receive an OTP (One-time password) in your mobile number and  Enter the OTP code and select ‘Next’.</li>
+             </ul>
+
+             <p>2. For Web:</p>
+             <ul id="pn_ulist">
+               <li>Go to https://binge.buzz/login for any browser (Mobile, Tablet, Laptop)</li>
+               <li>Select User Login option (Mobile Number)</li>
+               <li>Enter your active mobile number.</li>
+               <li>Accept the Terms and Conditions</li>
+               <li>After select “LOGIN” will receive an OTP (One-time password) in your mobile number and  Enter the OTP code and select ‘Next’.</li>
+             </ul>
+
+             <p>3. ForLarge Screen:</p>
+             <ul id="pn_ulist">
+               <li>Select Binge App (From Home Page), after successful installation.</li>
+               <li>Select User Login option (Mobile Number)</li>
+               <li>Enter your active mobile number (the phone number that you used to purchase Binge is now your Binge ID) in the App.</li>
+               <li>Accept the Terms and Conditions</li>
+               <li>You will receive an OTP (One-time password) in your Binge ID. Enter the OTP code and select ‘Next’.</li>
+             </ul>
+
+             <p>Now share some additional information:</p>
+             <ol id="pn_ulist">
+               <li>Alternate contact number</li>
+               <li>Area</li>
+               <li>ISP name</li>
+             </ol>
+
+             <ul id="pn_ulist">
+               <li>Accept the Terms and Conditions</li>
+               <li>Update your personal information:</li>
+             </ul>
+
+             <ol id="pn_ulist">
+               <li>Name</li>
+               <li>Gender</li>
+               <li>Date of Birth</li>
+             </ol>
+
+             <ul id="pn_ulist">
+               <li>Select your genre (you can choose to skip this step) and start Binge-ing!</li>
+             </ul>
+
+             <h2>How do I subscribe the package plan?</h2>
+             <p>You can subscribe to Binge using the In-App online payment feature, using a few simple steps:</p>
+             <p>1. Mobile Payment Process: (In Bangladesh (Robi, Airtel Users) and Global  Only Malaysia: Celcom users)</p>
+             <p>For Mobile:</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’ option</li>
+               <li>Go to ‘Settings’ (right from the top</li>
+               <li>Select ‘Subscription’</li>
+               <li>Select ‘Payment Method’ (Mobile Payment), Press ‘Continue to Plans’</li>
+               <li>Select your ‘Package Plan’</li>
+               <li>Select ‘Confirm’, Getting an OTP and put it then press ‘Submit’ to confirm the purchase.</li>
+             </ul>
+
+             <p>For Web:</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Menu’ </li>
+               <li>Select ‘Subscription’</li>
+               <li>Select your ‘Package Plan’ from Mobile Balance and Press 'Send OTP'</li>
+               <li>After Getting an OTP and put it then press ‘Confirm OTP’ to confirm the purchase.</li>
+             </ul>
+
+             <p>2. For Online Payment (Applicable for any net)</p>
+             <p>For Mobile:</p>
+
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’ option</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select ‘Subscription’</li>
+               <li>Select ‘Payment Method’ (Online Payment, MFS), Press ‘Continue to Plans’</li>
+               <li>Select your ‘Package Plan’ and Press ‘Confirm’</li>
+               <li>Select Credit or Debit Card or MFS</li>
+               <li>Fill up your Card details (Name, Card number etc.)</li>
+               <li>Select ‘Apply’.</li>
+             </ul>
+
+             <p>For Web:</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Menu’ </li>
+               <li>Select ‘Subscription’</li>
+               <li>Select your ‘Package Plan’ from Online Payment and Press 'Confirm Buy'</li>
+               <li>Select Credit or Debit Card or MFS</li>
+               <li>Fill up your Card details (Name, Card number etc.)</li>
+               <li>Select ‘Apply’.</li>
+             </ul>
+
+             <p>3. Large Screen</p>
+             <ul id="pn_ulist">
+               <li>Select ‘SUBSCRIPTION’ option from the left panel.</li>
+               <li>Select your desired package plan (Monthly Subscription).</li>
+               <li>Scan the QR code with your mobile or tap ‘Go to link’, to continue with your payment process.</li>
+               <li>Select your payment method from port wallet (Card/Mobile Banking/Net Banking).</li>
+               <li>Fill up the necessary displayed information on the screen.</li>
+               <li>Upon completing the information fill up, you will receive an OTP (One-time-password).</li>
+               <li>Enter the OTP & click submit.</li>
+             </ul>
+
+             <p>Congratulations! You have successfully subscribed to Binge! You will receive your confirmation via SMS.</p>
+
+             <h2>How can I pay for Binge, for small screen?</h2>
+             <p>We have multiple Payment Options. Please follow the below process:</p>
+
+             <ul id="pn_ulist">
+               <li>Direct Operator Billing (DOB): In Bangladesh only (Robi, Airtel users),For Global (Malaysia: Celcom) users.</li>
+               <li>Data Bundling: In Bangladesh only Robi and Airtel (will be available soon)</li>
+               <li>Payment Gateway (Any Debit/Credit Card, MFS, etc.): Applicable for any net.</li>
+             </ul>
+
+             <p>For Online Payment (Applicable for any net.): </p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’ option</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select ‘Subscription’</li>
+               <li>Select ‘Payment Method’ (Online Payment, MFS), Press ‘Continue to Plans’</li>
+               <li>Select your ‘Package Plan’  and Press ‘Confirm’</li>
+               <li>Select Credit or Debit Card or MFS</li>
+               <li>Fill up your Card details (Name, Card number etc.)</li>
+               <li>Select ‘Apply’.</li>
+             </ul>
+
+             <p>Mobile Payment Process: (In Bangladesh only Robi, Airtel Users, In Global only Malaysia: Celcom users)</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’ option</li>
+               <li>Go to ‘Settings’ (right from the top</li>
+               <li>Select ‘Subscription’</li>
+               <li>Select ‘Payment Method’ (Mobile Payment), Press ‘Continue to Plans’</li>
+               <li>Select your ‘Package Plan’</li>
+               <li>Select ‘Confirm’, Getting an OTP and put it then press ‘Submit’ to confirm the purchase.</li>
+             </ul>
+
+             <h2>How do I unsubscribe?</h2>
+             <p>Please follow these easy steps:</p>
+
+             <p><strong>For Mobile:</strong></p>
+             <p><strong>Profile>Settings>Subscription>Cancel Subscription >Confirm</strong></p>
+            
+             <p><strong>For Web:</strong></p>
+             <p><strong>Menu>Subscription>Unsubscribe>Confirm</strong></p>
+            
+             <p><strong>For Large Screen:</strong></p>
+             <p><strong>There is no unsubscribe option, you will be able to enjoy Binge till the validity of the subscription.</strong></p>
+
+             <h2>Ho do I logout?</h2>
+             <p>Please follow these easy steps:</p>
+             <p><strong>For Mobile:</strong></p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’.</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select ‘Logout’ and Press ‘Continue’</li>
+             </ul>
+
+             <p><strong>For Web:</strong></p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Menu’</li>
+               <li>Go to ‘Logout’ and Press ‘YES, I Logout’</li>
+             </ul>
+
+             <p><strong>For Large Screen:</strong></p>
+             <ul id="pn_ulist">
+               <li>Go to all Apps and select Binge</li>
+               <li>From options clear all data</li>
+               <li>Come back to the Binge App, you will be logged out.</li>
+             </ul>
+
+             <h2>What is auto renewal for small screen? What is the process for Binge for auto renewal?</h2>
+             <p>Auto renewal option is only available is an option to automatically renew your selected plan at the end of every cycle.</p>
+             <p>All our mobile packs will be auto renewed after the end of its validity period. This automatic auto renewal will be only applicable for a Bangladesh purchase using (Robi, Airtel uses) DOB.</p>
+
+             <h2>How to stop auto renewal for my small screen?</h2>
+             <p>Stop Auto Renewal follow the bellow steps:</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’.</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select 'Subscription'</li>
+               <li>Select 'Payment Method' and press 'Continue to Plans'</li>
+               <li>Select 'Pack' and there is a Button Auto Renue "Turn Off" the button</li>
+               <li>Select 'Confirm' for purchase the pack.</li>
+             </ul>
+
+             <h2>Are there any additional fees associated with the subscipiton fee?</h2>
+             <p><strong>For Mobile:</strong> Binge charges for the mentioned subscription fees inclusive of VAT+SD+SC.</p>
+             <p><strong>For Web:</strong> Binge charges for the mentioned subscription fees inclusive of VAT+SD+SC.</p>
+             <p><strong>For Large Screen:</strong> All Inclusive</p>
+
+             <h2>How many devices can I log into the same account to watch Binge?</h2>
+             <p>Every Binge device creates a unique account, so you can use one Binge device for one account.</p>
+
+             <h2>Can I create a shared account on Binge?</h2>
+             <p>If you purchase a Large Screen (TV) Binge account, you can enjoy the Small Screen (Mobile) for free! As of now, there is no option to share account on Large Screen (TV). Multiple/shared account feature is not available in Binge for small screen (mobile).</p>
+             
+             <h2>Does Binge have content for my kids/children?</h2>
+             <p>Yes!  Get ready for fun, adventure and loads of learning with the best animated Kids’ content with your little one, only on Binge!</p>
+
+             <h2>Where can I see the Genre?</h2>
+             <p><strong>For Mobile:</strong></p>
+             <ul id="pn_ulist">
+               <li>Select Binge App (From Home Page), after successful installation.</li>
+               <li>From Home Screen Select the ‘Option’ (left from the top)</li>
+             </ul>
+
+             <p><strong>For Large Screen:</strong></p>
+             <p>You can find the genre of each content on Binge in the content detail description. It is visible when you open the content. Binge also offers you to search for contents of your favorite genre! Simply type the genre in the search bar and all the contents of that genre in our platform will appear for you to enjoy.</p>
+
+             <h2>How can I check my usage history for small screen?</h2>
+             <p>Follow the easy steps:</p>
+
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’.</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select ‘Usage History’</li>
+             </ul>
+             
+             <h2>How can I remove from the list?</h2>
+             <pFor mobile app go to “My List”, select the content and select “My List button” for remove the content.</p>
+             
+             <h2>How can I set my favourites (small screen)?</h2>
+             <p>You can select any content and Press ‘My List Button’ to set it as your favorite.</p>
+
+             <h2>How can I add break time when browsing from small screen?</h2>
+             <p>Go to usage history and select set break time option then set your break time and click done button</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’.</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select ‘Usage History’</li>
+               <li>Select ‘SET BREAK TIME’</li>
+               <li>Set your parental lock PIN and select ‘Submit’</li>
+               <li>Set your break time and select ‘DONE’ then ‘OK’</li>
+             </ul>
+
+             <p>After doing this, you will receive a reminder notification to take a break.</p>
+
+             <h2>Where I can find Parental Control?</h2>
+             <p>For Binge Mobile App, to enable Parental control and hide all 18+ contents:</p>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’.</li>
+               <li>Go to ‘Settings’ (right from the top)</li>
+               <li>Select ‘Parental Lock’</li>
+               <li>Select ‘Lock Now’</li>
+               <li>Set your parental lock PIN and select ‘Submit’</li>
+               <li>Press ‘OK’</li>
+             </ul>
+
+             <p>Please note that in continue watch section 18+ content still may appear but those content will not play. You can view 18+ contents again by disabling this feature.</p>
+             <h2>For Large Screen:</h2>
+             <p>You will find Parental control under settings section.</p>
+             <p>Please note that in continue watch section 18+ content still may appear but those content will not play.You can view 18+ contents again by disabling this feature.</p>
+
+             <h2>How do I reset PIN or Parental Lock?</h2>
+             <ol id="pn_ulist">
+               <li>Go to ‘<strong>Profile</strong>’ </li>
+               <li>Go to ‘Settings’ (from right of top) option</li>
+               <li>Select ‘Parental Lock’ from the list then select ’Unlock Now’</li>
+               <li>For forgot PIN Select ‘Reset’</li>
+               <li>Input your new PIN and Select ‘Confirm’</li>
+               <li>You will get verification code via SMS</li>
+               <li>Input the code and reset the PIN.</li>
+             </ol>
+
+             <h2>Why I am facing video playback issues on my TV?</h2>
+             <p>Please check your internet connection, in case of a video playback issue. For further help, please  dail on  Binge hotline number at +880-1841024643.</p>
+
+             <h2>My videos are buffering for large screen, what should I do?</h2>
+             <p>Video buffering can occur due to many reasons. It primarily depends on your device (TV/handset) or adapter and your internet connection speed. Please contact your local ISP or Binge hotline number +8801841024643, if the problem continues.</p>
+
+             <h2>Where do I post comments, queries, complaints, suggestions or ideas for Binge?</h2>
+             <p>We would love to hear from you! For any feedback please contact our:</p>
+
+             <ul id="pn_ulist">
+               <li>Binge hotline: +8801841024643</li>
+               <li>Email: info@binge.buzz</li>
+               <li>Facebook: https://www.facebook.com/binge.buzz/</li>
+               <li>Website: https://binge.buzz/</li>
+               <li>Twitter: @buzz_binge</li>
+               <li>YouTube: https://www.youtube.com/channel/UC946f-5n5X3Ylg7R5PuaUxg</li>
+               <li>In App feedback</li>
+             </ul>
+
+             <h2>How can I share my Feedback?</h2>
+             <p>At Binge, we are constantly trying to serve you better. For any feedback, you can share them on our  Binge App or contact us on our Binge hotline number.</p>
+
+             <h2>Binge mobile App feedback submission process:</h2>
+             <ul id="pn_ulist">
+               <li>Go to ‘Profile’</li>
+               <li>Go to ‘Settings’ option (right from the top)</li>
+               <li>Select ‘My Feedback’ from the list</li>
+               <li>Select ‘+’ option (right from the top)</li>
+               <li>Select your problem type</li>
+               <li>Share your 'Name'</li>
+               <li>And share your query/request/complaints</li>
+               <li>Select ‘Submit’ option</li>
+               <li>You will be received a confirmation SMS.</li>
+             </ul>
+
+
+             <h2>How can I directly talk to someone for support?</h2>
+             <p>You can receive our support via Binge Facebook Page, website or Binge hotline number at +8801841024643<BINGE>.</p>
+
+             <h2>What is your call center / helpline number?</h2>
+             <p>To provide a seamless experience, the Binge hotline +8801841024643, is available for you 24/7.</p>
+
             </div>
             `;
         }
@@ -821,6 +1168,10 @@ window.settings = {
               settings.settingsTab.voucher.keyboardElement = document.getElementById("voucher-input");
               break;
             }
+          case 2:
+            settings.selectedTab = "faq";
+            settings.settingsTab.faq.scrollableContent = document.getElementById("settings-div");
+            break;
           case 3:
             settings.selectedTab = "terms_of_use";
             settings.settingsTab.termsOfUse.scrollableContent = document.getElementById("settings-div");
