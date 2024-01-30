@@ -818,7 +818,7 @@ window.settings = {
           case "faq":
             return `
             <div class="settings-div" id="settings-div" style="color: #fff; text-align: justify">
-
+             <h1>Frequently Asked Questions</h1>
              <h2>What is Binge?</h2>
              <p>Binge is an online video streaming OTT (Over-the-top) platform that offers endless entertainment in the form of Live TV, web series, films, dramas, movies, Binge Exclusive Originals and much more! At Binge, we truly believe in providing a truly seamless entertainment experience to you. Watch as much as you want, whenever you want, without a single commercial! There is always something new to discover in the world of Binge!</p>
 
