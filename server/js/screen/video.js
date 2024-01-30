@@ -373,8 +373,6 @@ window.video = {
         ? contentDetails.tvod_details[0].tvod_type
         : "svod";
     const userPremium = customer && customer.status_id === 2;
-    console.log('customer premium', customer.status_id, customer.status_id === 2);
-    // const [userCanWatch, setUserCanWatch] = useState<boolean>(false);
     let userCanWatch = false;
     const tvodIds = customer && customer.tvod_ids;
     const tvodProducts =
