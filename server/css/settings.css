@@ -13,6 +13,7 @@
   justify-content: center;
   height: 65vh;
   min-width: 70vw;
+  max-width: 70%;
 }
 
 #settings-screen .content .container {
@@ -90,3 +91,31 @@
   height: 100%;
   margin: 0;
 }
+
+#settings-screen .settings-div {
+  height: 65vh;
+  overflow-y: scroll;
+}
+
+#settings-screen .settings-div h1 {
+  font-size: 3vh;
+}
+
+#settings-screen .settings-div h2, 
+#settings-screen .settings-div p {
+  font-size: 2vh;
+}
+
+#settings-screen #settings-div #pn_ulist li {
+  margin: 0px;
+  font-size: 2vh;
+  white-space: normal;
+  color: white;
+}
+
+#settings-screen #settings-div #pn_ulist li::marker {
+  color: white;
+}
+
+
+

@@ -2,6 +2,7 @@ window.menu = {
   id: "menu-screen",
   initialized: 0,
   options: [],
+  previousExit: NaN,
   defaultOptions: [
     {
       id: "search",
@@ -33,13 +34,6 @@ window.menu = {
       icon: "fa-solid fa-bookmark",
       action: "favourites.start",
     },
-    // {
-    //   id: "subscribe",
-    //   label: "menu.subscribe",
-    //   icon: "fa-solid fa-bell",
-    //   action: "subscribe.init",
-    // },
-    // {
     {
       id: "sports",
       label: "menu.sports",
@@ -88,6 +82,13 @@ window.menu = {
       tool: true,
       // event: "login",
       action: "login.init",
+    },
+    {
+      id: "exit",
+      label: "menu.exit",
+      icon: "fa-solid fa-xmark",
+      tool: true,
+      action: "exit.init",
     },
   ],
   selected: 1,
@@ -216,10 +217,24 @@ window.menu = {
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
-          window[menu.options[selected].id].destroy();
-          test = menu.options[current].action.split(".");
-          window[test[0]][test[1]]();
-          menu.close();
+          if (menu.options[current].action.split(".")[0] !== "exit") {
+            if (selected !== menu.options.length - 1) {
+              window[menu.options[selected].id].destroy();
+            } else {
+              if (menu.previousExit) {
+                window[menu.options[menu.previousExit].id].destroy();
+                // menu.previousExit = NaN;
+              }
+            }
+            test = menu.options[current].action.split(".");
+            window[test[0]][test[1]]();
+            menu.close();
+          } else {
+            menu.previousExit = selected;
+            document.getElementById(menu.options[selected].id).classList.add("selected");
+            document.getElementById(menu.options[selected].id).classList.add("focus");
+            exit.init();
+          }
         } else if (menu.options[current].event) {
           window.main.events[menu.options[current].event]();
         }
