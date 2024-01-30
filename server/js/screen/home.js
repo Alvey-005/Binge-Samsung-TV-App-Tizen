@@ -289,6 +289,7 @@ window.home = {
             content_type: item.content_type,
           },
           success: function (data) {
+            loginToaster.init();
             home_details.init(item, data, home);
           },
         });

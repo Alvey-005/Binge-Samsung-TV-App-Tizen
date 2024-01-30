@@ -29,16 +29,22 @@ window.home_details = {
       <p>${translate.go("home.details.play")}</p>
       <span></span>
     </a>
-    ${!session.storage.isAnonymous ? 
-      `<a>
+    ${
+      !session.storage.isAnonymous
+        ? `<a>
         <i class="fa-solid ${home_details.is_wishlist == true ? "fa-check" : "fa-bookmark"}"></i>
         <p>${home_details.is_wishlist ? translate.go("home.details.added") : translate.go("home.details.add")}</p>
-      </a>` : ``
+      </a>`
+        : ``
     }
-    <a>
-      <i class="fa-solid fa-list"></i>
-      <p>${translate.go("home.details.episodes")}</p>
-    </a>
+    ${
+      home_details.data.contentDetails.related_product.length
+        ? `<a>
+        <i class="fa-solid fa-list"></i>
+        <p>${translate.go("home.details.episodes")}</p>
+      </a>`
+        : ``
+    }
     <!--
     <a>
       <i class="fa-solid fa-clone"></i>
@@ -53,13 +59,13 @@ window.home_details = {
     $(`#${screen.id} .details`).addClass("full");
     $(`body`).addClass(`${home_details.id}`);
 
-    if(session.storage.customer){
+    if (session.storage.customer) {
       api.getCustomerDetails({
-        success: function(){
+        success: function () {
           console.log("Getting customer Data");
-        }
+        },
       });
-    };
+    }
     home_details.previous = main.state;
     main.state = home_details.id;
   },
@@ -98,7 +104,7 @@ window.home_details = {
         var buttons = $(`.${home_details.id}.${home_details.id}_buttons a`);
         var current = buttons.index($(`.${home_details.id}.${home_details.id}_buttons a.selected`));
 
-        if (session.storage.isAnonymous && current == 1){
+        if (session.storage.isAnonymous && current == 1) {
           current++;
         }
         switch (current) {
