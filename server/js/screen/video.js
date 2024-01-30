@@ -172,10 +172,11 @@ window.video = {
     }
   },
   destroy: function () {
-    console.log("destroy is calling");
     video.hideOSD();
     player.pause();
-    requestMethod.get(urls.closeContent);
+    if(session.storage.customer && session.storage.customer.id){
+      requestMethod.get(urls.closeContent);
+    }
     // player.stop();
     clearTimeout(video.timers.osd.object);
     clearInterval(video.timers.next);
@@ -428,7 +429,12 @@ window.video = {
     console.log('user can watch contetn',video.userCanWatchContent(item));
     if (!video.userCanWatchContent(item)) {
       video.destroy();
-      premiumNeedDialog.init();
+      // premiumNeedDialog.init();
+      if(session.storage.customer){
+        loginToaster.show('In order to watch this content, Please Login First');
+      }else{
+        loginToaster.show('In order to watch this content, Please Subscribe First');
+      }
       return;
     }
     video.episode = item.id;

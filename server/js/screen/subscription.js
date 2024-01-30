@@ -18,7 +18,7 @@ window.subscription = {
         subscription_element.id = subscription.id;
         document.body.appendChild(subscription_element);
         subscription.load();
-
+        loginToaster.init();
         // console.log('hello',packages_html);
     },
     start: function () {
@@ -122,7 +122,11 @@ window.subscription = {
             case tvKey.KEY_ENTER:
                 var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
                 this.selectedPack = item;
-                paymentMethod.init();
+                if(session.storage.customer){
+                  paymentMethod.init();
+                }else{
+                  loginToaster.show('In order to purchase, Please Log into your account');
+                }
                 break;
         }
     },
