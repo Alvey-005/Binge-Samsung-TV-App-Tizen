@@ -113,6 +113,13 @@
   color: white;
 }
 
+#settings-screen .faq-item {
+  overflow-y: scroll;
+  white-space: normal;
+  font-size: 2vh;
+  color: white;
+}
+
 #settings-screen .terms-condition-wrap-app li {
   margin: 0px !important;
   font-size: 2vh !important;
@@ -120,7 +127,17 @@
   color: white !important;
 }
 
+#settings-screen .faq-item li {
+  margin: 0px !important;
+  font-size: 2vh !important;
+  white-space: normal !important;
+  color: white !important;
+}
+
 #settings-screen .terms-condition-wrap-app li::marker {
+  color: white !important;
+}
+#settings-screen .faq-item li::marker {
   color: white !important;
 }
 

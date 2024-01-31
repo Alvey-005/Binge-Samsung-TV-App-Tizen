@@ -108,7 +108,7 @@ window.api = {
         const faqs = await requestMethod.get(urls.fetchFaq);
         try {
           if (request.success) {
-            request.success(faqs.data);
+            request.success(faqs.data.faqs);
           }
         } catch (e) {
           request.error ? request.error(e) : console.error("error in api allCategories \n", e);
