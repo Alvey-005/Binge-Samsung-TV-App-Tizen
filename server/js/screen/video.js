@@ -18,11 +18,7 @@ window.video = {
     {
       icon: "fa-solid fa-message",
       action: "toggleSubtitles",
-    },
-    {
-      icon: "toggle-aspect fa-solid fa-expand",
-      action: "toggleAspectRatio",
-    },
+    }
   ],
   aspects: ["expand", "compress", "crop-simple"],
   aspect: 0,
