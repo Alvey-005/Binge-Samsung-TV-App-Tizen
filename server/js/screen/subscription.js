@@ -128,9 +128,14 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
         var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
         this.selectedPack = item;
         if (session.storage.customer) {
+          if(session.storage.customer.active_subscriptions && session.storage.customer.active_subscriptions.length > 0){
+            loginToaster.show('You already have an active subscription');
+            return;
+          }
           paymentMethod.init();
         } else {
           loginToaster.show('In order to purchase, Please Log into your account');
+          return;
         }
         break;
     }

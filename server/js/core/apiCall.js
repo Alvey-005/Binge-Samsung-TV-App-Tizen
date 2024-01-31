@@ -62,7 +62,6 @@ window.api = {
     };
     const verifyResponse = await requestMethod.post(urls.verifyOtpUrl, params);
     if (verifyResponse.data && verifyResponse.data.is_success) {
-      console.log('customer data', verifyResponse.data);
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
       session.storage.isAnonymous = false;
@@ -81,6 +80,49 @@ window.api = {
         try {
           if (request.success) {
             request.success(allCatResponse.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("error in api allCategories \n", e);
+        }
+      },
+    });
+  },
+
+  fetchTermsConditions: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const termsAndConditions = await requestMethod.get(urls.fetchTerms);
+        try {
+          if (request.success) {
+            request.success(termsAndConditions.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("error in api allCategories \n", e);
+        }
+      },
+    });
+  },
+  fetchFAQ: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const faqs = await requestMethod.get(urls.fetchFaq);
+        try {
+          if (request.success) {
+            request.success(faqs.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("error in api allCategories \n", e);
+        }
+      },
+    });
+  },
+  fetchPrivacy: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const privacyContent = await requestMethod.get(urls.fetchPrivacy);
+        try {
+          if (request.success) {
+            request.success(privacyContent.data);
           }
         } catch (e) {
           request.error ? request.error(e) : console.error("error in api allCategories \n", e);
@@ -372,7 +414,6 @@ window.api = {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.get(`${urls.profileApi}/${session.storage.customer.id}`);
-        console.log("customer data", data);
         if (data.data.is_success) {
           session.storage.customer = data.data.customer;
           session.update();

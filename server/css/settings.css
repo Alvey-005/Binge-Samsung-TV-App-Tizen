@@ -105,15 +105,23 @@
   font-size: 2vh;
 }
 
-#settings-screen #settings-div #pn_ulist li {
-  margin: 0px;
-  font-size: 2vh;
+#settings-screen .terms-condition-wrap-app {
+  height: 65vh;
+  overflow-y: scroll;
   white-space: normal;
+  font-size: 2vh;
   color: white;
 }
 
-#settings-screen #settings-div #pn_ulist li::marker {
-  color: white;
+#settings-screen .terms-condition-wrap-app li {
+  margin: 0px !important;
+  font-size: 2vh !important;
+  white-space: normal !important;
+  color: white !important;
+}
+
+#settings-screen .terms-condition-wrap-app li::marker {
+  color: white !important;
 }
 
 #settings-screen .about-container {
@@ -125,6 +133,7 @@
   flex-direction: column; 
   justify-content: space-between;
 }
+
 #settings-screen .about-profile {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -140,12 +149,11 @@
 }
 
 #settings-screen #redeem_button {
-  background-color: red;
+  background-color: transparent;
   color: white;
   border-radius: 0.5rem; 
-  border: none;
-  padding: 20px 100px 20px 100px; 
-  transition: background-color 0.3s;
+  border: solid 2px red;
+  padding: 20px 100px; 
   font-size: 2vh
 }
 
@@ -157,15 +165,15 @@
 }
 
 #settings-screen #delete_button {
-  background-color: red;
+  background-color: transparent;
   color: white;
   border-radius: 0.5rem; 
-  border: none;
-  padding: 20px 100px 20px 100px; 
-  transition: background-color 0.3s;
+  border: solid 2px red;
+  padding: 20px 100px; 
   font-size: 2vh; 
   margin-top: 30px
 }
+
 
 
 
