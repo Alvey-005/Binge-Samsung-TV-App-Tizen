@@ -147,6 +147,8 @@ window.settings = {
                 var input = $(`#voucher-input`);
                 input.css("background-color", "white");
                 var input = document.getElementById("voucher-input");
+                var button = document.getElementById("redeem_button");
+                button.style.backgroundColor = "transparent";
                 settings.settingsTab.voucher.keyboardElement = input;
               }
               break;
@@ -205,7 +207,7 @@ window.settings = {
               if (!settings.settingsTab.voucher.selected) {
                 settings.settingsTab.voucher.selected = 1;
                 var button = document.getElementById("redeem_button");
-                button.style.backgroundColor = "rgb(229, 9, 20)";
+                button.style.backgroundColor = "red";
                 var voucherInput = document.getElementById("voucher-input");
                 voucherInput.style.backgroundColor = "transparent";
                 break;
@@ -309,7 +311,7 @@ window.settings = {
               $(`#voucher-input`).css("background-color", "transparent");
               break;
             case "delete_account":
-              $(`#delete_button`).css("background-color", "red");
+              $(`#delete_button`).css("background-color", "transparent");
               settings.settingsTab.deleteAccount.buttonElement = undefined;
               break;
             case "interest":
@@ -584,7 +586,7 @@ window.settings = {
                 <h1 style="font-size: 3vh">Delete Account</h1>
               </div>
               <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button id="delete_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+              <button id="delete_button">Delete</button>
             </div>
             `;
           case "terms_of_use":
