@@ -47,20 +47,18 @@ window.menu = {
       action: "series.start",
     },
     {
-      id: "connectToTv",
-      label: "menu.connectToTv",
-      icon: "fa-solid fa-tv",
-      tool: true,
-      action: "connectToTv.start",
-      // action: "logout",
-    },
-    {
       id: "subscription",
       label: "menu.subscribe",
       icon: "fa-solid fa-ticket",
       action: "subscription.start",
     },
-
+    {
+      id: "connectToTv",
+      label: "menu.connectToTv",
+      icon: "fa-solid fa-tv",
+      tool: true,
+      action: "connectToTv.start",
+    },
     {
       id: "settings",
       label: "menu.settings",
