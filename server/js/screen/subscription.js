@@ -124,28 +124,33 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
   },
 
   keyDown: function (event) {
-      switch (event.keyCode) {
-          case tvKey.KEY_BACK:
-          case tvKey.KEY_ESCAPE:
-          case tvKey.KEY_LEFT:
-              menu.open();
-              break;
-          case tvKey.KEY_UP:
-              $("#subscription .subscription-packages")[0].slick.prev();
-              var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
-              this.selectedPack = item;
-              break;
-          case tvKey.KEY_DOWN:
-              $("#subscription .subscription-packages")[0].slick.next();
-              var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
-              this.selectedPack = item;
-              break;
-          case tvKey.KEY_ENTER:
-              var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
-              this.selectedPack = item;
-              paymentMethod.init();
-              break;
-      }
+    switch (event.keyCode) {
+      case tvKey.KEY_BACK:
+      case tvKey.KEY_ESCAPE:
+      case tvKey.KEY_LEFT:
+        menu.open();
+        break;
+      case tvKey.KEY_UP:
+        $("#subscription .subscription-packages")[0].slick.prev();
+        break;
+      case tvKey.KEY_DOWN:
+        $("#subscription .subscription-packages")[0].slick.next();
+        break;
+      case tvKey.KEY_ENTER:
+        var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
+        this.selectedPack = item;
+        if (session.storage.customer) {
+          if(session.storage.customer.active_subscriptions && session.storage.customer.active_subscriptions.length > 0){
+            loginToaster.show('You already have an active subscription');
+            return;
+          }
+          paymentMethod.init();
+        } else {
+          loginToaster.show('In order to purchase, Please Log into your account');
+          return;
+        }
+        break;
+    }
   },
   move: function (event) {
 

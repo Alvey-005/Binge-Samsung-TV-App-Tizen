@@ -471,9 +471,9 @@ window.video = {
       video.destroy();
       // premiumNeedDialog.init();
       if(session.storage.customer){
-        loginToaster.show('In order to watch this content, Please Login First');
-      }else{
         loginToaster.show('In order to watch this content, Please Subscribe First');
+      }else{
+        loginToaster.show('In order to watch this content, Please Login First');
       }
       return;
     }
