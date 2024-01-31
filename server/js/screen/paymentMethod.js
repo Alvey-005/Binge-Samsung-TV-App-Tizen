@@ -192,6 +192,10 @@ window.paymentMethod = {
           </div>`;
       }
       $(".subscription .payment-list").eq(0).html(paymentMethod);
+      $('.payment-list .payment_mode').eq(0).addClass("selected");
+    console.log('class', $('.payment-list .payment_mode').eq(0));
+
+    console.log('session', api.customer);
       // console.log('session', api.customer);
 
 
@@ -302,8 +306,8 @@ window.paymentMethod = {
       // });
       const qrCode = new QRCodeStyling(
           {
-              "width": 700,
-              "height": 700,
+              "width": 500,
+              "height": 500,
               "data": paymentLink,
               "margin": 5,
               "imageOptions": {
