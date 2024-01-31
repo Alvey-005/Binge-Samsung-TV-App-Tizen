@@ -175,8 +175,12 @@ window.paymentMethod = {
     }
 
       paymentMode.forEach((mode, index) => {
-          paymentMethod += `<div class="payment_mode" onclick="paymentMethod.methodClicked('${index}')">
-            ${this.paymentMethodName[mode]}
+          // paymentMethod += `<div class="payment_mode" onclick="paymentMethod.methodClicked('${index}')">
+          //   ${this.paymentMethodName[mode]}
+          // </div>`;
+          paymentMethod += `<div class="payment_mode" onclick="paymentMethod.methodClicked('${index}')" id="${mode}">
+            <div class="paymentMethodImage">${this.paymentMethodImage[mode]}</div>
+            <div class="paymentModeName">${this.paymentMethodName[mode]}</div>
           </div>`;
       });
       for (var index = 0; index < 2; index++) {
@@ -210,11 +214,19 @@ window.paymentMethod = {
   },
 
   methodClicked: function(index) {
-    console.log('methoddd', index)
-    $("#subscription .payment-list")[0].slick.slickGoTo(index);
-    this.selectedPaymentMode = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
-    // this.updateQRCodeText("instagram.com");
-    this.updateQRCodeText(this.paymentLink[this.selectedPaymentMode]);
+    console.log('methoddd', index);
+    // $("#subscription .payment-list")[0].slick.slickGoTo(index);
+    // this.selectedPaymentMode = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
+    // // this.updateQRCodeText("instagram.com");
+    // this.updateQRCodeText(this.paymentLink[this.selectedPaymentMode]);
+    var buttons = $('.payment-list .payment_mode');
+    var current = buttons.index($('.payment-list .payment_mode.selected'));
+    buttons.removeClass("selected");
+    buttons.eq(index).addClass("selected");
+    this.updateQRCodeText(this.paymentLink[$('.payment-list .payment_mode.selected').attr('id')]);
+    // var item = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
+    // console.log('all payment mode', item);
+    // this.selectedPaymentMode = item;
   },
 
   keyDown: function (event) {
@@ -240,6 +252,8 @@ window.paymentMethod = {
 
         console.log('current', $('.payment-list .payment_mode.selected').attr('id'));
         this.updateQRCodeText(this.paymentLink[$('.payment-list .payment_mode.selected').attr('id')]);
+
+        break;
       case tvKey.KEY_RIGHT:
         var buttons = $('.payment-list .payment_mode');
         var current = buttons.index($('.payment-list .payment_mode.selected'));
@@ -256,7 +270,6 @@ window.paymentMethod = {
         this.selectedPaymentMode = item;
         console.log('payment mode', this.selectedPaymentMode);
         break;
-
       }
   },
   destroy: function () {
