@@ -51,6 +51,7 @@ window.menu = {
       id: "connectToTv",
       label: "menu.connectToTv",
       icon: "fa-solid fa-tv",
+      tool: true,
       action: "connectToTv.start",
       // action: "logout",
     },
@@ -84,13 +85,13 @@ window.menu = {
       // event: "login",
       action: "login.init",
     },
-    {
-      id: "exit",
-      label: "menu.exit",
-      icon: "fa-solid fa-xmark",
-      tool: true,
-      action: "exit.init",
-    },
+    // {
+    //   id: "exit",
+    //   label: "menu.exit",
+    //   icon: "fa-solid fa-xmark",
+    //   tool: true,
+    //   action: "exit.init",
+    // },
   ],
   selected: 1,
   previous: NaN,
@@ -103,7 +104,11 @@ window.menu = {
 
     var tool_options = "";
     var menu_options = "";
-    if (session.storage.isAnonymous) {
+    if (session.storage.isAnonymous && session.storage.country != "BD") {
+      menu.options = menu.defaultOptions.filter(
+        (item) => item.id !== "login" && item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
+      );
+    } else if (session.storage.isAnonymous) {
       menu.options = menu.defaultOptions.filter(
         (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
@@ -248,7 +253,6 @@ window.menu = {
         var options = $(`#${menu.id} .option`);
         var current = options.index($(`#${menu.id} .option.focus`));
         if (menu.options[current].action) {
-          console.log("action", menu.options[current].action);
           var selected = options.index($(`#${menu.id} .option.selected`));
           options.removeClass("selected");
           options.eq(current).addClass("selected");
