@@ -100,6 +100,7 @@ window.settings = {
     document.body.removeChild(document.getElementById(settings.id));
   },
 
+
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
@@ -248,6 +249,7 @@ window.settings = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         if (settings.isDetails) {
+          console.log('settingssss', this.settings.isDetails);
           // var options = $(`.options li`);
           // var current = options.index($(`.options li.active`));
           // var element = settings.options[current];
@@ -297,8 +299,49 @@ window.settings = {
     var className = index === undefined ? "selected" : "active";
     var selected = index === undefined ? 0 : index;
     return settings.options
-      .map((option, index) => `<li class="${index === selected ? className : ""}">${translate.go(option.label)}</li>`)
+      .map((option, index) => `<li onclick="settings.optionClickHandler(event, '${index}', '${option.id}')")" class="${index === selected ? className : ""}">${translate.go(option.label)}</li>`)
       .join("");
+  },
+
+  optionClickHandler: function(event, index, id) {
+    console.log('clicked', index, id);
+    var options = $(`.options li`);
+    var current = options.index($(`.options li.selected`));
+
+    options.removeClass("selected");
+    console.log(settings.options[index]);
+    settings.selectedTab = id;
+    console.log('sele tab', settings.selectedTab);
+    // settings.options[index].className = settings.options[index].className + ' selected';
+    options.eq(index).addClass("selected");
+    settings.details.show(settings.options[index]);
+  },
+
+  deleteAccountHandler: function() {
+      accountDeleteDialog.init();
+      // premiumNeedDialog.init();
+  },
+
+  redeemHandler: function() {
+    var voucherInput = document.getElementById("voucher-input").value;
+    if (voucherInput.length !== 8) {
+      document.getElementById("errorMsg").innerText = "Please Enter Correct 8 Digit Code.";
+    } else {
+      document.getElementById("errorMsg").innerText = "";
+      api.voucherRedeem({
+        data: {
+          customer_id: settings.customer.id,
+          phone: settings.customer.phone,
+          voucher_code: voucherInput,
+        },
+        success: function (response) {
+          document.getElementById("errorMsg").innerText = `${response}`;
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    }
   },
 
   details: {
@@ -490,7 +533,7 @@ window.settings = {
               <div class="voucher-input-container">
                 <input id="voucher-input" placeholder="Enter Your Coupon here" />
               </div>
-              <button id="redeem_button">Redeem</button>
+              <button onclick="settings.redeemHandler()" id="redeem_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 5)'" onmouseout="this.style.backgroundColor='red'">Redeem</button>
              <p id="errorMsg" style="font-size: 2vh; color: red"></p>
             </div>`;
           case "delete":
@@ -501,7 +544,7 @@ window.settings = {
                 <h1 style="font-size: 3vh">Delete Account</h1>
               </div>
               <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button id="delete_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 20)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+              <button onclick="settings.deleteAccountHandler()" id="delete_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 5)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
             </div>
             `;
           case "terms_of_use":
@@ -1155,13 +1198,14 @@ window.settings = {
       },
 
       move: function (id) {
+        console.log('idddd', id);
         switch (id) {
           case 0:
           case 1:
             //voucher
             settings.selectedTab = "voucher";
             if (!settings.settingsTab.voucher.selected) {
-              $(`#voucher-input`).css("background-color", "rgb(30, 30, 30)");
+              $(`#voucher-input`).css("background-color", "rgb(229, 9, 20)");
               settings.settingsTab.voucher.keyboardElement = document.getElementById("voucher-input");
               break;
             }

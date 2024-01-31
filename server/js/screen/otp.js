@@ -23,10 +23,10 @@ window.otp = {
           <span id="login-error-message"></span>
           <a class="button ${
             otp.id
-          }-option" translate onclick="otp.keyDown(event)">${translate.go(
+          }-option" translate onclick="otp.handleSend()">${translate.go(
       "login.verify"
     )}</a>
-          <a id="resend-otp-button" class="button ${otp.id}-option resend-otp" translate>${translate.go("login.resend_otp")}</a>
+          <a id="resend-otp-button" onclick="otp.handleResend()" class="button ${otp.id}-option resend-otp" translate>${translate.go("login.resend_otp")}</a>
         </div>
       </div>
     </div>`;
@@ -95,12 +95,29 @@ window.otp = {
     document.body.removeChild(document.getElementById(this.id));
   },
 
-  keyDown: function (event) {
-    if (event.type === "click") {
-      console.log('triggering');
-      otp.move(otp.selected == 1 ? 1 : otp.selected + 1);
+  handleSend: function() {
+    otp.move(1);
+    otp.action(this.selected);
+  },
+
+  handleResend: function() {
+    if (otp.countdown <= 0) {
+      otp.move(2);
       otp.action(this.selected);
-    } else {
+    }
+  },
+
+  keyDown: function (event) {
+    // if (event.type === "click") {
+    //   console.log('triggering');
+    //   if (!otp.selected) {
+    //     otp.move(otp.selected == 2 ? 2 : otp.selected + 1);
+    //   } else if (otp.countdown <= 0 && otp.selected == 1) {
+    //     otp.move(otp.selected == 2 ? 2 : otp.selected + 1);
+    //     }
+    //     otp.move(0);
+    //   otp.action(this.selected);
+    // } else {
       switch (event.keyCode) {
         case tvKey.KEY_BACK:
         case tvKey.KEY_ESCAPE:
@@ -126,7 +143,7 @@ window.otp = {
           otp.action(this.selected);
           break;
       }
-    }
+    // }
   },
 
   move: function (selected) {

@@ -12,14 +12,36 @@ window.accountDeleteDialog = {
       '  <div class="window">' +
       `    <div class="text">Are you sure you want to remove this account?</div>` +
       '    <div class="buttons">' +
-      `      <div class="button" id="account-delete-screen-yes">Confirm</div>` +
-      `      <div class="button" id="account-delete-screen-no">Cancel</div>` +
+      `      <div class="button" onclick="accountDeleteDialog.handleYes()" id="account-delete-screen-yes">Confirm</div>` +
+      `      <div class="button" onclick="accountDeleteDialog.handleNo()" id="account-delete-screen-no">Cancel</div>` +
       "  </div>" +
       "</div>";
     document.body.appendChild(accountDeleteDialog_element);
     accountDeleteDialog.previous = main.state;
     main.state = accountDeleteDialog.id;
     accountDeleteDialog.move(false);
+  },
+
+  handleYes: function() {
+    api.removeAccount({
+      data: {
+        id: session.storage.customer.id,
+      },
+      success: function (response) {
+        accountDeleteDialog.destroy();
+        // main.init();
+        settings.destroy();
+        menu.destroy();
+        login.init();
+      },
+      error: function (error) {
+        accountDeleteDialog.destroy();
+      },
+    });
+  }, 
+
+  handleNo: function() {
+    accountDeleteDialog.destroy();
   },
 
   destroy: function () {

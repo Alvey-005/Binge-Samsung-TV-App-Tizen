@@ -25,15 +25,13 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
       subscription_element.id = subscription.id;
       document.body.appendChild(subscription_element);
       subscription.load();
-
-      console.log('hello init');
+      loginToaster.init();
+      // console.log('hello init');
   },
   start: function () {
       api.getSubscription({
           success: function (subs) {
-              console.log(subs);
               subscription.packages = subs.packages;
-              console.log(subs.packages, subscription);
               subscription.init();
           }
       })
@@ -44,15 +42,12 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
   load: function () {
       var packages_html = "";
       var i = 1;
-      console.log('len', subscription.packages.length);
       subscription.packages.forEach((pack, index) => {
           packages_html +=
               `<div class='package' onclick="subscription.packageClick(event, '${index}')")">
               <div class='package-description'>
                 <div class='package-price margin-right-40'>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="27" height="32" viewBox="0 0 27 32" fill="none">
-                    <path d="M5.16582 0C6.50749 0 7.55823 0.559424 8.31843 1.67748C9.12351 2.7505 9.57073 4.22634 9.66041 6.10483V13.1488H11.5389L14.6918 16.3692H9.66041V25.4927C9.66041 26.2082 9.92867 26.8566 10.4651 27.4382C11.0019 28.0199 11.8742 28.3103 13.0819 28.3102C14.6472 28.3103 16.3021 27.4382 18.0461 25.6942C19.8348 23.9049 20.7741 22.0716 20.8637 20.1932L20.0587 20.2598C17.1964 20.2598 15.7649 18.7394 15.7649 15.698C15.7649 14.6692 16.1005 13.7527 16.7714 12.9478C17.4426 12.1427 18.5603 11.7402 20.1257 11.7402C21.7806 11.7402 23.167 12.4556 24.2852 13.8867C25.4482 15.3181 26.0297 17.0623 26.0297 19.1193C26.0297 22.1608 24.7322 25.068 22.1383 27.8408C19.5891 30.6136 16.5475 32 13.0146 32C11.7178 32.0002 10.3312 31.441 8.85518 30.3232C7.42398 29.1599 6.5745 28.0417 6.30608 26.9687V16.3692H3.0856L0 13.1488H6.30608V6.77598C6.30608 5.47872 5.52344 4.71844 3.95785 4.49483C3.24229 4.49483 2.77294 4.60656 2.54909 4.83033C2.14675 4.15917 1.76645 3.35433 1.40867 2.41516V2.07967C1.40867 1.49843 1.85606 1.00633 2.75042 0.60383C3.64511 0.201329 4.45019 0 5.16582 0Z" fill="white" />
-                  </svg>
+                ${session.storage.country === "BD"? this.takaSvg: this.dollarSvg}
                   <div class='package-price-text'>${pack.display_amount}</div>
             
                 </div>
@@ -108,7 +103,7 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
           slidesToScroll: 1,
           speed: 0,
           waitForAnimate: false,
-          // cssEase: 'ease-in-out',
+          cssEase: 'ease-in-out',
       });
 
       $("#subscription .subscription-packages")[0].slick.slickGoTo(0);
@@ -116,7 +111,6 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
 
       $('.subscription-packages').on('click', function(event) {
         var item = subscription.packages[$("#subscription .subscription-packages")[0].slick.currentSlide];
-        console.log('iteeeeeem', item);
         paymentMethod.init();
       });
       

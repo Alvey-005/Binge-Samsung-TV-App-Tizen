@@ -486,19 +486,19 @@ window.sports = {
     //   $(".row-content")[rowIndex].slick.getCurrent()
     // );
     // $(".row-content")[rowIndex].className =
-    //   $(".row-content")[rowIndex].className + " hovered";
+    //   $(".row-content")[rowIndex].className + " selected4";
 
-    // var item =
-    //   home.position > 0
-    //     ? home.data.main.lists[home.position - 1].items[
-    //         $(".row-content")[home.position - 1].slick.currentSlide
-    //       ]
-    //     : home.data.main.banner;
+    // var item = sports.data.main.lists[rowIndex].items[colIndex];
+    // $(".row-content")[rowIndex].items[colIndex].className = 
+    // $(".row-content")[rowIndex].items[colIndex].className + " selected4"
+
     // var item = sports.data.main.lists[rowIndex].items[colIndex];
 
     // $(".row-content").slick("slickGoTo", colIndex);
 
+    // $(".row-content").slick("slickGoTo", colIndex);
+
     // var item = sports.data.main.lists[rowIndex].items[colIndex];
-    // console.log('hover item', item);
+    /// console.log('hover item', item);
   }
 };

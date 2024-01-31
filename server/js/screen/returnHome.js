@@ -13,8 +13,8 @@ window.returnHome = {
       `    <div class="text">${translate.go(`exit.return_home`)}` +
       "  </div>" +
       '    <div class="buttons">' +
-      `      <div class="button" id="return-home-screen-yes">${translate.go("exit.yes")}</div>` +
-      `      <div class="button" id="return-home-screen-no">${translate.go("exit.no")}</div>` +
+      `      <div class="button" onclick="returnHome.handleYes()" id="return-home-screen-yes">${translate.go("exit.yes")}</div>` +
+      `      <div class="button" onclick="returnHome.handleNo()" id="return-home-screen-no">${translate.go("exit.no")}</div>` +
       "    </div>" +
       "</div>";
     document.body.appendChild(returnHome_element);
@@ -22,6 +22,14 @@ window.returnHome = {
     returnHome.previous = main.state;
     main.state = returnHome.id;
     returnHome.move(false);
+  },
+
+  handleYes: function() {
+    window.location.reload();
+  },
+
+  handleNo: function() {
+    returnHome.destroy();
   },
 
   destroy: function () {

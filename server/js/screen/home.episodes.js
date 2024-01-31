@@ -53,7 +53,7 @@ window.home_episodes = {
     var episodes_html = "";
     home_episodes.data.episodes.forEach((episode, index) => {
       episodes_html += `
-      <div class="episode">
+      <div class="episode" onclick="home_episodes.episodeClickHandler(event, '${index}')">
         <div class="episode-image">
           <img src="${api.api.imageStageURl}/${episode.thumb_path || episode.image}">
         </div>
@@ -84,7 +84,32 @@ window.home_episodes = {
       waitForAnimate: false,
     });
 
+    $(".episodes .episodes-list").on('click', function() {
+      var options = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
+      var current = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
+      const target = home_episodes.data.episodes[current];
+          api.contentDetails({
+            body: {
+              id: target.id,
+              content_type: target.content_type,
+            },
+            success: function (response) {
+              video.init(response, home_episodes.appScreen);
+            },
+          });
+    });
+
+
     $(".episodes .episodes-list")[0].slick.slickGoTo(0);
+  },
+
+  episodeClickHandler: function (event, index) {
+    console.log('episode clicked', index);
+    var options = $(`.${home_episodes.id}.${home_episodes.id}_content .option`);
+    var current = options.index($(`.${home_episodes.id}.${home_episodes.id}_content .option.active`));
+    console.log(home_episodes.data.episodes[index]);
+    $(".episodes .episodes-list")[0].slick.slickGoTo(index);
+    home_episodes.data.episodes[index].className = home_episodes.data.episodes[index].className + ' active';
   },
 
   view: function (episode) {

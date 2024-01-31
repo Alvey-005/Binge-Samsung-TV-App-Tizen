@@ -33,10 +33,10 @@ window.home = {
       });
 
       home_element.innerHTML = `
-    <div class="content">
+    <div class="content" id="banner" onclick="console.log('test click event')">
       ${home.fromCategory.state ? `<div class="browse-back"><span></span><p>${home.fromCategory.title}</p></div>` : ""}
       <div class="details full">
-        <div class="background" id="banner">
+        <div class="background" onclick="console.log('test click event')">
           <img src="${home.data.main.banner.background}">
         </div>
         <div class="info">
@@ -65,15 +65,6 @@ window.home = {
 
       document.body.appendChild(home_element);
       
-
-      const clickEvent = new MouseEvent("click", {
-        // bubbles: true,
-        // cancelable: true,
-        view: window
-    });
-
-      const elm = document.getElementById("banner");
-      elm.dispatchEvent(clickEvent);
 
       var title = $(".details .info .title")[0];
       title.style.fontSize = title.scrollHeight > title.clientHeight ? "3.5vh" : "5vh";
@@ -203,7 +194,7 @@ window.home = {
   hover: function(event, colIndex, rowIndex) {
     // console.log('hovering', event);
     var item = home.data.main.lists[rowIndex].items[colIndex];
-    console.log('hover item', item);
+    // console.log('hover item', item);
   },
 
   click: function (event, colIndex, rowIndex) {
@@ -302,8 +293,21 @@ window.home = {
               // window.addEventListener('scroll', function() {
               //   window.scrollY = 8;
               // })
-              window.scrollY = 8;
-              console.log(document.scrollY);
+
+              ////////////////////////
+
+              const clickEvent = new MouseEvent("click", {
+                // bubbles: true,
+                // cancelable: true,
+                view: window
+            });
+        
+              const elm = document.getElementById("banner");
+              elm.dispatchEvent(clickEvent);
+
+              ////////////////////////
+              // window.scrollY = 8;
+              // console.log(window.scrollY);
           } else {
             $(".details.full").removeClass("full");
             var first_row = $(".row-content")[0];
