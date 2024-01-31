@@ -88,6 +88,49 @@ window.api = {
     });
   },
 
+  fetchTermsConditions: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const termsAndConditions = await requestMethod.get(urls.fetchTerms);
+        try {
+          if (request.success) {
+            request.success(termsAndConditions.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("error in api allCategories \n", e);
+        }
+      },
+    });
+  },
+  fetchFAQ: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const faqs = await requestMethod.get(urls.fetchFaq);
+        try {
+          if (request.success) {
+            request.success(faqs.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("error in api allCategories \n", e);
+        }
+      },
+    });
+  },
+  fetchPrivacy: async function (request) {
+    return session.refresh({
+      success: async function (storage) {
+        const privacyContent = await requestMethod.get(urls.fetchPrivacy);
+        try {
+          if (request.success) {
+            request.success(privacyContent.data);
+          }
+        } catch (e) {
+          request.error ? request.error(e) : console.error("error in api allCategories \n", e);
+        }
+      },
+    });
+  },
+
   contentDetails: async function (request) {
     return session.refresh({
       success: async function (storage) {
