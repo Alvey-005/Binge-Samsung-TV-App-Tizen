@@ -62,7 +62,6 @@ window.api = {
     };
     const verifyResponse = await requestMethod.post(urls.verifyOtpUrl, params);
     if (verifyResponse.data && verifyResponse.data.is_success) {
-      console.log('customer data', verifyResponse.data);
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
       session.storage.isAnonymous = false;
@@ -372,7 +371,6 @@ window.api = {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.get(`${urls.profileApi}/${session.storage.customer.id}`);
-        console.log("customer data", data);
         if (data.data.is_success) {
           session.storage.customer = data.data.customer;
           session.update();
