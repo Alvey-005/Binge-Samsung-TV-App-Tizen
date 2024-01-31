@@ -13,7 +13,7 @@
     "deploy": "npm run build-cdn && gh-pages -d dist -b cdn",
     "package": "tizen package -t wgt -- dist -o .",
     "install-app": "tizen install -t UA32T4400ARSFS --name BingeBuzz.wgt",
-    "init": "tizen run -t UA32T4400ARSFS -p bpeU1aRY4w.Binge",
+    "init": "tizen run -t UA32T4400ARSFS -p QQfJI6P2O9.BingeBuzz",
     "start-tv-online": "npm run build-online && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
     "start-tv": "npm run build && npm run package && npm run install-app --tv=UA32T4400ARSFS && npm run init --tv=UA32T4400ARSFS",
     "start": "npm run start-tv",
