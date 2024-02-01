@@ -262,7 +262,7 @@ window.languages = {
       hot: "Hot & New",
       subscribe: "Subscribe",
       exit: "Exit",
-      connectToTv: "Connect to TV",
+      connectToTv: "Activate TV",
     },
     home: {
       banner: {
