@@ -164,7 +164,9 @@ window.favourites = {
 
   destroy: function () {
     favourites.position = 0;
-    document.body.removeChild(document.getElementById(favourites.id));
+    if (document.getElementById(favourites.id)) {
+      document.body.removeChild(document.getElementById(favourites.id));
+    }
   },
 
   show_details: function () {

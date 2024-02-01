@@ -123,6 +123,7 @@ window.settings = {
   },
 
   destroy: function () {
+    console.log('settings is calling');
     settings.isDetails = false;
     settings.settingsTab.privacyNotice.htmlContent = null;
     settings.settingsTab.faq.htmlContent = null;

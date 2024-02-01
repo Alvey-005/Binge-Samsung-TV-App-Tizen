@@ -66,14 +66,14 @@ window.menu = {
       tool: true,
       action: "settings.init",
     },
-    {
-      id: "logout",
-      label: "menu.logout",
-      icon: "fa-solid fa-sign-out",
-      tool: true,
-      event: "logout",
-      // action: "logout",
-    },
+    // {
+    //   id: "logout",
+    //   label: "menu.logout",
+    //   icon: "fa-solid fa-sign-out",
+    //   tool: true,
+    //   event: "logout",
+    //   // action: "logout",
+    // },
     {
       id: "login",
       label: "menu.login",

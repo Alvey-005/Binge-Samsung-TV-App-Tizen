@@ -128,7 +128,9 @@ window.sports = {
 
   destroy: function () {
     sports.position = 0;
-    document.body.removeChild(document.getElementById(sports.id));
+    if (document.getElementById(sports.id)) {
+      document.body.removeChild(document.getElementById(sports.id));
+    }
   },
 
   show_details: function () {
