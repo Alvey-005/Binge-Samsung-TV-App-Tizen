@@ -98,7 +98,7 @@ window.search = {
   scroll: function () {
     if (search.data.result.length == 0) return;
     var current_row = Math.floor(search.position / search.items_per_row);
-    if (current_row < 2) {
+    if (current_row < 3) {
       $(".list-container-over").get(0).style.marginTop = "0px";
     } else if (!(current_row + 1 >= search.scroll_data.rows)) {
       current_row = current_row - 1;
