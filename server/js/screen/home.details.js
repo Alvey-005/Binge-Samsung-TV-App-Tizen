@@ -22,6 +22,10 @@ window.home_details = {
     home_details.callbacks.init && home_details.callbacks.init(item);
 
     var buttons = document.createElement("div");
+    var elemtentExisit = document.getElementById(`${home_details.id}`);
+    if(elemtentExisit){
+      return;
+    }
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
     buttons.innerHTML = `
     <a class="selected">
