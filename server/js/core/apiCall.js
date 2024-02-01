@@ -102,6 +102,7 @@ window.api = {
       },
     });
   },
+
   fetchFAQ: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -116,6 +117,7 @@ window.api = {
       },
     });
   },
+
   fetchPrivacy: async function (request) {
     return session.refresh({
       success: async function (storage) {

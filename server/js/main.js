@@ -141,7 +141,6 @@ window.main = {
       if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
         exit.init();
       } else {
-        console.log('main state', main.state);
         switch (main.state) {
           case changelog.id:
             changelog.keyDown(event);

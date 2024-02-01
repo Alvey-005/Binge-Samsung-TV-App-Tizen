@@ -134,7 +134,6 @@ window.search = {
   },
 
   keyDown: function (event) {
-    console.log(this.position);
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_ESCAPE:
