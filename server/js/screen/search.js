@@ -15,6 +15,7 @@ window.search = {
   },
 
   init: function () {
+    this.position = -1;
     var search_element = document.createElement("div");
     search_element.id = search.id;
 
@@ -107,6 +108,7 @@ window.search = {
   },
 
   keyDown: function (event) {
+    console.log(this.position);
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
       case tvKey.KEY_ESCAPE:
