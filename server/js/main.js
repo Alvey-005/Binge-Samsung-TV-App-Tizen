@@ -141,6 +141,7 @@ window.main = {
       if (event.keyCode == tvKey.KEY_EXIT && main.state != exit.id) {
         exit.init();
       } else {
+        console.log('main state', main.state);
         switch (main.state) {
           case changelog.id:
             changelog.keyDown(event);
@@ -160,8 +161,8 @@ window.main = {
           case accountDeleteDialog.id:
             accountDeleteDialog.keyDown(event);
             break;
-          case streamLimitCrossed.id:
-            streamLimitCrossed.keyDown(event);
+          case logoutModal.id:
+            logoutModal.keyDown(event);
             break;
           case login.id:
             login.keyDown(event);

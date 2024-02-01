@@ -86,7 +86,8 @@ window.player = {
               if (resp.statusCode === 429) {
                 // handleCloseContentError();
                 video.destroy();
-                streamLimitCrossed.init();
+                // streamLimitCrossed.init();
+                loginToaster.show('You have reached your streaming limit');
                 video.destroy();
               } else if (resp.statusCode === 401) {
                 // handleUnauthorizedError();

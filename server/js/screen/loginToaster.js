@@ -22,6 +22,6 @@ window.loginToaster = {
         clearTimeout(loginToaster.toasterTimer);
     },
     destroy: function () {
-        document.body.removeChild(document.getElementById(loginToaster.id));
+        document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
     }
 }

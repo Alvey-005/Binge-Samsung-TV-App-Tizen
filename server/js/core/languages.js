@@ -262,7 +262,7 @@ window.languages = {
       hot: "Hot & New",
       subscribe: "Subscribe",
       exit: "Exit",
-      connectToTv: "Connect to TV",
+      connectToTv: "Activate TV",
     },
     home: {
       banner: {
@@ -293,10 +293,10 @@ window.languages = {
       no: "NO",
       yes: "YES",
     },
-    streamLimitCrossed: {
-      message: "Stream Limit Crossed",
-      no: "NO",
-      yes: "YES",
+    logoutModal: {
+      message: "Do you want to logout",
+      no: "Cancel",
+      yes: "Confirm",
     },
     search: {
       placeholder: "Search...",
@@ -323,6 +323,7 @@ window.languages = {
         faq: "FAQ",
         tou: "Terms of Use",
         prnotice: "Privacy Notice",
+        logoutModal: "Logout",
       },
     },
   },

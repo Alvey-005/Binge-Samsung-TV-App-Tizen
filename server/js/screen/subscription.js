@@ -39,7 +39,9 @@ dollarSvg : `<svg  width="27" height="32" viewBox="0 0 27 32">
     })
   },
   destroy: function () {
-    document.body.removeChild(document.getElementById(subscription.id));
+    if (document.getElementById(subscription.id)) {
+      document.body.removeChild(document.getElementById(subscription.id));
+    }
   },
   load: function () {
 

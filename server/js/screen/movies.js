@@ -128,7 +128,9 @@ window.movies = {
 
   destroy: function () {
     movies.position = 0;
-    document.body.removeChild(document.getElementById(movies.id));
+    if (document.getElementById(movies.id)) {
+      document.body.removeChild(document.getElementById(movies.id));
+    }
   },
 
   show_details: function () {

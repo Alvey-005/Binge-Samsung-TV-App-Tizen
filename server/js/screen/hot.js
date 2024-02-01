@@ -168,7 +168,9 @@ window.hot = {
 
   destroy: function () {
     hot.position = 0;
-    document.body.removeChild(document.getElementById(hot.id));
+    if (document.getElementById(hot.id)) {
+      document.body.removeChild(document.getElementById(hot.id));
+    }
   },
 
   show_details: function () {

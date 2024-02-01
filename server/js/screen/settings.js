@@ -83,6 +83,30 @@ window.settings = {
   previous: NaN,
 
   init: function () {
+    api.fetchPrivacy({
+      success: function (response) {
+        settings.settingsTab.privacyNotice.htmlContent = response;
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+    api.fetchTermsConditions({
+      success: function (response) {
+        settings.settingsTab.termsOfUse.htmlContent = response;
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
+    api.fetchFAQ({
+      success: function (response) {
+        settings.settingsTab.faq.htmlContent = response;
+      },
+      error: function (error) {
+        console.log(error);
+      },
+    });
     var settings_element = document.createElement("div");
     settings_element.id = settings.id;
 
@@ -99,7 +123,11 @@ window.settings = {
   },
 
   destroy: function () {
+    console.log('settings is calling');
     settings.isDetails = false;
+    settings.settingsTab.privacyNotice.htmlContent = null;
+    settings.settingsTab.faq.htmlContent = null;
+    settings.settingsTab.termsOfUse.htmlContent = null;
     document.body.removeChild(document.getElementById(settings.id));
   },
 
@@ -161,43 +189,6 @@ window.settings = {
           var newCurrent = current > 0 ? current - 1 : current;
           options.eq(newCurrent).addClass("selected");
           settings.details.show(settings.options[newCurrent]);
-
-          if (settings.options[newCurrent].id === "faq") {
-            if (!settings.settingsTab.faq.htmlContent) {
-              api.fetchFAQ({
-                success: function (response) {
-                  // console.log(response, typeof response);
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            }
-          } else if (settings.options[newCurrent].id === "privacy_notice") {
-            if (!settings.settingsTab.privacyNotice.htmlContent) {
-              api.fetchPrivacy({
-                success: function (response) {
-                  // console.log(response, typeof response);
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            }
-          } else {
-            if (settings.options[newCurrent].id === "terms_of_use") {
-              if (!settings.settingsTab.termsOfUse.htmlContent) {
-                api.fetchTermsConditions({
-                  success: function (response) {
-                    // console.log(response, typeof response);
-                  },
-                  error: function (error) {
-                    console.log(error);
-                  },
-                });
-              }
-            }
-          }
         }
         break;
       case tvKey.KEY_DOWN:
@@ -251,49 +242,6 @@ window.settings = {
           var newCurrent = current < options.length - 1 ? current + 1 : current;
           options.eq(newCurrent).addClass("selected");
           settings.details.show(settings.options[newCurrent]);
-
-          if (settings.options[newCurrent].id === "faq") {
-            if (!settings.settingsTab.faq.htmlContent) {
-              api.fetchFAQ({
-                success: function (response) {
-                  // console.log(response, typeof response);
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            }
-          } else if (settings.options[newCurrent].id === "privacy_notice") {
-            if (!settings.settingsTab.privacyNotice.htmlContent) {
-              api.fetchPrivacy({
-                success: function (response) {
-                  const parser = new DOMParser();
-                  const tempDocument = parser.parseFromString(response, "text/html");
-
-                  const bodyContent = tempDocument.querySelector("body").innerHTML;
-
-                  const privacyElement = document.getElementById("settings-details");
-                  privacyElement.innerHTML = bodyContent;
-                },
-                error: function (error) {
-                  console.log(error);
-                },
-              });
-            }
-          } else {
-            if (settings.options[newCurrent].id === "terms_of_use") {
-              if (!settings.settingsTab.termsOfUse.htmlContent) {
-                api.fetchTermsConditions({
-                  success: function (response) {
-                    // console.log(response, typeof response);
-                  },
-                  error: function (error) {
-                    console.log(error);
-                  },
-                });
-              }
-            }
-          }
         }
         break;
       case tvKey.KEY_LEFT:
@@ -590,11 +538,43 @@ window.settings = {
             </div>
             `;
           case "terms_of_use":
-            return ``;
+            let touParser = new DOMParser();
+            let touDocument = touParser.parseFromString(settings.settingsTab.termsOfUse.htmlContent, "text/html");
+
+            let touContent = touDocument.querySelector("body").innerHTML;
+
+            const termsOfUseElement = document.getElementById("settings-details");
+            termsOfUseElement.innerHTML = touContent;
+            break;
           case "privacy_notice":
-            return ``;
+            let pnParser = new DOMParser();
+            pnDocument = pnParser.parseFromString(settings.settingsTab.privacyNotice.htmlContent, "text/html");
+            
+            pnContent = pnDocument.querySelector("body").innerHTML;
+            
+            const privacyElement = document.getElementById("settings-details");
+            privacyElement.innerHTML = pnContent;
+            break;
           case "faq":
-            return ``;
+            if(settings.settingsTab.faq.htmlContent)  {
+              const faqContainer =  settings.settingsTab.faq.htmlContent.map((item) => `
+                <div class="faq-item" style="color: white">
+                  <h2>${item.question}</h2>
+                  <div id="answer_${item.id}"></div>
+                </div>`
+              ).join('');
+              const tempElement = document.createElement('div');
+              tempElement.id = "faq-scrollable-content"
+              tempElement.style.height = "65vh";
+              tempElement.style.overflowY = "scroll";
+              tempElement.innerHTML = faqContainer;
+  
+              settings.settingsTab.faq.htmlContent.map((item) => {
+                const element = tempElement.querySelector(`#answer_${item.id}`);
+                element.innerHTML = item.answer;
+              });
+              return tempElement;
+            } 
         }
       },
 
@@ -611,15 +591,16 @@ window.settings = {
             }
           case 2:
             settings.selectedTab = "faq";
-            settings.settingsTab.faq.scrollableContent = document.getElementById("settings-div");
+            settings.settingsTab.faq.scrollableContent = document.getElementById("faq-scrollable-content");
             break;
           case 3:
             settings.selectedTab = "terms_of_use";
-            settings.settingsTab.termsOfUse.scrollableContent = document.getElementById("settings-div");
+            settings.settingsTab.termsOfUse.scrollableContent = document.getElementsByClassName("terms-condition-wrap-app")[0];
             break;
           case 4:
             settings.selectedTab = "privacy_notice";
-            settings.settingsTab.privacyNotice.scrollableContent = document.getElementById("settings-div");
+            settings.settingsTab.privacyNotice.scrollableContent =
+              document.getElementsByClassName("terms-condition-wrap-app")[0];
             break;
           case 5:
             settings.selectedTab = "delete_account";
