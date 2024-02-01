@@ -145,3 +145,16 @@
   /* border: 3px solid rgba(244, 130, 33, 0.9); */
   border: 3px solid rgba(222, 13, 30, 0.9);
 }
+
+#search-screen .no-data-content {
+  color: red;
+  font-size: 4vh;
+  font-weight: bold
+}
+
+#search-screen .no-data-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

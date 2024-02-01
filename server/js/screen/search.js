@@ -24,8 +24,8 @@ window.search = {
         <div class="input focus" id="search-screen_input">
           <input type="text" placeholder="${translate.go("search.placeholder")}">
         </div>
-        <div class="list-container">
-          <div class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);"></div>
+        <div id="list-container" class="list-container">
+          
         </div>
         <!--
         <div class="logo-fixed">
@@ -55,15 +55,41 @@ window.search = {
         loading.end();
         search.data.result = mapper.search(response);
         var elements_content = "";
-        search.data.result.forEach((element, index) => {
-          elements_content += `
+        if (search.data.result.length > 0) {
+          search.data.result.forEach((element, index) => {
+            elements_content += `
               <div class="item${index === 0 ? " selected" : ""}">
                 <img src="${element.poster}" alt="">
                 <div class="title">${element.title}</div>
               </div>`;
-        });
+          });
+        } else {
+          elements_content = `<div id="no-data" class="no-data-content">No Data Available</div>`;
+        }
 
-        $(".list-container-over").html(elements_content);
+        const tempContainer = document.createElement("div");
+        if (search.data.result.length > 0) {
+          const noDataContainer = document.getElementById("no-data");
+          if (noDataContainer) {
+            noDataContainer.remove();
+          }
+
+          tempContainer.innerHTML = `<div id="search-data-container" class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);">
+            ${elements_content}
+            </div>`;
+        } else {
+          // tempContainer.classList.add("no-data-container");
+          const noDataContainer = document.getElementById("search-data-container");
+          if (noDataContainer) {
+            noDataContainer.remove();
+          }
+          tempContainer.innerHTML = `<div>
+            ${elements_content}
+            </div>`;
+        }
+
+        // $(".list-container-over").html(elements_content);
+        document.getElementById("list-container").appendChild(tempContainer.firstElementChild);
         search.last_postion = 0;
         search.scroll_data.item_height = parseFloat(
           window.getComputedStyle($(`.list-container-over .item`).get(0)).height.replace("px", "")
