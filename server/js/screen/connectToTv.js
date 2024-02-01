@@ -98,8 +98,8 @@ window.connectToTv = {
                 },
                 success: function(data){
                     console.log('verify ', data);
-                    if(data.customerInfo){
-                        window.session.storage.customer = data.customerInfo;
+                    if(data.customer){
+                        window.session.storage.customer = data.customer;
                         window.session.storage.jwtToken = data.token;
                         clearInterval(window.connectToTv.timer);
                         window.connectToTv.destroy();
