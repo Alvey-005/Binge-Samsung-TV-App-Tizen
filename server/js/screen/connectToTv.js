@@ -115,7 +115,9 @@ window.connectToTv = {
     },
     destroy: function () {
         clearInterval(connectToTv.timer);
-        document.body.removeChild(document.getElementById(connectToTv.id));
+        if (document.getElementById(connectToTv.id)) {
+          document.body.removeChild(document.getElementById(connectToTv.id));
+        }
     },
     updateQRCodeText: function (paymentLink) {
         $("#login-qr-code").empty();

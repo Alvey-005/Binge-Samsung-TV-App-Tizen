@@ -127,7 +127,9 @@ window.series = {
 
   destroy: function () {
     series.position = 0;
-    document.body.removeChild(document.getElementById(series.id));
+    if (document.getElementById(series.id)) {
+      document.body.removeChild(document.getElementById(series.id));
+    }
   },
 
   show_details: function () {

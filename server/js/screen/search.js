@@ -40,7 +40,7 @@ window.search = {
 
   destroy: function () {
     search.data.result = [];
-    document.body.removeChild(document.getElementById(search.id));
+    document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
   },
 
   start: function () {
