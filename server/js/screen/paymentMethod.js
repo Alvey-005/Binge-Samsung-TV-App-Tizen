@@ -214,23 +214,14 @@ window.paymentMethod = {
     // $("#subscription .payment-list")[0].slick.slickGoTo(0);
     this.selectedPaymentMode = this.allPaymentMode[0];
     console.log('this log', this.selectedPaymentMode);
-
   },
 
-  methodClicked: function(index) {
-    console.log('methoddd', index);
-    // $("#subscription .payment-list")[0].slick.slickGoTo(index);
-    // this.selectedPaymentMode = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
-    // // this.updateQRCodeText("instagram.com");
-    // this.updateQRCodeText(this.paymentLink[this.selectedPaymentMode]);
+  methodClicked: function(index) { 
     var buttons = $('.payment-list .payment_mode');
     var current = buttons.index($('.payment-list .payment_mode.selected'));
     buttons.removeClass("selected");
     buttons.eq(index).addClass("selected");
     this.updateQRCodeText(this.paymentLink[$('.payment-list .payment_mode.selected').attr('id')]);
-    // var item = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
-    // console.log('all payment mode', item);
-    // this.selectedPaymentMode = item;
   },
 
   keyDown: function (event) {

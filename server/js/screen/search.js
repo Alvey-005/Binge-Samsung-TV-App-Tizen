@@ -25,6 +25,7 @@ window.search = {
         </div>
         <div class="list-container">
           <div class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);"></div>
+          <div></div>
         </div>
         <!--
         <div class="logo-fixed">

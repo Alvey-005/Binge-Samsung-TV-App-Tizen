@@ -78,10 +78,20 @@ window.home = {
         arrows: false,
         infinite: false,
         // mouseWheel: true,
-        slidesToShow: home.data.main.lists.length,
+        slidesToShow: 1.7,
         slidesToScroll: 1,
         speed: 0,
         waitForAnimate: false,
+        verticalSwiping: true,
+        responsive: [
+          {
+            breakpoint: 768,
+            settings: {
+              vertical: false,
+              arrows: true,
+            }
+          }
+        ]
       });
 
       // $(`#${home.id} .rows`).on('afterChange', function(event, slick, currentSlide){
@@ -132,7 +142,7 @@ window.home = {
 
       $(`#${home.id} .rows .row-content.episode`).slick({
         dots: false,
-        arrows: false,
+        arrows: true,
         infinite: false,
         slidesToShow: 4.5,
         slidesToScroll: 1,
@@ -142,6 +152,7 @@ window.home = {
 
       $(`#${home.id} .rows`)[0].slick.slickGoTo(0);
       $(`#${home.id} .rows .row-content`)[0].slick.slickGoTo(0);
+
 
       main.state = home.id;
 
