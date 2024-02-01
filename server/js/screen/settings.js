@@ -413,29 +413,11 @@ window.settings = {
       create: function (id) {
         switch (id) {
           case "about":
-            if (!session.storage.customer.active_subscriptions) {
-              api.profileDetails({
-                id: session.storage.customer.id,
-                success: function (response) {
-                  if (response) {
-                    let sessionInfo = JSON.parse(localStorage.getItem("session"));
-                    const mergedCustomerDetails = { ...session.storage.customer, ...response };
-                    sessionInfo.customer = mergedCustomerDetails;
-                    settings.customer = mergedCustomerDetails;
-                    localStorage.setItem("session", JSON.stringify(sessionInfo));
-                  } else {
-                    settings.customer = session.storage.customer;
-                  }
-                },
-                error: function (error) {
-                  console.error(error);
-                },
-              });
-            } else {
-              settings.customer = session.storage.customer;
+            settings.customer = session.storage.customer;
+            let subscriptionsDetails = null;
+            if (settings.customer.active_subscriptions && settings.customer.active_subscriptions.length > 0) {
+              subscriptionsDetails = settings.customer.active_subscriptions[0];
             }
-
-            subscriptionDetails = settings.customer.active_subscriptions || undefined;
 
             return `
           <div class="about-container">
@@ -448,18 +430,16 @@ window.settings = {
               </div>
             </div>
             ${
-              subscriptionDetails &&
-              subscriptionDetails.map(function (sub) {
-                return `
+              subscriptionsDetails &&
+              `
                 <div style="color: #fff">
                   <div style="display: flex;">
                     <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
                     <h1 style="font-size: 3vh">Active Subscription</h1>
                   </div>
-                  <h2 style="font-size: 2.5vh">${sub.package.title}</h2>
-                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${sub.expiry_date}</span></p>
-                </div>`;
-              })
+                  <h2 style="font-size: 2.5vh">${subscriptionsDetails.package.title}</h2>
+                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${subscriptionsDetails.expiry_date}</span></p>
+                </div>`
             }
           </div>`;
           // case "subscription":
@@ -549,32 +529,35 @@ window.settings = {
           case "privacy_notice":
             let pnParser = new DOMParser();
             pnDocument = pnParser.parseFromString(settings.settingsTab.privacyNotice.htmlContent, "text/html");
-            
+
             pnContent = pnDocument.querySelector("body").innerHTML;
-            
+
             const privacyElement = document.getElementById("settings-details");
             privacyElement.innerHTML = pnContent;
             break;
           case "faq":
-            if(settings.settingsTab.faq.htmlContent)  {
-              const faqContainer =  settings.settingsTab.faq.htmlContent.map((item) => `
+            if (settings.settingsTab.faq.htmlContent) {
+              const faqContainer = settings.settingsTab.faq.htmlContent
+                .map(
+                  (item) => `
                 <div class="faq-item" style="color: white">
                   <h2>${item.question}</h2>
                   <div id="answer_${item.id}"></div>
                 </div>`
-              ).join('');
-              const tempElement = document.createElement('div');
-              tempElement.id = "faq-scrollable-content"
+                )
+                .join("");
+              const tempElement = document.createElement("div");
+              tempElement.id = "faq-scrollable-content";
               tempElement.style.height = "65vh";
               tempElement.style.overflowY = "scroll";
               tempElement.innerHTML = faqContainer;
-  
+
               settings.settingsTab.faq.htmlContent.map((item) => {
                 const element = tempElement.querySelector(`#answer_${item.id}`);
                 element.innerHTML = item.answer;
               });
               return tempElement;
-            } 
+            }
         }
       },
 
