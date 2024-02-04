@@ -32,7 +32,6 @@ window.main = {
       }
       session.clear();
       window.location.reload();
-      login.init();
     },
 
     login: function () {
