@@ -106,9 +106,7 @@ window.menu = {
         (item) => item.id !== "login" && item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
       );
     } else if (session.storage.isAnonymous) {
-      menu.options = menu.defaultOptions.filter(
-        (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
-      );
+      menu.options = menu.defaultOptions.filter((item) => item.id !== "logout" && item.id !== "favourites");
     } else {
       menu.options = menu.defaultOptions.filter((item) => item.id !== "login" && item.id !== "connectToTv");
     }

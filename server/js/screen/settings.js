@@ -79,34 +79,20 @@ window.settings = {
       type: "html",
     },
   ],
-
+  activatedOptions: [],
   previous: NaN,
 
   init: function () {
-    api.fetchPrivacy({
-      success: function (response) {
-        settings.settingsTab.privacyNotice.htmlContent = response;
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-    api.fetchTermsConditions({
-      success: function (response) {
-        settings.settingsTab.termsOfUse.htmlContent = response;
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-    api.fetchFAQ({
-      success: function (response) {
-        settings.settingsTab.faq.htmlContent = response;
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
+    if (session.storage.isAnonymous) {
+      const filteredOptions = settings.options.filter(
+        (item) => item.id !== "about" && item.id !== "delete" && item.id !== "vouchers"
+      );
+
+      settings.activatedOptions = filteredOptions;
+    } else {
+      settings.activatedOptions = settings.options;
+    }
+
     var settings_element = document.createElement("div");
     settings_element.id = settings.id;
 
@@ -119,11 +105,43 @@ window.settings = {
       </div>`;
 
     document.body.appendChild(settings_element);
-    settings.details.show(settings.options[0]);
+    settings.details.show(settings.activatedOptions[0]);
+  },
+
+  settingsMenuApiCall: function () {
+    if (!settings.settingsTab.privacyNotice.htmlContent) {
+      api.fetchPrivacy({
+        success: function (response) {
+          settings.settingsTab.privacyNotice.htmlContent = response;
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    }
+    if (!settings.settingsTab.termsOfUse.htmlContent) {
+      api.fetchTermsConditions({
+        success: function (response) {
+          settings.settingsTab.termsOfUse.htmlContent = response;
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    }
+    if (!settings.settingsTab.faq.htmlContent) {
+      api.fetchFAQ({
+        success: function (response) {
+          settings.settingsTab.faq.htmlContent = response;
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    }
   },
 
   destroy: function () {
-    console.log('settings is calling');
     settings.isDetails = false;
     settings.settingsTab.privacyNotice.htmlContent = null;
     settings.settingsTab.faq.htmlContent = null;
@@ -143,7 +161,7 @@ window.settings = {
             case "interest":
               var options = $(`.options li`);
               var current = options.index($(`.options li.active`));
-              settings.details[settings.options[current].type].move(-1);
+              settings.details[settings.activatedOptions[current].type].move(-1);
               break;
             case "terms_of_use":
               const touScrollContainer = settings.settingsTab.termsOfUse.scrollableContent;
@@ -188,7 +206,7 @@ window.settings = {
           options.removeClass("selected");
           var newCurrent = current > 0 ? current - 1 : current;
           options.eq(newCurrent).addClass("selected");
-          settings.details.show(settings.options[newCurrent]);
+          settings.details.show(settings.activatedOptions[newCurrent]);
         }
         break;
       case tvKey.KEY_DOWN:
@@ -231,7 +249,7 @@ window.settings = {
             case "interest":
               var options = $(`.options li`);
               var current = options.index($(`.options li.active`));
-              settings.details[settings.options[current].type].move(1);
+              settings.details[settings.activatedOptions[current].type].move(1);
               break;
           }
         } else {
@@ -241,7 +259,7 @@ window.settings = {
           options.removeClass("selected");
           var newCurrent = current < options.length - 1 ? current + 1 : current;
           options.eq(newCurrent).addClass("selected");
-          settings.details.show(settings.options[newCurrent]);
+          settings.details.show(settings.activatedOptions[newCurrent]);
         }
         break;
       case tvKey.KEY_LEFT:
@@ -250,7 +268,7 @@ window.settings = {
           var current = options.index($(`.options li.active`));
           options.removeClass("active");
           options.eq(current).addClass("selected");
-          settings.details[settings.options[current].type].move(false);
+          settings.details[settings.activatedOptions[current].type].move(false);
           settings.isDetails = false;
           switch (this.selectedTab) {
             case "voucher":
@@ -275,7 +293,8 @@ window.settings = {
           options.removeClass("selected");
           options.eq(current).addClass("active");
           settings.isDetails = true;
-          settings.details[settings.options[current].type].move(current);
+          const tab = settings.activatedOptions[current];
+          settings.details[tab.type].move(tab.id);
         }
         break;
       case tvKey.KEY_ENTER:
@@ -329,7 +348,8 @@ window.settings = {
   generateMenu: function (index) {
     var className = index === undefined ? "selected" : "active";
     var selected = index === undefined ? 0 : index;
-    return settings.options
+
+    return settings.activatedOptions
       .map((option, index) => `<li class="${index === selected ? className : ""}">${translate.go(option.label)}</li>`)
       .join("");
   },
@@ -546,13 +566,14 @@ window.settings = {
                 </div>`
                 )
                 .join("");
+
               const tempElement = document.createElement("div");
               tempElement.id = "faq-scrollable-content";
               tempElement.style.height = "65vh";
               tempElement.style.overflowY = "scroll";
               tempElement.innerHTML = faqContainer;
 
-              settings.settingsTab.faq.htmlContent.map((item) => {
+              settings.settingsTab.faq.htmlContent.forEach((item) => {
                 const element = tempElement.querySelector(`#answer_${item.id}`);
                 element.innerHTML = item.answer;
               });
@@ -563,8 +584,9 @@ window.settings = {
 
       move: function (id) {
         switch (id) {
-          case 0:
-          case 1:
+          case "about":
+            break;
+          case "vouchers":
             //voucher
             settings.selectedTab = "voucher";
             if (!settings.settingsTab.voucher.selected) {
@@ -572,23 +594,25 @@ window.settings = {
               settings.settingsTab.voucher.keyboardElement = document.getElementById("voucher-input");
               break;
             }
-          case 2:
+          case "faq":
             settings.selectedTab = "faq";
             settings.settingsTab.faq.scrollableContent = document.getElementById("faq-scrollable-content");
             break;
-          case 3:
+          case "terms_of_use":
             settings.selectedTab = "terms_of_use";
-            settings.settingsTab.termsOfUse.scrollableContent = document.getElementsByClassName("terms-condition-wrap-app")[0];
+            settings.settingsTab.termsOfUse.scrollableContent =
+              document.getElementsByClassName("terms-condition-wrap-app")[0];
             break;
-          case 4:
+          case "privacy_notice":
             settings.selectedTab = "privacy_notice";
             settings.settingsTab.privacyNotice.scrollableContent =
               document.getElementsByClassName("terms-condition-wrap-app")[0];
             break;
-          case 5:
+          case "delete":
             settings.selectedTab = "delete_account";
             $(`#delete_button`).css("background-color", "rgb(229, 9, 20)");
             settings.settingsTab.deleteAccount.buttonElement = document.getElementById("delete_button");
+            break;
         }
       },
     },

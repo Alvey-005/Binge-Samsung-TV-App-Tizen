@@ -10,6 +10,7 @@ window.home = {
   },
 
   init: function () {
+    settings.settingsMenuApiCall();
     var home_element = document.createElement("div");
     home_element.id = home.id;
 
