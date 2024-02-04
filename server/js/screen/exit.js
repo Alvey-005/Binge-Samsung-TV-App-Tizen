@@ -67,6 +67,7 @@ window.exit = {
       tizen.application.getCurrentApplication().exit();
     } else {
       exit.destroy();
+      menu.close();
     }
   },
 };
