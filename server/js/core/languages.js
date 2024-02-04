@@ -323,6 +323,7 @@ window.languages = {
         faq: "FAQ",
         tou: "Terms of Use",
         prnotice: "Privacy Notice",
+        logout: "Logout",
         logoutModal: "Logout",
       },
     },

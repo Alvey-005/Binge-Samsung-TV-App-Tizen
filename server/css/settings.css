@@ -191,6 +191,28 @@
   margin-top: 30px
 }
 
+#settings-screen #logout_button {
+  background-color: transparent;
+  color: white;
+  border-radius: 0.5rem; 
+  border: solid 2px red;
+  padding: 20px 100px; 
+  font-size: 2vh; 
+  margin-top: 30px
+}
+#settings-screen .logout_container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#settings-screen .logout_inner_container h2 {
+  color: white;
+  font-size: 3vh;
+}
+
 
 
 
