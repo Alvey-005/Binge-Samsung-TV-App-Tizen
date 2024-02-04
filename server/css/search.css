@@ -155,6 +155,7 @@
 }
 
 #search-screen .no-data-container {
+  padding-top: 30vh;
   height: 100%;
   display: flex;
   justify-content: center;
