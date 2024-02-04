@@ -41,6 +41,9 @@ window.settings = {
       htmlContent: null,
       scrollableContent: null,
     },
+    logout: {
+      buttonElement: undefined,
+    },
   },
   options: [
     {
@@ -78,6 +81,11 @@ window.settings = {
       label: "settings.menu.delete",
       type: "html",
     },
+    {
+      id: "logout",
+      label: "settings.menu.logout",
+      type: "html",
+    },
   ],
   activatedOptions: [],
   previous: NaN,
@@ -85,7 +93,7 @@ window.settings = {
   init: function () {
     if (session.storage.isAnonymous) {
       const filteredOptions = settings.options.filter(
-        (item) => item.id !== "about" && item.id !== "delete" && item.id !== "vouchers"
+        (item) => item.id !== "about" && item.id !== "delete" && item.id !== "vouchers" && item.id !== "logout"
       );
 
       settings.activatedOptions = filteredOptions;
@@ -143,9 +151,6 @@ window.settings = {
 
   destroy: function () {
     settings.isDetails = false;
-    settings.settingsTab.privacyNotice.htmlContent = null;
-    settings.settingsTab.faq.htmlContent = null;
-    settings.settingsTab.termsOfUse.htmlContent = null;
     document.body.removeChild(document.getElementById(settings.id));
   },
 
@@ -280,6 +285,10 @@ window.settings = {
               $(`#delete_button`).css("background-color", "transparent");
               settings.settingsTab.deleteAccount.buttonElement = undefined;
               break;
+            case "logout":
+              $(`#logout_button`).css("background-color", "transparent");
+              settings.settingsTab.logout.buttonElement = undefined;
+              break;
             case "interest":
           }
         } else {
@@ -336,6 +345,11 @@ window.settings = {
               if (settings.settingsTab.deleteAccount.buttonElement) {
                 accountDeleteDialog.init();
                 // premiumNeedDialog.init();
+              }
+              break;
+            case "logout":
+              if (settings.settingsTab.logout.buttonElement) {
+                main.events.logout();
               }
               break;
             case "interest":
@@ -579,6 +593,15 @@ window.settings = {
               });
               return tempElement;
             }
+            break;
+          case "logout":
+            return `
+            <div class="logout_container">
+              <div class="logout_inner_container">
+                <h2> Are you sure you want to logout from this account?</h2>
+                <button id="logout_button">Yes</button>
+            </div>
+            </div>`;
         }
       },
 
@@ -612,6 +635,11 @@ window.settings = {
             settings.selectedTab = "delete_account";
             $(`#delete_button`).css("background-color", "rgb(229, 9, 20)");
             settings.settingsTab.deleteAccount.buttonElement = document.getElementById("delete_button");
+            break;
+          case "logout":
+            settings.selectedTab = "logout";
+            $(`#logout_button`).css("background-color", "rgb(229, 9, 20)");
+            settings.settingsTab.logout.buttonElement = document.getElementById("logout_button");
             break;
         }
       },
