@@ -14,6 +14,7 @@ window.home_details = {
   },
 
   init: function (item, contentDetails, screen, init, destroy) {
+    loading.end();
     home_details.data.contentDetails = contentDetails;
     home_details.is_wishlist = contentDetails.is_wishlist;
     home_details.appendScreen = screen;

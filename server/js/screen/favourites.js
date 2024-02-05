@@ -157,7 +157,7 @@ window.favourites = {
       },
       error: function (error) {
         loading.destroy();
-        console.log(error);
+        console.error(error);
       },
     });
   },
@@ -302,7 +302,7 @@ window.favourites = {
                         loading.end();
                       },
                       error: function (error) {
-                        console.log(error);
+                        console.error(error);
                         loading.end();
                       },
                     }
@@ -322,6 +322,7 @@ window.favourites = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           favourites.position > 0
             ? favourites.data.main.lists[favourites.position - 1].items[

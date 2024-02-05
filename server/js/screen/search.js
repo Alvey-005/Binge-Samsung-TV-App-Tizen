@@ -172,6 +172,7 @@ window.search = {
         if (this.position === -1) {
           keyboard.init(search.input, search.start);
         } else {
+          loading.start();
           const item = search.data.result[search.last_postion];
           api.contentDetails({
             body: {
