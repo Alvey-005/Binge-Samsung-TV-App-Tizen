@@ -459,10 +459,6 @@ window.settings = {
         switch (id) {
           case "about":
             settings.customer = session.storage.customer;
-            let subscriptionsDetails = null;
-            if (settings.customer.active_subscriptions && settings.customer.active_subscriptions.length > 0) {
-              subscriptionsDetails = settings.customer.active_subscriptions[0];
-            }
 
             return `
           <div class="about-container">
@@ -475,15 +471,16 @@ window.settings = {
               </div>
             </div>
             ${
-              subscriptionsDetails &&
-              `<div style="color: #fff">
+              settings.customer.active_subscriptions.length > 0
+                ? `<div id="ssss" style="color: #fff">
                   <div style="display: flex;">
                     <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
                     <h1 style="font-size: 3vh">Active Subscription</h1>
                   </div>
-                  <h2 style="font-size: 2.5vh">${subscriptionsDetails.package.title}</h2>
-                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${subscriptionsDetails.expiry_date}</span></p>
+                  <h2 style="font-size: 2.5vh">${settings.customer.active_subscriptions[0].package.title || ""}</h2>
+                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${settings.customer.active_subscriptions[0].expiry_date || ""}</span></p>
                 </div>`
+                : ""
             }
           </div>`;
           // case "subscription":
