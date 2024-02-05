@@ -51,7 +51,7 @@ window.player = {
       html5: {
         vhs: {
           overrideNative: true,
-          experimentalBufferBasedABR: true
+          // experimentalBufferBasedABR: true
         },
         nativeAudioTracks: true,
         nativeVideoTracks: true,
@@ -72,7 +72,10 @@ window.player = {
         if (modifiedOptions.uri.startsWith("https://ss.binge.buzz/binge-drm")) {
           const search = new URL(options.uri);
           const searchParam = search.searchParams.get("r");
-          modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}&drmtoken=${session.storage.jwtToken}`;
+          modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}`;
+          // modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}
+          // &drmtoken=${session.storage.jwtToken}
+          // `;
           modifiedOptions.headers = modifiedOptions.headers || {};
           modifiedOptions.headers.Authorization = `Bearer ${session.storage.jwtToken}`;
           videojs.xhr(
