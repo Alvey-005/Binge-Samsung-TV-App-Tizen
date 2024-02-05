@@ -83,6 +83,7 @@ window.home_details = {
     home_details.data.contentDetails = NaN;
     main.state = home_details.previous;
     home_details.callbacks.destroy && home_details.callbacks.destroy();
+    loginToaster.destroy();
   },
 
   keyDown: function (event) {

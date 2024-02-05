@@ -16,7 +16,7 @@ window.changelog = {
   },
 
   init: function () {
-    if (session.storage.version !== changelog.data.version) {
+    // if (session.storage.version !== changelog.data.version) {
       var changelog_element = document.createElement("div");
       changelog_element.id = changelog.id;
 
@@ -43,7 +43,7 @@ window.changelog = {
 
       document.body.appendChild(changelog_element);
       main.state = changelog.id;
-    }
+    // }
   },
 
   destroy: function () {

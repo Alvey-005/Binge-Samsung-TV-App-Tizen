@@ -51,6 +51,7 @@ window.player = {
       html5: {
         vhs: {
           overrideNative: true,
+          experimentalBufferBasedABR: true
         },
         nativeAudioTracks: true,
         nativeVideoTracks: true,
@@ -95,8 +96,8 @@ window.player = {
                 session.clear();
                 login.init();
               } else if (resp.statusCode !== 200) {
-                video.destroy();
-                fireError();
+                // video.pause();
+                // fireError();
               }
             }
           );
