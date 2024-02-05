@@ -1,19 +1,23 @@
-window.baseURL = "https://web-api-staging.binge.buzz";
-window.globalBaseUrl = "https://stage-geo.binge.buzz";
-async function checkCountry (){
+window.baseURL = "https://web-api.binge.buzz";
+window.globalBaseUrl = "https://geo.binge.buzz";
+// window.baseURL = "https://web-api-staging.binge.buzz";
+// window.globalBaseUrl = "https://stage-geo.binge.buzz";
+
+async function checkCountry() {
   const countryResponse = await axios({
     url: urls.fetchCountry,
-    method: 'get',
+    method: "get",
     baseURL: window.baseURL,
     timeout: 50000, // default is `0` (no timeout)
     withCredentials: false, // default
-    responseEncoding: 'utf8', // default
+    responseEncoding: "utf8", // default
     maxRedirects: 2,
-});
-session.storage.country = countryResponse.data.country;
-// session.update();
-return countryResponse.data.country;
+  });
+  session.storage.country = countryResponse.data.country;
+  // session.update();
+  return countryResponse.data.country;
 }
+
 function handleInterceptors() {
   return axios.interceptors.response.use(
     function (response) {
@@ -42,7 +46,7 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       // baseURL: baseURL,
       method: "get", // default
       headers: {
@@ -58,11 +62,12 @@ window.requestMethod = {
       maxRedirects: 2, // default
     });
   },
+
   post: function (url, body) {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       // baseURL: baseURL,
       method: "post",
       headers: {
@@ -78,16 +83,17 @@ window.requestMethod = {
       maxRedirects: 2,
     });
   },
+
   put: function (url, body, formData) {
     handleInterceptors();
     const config = {
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       // baseURL: baseURL,
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
-        "Device-Type": 'tv',
+        "Device-Type": "tv",
         "Content-Type": formData ? `multipart/form-data; boundary=${body._boundary}` : "application/json",
         Accept: "application/json",
         // 'language': 'en',
@@ -103,11 +109,12 @@ window.requestMethod = {
     };
     return axiosConfig(config);
   },
+
   delete: function (url, body) {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       baseURL: baseURL,
 
       method: "delete",

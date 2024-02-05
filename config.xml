@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="https://binge.buzz/" version="1.0.3" viewmodes="fullscreen">
     <access origin="*"></access>
-    <tizen:application id="QQfJI6P2O9.BingeBuzz" package="QQfJI6P2O9" required_version="5.0"/>
+    <tizen:application id="QQfJI6P2O9.BingeBuzz" package="QQfJI6P2O9" required_version="5.5"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
@@ -15,7 +15,9 @@
     <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
     <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
     <tizen:privilege name="http://tizen.org/privilege/tv.audio"/>
-     <tizen:metadata key='http://samsung.com/tv/metadata/prelaunch.support' value='true'></tizen:metadata>
+    <tizen:metadata key='http://samsung.com/tv/metadata/prelaunch.support' value='true'></tizen:metadata>
+    <tizen:privilege name="http://tizen.org/privilege/telephony"/>
+    <tizen:metadata key="http://samsung.com/tv/metadata/use.voiceguide" value="false" />
     <tizen:profile name="tv-samsung"/>
     <tizen:setting screen-orientation="landscape" context-menu="enable" background-support="disable" encryption="disable" install-location="auto" hwkey-event="enable"/>
 </widget>

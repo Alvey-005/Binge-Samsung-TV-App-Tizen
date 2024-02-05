@@ -64,7 +64,11 @@ window.search = {
               </div>`;
           });
         } else {
-          elements_content = `<div id="no-data" class="no-data-content">No Data Available</div>`;
+          elements_content = `
+          <div class="no-data-container">
+            <div id="no-data" class="no-data-content">No Data Available</div>
+          </div>
+            `;
         }
 
         const tempContainer = document.createElement("div");

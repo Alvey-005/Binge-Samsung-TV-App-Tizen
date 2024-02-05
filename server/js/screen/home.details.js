@@ -22,8 +22,8 @@ window.home_details = {
     home_details.callbacks.init && home_details.callbacks.init(item);
 
     var buttons = document.createElement("div");
-    var elemtentExisit = document.getElementById(`${home_details.id}`);
-    if(elemtentExisit){
+    var elemtentExist = document.getElementById(`${home_details.id}`);
+    if (elemtentExist) {
       return;
     }
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
@@ -45,7 +45,7 @@ window.home_details = {
       home_details.data.contentDetails.related_product.length
         ? `<a>
         <i class="fa-solid fa-list"></i>
-        <p>${translate.go("home.details.episodes")}</p>
+        <p>${home_details.data.contentDetails.content_type_id === 3 ? translate.go("home.details.episodes") : translate.go("home.details.related")}</p>
       </a>`
         : ``
     }
