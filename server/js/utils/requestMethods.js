@@ -21,21 +21,29 @@ async function checkCountry() {
 function handleInterceptors() {
   return axios.interceptors.response.use(
     function (response) {
+      console.log('res',response);
       if (response.status === 401 || (response.data && response.data.message === "Invalid Signatureinv4")) {
-        console.log("401");
         session.clear();
         main.init();
         loading.destroy();
       }
+      networkToaster.hide();
       return response;
     },
     function (error) {
-      if (error.response.status === 401 || error.message === "Invalid Signatureinv4") {
-        console.log("Invalid Signatureinv4");
-        session.clear();
-        main.init();
-        loading.destroy();
+      console.log('res',error);
+      if(error.code === "ERR_NETWORK"){
+        networkToaster.show();
       }
+      if(error.response){
+        if (error.response.status === 401 || error.message === "Invalid Signatureinv4") {
+          console.log("Invalid Signatureinv4");
+          session.clear();
+          main.init();
+          loading.destroy();
+        }
+      }
+      
       return Promise.reject(error);
     }
   );

@@ -319,6 +319,7 @@ window.hot = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           hot.position > 0
             ? hot.data.main.lists[hot.position - 1].items[$(".row-content")[hot.position - 1].slick.currentSlide]

@@ -283,6 +283,7 @@ window.sports = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           sports.position > 0
             ? sports.data.main.lists[sports.position - 1].items[

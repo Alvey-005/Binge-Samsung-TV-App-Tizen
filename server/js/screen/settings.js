@@ -77,13 +77,13 @@ window.settings = {
       type: "html",
     },
     {
-      id: "delete",
-      label: "settings.menu.delete",
+      id: "logout",
+      label: "settings.menu.logout",
       type: "html",
     },
     {
-      id: "logout",
-      label: "settings.menu.logout",
+      id: "delete",
+      label: "settings.menu.delete",
       type: "html",
     },
   ],
@@ -343,8 +343,19 @@ window.settings = {
               break;
             case "delete_account":
               if (settings.settingsTab.deleteAccount.buttonElement) {
-                accountDeleteDialog.init();
-                // premiumNeedDialog.init();
+                api.removeAccount({
+                  data: {
+                    id: session.storage.customer.id,
+                  },
+                  success: function (response) {
+                    settings.destroy();
+                    menu.destroy();
+                    login.init();
+                  },
+                  error: function (error) {
+                    console.log(error);
+                  },
+                });
               }
               break;
             case "logout":
@@ -448,10 +459,6 @@ window.settings = {
         switch (id) {
           case "about":
             settings.customer = session.storage.customer;
-            let subscriptionsDetails = null;
-            if (settings.customer.active_subscriptions && settings.customer.active_subscriptions.length > 0) {
-              subscriptionsDetails = settings.customer.active_subscriptions[0];
-            }
 
             return `
           <div class="about-container">
@@ -464,15 +471,16 @@ window.settings = {
               </div>
             </div>
             ${
-              subscriptionsDetails &&
-              `<div style="color: #fff">
+              settings.customer.active_subscriptions.length > 0
+                ? `<div id="ssss" style="color: #fff">
                   <div style="display: flex;">
                     <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
                     <h1 style="font-size: 3vh">Active Subscription</h1>
                   </div>
-                  <h2 style="font-size: 2.5vh">${subscriptionsDetails.package.title}</h2>
-                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${subscriptionsDetails.expiry_date}</span></p>
+                  <h2 style="font-size: 2.5vh">${settings.customer.active_subscriptions[0].package.title || ""}</h2>
+                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${settings.customer.active_subscriptions[0].expiry_date || ""}</span></p>
                 </div>`
+                : ""
             }
           </div>`;
           // case "subscription":
@@ -541,13 +549,11 @@ window.settings = {
             </div>`;
           case "delete":
             return `
-            <div style="color: #fff">
-              <div style="display: flex;">
-                <img src="https://pre.binge.buzz/assets/svg/delete.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                <h1 style="font-size: 3vh">Delete Account</h1>
-              </div>
-              <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button id="delete_button">Delete</button>
+            <div class="logout_container">
+              <div class="logout_inner_container">
+                <h2> Are you sure you want to delete this account?</h2>
+                <button id="delete_button">Yes</button>
+            </div>
             </div>
             `;
           case "terms_of_use":

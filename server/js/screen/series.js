@@ -282,6 +282,7 @@ window.series = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           series.position > 0
             ? series.data.main.lists[series.position - 1].items[
