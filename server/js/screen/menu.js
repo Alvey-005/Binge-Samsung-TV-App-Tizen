@@ -133,10 +133,9 @@ window.menu = {
         <div class="avatar">
           <img src="${
             session.storage.customer && session.storage.customer.image !== null
-              ? "https://ss-staging.binge.buzz" + session.storage.customer.image
-              : "https://pre.binge.buzz/favicon.ico"
+              ? baseURL + session.storage.customer.image
+              : "img/logo_B.png"
           }"> 
-          <!-- <img src="https://pre.binge.buzz/assets/svg/avatar.svg"> -->
         </div>
         <i class="fa-solid fa-crown"></i>
       </div>
