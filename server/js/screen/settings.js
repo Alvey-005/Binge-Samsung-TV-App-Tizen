@@ -465,8 +465,7 @@ window.settings = {
             </div>
             ${
               subscriptionsDetails &&
-              `
-                <div style="color: #fff">
+              `<div style="color: #fff">
                   <div style="display: flex;">
                     <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
                     <h1 style="font-size: 3vh">Active Subscription</h1>
