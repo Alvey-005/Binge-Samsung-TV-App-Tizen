@@ -1,11 +1,4 @@
 window.api = {
-  api: {
-    bingeStageUrl: "https://web-api.binge.buzz",
-    imageStageURl: "https://web-api-staging.binge.buzz",
-    bingeProdUrl: "https://web-api.binge.buzz",
-    auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
-  },
-
   refresh: function (request) {
     try {
       if (request.success) {

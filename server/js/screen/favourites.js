@@ -289,24 +289,6 @@ window.favourites = {
               if (favourites.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${favourites.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    favourites.position - 1,
-                    {
-                      success: function (response, index) {
-                        favourites.data.main.lists[index].lazy = response.items.length === 20;
-                        favourites.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.error(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();

@@ -18,7 +18,7 @@ window.video = {
     {
       icon: "fa-solid fa-message",
       action: "toggleSubtitles",
-    }
+    },
   ],
   aspects: ["expand", "compress", "crop-simple"],
   aspect: 0,
@@ -69,13 +69,13 @@ window.video = {
   },
 
   init: function (item, screen) {
-    if(session.storage.customer){
+    if (session.storage.customer) {
       api.getCustomerDetails({
-        success: function(){
+        success: function () {
           console.log("Getting customer Data");
-        }
+        },
       });
-    };
+    }
     video.appScreen = screen;
     var video_element = document.createElement("div");
     video_element.id = video.id;
@@ -136,30 +136,28 @@ window.video = {
       start: item.intro_start_time,
       end: item.intro_end_time,
     };
-    video.contentSubtitle = `${api.api.bingeStageUrl}/${item.subtitle}`;
+    video.contentSubtitle = `${baseURL}/${item.subtitle}`;
   },
 
-  toggleSubtitles: function() {
-    console.log('subtitle calling');
+  toggleSubtitles: function () {
+    console.log("subtitle calling");
     video.isSubtitle = !video.isSubtitle;
-    const player = videojs('bingeTizen');
+    const player = videojs("bingeTizen");
 
-    player.addRemoteTextTrack(
-      {
-        kind: "subtitles",
-        src: video.contentSubtitle,
-        srclang: "en",
-        label: "English",
-        default: false,
-      }
-    );
+    player.addRemoteTextTrack({
+      kind: "subtitles",
+      src: video.contentSubtitle,
+      srclang: "en",
+      label: "English",
+      default: false,
+    });
 
-    const tracks = player.textTracks(); 
+    const tracks = player.textTracks();
 
     for (var i = 0; i < tracks.length; i++) {
       var track = tracks[i];
       if (track.kind === "captions" || track.kind === "subtitles") {
-        if(video.isSubtitle) {
+        if (video.isSubtitle) {
           track.mode = "showing";
         } else {
           track.mode = "hidden";
@@ -170,7 +168,7 @@ window.video = {
   destroy: function () {
     video.hideOSD();
     player.pause();
-    if(session.storage.customer && session.storage.customer.id){
+    if (session.storage.customer && session.storage.customer.id) {
       requestMethod.get(urls.closeContent);
     }
     // player.stop();
@@ -360,7 +358,7 @@ window.video = {
       video.destroy();
     }
   },
-  userCanWatchContent:  function (contentDetails) {
+  userCanWatchContent: function (contentDetails) {
     const customer = session.storage.customer;
     const is_content_premimum =
       contentDetails.free_or_premium === 2 || (contentDetails.tvod_ids && contentDetails.tvod_ids.length > 0);
@@ -422,14 +420,14 @@ window.video = {
       video.destroy();
       return;
     }
-    console.log('user can watch contetn',video.userCanWatchContent(item));
+    console.log("user can watch contetn", video.userCanWatchContent(item));
     if (!video.userCanWatchContent(item)) {
       video.destroy();
       // premiumNeedDialog.init();
-      if(session.storage.customer){
-        loginToaster.show('In order to watch this content, Please Subscribe First');
-      }else{
-        loginToaster.show('In order to watch this content, Please Login First');
+      if (session.storage.customer) {
+        loginToaster.show("In order to watch this content, Please Subscribe First");
+      } else {
+        loginToaster.show("In order to watch this content, Please Login First");
       }
       return;
     }

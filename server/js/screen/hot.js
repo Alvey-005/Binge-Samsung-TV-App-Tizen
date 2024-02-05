@@ -286,24 +286,6 @@ window.hot = {
               if (hot.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${hot.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    hot.position - 1,
-                    {
-                      success: function (response, index) {
-                        hot.data.main.lists[index].lazy = response.items.length === 20;
-                        hot.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.log(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();

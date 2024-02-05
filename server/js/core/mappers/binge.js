@@ -1,6 +1,6 @@
 window.mapper = {
   loaded: 0,
-  loadedSubcategories: 0,
+  // loadedSubcategories: 0,
 
   populate: function (parentStorage, response, banners, callback) {
     var lists = response.categories;
@@ -14,8 +14,8 @@ window.mapper = {
         background: mapper.preventImageErrorTest(
           function () {
             return banners.banner_landscape_image_path
-              ? `${api.api.bingeStageUrl}/${banners.banner_landscape_image_path}`
-              : `${api.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+              ? `${baseURL}/${banners.banner_landscape_image_path}`
+              : `${baseURL}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
           },
           banners.id ? banners.id : 6132
         ),
@@ -24,7 +24,7 @@ window.mapper = {
         // description: "Baba Someone's Following Me",
         // director: "Shihab Shaheen",
         // background: mapper.preventImageErrorTest(function () {
-        //   return `${api.api.bingeStageUrl}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
+        //   return `${baseURL}/uploads/banner/landscape_images/brpSIi8rY2Zu3s9783VaKhes5jqMQhAB5y.jpg`;
         // }, 6132),
       },
       lists: lists.map((list) => ({
@@ -125,42 +125,6 @@ window.mapper = {
     }
   },
 
-  listByCategories: function (id, subcategories, callback) {
-    parentStorage.data.main = {
-      category: subcategories[0].parent_category,
-      banner: {
-        id: "",
-        title: "",
-        description: "",
-        background: "",
-      },
-      lists: subcategories.map((subcategory) => ({
-        lazy: true,
-        id: subcategory.tenant_category,
-        title: subcategory.localization.description,
-        items: [],
-      })),
-    };
-
-    mapper.loadedSubcategories = 0;
-    for (var index = 0; index < subcategories.length; index++) {
-      mapper.loadCategoryListAsync(`${id},${subcategories[index].tenant_category}`, 0, 20, index, {
-        success: function (response, listPosition) {
-          parentStorage.data.main.lists[listPosition].items = mapper.mapItems(response.items);
-          mapper.loadedSubcategories++;
-          if (mapper.loadedSubcategories === subcategories.length) {
-            parentStorage.data.main.lists = parentStorage.data.main.lists.filter((e) => e.items.length > 0);
-            parentStorage.data.main.banner = parentStorage.data.main.lists[listPosition].items[0];
-            callback.success();
-          }
-        },
-        error: function (error) {
-          console.log("fail on load subcategorie list.", error);
-        },
-      });
-    }
-  },
-
   mapItems: function (items) {
     try {
       return items.map((item) => {
@@ -184,16 +148,16 @@ window.mapper = {
           var background = item.images.thumbnail[0][4].source;
           var poster = undefined;
         } else if (item.content_type == "tv_channel") {
-          var background = `${api.api.bingeStageUrl}/${item.thumb_path}`;
-          var poster = `${api.api.bingeStageUrl}/${item.logo_path}`;
+          var background = `${baseURL}/${item.thumb_path}`;
+          var poster = `${baseURL}/${item.logo_path}`;
         } else {
-          var background = `${api.api.bingeStageUrl}/${item.image_landscape}`;
+          var background = `${baseURL}/${item.image_landscape}`;
           var poster = item.image_landscape
-            ? `${api.api.bingeStageUrl}/${item.image_landscape}`
+            ? `${baseURL}/${item.image_landscape}`
             : item.image_portrait
-              ? `${api.api.bingeStageUrl}/${item.image_portrait}`
+              ? `${baseURL}/${item.image_portrait}`
               : item.image_square
-                ? `${api.api.bingeStageUrl}/${item.image_square}`
+                ? `${baseURL}/${item.image_square}`
                 : `server/img/poster.png`;
         }
 
@@ -214,24 +178,5 @@ window.mapper = {
       console.log("CRITICAL: error on map element.", error);
       return [];
     }
-  },
-
-  loadCategoryListAsync: function (categories, offset, size, index, callback) {
-    session.refresh({
-      success: function (storage) {
-        var headers = new Headers();
-        headers.append("Authorization", `Bearer ${storage.access_token}`);
-        headers.append("Content-Type", "application/x-www-form-urlencoded");
-
-        return fetch(`${api.api.url}/content/v1/browse?categories=${categories}&n=${size}&start=${offset}`, {
-          headers: headers,
-        })
-          .then((response) => response.json())
-          .then((json) => callback.success(json, index))
-          .catch((error) => {
-            callback.error(error);
-          });
-      },
-    });
   },
 };
