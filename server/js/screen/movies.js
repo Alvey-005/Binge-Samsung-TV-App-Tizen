@@ -283,6 +283,7 @@ window.movies = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           movies.position > 0
             ? movies.data.main.lists[movies.position - 1].items[

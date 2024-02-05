@@ -14,6 +14,7 @@ window.home_details = {
   },
 
   init: function (item, contentDetails, screen, init, destroy) {
+    loading.end();
     home_details.data.contentDetails = contentDetails;
     home_details.is_wishlist = contentDetails.is_wishlist;
     home_details.appendScreen = screen;
@@ -22,8 +23,8 @@ window.home_details = {
     home_details.callbacks.init && home_details.callbacks.init(item);
 
     var buttons = document.createElement("div");
-    var elemtentExist = document.getElementById(`${home_details.id}`);
-    if (elemtentExist) {
+    var elementExist = document.getElementById(`${home_details.id}`);
+    if (elementExist) {
       return;
     }
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
