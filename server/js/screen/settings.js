@@ -463,26 +463,26 @@ window.settings = {
             return `
           <div class="about-container">
             <div class="about-profile">
-              <img src="${
+              <img class="about_image" src="${
                 session.storage.customer && session.storage.customer.image !== null
                   ? baseURL + session.storage.customer.image
                   : "img/avatar.svg"
-              }" style="width: 50%; border-radius: 50%; height:auto;min-width: 200px">
-              <div style="text-align: right;">
-                <h1 style="font-size: 3vh">${settings.customer.name || "Your name"}</h1>
-                ${settings.customer.phone && `<p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone}</p>`}
+              }">
+              <div class="about_sub_container">
+                <h1>${settings.customer.name || "Your name"}</h1>
+                ${settings.customer.phone && `<p>${"+880" + settings.customer.phone}</p>`}
                 
               </div>
             </div>
             ${
               settings.customer.active_subscriptions.length > 0
-                ? `<div id="ssss" style="color: #fff">
-                  <div style="display: flex;">
-                    <img src="img/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                    <h1 style="font-size: 3vh">Active Subscription</h1>
+                ? `<div class="sub_div">
+                  <div class="sub_inner_div">
+                    <img src="img/tickMark.svg" class="tick">
+                    <h1>Active Subscription</h1>
                   </div>
-                  <h2 style="font-size: 2.5vh">${settings.customer.active_subscriptions[0].package.title || ""}</h2>
-                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${settings.customer.active_subscriptions[0].expiry_date || ""}</span></p>
+                  <h2>${settings.customer.active_subscriptions[0].package.title || ""}</h2>
+                  <p>Expires on: <span class=""sub_span">${settings.customer.active_subscriptions[0].expiry_date || ""}</span></p>
                 </div>`
                 : ""
             }
@@ -540,16 +540,16 @@ window.settings = {
           //   }
           case "vouchers":
             return `
-            <div style="color: #fff">
-              <div style="display: flex;margin-bottom: 30px">
-                <img src="img/voucher.svg" style="heigth: 70px; width: 70px;margin-right: 30px">
-                <h1 style="font-size: 3vh">Vouchers</h1>
+            <div>
+              <div class="voucher_div">
+                <img src="img/voucher.svg" class="voucher_img">
+                <h1>Vouchers</h1>
               </div> 
               <div class="voucher-input-container">
                 <input id="voucher-input" placeholder="Enter Your Coupon here" />
               </div>
               <button id="redeem_button">Redeem</button>
-             <p id="errorMsg" style="font-size: 2vh; color: red"></p>
+             <p id="errorMsg"></p>
             </div>`;
           case "delete":
             return `
