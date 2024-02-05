@@ -23,8 +23,8 @@ window.home_details = {
     home_details.callbacks.init && home_details.callbacks.init(item);
 
     var buttons = document.createElement("div");
-    var elemtentExist = document.getElementById(`${home_details.id}`);
-    if (elemtentExist) {
+    var elementExist = document.getElementById(`${home_details.id}`);
+    if (elementExist) {
       return;
     }
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
