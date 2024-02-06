@@ -13,14 +13,13 @@ window.onload = function () {
 };
 
 window.addEventListener("offline", (event) => {
-
   window.networkToaster.show();
   console.log("The network connection has been lost.", event);
 });
 
 window.addEventListener("online", (event) => {
   window.networkToaster.hide();
-  console.log("You are now connected to the network.",event);
+  console.log("You are now connected to the network.", event);
 });
 
 app.initError = function () {
@@ -33,7 +32,6 @@ window.onunload = function () {
 };
 
 app.keyDown = function (e) {
-  console.log('state', app.state);
   if (app.state) main.keyDown(e);
   else {
     switch (e.keyCode) {

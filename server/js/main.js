@@ -70,12 +70,12 @@ window.main = {
               }
             },
             error: function (error) {
-              console.log("banner fetch error", error);
+              console.error("banner fetch error", error);
             },
           });
         },
         error: function (error) {
-          console.log(error);
+          console.error(error);
           loading.destroy();
           login.init();
         },
@@ -105,12 +105,12 @@ window.main = {
               }
             },
             error: function (error) {
-              console.log("banner fetch error", error);
+              console.error("banner fetch error", error);
             },
           });
         },
         error: function (error) {
-          console.log(error);
+          console.error(error);
           loading.destroy();
           login.init();
         },

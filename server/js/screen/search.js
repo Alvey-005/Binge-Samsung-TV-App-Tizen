@@ -102,7 +102,7 @@ window.search = {
       },
       error: function (error) {
         loading.end();
-        console.log(error);
+        console.error(error);
       },
     });
   },

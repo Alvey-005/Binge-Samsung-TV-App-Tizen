@@ -58,7 +58,6 @@ window.premiumNeedDialog = {
   action: function (selected) {
     if (selected) {
       premiumNeedDialog.destroy();
-      console.log('main', main.state);
     } else {
       premiumNeedDialog.destroy();
     }

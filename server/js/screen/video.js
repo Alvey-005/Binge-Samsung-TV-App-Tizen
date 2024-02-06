@@ -440,13 +440,13 @@ window.video = {
         try {
           player.play(item.hls_url, 0, noplay);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       },
       error: function (error) {
         video.stopNext();
         video.next.shown = false;
-        console.log(error);
+        console.error(error);
       },
     });
   },
@@ -543,7 +543,7 @@ window.video = {
     try {
       video.playNext();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   },
 

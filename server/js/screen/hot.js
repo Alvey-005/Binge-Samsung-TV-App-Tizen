@@ -149,7 +149,6 @@ window.hot = {
             },
           ],
         };
-        console.log("response", response);
         if (response.data.total > 0) {
           hot.available = true;
           hot.data.main.lists[0].items = mapper.mapItems(response.data.products);
@@ -161,7 +160,7 @@ window.hot = {
       },
       error: function (error) {
         loading.destroy();
-        console.log(error);
+        console.error(error);
       },
     });
   },

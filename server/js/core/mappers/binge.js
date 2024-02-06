@@ -1,6 +1,5 @@
 window.mapper = {
   loaded: 0,
-  // loadedSubcategories: 0,
 
   populate: function (parentStorage, response, banners, callback) {
     var lists = response.categories;
@@ -120,7 +119,7 @@ window.mapper = {
     try {
       return callback();
     } catch (error) {
-      console.log(`error image #${id}`);
+      console.error(`error image #${id}`);
       return `https://dummyimage.com/600x400/f48321/fff.png&text=IMAGE+${id}`;
     }
   },
@@ -175,7 +174,7 @@ window.mapper = {
         };
       });
     } catch (error) {
-      console.log("CRITICAL: error on map element.", error);
+      console.error("CRITICAL: error on map element.", error);
       return [];
     }
   },

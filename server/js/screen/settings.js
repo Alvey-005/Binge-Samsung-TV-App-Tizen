@@ -123,7 +123,7 @@ window.settings = {
           settings.settingsTab.privacyNotice.htmlContent = response;
         },
         error: function (error) {
-          console.log(error);
+          console.error(error);
         },
       });
     }
@@ -133,7 +133,7 @@ window.settings = {
           settings.settingsTab.termsOfUse.htmlContent = response;
         },
         error: function (error) {
-          console.log(error);
+          console.error(error);
         },
       });
     }
@@ -143,7 +143,7 @@ window.settings = {
           settings.settingsTab.faq.htmlContent = response;
         },
         error: function (error) {
-          console.log(error);
+          console.error(error);
         },
       });
     }
@@ -353,7 +353,7 @@ window.settings = {
                     login.init();
                   },
                   error: function (error) {
-                    console.log(error);
+                    console.error(error);
                   },
                 });
               }

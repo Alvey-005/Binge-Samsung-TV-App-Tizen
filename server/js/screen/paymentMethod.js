@@ -1,15 +1,15 @@
 window.paymentMethod = {
-  id: 'show-payment-method',
+  id: "show-payment-method",
   previous: NaN,
   selectedPaymentMode: NaN,
   allPaymentMode: NaN,
   paymentLink: {
     pgw: NaN,
-    nagad: NaN
+    nagad: NaN,
   },
   paymentMethodName: {
-    pgw: 'Online/MFS Payment ',
-    nagad: 'Nagad'
+    pgw: "Online/MFS Payment ",
+    nagad: "Nagad",
   },
   paymentMethodImage: {
     pgw: `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150" fill="none">
@@ -58,7 +58,7 @@ window.paymentMethod = {
   },
   timer: NaN,
   init: function () {
-    var paymentMethod_element = document.createElement('div');
+    var paymentMethod_element = document.createElement("div");
     paymentMethod_element.id = paymentMethod.id;
     paymentMethod_element.innerHTML = `
         <div class="payment-method-page">
@@ -100,18 +100,15 @@ window.paymentMethod = {
     $(`#${subscription.id}`).append(paymentMethod_element);
     $("#subscription .content").hide();
 
-
     var cutomerApiCalled = 0;
     paymentMethod.load();
     this.updateQRCodeText(this.paymentLink[0]);
     this.timer = setInterval(function () {
       cutomerApiCalled++;
-      console.log('cutomerApiCalled', cutomerApiCalled);
       if (cutomerApiCalled === 24) {
-        console.log('ashe nah ken');
         clearInterval(window.paymentMethod.timer);
         window.paymentMethod.destroy();
-      };
+      }
       api.getCustomerDetails({
         success: function (data) {
           if (data.customer && data.customer.status_id === 2) {
@@ -123,67 +120,55 @@ window.paymentMethod = {
             window.location.reload();
             main.init();
           }
-        }
-      })
+        },
+      });
     }, 30000);
-
-
   },
   load: async function () {
     var paymentMethod = "";
     var selectedPack = subscription.selectedPack;
     var paymentMode = [];
-    if (selectedPack.payment_mode == 'all') {
+    if (selectedPack.payment_mode == "all") {
       paymentMode = ["pgw", "nagad"];
     } else {
-      paymentMode = selectedPack.payment_mode.split(",")
+      paymentMode = selectedPack.payment_mode.split(",");
     }
     this.allPaymentMode = paymentMode;
-    console.log('payment mode', paymentMethod, this.allPaymentMode);
-    if (this.allPaymentMode.includes('pgw')) {
-      console.log('calling pgw');
+    if (this.allPaymentMode.includes("pgw")) {
       api.getPGWLink({
         data: {
           customer_id: session.storage.customer.id,
           package_id: subscription.selectedPack.id,
         },
         success: function (response) {
-          window.paymentMethod.paymentLink.pgw = response.invoice.paymentUrl
-          console.log('response', response, window.paymentMethod.paymentLink);
-          console.log('payment method', window.paymentMethod.allPaymentMode, window.paymentMethod.allPaymentMode[0])
-          window.paymentMethod.updateQRCodeText(window.paymentMethod.paymentLink[window.paymentMethod.allPaymentMode[0]]);
-        }
-
+          window.paymentMethod.paymentLink.pgw = response.invoice.paymentUrl;
+          window.paymentMethod.updateQRCodeText(
+            window.paymentMethod.paymentLink[window.paymentMethod.allPaymentMode[0]]
+          );
+        },
       });
     }
-    if (this.allPaymentMode.includes('nagad')) {
-      console.log('calling nagad');
+    if (this.allPaymentMode.includes("nagad")) {
       api.getNagadLink({
         data: {
           customer_id: session.storage.customer.id,
           package_id: subscription.selectedPack.id,
         },
         success: function (response) {
-          window.paymentMethod.paymentLink.nagad = response.invoice.paymentUrl
-          console.log('response', response, window.paymentMethod.paymentLink);
-          console.log('payment method', window.paymentMethod.allPaymentMode, window.paymentMethod.allPaymentMode[0])
-          window.paymentMethod.updateQRCodeText(window.paymentMethod.paymentLink[window.paymentMethod.allPaymentMode[0]]);
-
-        }
-
+          window.paymentMethod.paymentLink.nagad = response.invoice.paymentUrl;
+          window.paymentMethod.updateQRCodeText(
+            window.paymentMethod.paymentLink[window.paymentMethod.allPaymentMode[0]]
+          );
+        },
       });
     }
 
-    paymentMode.forEach(mode => {
+    paymentMode.forEach((mode) => {
       // paymentMethod += `<div class="payment_mode">${this.paymentMethodName[mode]}</div>`;
       paymentMethod += `<div class="payment_mode" id="${mode}"><div class="paymentMethodImage">${this.paymentMethodImage[mode]}</div><div class="paymentModeName">${this.paymentMethodName[mode]}</div></div>`;
     });
     $(".subscription .payment-list").eq(0).html(paymentMethod);
-    $('.payment-list .payment_mode').eq(0).addClass("selected");
-    console.log('class', $('.payment-list .payment_mode').eq(0));
-
-    console.log('session', api.customer);
-
+    $(".payment-list .payment_mode").eq(0).addClass("selected");
 
     // $("#subscription .payment-list").slick({
     //     vertical: true,
@@ -199,9 +184,8 @@ window.paymentMethod = {
 
     // $("#subscription .payment-list")[0].slick.slickGoTo(0);
     this.selectedPaymentMode = this.allPaymentMode[0];
-    console.log('this log', this.selectedPaymentMode);
-
   },
+
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
@@ -209,32 +193,27 @@ window.paymentMethod = {
         paymentMethod.destroy();
         break;
       case tvKey.KEY_LEFT:
-        var buttons = $('.payment-list .payment_mode');
-        var current = buttons.index($('.payment-list .payment_mode.selected'));
+        var buttons = $(".payment-list .payment_mode");
+        var current = buttons.index($(".payment-list .payment_mode.selected"));
         buttons.removeClass("selected");
         buttons.eq(current > 0 ? current - 1 : current).addClass("selected");
 
-        console.log('current', $('.payment-list .payment_mode.selected').attr('id'));
-        this.updateQRCodeText(this.paymentLink[$('.payment-list .payment_mode.selected').attr('id')]);
+        this.updateQRCodeText(this.paymentLink[$(".payment-list .payment_mode.selected").attr("id")]);
 
         break;
       case tvKey.KEY_RIGHT:
-        var buttons = $('.payment-list .payment_mode');
-        var current = buttons.index($('.payment-list .payment_mode.selected'));
+        var buttons = $(".payment-list .payment_mode");
+        var current = buttons.index($(".payment-list .payment_mode.selected"));
         buttons.removeClass("selected");
         buttons.eq(current < buttons.length - 1 ? current + 1 : current).addClass("selected");
-        console.log('current', $('.payment-list .payment_mode.selected').attr('id'),this.paymentLink[$('.payment-list .payment_mode.selected').attr('id')]);
         // this.updateQRCodeText("instagram.com");
-        this.updateQRCodeText(this.paymentLink[$('.payment-list .payment_mode.selected').attr('id')]);
+        this.updateQRCodeText(this.paymentLink[$(".payment-list .payment_mode.selected").attr("id")]);
         break;
       case tvKey.KEY_ENTER:
         var selectedPack = subscription.selectedPack;
         var item = this.allPaymentMode[$("#subscription .payment-list")[0].slick.currentSlide];
-        console.log('all payment mode', item);
         this.selectedPaymentMode = item;
-        console.log('payment mode', this.selectedPaymentMode);
         break;
-
     }
   },
   destroy: function () {
@@ -244,11 +223,9 @@ window.paymentMethod = {
     main.state = paymentMethod.previous;
   },
   updateQRCodeText: function (paymentLink) {
-    console.log('ami call hpcci');
     $("#payment-qr-code").empty();
     var newText = paymentLink;
     var imageLink = "";
-    console.log('payment link', paymentLink);
     // if(paymentLink && paymentLink.includes("sslcommerz")){
     //     imageLink = "https://binge.buzz/assets/svg/card.svg"
     // }else{
@@ -264,90 +241,88 @@ window.paymentMethod = {
     //     colorLight: '#000',
     //     correctLevel: QRCode.CorrectLevel.H
     // });
-    const qrCode = new QRCodeStyling(
-      {
-        "width": 500,
-        "height": 500,
-        "data": paymentLink,
-        "margin": 5,
-        "imageOptions": {
-          "hideBackgroundDots": true,
-          "imageSize": 0.3,
-          "margin": 0
+    const qrCode = new QRCodeStyling({
+      width: 500,
+      height: 500,
+      data: paymentLink,
+      margin: 5,
+      imageOptions: {
+        hideBackgroundDots: true,
+        imageSize: 0.3,
+        margin: 0,
+      },
+      dotsOptions: {
+        type: "square",
+        color: "#000000",
+        gradient: null,
+      },
+      backgroundOptions: {
+        color: "#ffffff",
+      },
+      // image: imageLink,
+      dotsOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
         },
-        "dotsOptions": {
-          "type": "square",
-          "color": "#000000",
-          "gradient": null
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#6a1a4c",
+          color2: "#6a1a4c",
+          rotation: "0",
         },
-        "backgroundOptions": {
-          "color": "#ffffff"
+      },
+      cornersSquareOptions: {
+        type: "square",
+        color: "#000000",
+      },
+      cornersSquareOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
         },
-        // image: imageLink,
-        "dotsOptionsHelper": {
-          "colorType": {
-            "single": true,
-            "gradient": false
-          },
-          "gradient": {
-            "linear": true,
-            "radial": false,
-            "color1": "#6a1a4c",
-            "color2": "#6a1a4c",
-            "rotation": "0"
-          }
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#000000",
+          color2: "#000000",
+          rotation: "0",
         },
-        "cornersSquareOptions": {
-          "type": "square",
-          "color": "#000000"
+      },
+      cornersDotOptions: {
+        type: "square",
+        color: "#000000",
+      },
+      cornersDotOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
         },
-        "cornersSquareOptionsHelper": {
-          "colorType": {
-            "single": true,
-            "gradient": false
-          },
-          "gradient": {
-            "linear": true,
-            "radial": false,
-            "color1": "#000000",
-            "color2": "#000000",
-            "rotation": "0"
-          }
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#000000",
+          color2: "#000000",
+          rotation: "0",
         },
-        "cornersDotOptions": {
-          "type": "square",
-          "color": "#000000"
+      },
+      backgroundOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
         },
-        "cornersDotOptionsHelper": {
-          "colorType": {
-            "single": true,
-            "gradient": false
-          },
-          "gradient": {
-            "linear": true,
-            "radial": false,
-            "color1": "#000000",
-            "color2": "#000000",
-            "rotation": "0"
-          }
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#ffffff",
+          color2: "#ffffff",
+          rotation: "0",
         },
-        "backgroundOptionsHelper": {
-          "colorType": {
-            "single": true,
-            "gradient": false
-          },
-          "gradient": {
-            "linear": true,
-            "radial": false,
-            "color1": "#ffffff",
-            "color2": "#ffffff",
-            "rotation": "0"
-          }
-        }
-      }
-    );
+      },
+    });
 
-    qrCode.append(document.getElementById('payment-qr-code'));
+    qrCode.append(document.getElementById("payment-qr-code"));
     // qrCode.download({ name: "qr", extension: "svg" });
   },
-}
+};

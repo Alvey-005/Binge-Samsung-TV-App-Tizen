@@ -43,7 +43,7 @@ window.api = {
       .get(`${urls.fetchOtpUrl}/${request.data.phone}`)
       .then((res) => res.data && res.data.is_success && request.success())
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         request.error && request.error(error);
       });
   },
@@ -414,7 +414,6 @@ window.api = {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.get(urls.getActivationCode);
-        console.log("sucess", request);
         try {
           if (request.success) {
             request.success(data.data);

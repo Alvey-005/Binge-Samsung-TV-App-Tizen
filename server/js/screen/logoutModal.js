@@ -5,7 +5,6 @@ window.logoutModal = {
   methodPrevious: NaN,
 
   init: function (incoming) {
-    console.log('incoming', incoming);
     var logoutModal_element = document.createElement("div");
     logoutModal_element.id = logoutModal.id;
 
@@ -20,7 +19,6 @@ window.logoutModal = {
       "</div>";
     document.body.appendChild(logoutModal_element);
     logoutModal.previous = main.state;
-    console.log('prev', this.previous);
     main.state = logoutModal.id;
     this.methodPrevious = incoming.previous;
     logoutModal.move(false);
@@ -28,9 +26,7 @@ window.logoutModal = {
 
   destroy: function () {
     document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
-    console.log('modal previous', logoutModal.previous);
     main.state = logoutModal.previous;
-    console.log('ekon state', main.state)
   },
 
   keyDown: function (event) {
@@ -63,7 +59,6 @@ window.logoutModal = {
 
   action: function (selected) {
     if (selected) {
-      console.log("selected", selected);
       logoutModal.destroy();
       menu.close();
     } else {

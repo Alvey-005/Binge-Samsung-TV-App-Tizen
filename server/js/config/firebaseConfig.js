@@ -28,7 +28,6 @@ window.firebaseConfig = {
   },
 
   initializeFirebase: function (callback) {
-    console.log("firebase initialize");
     firebaseConfig.app = firebase.initializeApp(firebaseConfig.appConfig);
     firebaseConfig.auth = firebase.initializeAuth(firebaseConfig.app, {
       persistence: firebase.browserSessionPersistence,
@@ -38,11 +37,9 @@ window.firebaseConfig = {
   },
 
   firebaseAnonymousSignIn: function (callback) {
-    console.log("firebase anonymous sign in");
     firebase
       .signInAnonymously(firebaseConfig.auth)
       .then(function (signInResult) {
-        console.log("Signed in anonymously:", signInResult.user);
         api.handleAnonLogin({
           data: {
             uid: signInResult.user.uid,
@@ -50,7 +47,6 @@ window.firebaseConfig = {
           },
           success: function (response) {
             if (response.token) {
-              console.log("api call: token found");
               session.storage.jwtToken = response.token;
               session.storage.isAnonymous = true;
               session.update();
@@ -59,7 +55,7 @@ window.firebaseConfig = {
             }
           },
           error: function (error) {
-            console.log(error);
+            console.error(error);
           },
         });
         if (typeof callback === "function") {

@@ -147,7 +147,7 @@ window.home_details = {
                 },
                 error: function (error) {
                   loading.destroy();
-                  console.log(error);
+                  console.error(error);
                 },
               });
             } else {
@@ -179,7 +179,7 @@ window.home_details = {
                 },
                 error: function (error) {
                   loading.destroy();
-                  console.log(error);
+                  console.error(error);
                 },
               });
             }
