@@ -76,7 +76,7 @@ window.search = {
 
         const tempContainer = document.createElement("div");
         if (search.data.result.length > 0) {
-          const noDataContainer = document.getElementById("no-data");
+          const noDataContainer = document.getElementsByClassName("no-data-container")[0];
           if (noDataContainer) {
             noDataContainer.remove();
           }
