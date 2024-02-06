@@ -29,7 +29,9 @@ function handleInterceptors() {
       networkToaster.hide();
       return response;
     },
+
     function (error) {
+      console.error("res", error);
       if (error.code === "ERR_NETWORK") {
         networkToaster.show();
       }
