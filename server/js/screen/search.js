@@ -52,6 +52,9 @@ window.search = {
         page_size: 1000,
       },
       success: function (response) {
+        if (document.getElementById("search-data-container")) {
+          document.getElementById("search-data-container").remove();
+        }
         loading.end();
         search.data.result = mapper.search(response);
         var elements_content = "";
@@ -77,6 +80,7 @@ window.search = {
           if (noDataContainer) {
             noDataContainer.remove();
           }
+          // document.getElementById("search-data-container").remove();
 
           tempContainer.innerHTML = `<div id="search-data-container" class="list-container-over" style="grid-template-columns: repeat(${search.items_per_row}, 1fr);">
             ${elements_content}

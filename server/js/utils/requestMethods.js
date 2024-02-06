@@ -21,7 +21,6 @@ async function checkCountry() {
 function handleInterceptors() {
   return axios.interceptors.response.use(
     function (response) {
-      console.log('res',response);
       if (response.status === 401 || (response.data && response.data.message === "Invalid Signatureinv4")) {
         session.clear();
         main.init();
@@ -31,11 +30,11 @@ function handleInterceptors() {
       return response;
     },
     function (error) {
-      console.log('res',error);
-      if(error.code === "ERR_NETWORK"){
+      console.log("res", error);
+      if (error.code === "ERR_NETWORK") {
         networkToaster.show();
       }
-      if(error.response){
+      if (error.response) {
         if (error.response.status === 401 || error.message === "Invalid Signatureinv4") {
           console.log("Invalid Signatureinv4");
           session.clear();
@@ -43,7 +42,7 @@ function handleInterceptors() {
           loading.destroy();
         }
       }
-      
+
       return Promise.reject(error);
     }
   );
