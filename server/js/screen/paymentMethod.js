@@ -57,6 +57,7 @@ window.paymentMethod = {
     </svg>`,
   },
   timer: NaN,
+
   init: function () {
     var paymentMethod_element = document.createElement("div");
     paymentMethod_element.id = paymentMethod.id;
@@ -124,6 +125,7 @@ window.paymentMethod = {
       });
     }, 30000);
   },
+
   load: async function () {
     var paymentMethod = "";
     var selectedPack = subscription.selectedPack;
@@ -216,12 +218,14 @@ window.paymentMethod = {
         break;
     }
   },
+
   destroy: function () {
     clearInterval(this.timer);
     $(`#${paymentMethod.id}`).remove();
     $("#subscription .content").show();
     main.state = paymentMethod.previous;
   },
+
   updateQRCodeText: function (paymentLink) {
     $("#payment-qr-code").empty();
     var newText = paymentLink;

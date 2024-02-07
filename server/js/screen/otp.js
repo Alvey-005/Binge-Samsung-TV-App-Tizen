@@ -2,7 +2,7 @@ window.otp = {
   id: "otp-screen",
   selected: 0,
   countdown: 60,
-  countdownInterval:NaN,
+  countdownInterval: NaN,
 
   init: function () {
     menu.destroy();
@@ -35,7 +35,7 @@ window.otp = {
 
   startCountdown: function () {
     otp.updateResendButton();
-     this.countdownInterval = setInterval(function () {
+    this.countdownInterval = setInterval(function () {
       otp.countdown--;
       if (otp.countdown <= 0) {
         clearInterval(this.countdownInterval);

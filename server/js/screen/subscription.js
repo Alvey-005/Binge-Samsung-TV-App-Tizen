@@ -26,6 +26,7 @@ window.subscription = {
     subscription.load();
     loginToaster.init();
   },
+
   start: function () {
     api.getSubscription({
       success: function (subs) {
@@ -34,11 +35,13 @@ window.subscription = {
       },
     });
   },
+
   destroy: function () {
     if (document.getElementById(subscription.id)) {
       document.body.removeChild(document.getElementById(subscription.id));
     }
   },
+
   load: function () {
     var packages_html = "";
     var i = 1;
@@ -107,6 +110,7 @@ window.subscription = {
 
     $("#subscription .subscription-packages")[0].slick.slickGoTo(0);
   },
+
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
@@ -139,6 +143,8 @@ window.subscription = {
         break;
     }
   },
+
   move: function (event) {},
+
   action: function (event) {},
 };

@@ -2,6 +2,7 @@ window.connectToTv = {
   id: "connectToTv",
   activationCode: NaN,
   timer: NaN,
+
   init: function () {
     var connectToTvElement = document.createElement("div");
     connectToTvElement.id = connectToTv.id;
@@ -63,6 +64,7 @@ window.connectToTv = {
     document.body.appendChild(connectToTvElement);
     this.load();
   },
+
   keyDown: function (event) {
     switch (event.keyCode) {
       case tvKey.KEY_BACK:
@@ -72,6 +74,7 @@ window.connectToTv = {
         break;
     }
   },
+
   start: function () {
     api.getActivationCode({
       success: function (data) {
@@ -85,6 +88,7 @@ window.connectToTv = {
       },
     });
   },
+
   load: function () {
     connectToTv.updateQRCodeText(connectToTv.activationCode);
     this.timer = setInterval(function () {
@@ -107,12 +111,14 @@ window.connectToTv = {
       });
     }, 5000);
   },
+
   destroy: function () {
     clearInterval(connectToTv.timer);
     if (document.getElementById(connectToTv.id)) {
       document.body.removeChild(document.getElementById(connectToTv.id));
     }
   },
+
   updateQRCodeText: function (paymentLink) {
     $("#login-qr-code").empty();
     // if(paymentLink && paymentLink.includes("sslcommerz")){

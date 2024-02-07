@@ -72,14 +72,15 @@ window.urls = {
 
   // connect to tv
   connectTv: "/api/v3/connectTv/saveCustomerIdToConnectTV",
-  getActivationCode:"tv/connectTv/getActivationCode",
-  verifyActivationCode:"tv/connectTv/verify/ActivationCode",
+  getActivationCode: "tv/connectTv/getActivationCode",
+  verifyActivationCode: "tv/connectTv/verify/ActivationCode",
 
   // logout
   logout: "/api/v3/customer/logout",
 
   // account remove
   remove: "api/v3/customer/remove",
+
   //genre
   genre: "genre",
 };

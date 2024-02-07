@@ -4,23 +4,20 @@ window.changelog = {
     version: "v1.1.3b",
     changes: [
       {
-        title: "fix: settings subtitles by @jhassan8",
-        description: "subtitle configuration error resolved.",
-      },
-      {
-        title: "fix: style changes by @jhassan8",
-        description: "longs titles issues and selected item style issue in some devices.",
+        title: "feat: implemented all features by @anmspro",
+        description: "all features implemented.",
       },
     ],
-    extra: "If you have any issues or suggestions, you can report them on the GitHub anmspro/Binge-Samsung-TV-App-Tizen.",
+    extra:
+      "If you have any issues or suggestions, you can report them on the GitHub anmspro/Binge-Samsung-TV-App-Tizen.",
   },
 
   init: function () {
     // if (session.storage.version !== changelog.data.version) {
-      var changelog_element = document.createElement("div");
-      changelog_element.id = changelog.id;
+    var changelog_element = document.createElement("div");
+    changelog_element.id = changelog.id;
 
-      changelog_element.innerHTML = `
+    changelog_element.innerHTML = `
       <div class="content">
         <div class="header">
           Binge updated to version ${changelog.data.version}
@@ -38,11 +35,11 @@ window.changelog = {
         </div>
       </div>`;
 
-      session.storage.version = changelog.data.version;
-      session.update();
+    session.storage.version = changelog.data.version;
+    session.update();
 
-      document.body.appendChild(changelog_element);
-      main.state = changelog.id;
+    document.body.appendChild(changelog_element);
+    main.state = changelog.id;
     // }
   },
 
