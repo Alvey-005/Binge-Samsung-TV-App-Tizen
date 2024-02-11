@@ -310,7 +310,7 @@ window.settings = {
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
         if (settings.isDetails) {
-          console.log('settingssss', this.settings.isDetails);
+          // console.log('settingssss', this.settings.isDetails);
           // var options = $(`.options li`);
           // var current = options.index($(`.options li.active`));
           // var element = settings.options[current];
@@ -420,6 +420,10 @@ window.settings = {
         },
       });
     }
+  },
+
+  logoutHandler: function() {
+    main.events.logout();
   },
 
   details: {
@@ -651,7 +655,7 @@ window.settings = {
             <div class="logout_container">
               <div class="logout_inner_container">
                 <h2> Are you sure you want to logout from this account?</h2>
-                <button id="logout_button">Yes</button>
+                <button onclick="settings.logoutHandler(event)" id="logout_button">Yes</button>
             </div>
             </div>`;
         }

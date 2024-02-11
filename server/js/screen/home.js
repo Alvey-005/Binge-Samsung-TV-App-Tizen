@@ -82,13 +82,13 @@ window.home = {
         slidesToShow: home.data.main.lists.length,
         slidesToScroll: 1,
         speed: 0,
-        waitForAnimate: false,
-        verticalSwiping: true,
+        // waitForAnimate: false,
+        // verticalSwiping: true,
       });
 
-      setTimeout(function() {
-        $(`#${home.id} .rows`).slick('refresh');
-      }, 0);
+      // setTimeout(function() {
+      //   $(`#${home.id} .rows`).slick('refresh');
+      // }, 0);
 
       // $(`#${home.id} .rows`).on('afterChange', function(event, slick, currentSlide){
       //   // Scroll the page when navigating through the slides

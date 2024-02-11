@@ -141,12 +141,14 @@ window.otp = {
           returnHome.init();
         break;
         case tvKey.KEY_UP:
+          event.preventDefault();
           if (document.activeElement) {
             document.activeElement.blur();
           }
           otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
           break;
         case tvKey.KEY_DOWN:
+          event.preventDefault();
           if (document.activeElement) {
             document.activeElement.blur();
           }

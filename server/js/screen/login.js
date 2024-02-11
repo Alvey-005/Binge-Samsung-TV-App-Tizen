@@ -59,15 +59,18 @@ window.login = {
         if (document.activeElement) {
           document.activeElement.blur();
         }
-        menu.open();
+        // menu.open();
+        returnHome.init();
           break;
         case tvKey.KEY_UP:
+          event.preventDefault();
           if (document.activeElement) {
             document.activeElement.blur();
           }
           login.move(login.selected == 0 ? 0 : login.selected - 1);
           break;
         case tvKey.KEY_DOWN:
+          event.preventDefault();
           if (document.activeElement) {
             document.activeElement.blur();
           }
