@@ -51,6 +51,7 @@ window.player = {
       html5: {
         vhs: {
           overrideNative: true,
+          // experimentalBufferBasedABR: true
         },
         nativeAudioTracks: true,
         nativeVideoTracks: true,
@@ -75,7 +76,10 @@ window.player = {
         if (modifiedOptions.uri.startsWith("https://ss.binge.buzz/binge-drm")) {
           const search = new URL(options.uri);
           const searchParam = search.searchParams.get("r");
-          modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}&drmtoken=${session.storage.jwtToken}`;
+          modifiedOptions.uri = `https://ss.binge.buzz/binge-drm/secured?r=${searchParam}`;
+          // modifiedOptions.uri = `https://ss-staging.binge.buzz/binge-drm/secured?r=${searchParam}
+          // &drmtoken=${session.storage.jwtToken}
+          // `;
           modifiedOptions.headers = modifiedOptions.headers || {};
           modifiedOptions.headers.Authorization = `Bearer ${session.storage.jwtToken}`;
           videojs.xhr(
@@ -90,16 +94,24 @@ window.player = {
               if (resp.statusCode === 429) {
                 // handleCloseContentError();
                 video.destroy();
-                streamLimitCrossed.init();
+                // streamLimitCrossed.init();
+                loginToaster.show('You have reached your streaming limit');
                 video.destroy();
               } else if (resp.statusCode === 401) {
                 // handleUnauthorizedError();
                 video.destroy();
                 session.clear();
                 login.init();
-              } else if (resp.statusCode !== 200) {
-                video.destroy();
-                fireError();
+              }
+              else if(resp.statusCode === 0){
+                networkToaster.show();
+              } 
+              else if(resp.statusCode === 200){
+                networkToaster.hide();
+              }
+              else if (resp.statusCode !== 200) {
+                // video.pause();
+                // fireError();
               }
             }
           );

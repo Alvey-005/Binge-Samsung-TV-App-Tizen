@@ -10,6 +10,7 @@ window.home = {
   },
 
   init: function () {
+    settings.settingsMenuApiCall();
     var home_element = document.createElement("div");
     home_element.id = home.id;
 
@@ -367,24 +368,6 @@ window.home = {
               if (home.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${home.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    home.position - 1,
-                    {
-                      success: function (response, index) {
-                        home.data.main.lists[index].lazy = response.items.length === 20;
-                        home.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.log(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();
@@ -400,6 +383,7 @@ window.home = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           home.position > 0
             ? home.data.main.lists[home.position - 1].items[$(".row-content")[home.position - 1].slick.currentSlide]
@@ -412,7 +396,6 @@ window.home = {
             content_type: item.content_type,
           },
           success: function (data) {
-            loginToaster.init();
             home_details.init(item, data, home);
           },
         });

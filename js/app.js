@@ -127,10 +127,21 @@ window.onload = function () {
     // document.addEventListener("keyup", eventRegister.keyEventHandler, false);
 
     main.init();
+    networkToaster.init();
   } else {
     app.initError();
   }
 };
+
+window.addEventListener("offline", (event) => {
+  window.networkToaster.show();
+  console.log("The network connection has been lost.", event);
+});
+
+window.addEventListener("online", (event) => {
+  window.networkToaster.hide();
+  console.log("You are now connected to the network.", event);
+});
 
 app.initError = function () {
   app.state = false;

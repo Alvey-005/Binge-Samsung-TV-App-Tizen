@@ -97,7 +97,7 @@ input[type=tel] {
 
 .vjs-text-track-display {
   position: absolute;
-  bottom: 90px !important;
+  bottom: 30% !important;
   left: 20px;
   color: white;
   font-size: 24px !important;

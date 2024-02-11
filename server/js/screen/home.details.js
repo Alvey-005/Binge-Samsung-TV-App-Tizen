@@ -14,6 +14,8 @@ window.home_details = {
   },
 
   init: function (item, contentDetails, screen, init, destroy) {
+    loading.end();
+    loginToaster.init();
     home_details.data.contentDetails = contentDetails;
     home_details.is_wishlist = contentDetails.is_wishlist;
     home_details.appendScreen = screen;
@@ -22,6 +24,10 @@ window.home_details = {
     home_details.callbacks.init && home_details.callbacks.init(item);
 
     var buttons = document.createElement("div");
+    var elementExist = document.getElementById(`${home_details.id}`);
+    if (elementExist) {
+      return;
+    }
     buttons.className = `${home_details.id} ${home_details.id}_buttons`;
     buttons.innerHTML = `
     <a class="selected" onclick="home_details.click(this, 'play')">
@@ -45,7 +51,7 @@ window.home_details = {
       home_details.data.contentDetails.related_product.length
         ? `<a onclick="home_details.click(this, 'episodes')">
         <i class="fa-solid fa-list"></i>
-        <p>${translate.go("home.details.episodes")}</p>
+        <p>${home_details.data.contentDetails.content_type_id === 3 ? translate.go("home.details.episodes") : translate.go("home.details.related")}</p>
       </a>`
         : ``
     }
@@ -172,6 +178,7 @@ window.home_details = {
     home_details.data.contentDetails = NaN;
     main.state = home_details.previous;
     home_details.callbacks.destroy && home_details.callbacks.destroy();
+    loginToaster.destroy();
   },
 
   keyDown: function (event) {
@@ -234,7 +241,7 @@ window.home_details = {
                 },
                 error: function (error) {
                   loading.destroy();
-                  console.log(error);
+                  console.error(error);
                 },
               });
             } else {
@@ -266,7 +273,7 @@ window.home_details = {
                 },
                 error: function (error) {
                   loading.destroy();
-                  console.log(error);
+                  console.error(error);
                 },
               });
             }

@@ -42,7 +42,7 @@ window.login = {
   },
 
   destroy: function () {
-    document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
   },
 
   keyDown: function (event) {

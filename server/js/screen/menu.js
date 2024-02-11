@@ -67,14 +67,14 @@ window.menu = {
       tool: true,
       action: "settings.init",
     },
-    {
-      id: "logout",
-      label: "menu.logout",
-      icon: "fa-solid fa-sign-out",
-      tool: true,
-      event: "logout",
-      // action: "logout",
-    },
+    // {
+    //   id: "logout",
+    //   label: "menu.logout",
+    //   icon: "fa-solid fa-sign-out",
+    //   tool: true,
+    //   event: "logout",
+    //   // action: "logout",
+    // },
     {
       id: "login",
       label: "menu.login",
@@ -104,12 +104,10 @@ window.menu = {
     var menu_options = "";
     if (session.storage.isAnonymous && session.storage.country != "BD") {
       menu.options = menu.defaultOptions.filter(
-        (item) => item.id !== "login" && item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
+        (item) => item.id !== "login" && item.id !== "favourites" && item.id !== "settings"
       );
     } else if (session.storage.isAnonymous) {
-      menu.options = menu.defaultOptions.filter(
-        (item) => item.id !== "logout" && item.id !== "favourites" && item.id !== "settings"
-      );
+      menu.options = menu.defaultOptions.filter((item) => item.id !== "favourites");
     } else {
       menu.options = menu.defaultOptions.filter((item) => item.id !== "login" && item.id !== "connectToTv");
     }
@@ -148,10 +146,9 @@ window.menu = {
         <div class="avatar">
           <img src="${
             session.storage.customer && session.storage.customer.image !== null
-              ? "https://ss-staging.binge.buzz" + session.storage.customer.image
-              : "https://pre.binge.buzz/favicon.ico"
+              ? baseURL + session.storage.customer.image
+              : "img/logo_B.png"
           }"> 
-          <!-- <img src="https://pre.binge.buzz/assets/svg/avatar.svg"> -->
         </div>
         <i class="fa-solid fa-crown"></i>
       </div>
@@ -255,24 +252,24 @@ window.menu = {
           options.removeClass("selected");
           options.eq(current).addClass("selected");
           this.previous = window[menu.options[current].id].id;
-          if (menu.options[current].action.split(".")[0] !== "exit") {
-            if (selected !== menu.options.length - 1) {
-              window[menu.options[selected].id].destroy();
-            } else {
-              if (menu.previousExit) {
-                window[menu.options[menu.previousExit].id].destroy();
-                // menu.previousExit = NaN;
-              }
-            }
-            test = menu.options[current].action.split(".");
-            window[test[0]][test[1]]();
-            menu.close();
-          } else {
-            menu.previousExit = selected;
-            document.getElementById(menu.options[selected].id).classList.add("selected");
-            document.getElementById(menu.options[selected].id).classList.add("focus");
-            exit.init();
-          }
+          // if (menu.options[current].action.split(".")[0] !== "exit") {
+          // if (selected !== menu.options.length - 1) {
+          window[menu.options[selected].id].destroy();
+          // } else {
+          //   if (menu.previousExit) {
+          //     window[menu.options[menu.previousExit].id].destroy();
+          // menu.previousExit = NaN;
+          // }
+          // }
+          test = menu.options[current].action.split(".");
+          window[test[0]][test[1]]();
+          menu.close();
+          // } else {
+          //   menu.previousExit = selected;
+          //   document.getElementById(menu.options[selected].id).classList.add("selected");
+          //   document.getElementById(menu.options[selected].id).classList.add("focus");
+          //   exit.init();
+          // }
         } else if (menu.options[current].event) {
           console.log('here', menu.options[current].event);
           window.main.events[menu.options[current].event]();

@@ -33,7 +33,7 @@ window.returnHome = {
   },
 
   destroy: function () {
-    document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
     main.state = returnHome.previous;
   },
 

@@ -166,7 +166,9 @@ window.sports = {
 
   destroy: function () {
     sports.position = 0;
-    document.body.removeChild(document.getElementById(sports.id));
+    if (document.getElementById(sports.id)) {
+      document.body.removeChild(document.getElementById(sports.id));
+    }
   },
 
   show_details: function () {
@@ -286,24 +288,6 @@ window.sports = {
               if (sports.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${sports.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    sports.position - 1,
-                    {
-                      success: function (response, index) {
-                        sports.data.main.lists[index].lazy = response.items.length === 20;
-                        sports.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.log(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();
@@ -319,6 +303,7 @@ window.sports = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           sports.position > 0
             ? sports.data.main.lists[sports.position - 1].items[
@@ -363,12 +348,12 @@ window.sports = {
             }
           },
           error: function (error) {
-            console.log("banner fetch error", error);
+            console.error("banner fetch error", error);
           },
         });
       },
       error: function (error) {
-        console.log(error);
+        console.error(error);
         loading.destroy();
         login.init();
       },

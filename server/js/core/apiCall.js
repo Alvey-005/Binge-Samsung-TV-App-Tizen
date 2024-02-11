@@ -1,11 +1,4 @@
 window.api = {
-  api: {
-    bingeStageUrl: "https://web-api.binge.buzz",
-    imageStageURl: "https://web-api-staging.binge.buzz",
-    bingeProdUrl: "https://web-api.binge.buzz",
-    auth: "Basic aHJobzlxM2F3dnNrMjJ1LXRzNWE6cHROOURteXRBU2Z6QjZvbXVsSzh6cUxzYTczVE1TY1k=",
-  },
-
   refresh: function (request) {
     try {
       if (request.success) {
@@ -50,7 +43,7 @@ window.api = {
       .get(`${urls.fetchOtpUrl}/${request.data.phone}`)
       .then((res) => res.data && res.data.is_success && request.success())
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         request.error && request.error(error);
       });
   },
@@ -64,6 +57,9 @@ window.api = {
     if (verifyResponse.data && verifyResponse.data.is_success) {
       session.storage.jwtToken = verifyResponse.data.token;
       session.storage.customer = verifyResponse.data.customer;
+      api.getCustomerDetails({
+        success: function () {},
+      });
       session.storage.isAnonymous = false;
       session.update();
       request.success();
@@ -102,6 +98,7 @@ window.api = {
       },
     });
   },
+
   fetchFAQ: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -116,6 +113,7 @@ window.api = {
       },
     });
   },
+
   fetchPrivacy: async function (request) {
     return session.refresh({
       success: async function (storage) {
@@ -140,23 +138,6 @@ window.api = {
           if (request.success) {
             if (allCatResponse && allCatResponse.data && allCatResponse.data.data) {
               request.success(allCatResponse.data.data);
-            }
-          }
-        } catch (e) {
-          request.error ? request.error(e) : console.error(e);
-        }
-      },
-    });
-  },
-
-  profileDetails: async function (request) {
-    return session.refresh({
-      success: async function (storage) {
-        const profile = await requestMethod.get(`${urls.profileApi}/${request.id}`);
-        try {
-          if (request.success) {
-            if (profile && profile.data.customer) {
-              request.success(profile.data.customer);
             }
           }
         } catch (e) {
@@ -433,7 +414,6 @@ window.api = {
     return session.refresh({
       success: async function (storage) {
         const data = await requestMethod.get(urls.getActivationCode);
-        console.log("sucess", request);
         try {
           if (request.success) {
             request.success(data.data);

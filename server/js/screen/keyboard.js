@@ -76,7 +76,9 @@ window.keyboard = {
   },
 
   destroy: function () {
-    document.body.removeChild(document.getElementById(keyboard.id));
+    if (document.getElementById(keyboard.id)) {
+      document.body.removeChild(document.getElementById(keyboard.id));
+    }
     main.state = keyboard.previous;
     keyboard.send = NaN;
   },

@@ -47,7 +47,7 @@ window.otp = {
 
   startCountdown: function () {
     otp.updateResendButton();
-     this.countdownInterval = setInterval(function () {
+    this.countdownInterval = setInterval(function () {
       otp.countdown--;
       if (otp.countdown <= 0) {
         clearInterval(this.countdownInterval);
@@ -92,7 +92,19 @@ window.otp = {
 
   destroy: function () {
     clearInterval(this.countdownInterval);
-    document.body.removeChild(document.getElementById(this.id));
+    document.getElementById(this.id) && document.body.removeChild(document.getElementById(this.id));
+  },
+
+  handleSend: function() {
+    otp.move(1);
+    otp.action(this.selected);
+  },
+
+  handleResend: function() {
+    if (otp.countdown <= 0) {
+      otp.move(2);
+      otp.action(this.selected);
+    }
   },
 
   handleSend: function() {

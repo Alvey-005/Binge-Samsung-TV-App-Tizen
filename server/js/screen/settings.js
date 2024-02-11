@@ -41,6 +41,9 @@ window.settings = {
       htmlContent: null,
       scrollableContent: null,
     },
+    logout: {
+      buttonElement: undefined,
+    },
   },
   options: [
     {
@@ -74,39 +77,30 @@ window.settings = {
       type: "html",
     },
     {
+      id: "logout",
+      label: "settings.menu.logout",
+      type: "html",
+    },
+    {
       id: "delete",
       label: "settings.menu.delete",
       type: "html",
     },
   ],
-
+  activatedOptions: [],
   previous: NaN,
 
   init: function () {
-    api.fetchPrivacy({
-      success: function (response) {
-        settings.settingsTab.privacyNotice.htmlContent = response;
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-    api.fetchTermsConditions({
-      success: function (response) {
-        settings.settingsTab.termsOfUse.htmlContent = response;
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
-    api.fetchFAQ({
-      success: function (response) {
-        settings.settingsTab.faq.htmlContent = response;
-      },
-      error: function (error) {
-        console.log(error);
-      },
-    });
+    if (session.storage.isAnonymous) {
+      const filteredOptions = settings.options.filter(
+        (item) => item.id !== "about" && item.id !== "delete" && item.id !== "vouchers" && item.id !== "logout"
+      );
+
+      settings.activatedOptions = filteredOptions;
+    } else {
+      settings.activatedOptions = settings.options;
+    }
+
     var settings_element = document.createElement("div");
     settings_element.id = settings.id;
 
@@ -119,14 +113,44 @@ window.settings = {
       </div>`;
 
     document.body.appendChild(settings_element);
-    settings.details.show(settings.options[0]);
+    settings.details.show(settings.activatedOptions[0]);
+  },
+
+  settingsMenuApiCall: function () {
+    if (!settings.settingsTab.privacyNotice.htmlContent) {
+      api.fetchPrivacy({
+        success: function (response) {
+          settings.settingsTab.privacyNotice.htmlContent = response;
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    }
+    if (!settings.settingsTab.termsOfUse.htmlContent) {
+      api.fetchTermsConditions({
+        success: function (response) {
+          settings.settingsTab.termsOfUse.htmlContent = response;
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    }
+    if (!settings.settingsTab.faq.htmlContent) {
+      api.fetchFAQ({
+        success: function (response) {
+          settings.settingsTab.faq.htmlContent = response;
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
+    }
   },
 
   destroy: function () {
     settings.isDetails = false;
-    settings.settingsTab.privacyNotice.htmlContent = null;
-    settings.settingsTab.faq.htmlContent = null;
-    settings.settingsTab.termsOfUse.htmlContent = null;
     document.body.removeChild(document.getElementById(settings.id));
   },
 
@@ -143,7 +167,7 @@ window.settings = {
             case "interest":
               var options = $(`.options li`);
               var current = options.index($(`.options li.active`));
-              settings.details[settings.options[current].type].move(-1);
+              settings.details[settings.activatedOptions[current].type].move(-1);
               break;
             case "terms_of_use":
               const touScrollContainer = settings.settingsTab.termsOfUse.scrollableContent;
@@ -188,7 +212,7 @@ window.settings = {
           options.removeClass("selected");
           var newCurrent = current > 0 ? current - 1 : current;
           options.eq(newCurrent).addClass("selected");
-          settings.details.show(settings.options[newCurrent]);
+          settings.details.show(settings.activatedOptions[newCurrent]);
         }
         break;
       case tvKey.KEY_DOWN:
@@ -231,7 +255,7 @@ window.settings = {
             case "interest":
               var options = $(`.options li`);
               var current = options.index($(`.options li.active`));
-              settings.details[settings.options[current].type].move(1);
+              settings.details[settings.activatedOptions[current].type].move(1);
               break;
           }
         } else {
@@ -241,7 +265,7 @@ window.settings = {
           options.removeClass("selected");
           var newCurrent = current < options.length - 1 ? current + 1 : current;
           options.eq(newCurrent).addClass("selected");
-          settings.details.show(settings.options[newCurrent]);
+          settings.details.show(settings.activatedOptions[newCurrent]);
         }
         break;
       case tvKey.KEY_LEFT:
@@ -250,7 +274,7 @@ window.settings = {
           var current = options.index($(`.options li.active`));
           options.removeClass("active");
           options.eq(current).addClass("selected");
-          settings.details[settings.options[current].type].move(false);
+          settings.details[settings.activatedOptions[current].type].move(false);
           settings.isDetails = false;
           switch (this.selectedTab) {
             case "voucher":
@@ -261,6 +285,10 @@ window.settings = {
             case "delete_account":
               $(`#delete_button`).css("background-color", "transparent");
               settings.settingsTab.deleteAccount.buttonElement = undefined;
+              break;
+            case "logout":
+              $(`#logout_button`).css("background-color", "transparent");
+              settings.settingsTab.logout.buttonElement = undefined;
               break;
             case "interest":
           }
@@ -275,7 +303,8 @@ window.settings = {
           options.removeClass("selected");
           options.eq(current).addClass("active");
           settings.isDetails = true;
-          settings.details[settings.options[current].type].move(current);
+          const tab = settings.activatedOptions[current];
+          settings.details[tab.type].move(tab.id);
         }
         break;
       case tvKey.KEY_ENTER:
@@ -316,8 +345,24 @@ window.settings = {
               break;
             case "delete_account":
               if (settings.settingsTab.deleteAccount.buttonElement) {
-                accountDeleteDialog.init();
-                // premiumNeedDialog.init();
+                api.removeAccount({
+                  data: {
+                    id: session.storage.customer.id,
+                  },
+                  success: function (response) {
+                    settings.destroy();
+                    menu.destroy();
+                    login.init();
+                  },
+                  error: function (error) {
+                    console.error(error);
+                  },
+                });
+              }
+              break;
+            case "logout":
+              if (settings.settingsTab.logout.buttonElement) {
+                main.events.logout();
               }
               break;
             case "interest":
@@ -330,7 +375,8 @@ window.settings = {
   generateMenu: function (index) {
     var className = index === undefined ? "selected" : "active";
     var selected = index === undefined ? 0 : index;
-    return settings.options
+
+    return settings.activatedOptions
       .map((option, index) => `<li onclick="settings.optionClickHandler(event, '${index}', '${option.id}')")" class="${index === selected ? className : ""}">${translate.go(option.label)}</li>`)
       .join("");
   },
@@ -455,53 +501,33 @@ window.settings = {
       create: function (id) {
         switch (id) {
           case "about":
-            if (!session.storage.customer.active_subscriptions) {
-              api.profileDetails({
-                id: session.storage.customer.id,
-                success: function (response) {
-                  if (response) {
-                    let sessionInfo = JSON.parse(localStorage.getItem("session"));
-                    const mergedCustomerDetails = { ...session.storage.customer, ...response };
-                    sessionInfo.customer = mergedCustomerDetails;
-                    settings.customer = mergedCustomerDetails;
-                    localStorage.setItem("session", JSON.stringify(sessionInfo));
-                  } else {
-                    settings.customer = session.storage.customer;
-                  }
-                },
-                error: function (error) {
-                  console.error(error);
-                },
-              });
-            } else {
-              settings.customer = session.storage.customer;
-            }
-
-            subscriptionDetails = settings.customer.active_subscriptions || undefined;
+            settings.customer = session.storage.customer;
 
             return `
           <div class="about-container">
             <div class="about-profile">
-              <img src="https://pre.binge.buzz/assets/svg/avatar.svg" style="width: 50%; height:auto;min-width: 200px">
-              <div style="text-align: right;">
-                <h1 style="font-size: 3vh">${settings.customer.name || "Your name"}</h1>
-                ${settings.customer.phone && `<p style="text-align: right;font-size: 2vh">${"+880" + settings.customer.phone}</p>`}
+              <img class="about_image" src="${
+                session.storage.customer && session.storage.customer.image !== null
+                  ? baseURL + session.storage.customer.image
+                  : "img/avatar.svg"
+              }">
+              <div class="about_sub_container">
+                <h1>${settings.customer.name || "Your name"}</h1>
+                ${settings.customer.phone && `<p>${"+880" + settings.customer.phone}</p>`}
                 
               </div>
             </div>
             ${
-              subscriptionDetails &&
-              subscriptionDetails.map(function (sub) {
-                return `
-                <div style="color: #fff">
-                  <div style="display: flex;">
-                    <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                    <h1 style="font-size: 3vh">Active Subscription</h1>
+              settings.customer.active_subscriptions.length > 0
+                ? `<div class="sub_div">
+                  <div class="sub_inner_div">
+                    <img src="img/tickMark.svg" class="tick">
+                    <h1>Active Subscription</h1>
                   </div>
-                  <h2 style="font-size: 2.5vh">${sub.package.title}</h2>
-                  <p style="font-size: 2vh">Expires on: <span style="color: #Ff0000;margin-left: 10px;">${sub.expiry_date}</span></p>
-                </div>`;
-              })
+                  <h2>${settings.customer.active_subscriptions[0].package.title || ""}</h2>
+                  <p>Expires on: <span class=""sub_span">${settings.customer.active_subscriptions[0].expiry_date || ""}</span></p>
+                </div>`
+                : ""
             }
           </div>`;
           // case "subscription":
@@ -532,7 +558,7 @@ window.settings = {
           //       return `
           //       <div style="color: #fff">
           //         <div style="display: flex;">
-          //           <img src="https://pre.binge.buzz/assets/svg/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
+          //           <img src="img/tickMark.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
           //           <h1 style="font-size: 3vh">Active Subscription</h1>
           //         </div>
           //         <h2 style="font-size: 2.5vh">${sub.package.title}</h2>
@@ -557,26 +583,24 @@ window.settings = {
           //   }
           case "vouchers":
             return `
-            <div style="color: #fff">
-              <div style="display: flex;margin-bottom: 30px">
-                <img src="https://pre.binge.buzz/assets/svg/voucher.svg" style="heigth: 70px; width: 70px;margin-right: 30px">
-                <h1 style="font-size: 3vh">Vouchers</h1>
+            <div>
+              <div class="voucher_div">
+                <img src="img/voucher.svg" class="voucher_img">
+                <h1>Vouchers</h1>
               </div> 
               <div class="voucher-input-container">
                 <input id="voucher-input" placeholder="Enter Your Coupon here" />
               </div>
               <button onclick="settings.redeemHandler()" id="redeem_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 5)'" onmouseout="this.style.backgroundColor='red'">Redeem</button>
-             <p id="errorMsg" style="font-size: 2vh; color: red"></p>
+             <p id="errorMsg"></p>
             </div>`;
           case "delete":
             return `
-            <div style="color: #fff">
-              <div style="display: flex;">
-                <img src="https://pre.binge.buzz/assets/svg/delete.svg" style="heigth: 50px; width: 50px;margin-right: 30px">
-                <h1 style="font-size: 3vh">Delete Account</h1>
-              </div>
-              <p style="font-size: 2vh">This will permanently delete your account.</p> 
-              <button onclick="settings.deleteAccountHandler()" id="delete_button" onmouseover="this.style.backgroundColor='rgb(229, 9, 5)'" onmouseout="this.style.backgroundColor='red'">Delete</button>
+            <div class="logout_container">
+              <div class="logout_inner_container">
+                <h2> Are you sure you want to delete this account?</h2>
+                <button onclick="settings.deleteAccountHandler()" id="delete_button">Yes</button>
+            </div>
             </div>
             `;
           case "terms_of_use":
@@ -591,40 +615,54 @@ window.settings = {
           case "privacy_notice":
             let pnParser = new DOMParser();
             pnDocument = pnParser.parseFromString(settings.settingsTab.privacyNotice.htmlContent, "text/html");
-            
+
             pnContent = pnDocument.querySelector("body").innerHTML;
-            
+
             const privacyElement = document.getElementById("settings-details");
             privacyElement.innerHTML = pnContent;
             break;
           case "faq":
-            if(settings.settingsTab.faq.htmlContent)  {
-              const faqContainer =  settings.settingsTab.faq.htmlContent.map((item) => `
+            if (settings.settingsTab.faq.htmlContent) {
+              const faqContainer = settings.settingsTab.faq.htmlContent
+                .map(
+                  (item) => `
                 <div class="faq-item" style="color: white">
                   <h2>${item.question}</h2>
                   <div id="answer_${item.id}"></div>
                 </div>`
-              ).join('');
-              const tempElement = document.createElement('div');
-              tempElement.id = "faq-scrollable-content"
+                )
+                .join("");
+
+              const tempElement = document.createElement("div");
+              tempElement.id = "faq-scrollable-content";
               tempElement.style.height = "65vh";
               tempElement.style.overflowY = "scroll";
               tempElement.innerHTML = faqContainer;
-  
-              settings.settingsTab.faq.htmlContent.map((item) => {
+
+              settings.settingsTab.faq.htmlContent.forEach((item) => {
                 const element = tempElement.querySelector(`#answer_${item.id}`);
                 element.innerHTML = item.answer;
               });
               return tempElement;
-            } 
+            }
+            break;
+          case "logout":
+            return `
+            <div class="logout_container">
+              <div class="logout_inner_container">
+                <h2> Are you sure you want to logout from this account?</h2>
+                <button id="logout_button">Yes</button>
+            </div>
+            </div>`;
         }
       },
 
       move: function (id) {
         console.log('idddd', id);
         switch (id) {
-          case 0:
-          case 1:
+          case "about":
+            break;
+          case "vouchers":
             //voucher
             settings.selectedTab = "voucher";
             if (!settings.settingsTab.voucher.selected) {
@@ -632,23 +670,30 @@ window.settings = {
               settings.settingsTab.voucher.keyboardElement = document.getElementById("voucher-input");
               break;
             }
-          case 2:
+          case "faq":
             settings.selectedTab = "faq";
             settings.settingsTab.faq.scrollableContent = document.getElementById("faq-scrollable-content");
             break;
-          case 3:
+          case "terms_of_use":
             settings.selectedTab = "terms_of_use";
-            settings.settingsTab.termsOfUse.scrollableContent = document.getElementsByClassName("terms-condition-wrap-app")[0];
+            settings.settingsTab.termsOfUse.scrollableContent =
+              document.getElementsByClassName("terms-condition-wrap-app")[0];
             break;
-          case 4:
+          case "privacy_notice":
             settings.selectedTab = "privacy_notice";
             settings.settingsTab.privacyNotice.scrollableContent =
               document.getElementsByClassName("terms-condition-wrap-app")[0];
             break;
-          case 5:
+          case "delete":
             settings.selectedTab = "delete_account";
             $(`#delete_button`).css("background-color", "rgb(229, 9, 20)");
             settings.settingsTab.deleteAccount.buttonElement = document.getElementById("delete_button");
+            break;
+          case "logout":
+            settings.selectedTab = "logout";
+            $(`#logout_button`).css("background-color", "rgb(229, 9, 20)");
+            settings.settingsTab.logout.buttonElement = document.getElementById("logout_button");
+            break;
         }
       },
     },

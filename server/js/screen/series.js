@@ -165,7 +165,9 @@ window.series = {
 
   destroy: function () {
     series.position = 0;
-    document.body.removeChild(document.getElementById(series.id));
+    if (document.getElementById(series.id)) {
+      document.body.removeChild(document.getElementById(series.id));
+    }
   },
 
   show_details: function () {
@@ -285,24 +287,6 @@ window.series = {
               if (series.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${series.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    series.position - 1,
-                    {
-                      success: function (response, index) {
-                        series.data.main.lists[index].lazy = response.items.length === 20;
-                        series.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.log(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();
@@ -318,6 +302,7 @@ window.series = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           series.position > 0
             ? series.data.main.lists[series.position - 1].items[
@@ -362,12 +347,12 @@ window.series = {
             }
           },
           error: function (error) {
-            console.log("banner fetch error", error);
+            console.error("banner fetch error", error);
           },
         });
       },
       error: function (error) {
-        console.log(error);
+        console.error(error);
         loading.destroy();
         login.init();
       },

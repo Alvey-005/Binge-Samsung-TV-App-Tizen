@@ -78,6 +78,7 @@ window.exit = {
       window.close();
     } else {
       exit.destroy();
+      menu.close();
     }
   },
 };

@@ -1,37 +1,49 @@
-window.baseURL = "https://web-api-staging.binge.buzz";
-window.globalBaseUrl = "https://stage-geo.binge.buzz";
-async function checkCountry (){
+window.baseURL = "https://web-api.binge.buzz";
+window.globalBaseUrl = "https://geo.binge.buzz";
+// window.baseURL = "https://web-api-staging.binge.buzz";
+// window.globalBaseUrl = "https://stage-geo.binge.buzz";
+
+async function checkCountry() {
   const countryResponse = await axios({
     url: urls.fetchCountry,
-    method: 'get',
+    method: "get",
     baseURL: window.baseURL,
     timeout: 50000, // default is `0` (no timeout)
     withCredentials: false, // default
-    responseEncoding: 'utf8', // default
+    responseEncoding: "utf8", // default
     maxRedirects: 2,
-});
-session.storage.country = countryResponse.data.country;
-// session.update();
-return countryResponse.data.country;
+  });
+  session.storage.country = countryResponse.data.country;
+  // session.update();
+  return countryResponse.data.country;
 }
+
 function handleInterceptors() {
   return axios.interceptors.response.use(
     function (response) {
       if (response.status === 401 || (response.data && response.data.message === "Invalid Signatureinv4")) {
-        console.log("401");
         session.clear();
         main.init();
         loading.destroy();
       }
+      networkToaster.hide();
       return response;
     },
+
     function (error) {
-      if (error.response.status === 401 || error.message === "Invalid Signatureinv4") {
-        console.log("Invalid Signatureinv4");
-        session.clear();
-        main.init();
-        loading.destroy();
+      console.error("res", error);
+      if (error.code === "ERR_NETWORK") {
+        networkToaster.show();
       }
+      if (error.response) {
+        if (error.response.status === 401 || error.message === "Invalid Signatureinv4") {
+          console.error("Invalid Signatureinv4", error);
+          session.clear();
+          main.init();
+          loading.destroy();
+        }
+      }
+
       return Promise.reject(error);
     }
   );
@@ -42,7 +54,7 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       // baseURL: baseURL,
       method: "get", // default
       headers: {
@@ -58,11 +70,12 @@ window.requestMethod = {
       maxRedirects: 2, // default
     });
   },
+
   post: function (url, body) {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       // baseURL: baseURL,
       method: "post",
       headers: {
@@ -78,16 +91,17 @@ window.requestMethod = {
       maxRedirects: 2,
     });
   },
+
   put: function (url, body, formData) {
     handleInterceptors();
     const config = {
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       // baseURL: baseURL,
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
-        "Device-Type": 'tv',
+        "Device-Type": "tv",
         "Content-Type": formData ? `multipart/form-data; boundary=${body._boundary}` : "application/json",
         Accept: "application/json",
         // 'language': 'en',
@@ -103,11 +117,12 @@ window.requestMethod = {
     };
     return axiosConfig(config);
   },
+
   delete: function (url, body) {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL:globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       baseURL: baseURL,
 
       method: "delete",

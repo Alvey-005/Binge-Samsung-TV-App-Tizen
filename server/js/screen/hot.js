@@ -175,7 +175,6 @@ window.hot = {
             },
           ],
         };
-        console.log("response", response);
         if (response.data.total > 0) {
           hot.available = true;
           hot.data.main.lists[0].items = mapper.mapItems(response.data.products);
@@ -187,7 +186,7 @@ window.hot = {
       },
       error: function (error) {
         loading.destroy();
-        console.log(error);
+        console.error(error);
       },
     });
   },
@@ -242,7 +241,9 @@ window.hot = {
 
   destroy: function () {
     hot.position = 0;
-    document.body.removeChild(document.getElementById(hot.id));
+    if (document.getElementById(hot.id)) {
+      document.body.removeChild(document.getElementById(hot.id));
+    }
   },
 
   show_details: function () {
@@ -358,24 +359,6 @@ window.hot = {
               if (hot.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${hot.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    hot.position - 1,
-                    {
-                      success: function (response, index) {
-                        hot.data.main.lists[index].lazy = response.items.length === 20;
-                        hot.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.log(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();
@@ -391,6 +374,7 @@ window.hot = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           hot.position > 0
             ? hot.data.main.lists[hot.position - 1].items[$(".row-content")[hot.position - 1].slick.currentSlide]

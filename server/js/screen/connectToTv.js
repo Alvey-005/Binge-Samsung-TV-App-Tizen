@@ -1,11 +1,12 @@
 window.connectToTv = {
-    id: 'connectToTv',
-    activationCode: NaN,
-    timer:NaN,
-    init: function () {
-        var connectToTvElement = document.createElement('div');
-        connectToTvElement.id = connectToTv.id;
-        connectToTvElement.innerHTML = `
+  id: "connectToTv",
+  activationCode: NaN,
+  timer: NaN,
+
+  init: function () {
+    var connectToTvElement = document.createElement("div");
+    connectToTvElement.id = connectToTv.id;
+    connectToTvElement.innerHTML = `
         <div class="container">
   <div class="left-container">
     <div class="left-top-content mb-50">
@@ -60,166 +61,163 @@ window.connectToTv = {
   </div>
 </div>
         `;
-        document.body.appendChild(connectToTvElement);
-        this.load();
-    },
-    keyDown: function(event){
-        switch (event.keyCode) {
-            case tvKey.KEY_BACK:
-            case tvKey.KEY_ESCAPE:
-            case tvKey.KEY_LEFT:
-                menu.open();
-                break;
-        }
+    document.body.appendChild(connectToTvElement);
+    this.load();
+  },
 
-    },
-    start:  function () {
-         api.getActivationCode({
-            success: function(data){
-                try{
-                console.log('activation',data);
-                window.connectToTv.activationCode = data.activationCode;
-                connectToTv.init();
-                $(".activation-code").eq(0).html(data.activationCode);
-                console.log('active code', $('.activation-code'));
-            }catch(e){
-                console.log('error ',e);
-            }
-            }
-        });
-        
-    },
-    load:function(){
-     connectToTv.updateQRCodeText(connectToTv.activationCode);
-       this.timer = setInterval(function(){
-            api.verifyActivationCode({
-                data:{
-                    activation_code: window.connectToTv.activationCode,
-                },
-                success: function(data){
-                    console.log('verify ', data);
-                    if(data.customerInfo){
-                        window.session.storage.customer = data.customerInfo;
-                        window.session.storage.jwtToken = data.token;
-                        clearInterval(window.connectToTv.timer);
-                        window.connectToTv.destroy();
-                        window.session.storage.isAnonymous = false;
-                        window.session.update();
-                        window.location.reload();
-                        main.events.login();   
-                    }
-                }
-            })
-        },5000);
-        
-    },
-    destroy: function () {
-        clearInterval(connectToTv.timer);
-        document.body.removeChild(document.getElementById(connectToTv.id));
-    },
-    updateQRCodeText: function (paymentLink) {
-        $("#login-qr-code").empty();
-        console.log('payment link', paymentLink);
-        // if(paymentLink && paymentLink.includes("sslcommerz")){
-        //     imageLink = "https://binge.buzz/assets/svg/card.svg"
-        // }else{
-        //     imageLink = "https://binge.buzz/assets/svg/nagad.svg"
-        // }
-        // Customize newText based on your requirements
-        // For example, concatenate with this.selectedPaymentMode or any other logic
-        // var qrcode = new QRCode(document.getElementById('payment-qr-code'), {
-        //     text: newText,
-        //     width: 512,
-        //     height: 512,
-        //     colorDark: '#FFF',
-        //     colorLight: '#000',
-        //     correctLevel: QRCode.CorrectLevel.H
-        // });
-        const qrCode = new QRCodeStyling(
-            {
-                "width": 500,
-                "height": 500,
-                "data": paymentLink,
-                "margin": 5,
-                "imageOptions": {
-                  "hideBackgroundDots": true,
-                  "imageSize": 0.3,
-                  "margin": 0
-                },
-                "dotsOptions": {
-                  "type": "extra-rounded",
-                  "color": "#000000",
-                  "gradient": null
-                },
-                "backgroundOptions": {
-                  "color": "#ffffff"
-                },
-                // image: imageLink,
-                "dotsOptionsHelper": {
-                  "colorType": {
-                    "single": true,
-                    "gradient": false
-                  },
-                  "gradient": {
-                    "linear": true,
-                    "radial": false,
-                    "color1": "#6a1a4c",
-                    "color2": "#6a1a4c",
-                    "rotation": "0"
-                  }
-                },
-                "cornersSquareOptions": {
-                  "type": "square",
-                  "color": "#000000"
-                },
-                "cornersSquareOptionsHelper": {
-                  "colorType": {
-                    "single": true,
-                    "gradient": false
-                  },
-                  "gradient": {
-                    "linear": true,
-                    "radial": false,
-                    "color1": "#000000",
-                    "color2": "#000000",
-                    "rotation": "0"
-                  }
-                },
-                "cornersDotOptions": {
-                  "type": "square",
-                  "color": "#000000"
-                },
-                "cornersDotOptionsHelper": {
-                  "colorType": {
-                    "single": true,
-                    "gradient": false
-                  },
-                  "gradient": {
-                    "linear": true,
-                    "radial": false,
-                    "color1": "#000000",
-                    "color2": "#000000",
-                    "rotation": "0"
-                  }
-                },
-                "backgroundOptionsHelper": {
-                  "colorType": {
-                    "single": true,
-                    "gradient": false
-                  },
-                  "gradient": {
-                    "linear": true,
-                    "radial": false,
-                    "color1": "#ffffff",
-                    "color2": "#ffffff",
-                    "rotation": "0"
-                  }
-                }
-              }
-        );
-    
-        console.log('element ',document.getElementById('login-qr-code'));
-        qrCode.append(document.getElementById('login-qr-code'));
-        // qrCode.download({ name: "qr", extension: "svg" });
-    },
-}
+  keyDown: function (event) {
+    switch (event.keyCode) {
+      case tvKey.KEY_BACK:
+      case tvKey.KEY_ESCAPE:
+      case tvKey.KEY_LEFT:
+        menu.open();
+        break;
+    }
+  },
+
+  start: function () {
+    api.getActivationCode({
+      success: function (data) {
+        try {
+          window.connectToTv.activationCode = data.activationCode;
+          connectToTv.init();
+          $(".activation-code").eq(0).html(data.activationCode);
+        } catch (e) {
+          console.error("error ", e);
+        }
+      },
+    });
+  },
+
+  load: function () {
+    connectToTv.updateQRCodeText(connectToTv.activationCode);
+    this.timer = setInterval(function () {
+      api.verifyActivationCode({
+        data: {
+          activation_code: window.connectToTv.activationCode,
+        },
+        success: function (data) {
+          if (data.customer) {
+            window.session.storage.customer = data.customer;
+            window.session.storage.jwtToken = data.token;
+            clearInterval(window.connectToTv.timer);
+            window.connectToTv.destroy();
+            window.session.storage.isAnonymous = false;
+            window.session.update();
+            window.location.reload();
+            main.events.login();
+          }
+        },
+      });
+    }, 5000);
+  },
+
+  destroy: function () {
+    clearInterval(connectToTv.timer);
+    if (document.getElementById(connectToTv.id)) {
+      document.body.removeChild(document.getElementById(connectToTv.id));
+    }
+  },
+
+  updateQRCodeText: function (paymentLink) {
+    $("#login-qr-code").empty();
+    // if(paymentLink && paymentLink.includes("sslcommerz")){
+    //     imageLink = "https://binge.buzz/assets/svg/card.svg"
+    // }else{
+    //     imageLink = "https://binge.buzz/assets/svg/nagad.svg"
+    // }
+    // Customize newText based on your requirements
+    // For example, concatenate with this.selectedPaymentMode or any other logic
+    // var qrcode = new QRCode(document.getElementById('payment-qr-code'), {
+    //     text: newText,
+    //     width: 512,
+    //     height: 512,
+    //     colorDark: '#FFF',
+    //     colorLight: '#000',
+    //     correctLevel: QRCode.CorrectLevel.H
+    // });
+    const qrCode = new QRCodeStyling({
+      width: 500,
+      height: 500,
+      data: paymentLink,
+      margin: 5,
+      imageOptions: {
+        hideBackgroundDots: true,
+        imageSize: 0.3,
+        margin: 0,
+      },
+      dotsOptions: {
+        type: "extra-rounded",
+        color: "#000000",
+        gradient: null,
+      },
+      backgroundOptions: {
+        color: "#ffffff",
+      },
+      // image: imageLink,
+      dotsOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
+        },
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#6a1a4c",
+          color2: "#6a1a4c",
+          rotation: "0",
+        },
+      },
+      cornersSquareOptions: {
+        type: "square",
+        color: "#000000",
+      },
+      cornersSquareOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
+        },
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#000000",
+          color2: "#000000",
+          rotation: "0",
+        },
+      },
+      cornersDotOptions: {
+        type: "square",
+        color: "#000000",
+      },
+      cornersDotOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
+        },
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#000000",
+          color2: "#000000",
+          rotation: "0",
+        },
+      },
+      backgroundOptionsHelper: {
+        colorType: {
+          single: true,
+          gradient: false,
+        },
+        gradient: {
+          linear: true,
+          radial: false,
+          color1: "#ffffff",
+          color2: "#ffffff",
+          rotation: "0",
+        },
+      },
+    });
+
+    qrCode.append(document.getElementById("login-qr-code"));
+    // qrCode.download({ name: "qr", extension: "svg" });
+  },
+};

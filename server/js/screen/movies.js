@@ -166,7 +166,9 @@ window.movies = {
 
   destroy: function () {
     movies.position = 0;
-    document.body.removeChild(document.getElementById(movies.id));
+    if (document.getElementById(movies.id)) {
+      document.body.removeChild(document.getElementById(movies.id));
+    }
   },
 
   show_details: function () {
@@ -287,24 +289,6 @@ window.movies = {
               if (movies.fromCategory.state && currentList.lazy) {
                 if (currentList.items.length > 15 && currentSlide.slick.currentSlide > currentList.items.length - 10) {
                   currentList.lazy = false;
-                  loading.start();
-                  mapper.loadCategoryListAsync(
-                    `${movies.data.main.category},${currentList.id}`,
-                    currentList.items.length,
-                    20,
-                    movies.position - 1,
-                    {
-                      success: function (response, index) {
-                        movies.data.main.lists[index].lazy = response.items.length === 20;
-                        movies.addToList(index, mapper.mapItems(response.items));
-                        loading.end();
-                      },
-                      error: function (error) {
-                        console.log(error);
-                        loading.end();
-                      },
-                    }
-                  );
                 }
               }
               currentSlide.slick.next();
@@ -320,6 +304,7 @@ window.movies = {
         break;
       case tvKey.KEY_ENTER:
       case tvKey.KEY_PANEL_ENTER:
+        loading.start();
         var item =
           movies.position > 0
             ? movies.data.main.lists[movies.position - 1].items[

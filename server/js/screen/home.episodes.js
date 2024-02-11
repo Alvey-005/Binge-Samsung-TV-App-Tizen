@@ -55,7 +55,7 @@ window.home_episodes = {
       episodes_html += `
       <div class="episode" onclick="home_episodes.episodeClickHandler(event, '${index}')">
         <div class="episode-image">
-          <img src="${api.api.imageStageURl}/${episode.thumb_path || episode.image}">
+          <img src="${baseURL}/${episode.thumb_path || episode.image}">
         </div>
         <div class="episode-details">
           <div class="episode-title">${index + 1}. ${episode.name}</div>
