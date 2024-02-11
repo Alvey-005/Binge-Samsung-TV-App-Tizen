@@ -78,21 +78,16 @@ window.home = {
         arrows: false,
         infinite: false,
         // mouseWheel: true,
-        slidesToShow: 1.7,
+        slidesToShow: home.data.main.lists.length,
         slidesToScroll: 1,
         speed: 0,
         waitForAnimate: false,
         verticalSwiping: true,
-        responsive: [
-          {
-            breakpoint: 768,
-            settings: {
-              vertical: false,
-              arrows: true,
-            }
-          }
-        ]
       });
+
+      setTimeout(function() {
+        $(`#${home.id} .rows`).slick('refresh');
+      }, 0);
 
       // $(`#${home.id} .rows`).on('afterChange', function(event, slick, currentSlide){
       //   // Scroll the page when navigating through the slides
@@ -114,7 +109,7 @@ window.home = {
             id: item.id,
             content_type: item.content_type,
           },
-          success: function (data) {
+          success: function (data) { 
             home_details.init(item, data, home);
           },
         });

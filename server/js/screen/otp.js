@@ -129,9 +129,15 @@ window.otp = {
           returnHome.init();
         break;
         case tvKey.KEY_UP:
+          if (document.activeElement) {
+            document.activeElement.blur();
+          }
           otp.move(otp.selected == 0 ? 0 : otp.selected - 1);
           break;
         case tvKey.KEY_DOWN:
+          if (document.activeElement) {
+            document.activeElement.blur();
+          }
           if (!otp.selected) {
           otp.move(otp.selected == 2 ? 2 : otp.selected + 1);
         } else if (otp.countdown <= 0 && otp.selected == 1) {

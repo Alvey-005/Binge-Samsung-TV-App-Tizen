@@ -62,9 +62,15 @@ window.login = {
         menu.open();
           break;
         case tvKey.KEY_UP:
+          if (document.activeElement) {
+            document.activeElement.blur();
+          }
           login.move(login.selected == 0 ? 0 : login.selected - 1);
           break;
         case tvKey.KEY_DOWN:
+          if (document.activeElement) {
+            document.activeElement.blur();
+          }
           login.move(login.selected == 1 ? 1 : login.selected + 1);
           break;
         case tvKey.KEY_ENTER:

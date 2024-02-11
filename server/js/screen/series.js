@@ -342,7 +342,7 @@ window.series = {
     this.restart();
     api.allCategories({
       data: {
-        page: "tizen-series",
+        page: "webos-series",
       },
       success: function (response) {
         api.seriesBanners({

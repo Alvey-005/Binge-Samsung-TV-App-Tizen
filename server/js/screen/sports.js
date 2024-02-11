@@ -343,7 +343,7 @@ window.sports = {
     this.restart();
     api.allCategories({
       data: {
-        page: "tizen-sports",
+        page: "webos-sports",
       },
       success: function (response) {
         api.sportsBanners({

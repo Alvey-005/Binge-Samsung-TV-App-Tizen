@@ -50,8 +50,8 @@
 }
 
 #search-screen .content .list-container {
-  overflow: hidden;
-  height: 100%;
+  overflow: auto;
+  height: 100vh;
   position: relative;
   padding-top: 80px;
   margin-top: 5px;
