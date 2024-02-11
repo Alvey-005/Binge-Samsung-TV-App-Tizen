@@ -396,8 +396,21 @@ window.settings = {
   },
 
   deleteAccountHandler: function() {
-      accountDeleteDialog.init();
+      // accountDeleteDialog.init();
       // premiumNeedDialog.init();
+      api.removeAccount({
+        data: {
+          id: session.storage.customer.id,
+        },
+        success: function (response) {
+          settings.destroy();
+          menu.destroy();
+          login.init();
+        },
+        error: function (error) {
+          console.error(error);
+        },
+      });
   },
 
   redeemHandler: function() {

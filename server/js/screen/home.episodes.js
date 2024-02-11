@@ -90,8 +90,8 @@ window.home_episodes = {
       const target = home_episodes.data.episodes[current];
           api.contentDetails({
             body: {
-              id: target.id,
-              content_type: target.content_type,
+              id: target?.id,
+              content_type: target?.content_type,
             },
             success: function (response) {
               video.init(response, home_episodes.appScreen);
