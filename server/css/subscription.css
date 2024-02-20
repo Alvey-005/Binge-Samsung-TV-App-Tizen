@@ -201,3 +201,20 @@ line-height: normal;
     justify-content: center;
     align-items: flex-end;
 }
+
+@media only screen and (max-width: 1280px) {
+  #subscription .content {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+#subscription .package{
+  /*   width: 1804px; */
+  width: 100%;
+  height: 220px;
+}
+
+#subscription .subscription-packages::after {
+  height: 220px;
+}
+}

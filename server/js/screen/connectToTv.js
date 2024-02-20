@@ -26,7 +26,7 @@ window.connectToTv = {
           </g>
         </svg>
       </div>
-      <div class="left-top-content-text ml-30">
+      <div class="left-top-content-text mx-30">
         Entertainment made endless
       </div>
     </div>
@@ -137,8 +137,8 @@ window.connectToTv = {
     //     correctLevel: QRCode.CorrectLevel.H
     // });
     const qrCode = new QRCodeStyling({
-      width: 500,
-      height: 500,
+      width: window.innerWidth <= 1280 ? 350 : 500,
+      height: window.innerWidth <= 1280 ? 350 : 500,
       data: paymentLink,
       margin: 5,
       imageOptions: {

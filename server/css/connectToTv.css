@@ -10,6 +10,10 @@
     margin-left: 30px;
 }
 
+.mx-30 {
+    margin-left: 30px;
+}
+
 .mb-50 {
     margin-bottom: 50px;
 }
@@ -102,4 +106,38 @@
     text-align: center;
     font-size: 64px;
     margin-top: 40px;
+}
+
+@media only screen and (max-width: 1280px) {
+    #connectToTv .container {
+        margin: 180px;
+        margin-top: 100px;
+        margin-right: 100px;
+        display: flex;
+        column-gap: 50px;
+        justify-content: space-between;
+    }
+
+    #connectToTv .left-top-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #connectToTv .left-top-content-text {
+        font-size: 32px;
+        font-weight: 300;
+    }
+
+    .mx-30 {
+        margin-left: 0;
+    }
+
+    #connectToTv .qr-code-text {
+        font-size: 33px;
+    }
+
+    #connectToTv .code-text {
+        font-size: 35px;
+    }
 }
