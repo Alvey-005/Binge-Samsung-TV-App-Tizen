@@ -107,18 +107,6 @@ window.otp = {
     }
   },
 
-  handleSend: function() {
-    otp.move(1);
-    otp.action(this.selected);
-  },
-
-  handleResend: function() {
-    if (otp.countdown <= 0) {
-      otp.move(2);
-      otp.action(this.selected);
-    }
-  },
-
   keyDown: function (event) {
     // if (event.type === "click") {
     //   console.log('triggering');

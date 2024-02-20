@@ -101,7 +101,7 @@ window.subscription = {
       dots: false,
       arrows: false,
       infinite: false,
-      slidesToShow: 7,
+      slidesToShow: subscription.packages.length,
       slidesToScroll: 1,
       speed: 0,
       waitForAnimate: false,
