@@ -59,7 +59,7 @@ window.requestMethod = {
       method: "get", // default
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
-        "Device-Type": "tv",
+        "Device-Type": "tizen",
         "Content-Type": "application/json;charset=utf-8",
         // 'language': 'en',
       },
@@ -80,7 +80,7 @@ window.requestMethod = {
       method: "post",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
-        "Device-Type": "tv",
+        "Device-Type": "tizen",
         "Content-Type": "application/json",
         // 'language': 'en',
       },
@@ -101,7 +101,7 @@ window.requestMethod = {
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
-        "Device-Type": "tv",
+        "Device-Type": "tizen",
         "Content-Type": formData ? `multipart/form-data; boundary=${body._boundary}` : "application/json",
         Accept: "application/json",
         // 'language': 'en',
@@ -128,7 +128,7 @@ window.requestMethod = {
       method: "delete",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
-        "Device-Type": "tv",
+        "Device-Type": "tizen",
         "Content-Type": "application/json",
         // 'language': 'en',
       },

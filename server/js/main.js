@@ -9,6 +9,28 @@ window.main = {
 
   /* on init app */
   init: async function () {
+    const originalOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (method, url) {
+      // this.open.apply(this, arguments);
+      // Save method and URL for later use in onreadystatechange
+      this._method = method;
+      this._url = url;
+
+      return originalOpen.apply(this, arguments);
+    };
+
+    const originalSend = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.send = function () {
+      // Check if the URL includes 'manifest.m3u8'
+      if (this._url && (this._url.includes("manifest") || this._url.includes("playlist"))) {
+        this.setRequestHeader("Authorization", `Bearer ${window.session.storage.jwtToken}`);
+        this.setRequestHeader("Device-Type", "tizen");
+        this.setRequestHeader("os-Type", "tizen");
+      }
+
+      return originalSend.apply(this, arguments);
+    };
+
     loading.init();
     await session.init();
     await checkCountry();
