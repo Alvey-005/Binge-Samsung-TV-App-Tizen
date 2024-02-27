@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://binge.buzz/" version="1.0.6" viewmodes="fullscreen">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="https://binge.buzz/" version="1.0.7" viewmodes="fullscreen">
     <access origin="*"></access>
     <tizen:application id="1o6OlSqnVa.BingeBuzz" package="1o6OlSqnVa" required_version="5.0"/>
     <content src="index.html"/>
