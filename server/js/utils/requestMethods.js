@@ -1,6 +1,6 @@
-window.baseURL = "https://web-api.binge.buzz";
+// window.baseURL = "https://web-api.binge.buzz";
 window.globalBaseUrl = "https://geo.binge.buzz";
-// window.baseURL = "https://web-api-staging.binge.buzz";
+window.baseURL = "https://web-api-staging.binge.buzz";
 // window.globalBaseUrl = "https://stage-geo.binge.buzz";
 
 async function checkCountry() {
