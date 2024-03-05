@@ -30,6 +30,7 @@ window.urls = {
   fetchProductDetails: "/api/v3/page/productDetails",
   fetchSearchUrl: "/api/v3/page/search",
   fetchAutocompleteUrl: "/api/v3/page/autocomplete",
+  cineEvent: "/api/v3/cinextream/event",
 
   // notification
   fetchNotification: "/api/v3/notification",

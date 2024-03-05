@@ -150,14 +150,40 @@ window.mapper = {
           var background = `${baseURL}/${item.thumb_path}`;
           var poster = `${baseURL}/${item.logo_path}`;
         } else {
-          var background = `${baseURL}/${item.image_landscape}`;
-          var poster = item.image_landscape
-            ? `${baseURL}/${item.image_landscape}`
-            : item.image_portrait
-              ? `${baseURL}/${item.image_portrait}`
-              : item.image_square
-                ? `${baseURL}/${item.image_square}`
-                : `server/img/poster.png`;
+          var background = item.image_landscape.includes("http")
+            ? item.image_landscape
+            : `${baseURL}/${item.image_landscape}`;
+          var poster;
+          if (item.image_landscape) {
+            if (item.image_landscape.includes("http")) {
+              poster = item.image_landscape;
+            } else {
+              poster = `${baseURL}/${item.image_landscape}`;
+            }
+          } else if (item.image_portrait) {
+            if (item.image_portrait.includes("http")) {
+              poster = item.image_portrait;
+            } else {
+              poster = `${baseURL}/${item.image_portrait}`;
+            }
+          } else if (item.image_square) {
+            if (item.image_square.includes("http")) {
+              poster = item.image_square;
+            } else {
+              poster = `${baseURL}/${item.image_square}`;
+            }
+          } else {
+            poster = `server/img/poster.png`;
+          }
+
+          // var background = `${baseURL}/${item.image_landscape}`;
+          // var poster = item.image_landscape
+          //   ? `${baseURL}/${item.image_landscape}`
+          //   : item.image_portrait
+          //     ? `${baseURL}/${item.image_portrait}`
+          //     : item.image_square
+          //       ? `${baseURL}/${item.image_square}`
+          //       : `server/img/poster.png`;
         }
 
         return {
