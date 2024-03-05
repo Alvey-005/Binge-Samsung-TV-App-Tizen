@@ -73,13 +73,36 @@ window.video = {
         return video.options.map((element) => `<i class="${element.icon}" onclick="video.optionClickHandler(event, '${element.action}')"></i>`).join('');
     },
 
-  init: function (item, screen) {
+  init: async function (item, screen) {
     if (session.storage.customer) {
       api.getCustomerDetails({
         success: function () {
-          console.log("Getting customer Data");
+          console.log("Getting customer Data", session.storage.customer);
         },
       });
+    }
+    const customer = session.storage.customer;
+    console.log('cus', customer);
+    var cineId = item?.cine_id;
+    if(cineId) {
+      console.log('This is cine content');
+    const body = {
+      ename: "start",
+      videoid: cineId,
+      sessionid: item?.sessionid,
+      rand: 4356,
+      eval: 1,
+      language: 'en',
+      bitrate: 120,
+      subscriberid: customer?.id || '111111',
+      age: customer?.age || '25',
+      gender: customer?.gender || 'M',
+      city: customer?.city || 'Dhaka',
+      devicemake: 'NA',
+      deviceos: 'web',
+    }
+
+    await requestMethod.post(urls.cineEvent, body);
     }
     video.appScreen = screen;
     var video_element = document.createElement("div");
