@@ -54,7 +54,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: baseURL,
       // baseURL: baseURL,
       method: "get", // default
       headers: {
@@ -75,8 +76,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      // baseURL: baseURL,
+      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: baseURL,
       method: "post",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -96,8 +97,8 @@ window.requestMethod = {
     handleInterceptors();
     const config = {
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      // baseURL: baseURL,
+      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: baseURL,
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -122,7 +123,7 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
       baseURL: baseURL,
 
       method: "delete",
