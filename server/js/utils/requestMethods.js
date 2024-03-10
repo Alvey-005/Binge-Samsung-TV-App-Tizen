@@ -55,7 +55,7 @@ window.requestMethod = {
     return axios({
       url,
       baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      // baseURL: baseURL,
+      // baseURL: window.baseURL,
       method: "get", // default
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -76,7 +76,7 @@ window.requestMethod = {
     return axios({
       url,
       baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      // baseURL: baseURL,
+      // baseURL: window.baseURL,
       method: "post",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -97,7 +97,7 @@ window.requestMethod = {
     const config = {
       url,
       baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      // baseURL: baseURL,
+      // baseURL: window.baseURL,
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -123,7 +123,7 @@ window.requestMethod = {
     return axios({
       url,
       baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      baseURL: baseURL,
+      // baseURL: window.baseURL,
 
       method: "delete",
       headers: {
