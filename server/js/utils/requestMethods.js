@@ -1,4 +1,5 @@
 window.baseURL = "https://web-api.binge.buzz";
+window.localBaseURL = "https://web-api.binge.buzz";
 window.globalBaseUrl = "https://geo.binge.buzz";
 // window.baseURL = "https://web-api-staging.binge.buzz";
 // window.globalBaseUrl = "https://stage-geo.binge.buzz";
@@ -14,6 +15,11 @@ async function checkCountry() {
     maxRedirects: 2,
   });
   session.storage.country = countryResponse.data.country;
+  if (countryResponse.data.country === "BD") {
+    window.baseURL = window.localBaseURL;
+  }else{
+    window.baseURL = window.globalBaseUrl;
+  }
   // session.update();
   return countryResponse.data.country;
 }
@@ -54,7 +60,7 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
       // baseURL: window.baseURL,
       method: "get", // default
       headers: {
@@ -75,7 +81,7 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
       // baseURL: window.baseURL,
       method: "post",
       headers: {
@@ -96,7 +102,7 @@ window.requestMethod = {
     handleInterceptors();
     const config = {
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
       // baseURL: window.baseURL,
       method: "put",
       headers: {
@@ -122,7 +128,7 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
       // baseURL: window.baseURL,
 
       method: "delete",
