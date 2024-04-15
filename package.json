@@ -1,6 +1,6 @@
 {
   "name": "binge-webos",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "## Description:",
   "main": "index.js",
   "config": {
@@ -25,7 +25,7 @@
     "webos-build": "grunt offline-webos",
     "webos-build-online": "grunt online-webos",
     "webos-package": "ares-package dist --no-minify",
-    "webos-install": "ares-install --device LG-TV3 bingebuzz.tv_1.0.5_all.ipk",
+    "webos-install": "ares-install --device LG-TV3 bingebuzz.tv_1.0.8_all.ipk",
     "webos-run": "ares-launch --device LG-TV3 bingebuzz.tv"
   },
   "repository": {

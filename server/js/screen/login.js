@@ -113,10 +113,10 @@ window.login = {
       } else {
         login.destroy();
         loading.init();
-        session.storage.phone = "+88" + phone;
+        session.storage.phone = phone;
         api.login({
           data: {
-            phone: "+88" + phone,
+            phone: phone,
           },
           success: function (response) {
             loading.destroy();

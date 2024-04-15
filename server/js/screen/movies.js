@@ -14,8 +14,11 @@ window.movies = {
     movies_element.id = movies.id;
 
     var poster_items = ``;
+    console.log('moviessssss', movies.data.main);
     if (movies.data.main) {
+      console.log('coming here');
       movies.data.main.lists.forEach((element, index) => {
+        console.log('in movies', element);
         if (element.items.length > 0) {
           poster_items += `
           <div class="row">

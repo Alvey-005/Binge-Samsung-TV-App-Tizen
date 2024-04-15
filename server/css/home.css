@@ -585,6 +585,12 @@
   margin-top: 5vh;
 }
 
+@media screen and (max-width: 1450px) {
+  .home_details-screen .home_details-screen_buttons {
+    width: 100%;
+  }
+}
+
 .home_details-screen.home_details-screen_buttons a{
   color: #fff;
   font-size: 25px;
@@ -664,7 +670,7 @@
   position: absolute;
   display: flex;
   background: rgba(0, 0, 0, 0.8);
-  overflow: hidden;
+  overflow: auto;
   left: 0;
   top: 0;
 }

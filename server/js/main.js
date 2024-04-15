@@ -86,6 +86,7 @@ window.main = {
                     !menu.initialized && menu.init();
                   },
                 });
+                console.log("-----------------------hoome", res.data.banners);
               } else {
                 loading.destroy();
                 home.init();

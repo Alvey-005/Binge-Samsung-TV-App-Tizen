@@ -1,4 +1,5 @@
 window.baseURL = "https://web-api.binge.buzz";
+window.localBaseURL = "https://web-api.binge.buzz";
 window.globalBaseUrl = "https://geo.binge.buzz";
 // window.baseURL = "https://web-api-staging.binge.buzz";
 // window.globalBaseUrl = "https://stage-geo.binge.buzz";
@@ -14,6 +15,11 @@ async function checkCountry() {
     maxRedirects: 2,
   });
   session.storage.country = countryResponse.data.country;
+  if (countryResponse.data.country === "BD") {
+    window.baseURL = window.localBaseURL;
+  }else{
+    window.baseURL = window.globalBaseUrl;
+  }
   // session.update();
   return countryResponse.data.country;
 }
@@ -54,8 +60,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      baseURL: baseURL,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
+      // baseURL: baseURL,
       // baseURL: baseURL,
       method: "get", // default
       headers: {
@@ -76,8 +82,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      baseURL: baseURL,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
+      // baseURL: baseURL,
       method: "post",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -97,8 +103,8 @@ window.requestMethod = {
     handleInterceptors();
     const config = {
       url,
-      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      baseURL: baseURL,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
+      // baseURL: baseURL,
       method: "put",
       headers: {
         Authorization: `Bearer ${session.storage.jwtToken}`,
@@ -123,8 +129,8 @@ window.requestMethod = {
     handleInterceptors();
     return axios({
       url,
-      // baseURL: session.storage.country === "BD" ? baseURL : globalBaseUrl,
-      baseURL: baseURL,
+      baseURL: session.storage.country === "BD" ? localBaseURL : globalBaseUrl,
+      // baseURL: baseURL,
 
       method: "delete",
       headers: {
