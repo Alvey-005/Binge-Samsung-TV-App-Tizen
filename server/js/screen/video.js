@@ -78,21 +78,21 @@ window.video = {
     }
     const customer = session.storage.customer;
     console.log("customer", customer);
-    var cineId = item?.cine_id;
+    var cineId = item && item.cine_id;
     if (cineId) {
       console.log("This is cine content");
       const body = {
         ename: "start",
         videoid: cineId,
-        sessionid: item?.sessionid,
+        sessionid: item.sessionid || null,
         rand: 4356,
         eval: 1,
         language: "en",
         bitrate: 120,
-        subscriberid: customer?.id || "111111",
-        age: customer?.age || "25",
-        gender: customer?.gender || "M",
-        city: customer?.city || "Dhaka",
+        subscriberid: customer.id ? customer.id: "111111",
+        age: customer.age || "25",
+        gender: customer.gender || "M",
+        city: customer.city || "Dhaka", 
         devicemake: "NA",
         deviceos: "web",
       };

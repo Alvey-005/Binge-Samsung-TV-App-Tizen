@@ -150,7 +150,7 @@ window.mapper = {
           var background = `${baseURL}/${item.thumb_path}`;
           var poster = `${baseURL}/${item.logo_path}`;
         } else {
-          var background = item.image_landscape.includes("http")
+          var background = item.image_landscape && item.image_landscape.includes("http")
             ? item.image_landscape
             : `${baseURL}/${item.image_landscape}`;
           var poster;
