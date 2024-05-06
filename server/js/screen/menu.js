@@ -103,7 +103,7 @@ window.menu = {
     var menu_options = "";
     if (session.storage.isAnonymous && session.storage.country != "BD") {
       menu.options = menu.defaultOptions.filter(
-        (item) => item.id !== "favourites" && item.id !== "settings"
+        (item) => item.id !== "favourites" && item.id !== "settings" && item.id !== "subscription"
       );
     } else if (session.storage.isAnonymous) {
       menu.options = menu.defaultOptions.filter((item) => item.id !== "favourites");
