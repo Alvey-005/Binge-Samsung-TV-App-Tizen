@@ -82,6 +82,14 @@ window.menu = {
       // event: "login",
       action: "login.init",
     },
+    {
+      id: "emailLogin",
+      label: "menu.emailLogin",
+      icon: "fa-solid fa-envelope",
+      tool: true,
+      // event: "login",
+      action: "emailLogin.init",
+    },
     // {
     //   id: "exit",
     //   label: "menu.exit",

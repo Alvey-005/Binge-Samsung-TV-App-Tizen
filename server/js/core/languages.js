@@ -238,6 +238,8 @@ window.languages = {
   en: {
     login: {
       number: "Enter mobile number",
+      email: "Enter your email",
+      password: "Password",
       generateOtp: "Generate OTP",
       otp: "Enter OTP",
       login: "LOGIN",
@@ -254,6 +256,7 @@ window.languages = {
       list: "My list",
       settings: "Settings",
       login: "login",
+      emailLogin: "Login with Email",
       logout: "Logout",
       sports: "Sports",
       movies: "Movies",

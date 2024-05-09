@@ -187,6 +187,9 @@ window.main = {
           case login.id:
             login.keyDown(event);
             break;
+          case emailLogin.id:
+            emailLogin.keyDown(event);
+            break;
           case otp.id:
             otp.keyDown(event);
             break;
