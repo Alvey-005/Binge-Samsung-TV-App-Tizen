@@ -106,7 +106,7 @@ window.emailLogin = {
           success: function (response) {
             console.log(response);
             loading.destroy();
-            home.init();
+            main.events.home();
           },
           error: function (error) {
             loading.destroy();
