@@ -20,7 +20,7 @@ window.emailLogin = {
             <div class="input ${emailLogin.id}-option"> 
             <input type="password" placeholder="${translate.go("login.password")}">
             </div>
-            <span id="login-error-message"></span>
+            <span id="email-login-error-message"></span>
             <a class="button ${emailLogin.id}-option" translate>${translate.go("login.login")}</a>
           </div>
         </div>
@@ -56,6 +56,11 @@ window.emailLogin = {
     }
   },
 
+  //   validateEmail: function (email) {
+  //     const emailExpression = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //     return emailExpression.test(email);
+  //   },
+
   move: function (selected) {
     emailLogin.selected = selected;
     var options = document.getElementsByClassName(emailLogin.id + "-option");
@@ -69,7 +74,7 @@ window.emailLogin = {
   },
 
   error: function (message) {
-    var element = $("#login-error-message");
+    var element = $("#email-login-error-message");
     element.text(message);
     element.show();
     setTimeout(function () {
@@ -79,25 +84,34 @@ window.emailLogin = {
 
   action: function (selected) {
     var options = document.getElementsByClassName(emailLogin.id + "-option");
-    if (selected == 1) {
-      var phone = options[0].firstElementChild.value;
-      if (phone.length < 10 || phone.length > 11) {
-        emailLogin.error(translate.go("login.error.invalid"));
+    if (selected == 2) {
+      var email = options[0].firstElementChild.value;
+      var password = options[1].firstElementChild.value;
+
+      if (!email && !password) {
+        emailLogin.error(translate.go("login.error.email_password_input"));
+      } else if (!email) {
+        emailLogin.error(translate.go("login.error.email_input"));
+      } else if (!password) {
+        emailLogin.error(translate.go("login.error.password_input"));
       } else {
         emailLogin.destroy();
         loading.init();
-        session.storage.phone = phone;
-        api.login({
+        // session.storage.phone = phone;
+        api.loginWithEmail({
           data: {
-            phone: phone,
+            email: email,
+            password: password,
           },
           success: function (response) {
+            console.log(response);
             loading.destroy();
-            otp.init();
+            home.init();
           },
           error: function (error) {
             loading.destroy();
-            login.init();
+            emailLogin.init();
+            emailLogin.error("Invalid credentials");
           },
         });
       }

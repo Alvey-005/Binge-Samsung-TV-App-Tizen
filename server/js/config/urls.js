@@ -7,6 +7,7 @@ window.urls = {
 
   // login
   fetchOtpUrl: "/api/v3/otp/send",
+  loginEmailUrl: "/api/v3/oauth/email/login",
   verifyOtpUrl: "/api/v3/otp/verify",
   singleAppLogin: "/api/v3/singleapp/mwAuthToken",
   socialLogin: "api/v3/oauth/verify",

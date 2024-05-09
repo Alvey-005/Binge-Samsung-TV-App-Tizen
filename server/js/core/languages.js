@@ -246,6 +246,9 @@ window.languages = {
       verify: "Verify",
       resend_otp: "Resend OTP",
       error: {
+        email_input: "Enter email address.",
+        password_input: "Enter your password",
+        email_password_input: "Enter your credentials",
         invalid: "Enter valid credentials.",
         fetch: "OTP fetch error",
       },

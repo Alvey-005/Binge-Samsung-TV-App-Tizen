@@ -48,6 +48,19 @@ window.api = {
       });
   },
 
+  loginWithEmail: async function (request) {
+    const params = {
+      email: request.data.email,
+      password: request.data.password,
+    };
+    const response = await requestMethod.post(`${urls.loginEmailUrl}`, params);
+    if (response.data.is_success) {
+      request.success();
+    } else {
+      request.error();
+    }
+  },
+
   verify: async function (request) {
     var params = {
       phone: session.storage.phone,
