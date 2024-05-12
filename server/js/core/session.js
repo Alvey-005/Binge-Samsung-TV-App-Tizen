@@ -34,9 +34,7 @@ window.session = {
         session.storage = storage || session.storage;
         if(session.storage.customer){
           api.getCustomerDetails({
-            success: function(){
-              console.log("Getting customer Data");
-            }
+            success: function () {},
           });
         }
       } catch (error) {

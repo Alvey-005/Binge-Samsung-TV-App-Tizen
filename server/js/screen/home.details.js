@@ -67,9 +67,7 @@ window.home_details = {
 
     if (session.storage.customer) {
       api.getCustomerDetails({
-        success: function () {
-          console.log("Getting customer Data");
-        },
+        success: function () {},
       });
     }
     home_details.previous = main.state;

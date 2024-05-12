@@ -64,7 +64,6 @@ window.emailLogin = {
   move: function (selected) {
     emailLogin.selected = selected;
     var options = document.getElementsByClassName(emailLogin.id + "-option");
-    console.log("options", options);
     for (var i = 0; i < options.length; i++) {
       options[i].className = options[i].className.replace(" focus", "");
       if (i == selected) {
@@ -104,10 +103,6 @@ window.emailLogin = {
             password: password,
           },
           success: function (response) {
-            session.storage.loggedinInEmail = email;
-            session.storage.isAnonymous = false;
-            // console.log(response);
-            // loading.destroy();
             main.events.login();
           },
           error: function (error) {

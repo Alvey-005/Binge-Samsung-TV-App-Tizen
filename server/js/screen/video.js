@@ -71,9 +71,7 @@ window.video = {
   init: async function (item, screen) {
     if (session.storage.customer) {
       api.getCustomerDetails({
-        success: function () {
-          console.log("Getting customer Data", session.storage.customer);
-        },
+        success: function () {},
       });
     }
     const customer = session.storage.customer;

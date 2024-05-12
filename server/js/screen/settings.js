@@ -459,7 +459,17 @@ window.settings = {
         switch (id) {
           case "about":
             settings.customer = session.storage.customer;
-
+            let loggedInEmail = session.storage.email;
+            let name = "Your name";
+            let phone = "";
+            if(settings.customer.name){
+              name = settings.customer.name
+            }
+            if(settings.customer.phone){
+              phone = `+880 + ${settings.customer.phone}`
+            }else if(loggedInEmail){
+              phone = loggedInEmail;
+            }
             return `
           <div class="about-container">
             <div class="about-profile">
@@ -469,9 +479,8 @@ window.settings = {
                   : "img/avatar.svg"
               }">
               <div class="about_sub_container">
-                <h1>${settings.customer.name || "Your name"}</h1>
-                ${settings.customer.phone && `<p>${"+880" + settings.customer.phone}</p>`}
-                
+                <h1>${name}</h1>
+                <p>${phone}</p>
               </div>
             </div>
             ${

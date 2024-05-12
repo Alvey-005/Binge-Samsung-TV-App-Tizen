@@ -56,6 +56,7 @@ window.api = {
     const response = await requestMethod.post(`${urls.loginEmailUrl}`, params);
     if (response.data && response.data.is_success) {
       session.storage.customer = response.data.customer;
+      session.storage.email = response.data.customer.email;
       session.storage.jwtToken = response.data.token;
       session.storage.isAnonymous = false;
       session.update();
