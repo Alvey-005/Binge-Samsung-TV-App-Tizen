@@ -475,7 +475,7 @@ window.settings = {
               </div>
             </div>
             ${
-              settings.customer.active_subscriptions.length > 0
+              settings.customer.active_subscriptions && settings.customer.active_subscriptions.length > 0
                 ? `<div class="sub_div">
                   <div class="sub_inner_div">
                     <img src="img/tickMark.svg" class="tick">

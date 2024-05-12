@@ -54,7 +54,11 @@ window.api = {
       password: request.data.password,
     };
     const response = await requestMethod.post(`${urls.loginEmailUrl}`, params);
-    if (response.data.is_success) {
+    if (response.data && response.data.is_success) {
+      session.storage.customer = response.data.customer;
+      session.storage.jwtToken = response.data.token;
+      session.storage.isAnonymous = false;
+      session.update();
       request.success();
     } else {
       request.error();

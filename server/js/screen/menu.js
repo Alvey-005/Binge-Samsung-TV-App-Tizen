@@ -109,6 +109,7 @@ window.menu = {
 
     var tool_options = "";
     var menu_options = "";
+
     if (session.storage.isAnonymous && session.storage.country != "BD") {
       menu.options = menu.defaultOptions.filter(
         (item) => item.id !== "favourites" && item.id !== "settings" && item.id !== "subscription"
@@ -116,7 +117,9 @@ window.menu = {
     } else if (session.storage.isAnonymous) {
       menu.options = menu.defaultOptions.filter((item) => item.id !== "favourites");
     } else {
-      menu.options = menu.defaultOptions.filter((item) => item.id !== "login" && item.id !== "connectToTv");
+      menu.options = menu.defaultOptions.filter(
+        (item) => item.id !== "login" && item.id !== "connectToTv" && item.id !== "emailLogin"
+      );
     }
 
     menu.options.forEach((element, index) => {

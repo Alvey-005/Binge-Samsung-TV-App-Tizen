@@ -104,9 +104,11 @@ window.emailLogin = {
             password: password,
           },
           success: function (response) {
-            console.log(response);
-            loading.destroy();
-            main.events.home();
+            session.storage.loggedinInEmail = email;
+            session.storage.isAnonymous = false;
+            // console.log(response);
+            // loading.destroy();
+            main.events.login();
           },
           error: function (error) {
             loading.destroy();
