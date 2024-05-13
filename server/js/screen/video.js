@@ -87,15 +87,15 @@ window.video = {
         eval: 1,
         language: "en",
         bitrate: 120,
-        subscriberid: customer.id ? customer.id: "111111",
-        age: customer.age || "25",
-        gender: customer.gender || "M",
-        city: customer.city || "Dhaka", 
+        subscriberid: customer && customer.id ? customer.id: "111111",
+        age: customer &&  customer.age || "25",
+        gender: customer &&  customer.gender || "M",
+        city: customer && customer.city || "Dhaka", 
         devicemake: "NA",
         deviceos: "web",
       };
 
-      await requestMethod.post(urls.cineEvent, body);
+      customer && this.userCanWatchContent(item) &&  await requestMethod.post(urls.cineEvent, body);
     }
     video.appScreen = screen;
     var video_element = document.createElement("div");
