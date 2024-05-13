@@ -59,7 +59,7 @@ window.returnHome = {
 
   action: function (selected) {
     if (selected) {
-      window.location.reload();
+      window.location.reload(true);
     } else {
       returnHome.destroy();
     }

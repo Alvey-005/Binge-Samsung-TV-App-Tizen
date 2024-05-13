@@ -104,7 +104,7 @@ window.connectToTv = {
             window.connectToTv.destroy();
             window.session.storage.isAnonymous = false;
             window.session.update();
-            window.location.reload();
+            window.location.reload(true);
             main.events.login();
           }
         },

@@ -53,7 +53,7 @@ window.main = {
         window[current_id].destroy();
       }
       session.clear();
-      window.location.reload();
+      window.location.reload(true);
     },
 
     login: function () {

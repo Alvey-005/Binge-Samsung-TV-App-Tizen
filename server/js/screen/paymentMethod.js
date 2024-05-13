@@ -118,7 +118,7 @@ window.paymentMethod = {
             clearInterval(window.paymentMethod.timer);
             window.paymentMethod.destroy();
             subscription.destroy();
-            window.location.reload();
+            window.location.reload(true);
             main.init();
           }
         },
